@@ -1,6 +1,5 @@
 {
-  "env": {
-    "TELEGRAM_BOT_TOKEN": "REMOVED"
-    "AVALAI_API_KEY": "REMOVED"
-  }
+  "platform": "python",
+  "app": "shirazmed",
+  "port": 8080
 }
