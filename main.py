@@ -2,6 +2,7 @@ import json, os, telebot, requests
 
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 AVALAI_API_KEY = os.environ.get("AVALAI_API_KEY", "")
+BALE_BOT_TOKEN = os.environ.get("BALE_BOT_TOKEN", "")
 AI_MODEL = "gpt-4o-mini"
 AVALAI_URL = "https://api.avalai.ir/v1/chat/completions"
 
