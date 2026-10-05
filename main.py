@@ -17,7 +17,6 @@ SYSTEM_PROMPT = "دستیار گردشگری سلامت شیراز. به زبا�
 
 WELCOME = """🌟 سلام و خوش آمدید!
 از اینکه کانال شیراز مد را انتخاب کردید سپاسگزاریم.
-
 🌟 Welcome!
 Thank you for choosing Shiraz Med.
 
