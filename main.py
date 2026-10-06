@@ -84,7 +84,7 @@ add_specialty("internal_medicine.json", "داخلی", "internal")
 add_specialty("urology.json", "اورولوژی", "urology")
 add_specialty("general_surgery.json", "جراح", "surgery")
 add_specialty("rhinoplasty.json", "رینوپلاستی", "rhino")
-
+add_specialty("gastroenterology.json", "گوارش", "معده", "gastro", "کبد", "روده")
 EMERGENCY = {
     "fa": ["درد شدید", "تب", "خونریزی", "استفراغ", "ضعف", "غش"],
     "ar": ["ألم شديد", "حمى", "نزيف", "قيء", "ضعف", "إغماء"],
