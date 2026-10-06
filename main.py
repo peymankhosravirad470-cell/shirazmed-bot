@@ -85,6 +85,7 @@ add_specialty("urology.json", "اورولوژی", "urology")
 add_specialty("general_surgery.json", "جراح", "surgery")
 add_specialty("rhinoplasty.json", "رینوپلاستی", "rhino")
 add_specialty("gastroenterology.json", "گوارش", "معده", "gastro", "کبد", "روده")
+
 EMERGENCY = {
     "fa": ["درد شدید", "تب", "خونریزی", "استفراغ", "ضعف", "غش"],
     "ar": ["ألم شديد", "حمى", "نزيف", "قيء", "ضعف", "إغماء"],
@@ -124,18 +125,37 @@ def search_doctors(text):
             try:
                 with open("data/doctors/" + fn, 'r', encoding='utf-8') as f:
                     data = json.load(f)
-                data.sort(key=lambda x: x.get('ratings', {}).get('patient_satisfaction_score', 0), reverse=True)
+                if isinstance(data, dict):
+                    for v in data.values():
+                        if isinstance(v, list):
+                            data = v
+                            break
+                if not isinstance(data, list):
+                    return None
+                def score(x):
+                    r = x.get('ratings', {})
+                    if isinstance(r, dict) and 'patient_satisfaction_score' in r:
+                        return r['patient_satisfaction_score']
+                    return x.get('patient_satisfaction_score', 0)
+                data.sort(key=score, reverse=True)
                 return data
             except: return None
     return None
 
 def format_doctor(doc, lang):
-    n, s = doc.get('name', ''), doc.get('specialty', '')
-    p = doc.get('contact', {}).get('phone', '')
-    a = doc.get('contact', {}).get('office_address', '')
-    h = "، ".join(doc.get('service_details', {}).get('hospitals', []))
-    pr = doc.get('service_details', {}).get('price_range_toman', '')
-    r = doc.get('ratings', {}).get('patient_satisfaction_score', '')
+    n = doc.get('name', '')
+    s = doc.get('specialty', '')
+    contact = doc.get('contact', {}) if isinstance(doc.get('contact'), dict) else {}
+    service = doc.get('service_details', {}) if isinstance(doc.get('service_details'), dict) else {}
+    ratings = doc.get('ratings', {}) if isinstance(doc.get('ratings'), dict) else {}
+    p = contact.get('phone') or doc.get('phone', '')
+    a = contact.get('office_address') or doc.get('office_address', '')
+    hospitals = service.get('hospitals') or doc.get('surgeries_done_at') or doc.get('hospitals') or []
+    if isinstance(hospitals, str):
+        hospitals = [hospitals]
+    h = "، ".join(hospitals)
+    pr = service.get('price_range_toman') or doc.get('price_range_toman', '')
+    r = ratings.get('patient_satisfaction_score') or doc.get('patient_satisfaction_score', '')
     if lang == "en":
         return f"Doctor: {n}\nSpecialty: {s}\nAddress: {a}\nHospitals: {h}\nPhone: {p}\nPrice: {pr}\nRating: {r}/5"
     if lang == "ar":
@@ -242,5 +262,3 @@ def handle(message):
 
 print("ربات روشن شد...")
 bot.polling()
-
-
