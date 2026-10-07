@@ -17,9 +17,9 @@ LANG_NAMES = {"fa": "فارسی", "ar": "العربية", "en": "English"}
 
 SYSTEM_PROMPT = "دستیار گردشگری سلامت شیراز. کوتاه و با همدلی جواب بده، بدون قیمت دقیق و بدون تضمین پزشکی. در پایان سؤال نپرس."
 
-START_MSG = """🌟 سلام و خوش آمدید! از اینکه شیراز مد را انتخاب کردید سپاسگزاریم.
-🌟 Welcome! Thank you for choosing Shiraz Med.
-🌟 مرحباً بكم! نشكركم لاختياركم شيراز ميد.
+START_MSG = """🌟 سلام و خوش آمدید! از اینکه شیراز مدیکال را انتخاب کردید سپاسگزاریم.
+🌟 Welcome! Thank you for choosing Shiraz Medical.
+🌟 مرحباً بكم! نشكركم لاختياركم شيراز ميديكال.
 
 زبان خود را انتخاب کنید / Choose your language / اختاروا لغتكم:
 1 - فارسی
@@ -28,7 +28,7 @@ START_MSG = """🌟 سلام و خوش آمدید! از اینکه شیراز م
 
 MSG = {
     "fa": {
-        "welcome": "🌟 خوش آمدید! من دستیار گردشگری سلامت شیراز هستم. چطور می‌توانم کمکتان کنم؟\n\n🔹 پزشک: مثلاً بنویسید «دکتر قلب»\n🔹 بیمارستان: «بیمارستان کوثر»\n🔹 هتل: «هتل ۵ ستاره»\n🔹 جاذبه: «تخت جمشید»\n🔹 حمل‌ونقل: «مترو» یا «تاکسی»\n🔹 راهنمای بیمار خارجی: «پذیرش بیمار خارجی»",
+        "welcome": "🌟 به شیراز مدیکال خوش آمدید!\n\nهمراه شما در مسیر درمان و اقامت در شیراز؛ با هدفی روشن و خدماتی کامل.\n\n🔹 معرفی پزشکان متخصص و بیمارستان‌های مجهز\n🔹 اقامتگاه‌های مناسب و حمل‌ونقل آسان\n🔹 گشت‌وگذار در جاذبه‌های دیدنی شیراز\n🔹 پشتیبانی و راهنمایی در تمام مراحل\n\nخواسته‌ی خود را بنویسید؛ ما در کنار شما هستیم.\nمثلاً: دکتر قلب",
         "more": "سؤال دیگری دارید؟ (بله / نه)",
         "go": "بفرمایید، سؤالتان را بنویسید.",
         "rate": "🙏 از خدمات ما راضی بودید؟ (بله / خیر)",
@@ -39,7 +39,7 @@ MSG = {
         "text_only": "لطفاً سؤال خود را به صورت متن بنویسید.",
     },
     "ar": {
-        "welcome": "🌟 أهلاً بكم! أنا مساعدكم للسياحة العلاجية في شيراز.\n\n🔹 طبيب: اكتبوا «طبيب قلب»\n🔹 مستشفى: «مستشفى كوثر»\n🔹 فندق: «فندق ٥ نجوم»\n🔹 معالم: «تخت جمشيد»\n🔹 مواصلات: «مترو» أو «تاكسي»\n🔹 دليل المريض الأجنبي: «قبول مريض أجنبي»",
+        "welcome": "🌟 أهلاً بكم في شيراز ميديكال!\n\nرفيقكم في رحلة العلاج والإقامة في شيراز؛ بهدف واضح وخدمات متكاملة.\n\n🔹 التعريف بالأطباء المتخصصين والمستشفيات المجهزة\n🔹 أماكن الإقامة المناسبة والمواصلات السهلة\n🔹 جولات في معالم شيراز السياحية\n🔹 الدعم والإرشاد في جميع المراحل\n\nاكتبوا طلبكم؛ نحن إلى جانبكم.\nمثلاً: طبيب قلب",
         "more": "هل لديكم سؤال آخر؟ (نعم / لا)",
         "go": "تفضلوا، اكتبوا سؤالكم.",
         "rate": "🙏 هل أنتم راضون عن خدماتنا؟ (نعم / لا)",
@@ -50,7 +50,7 @@ MSG = {
         "text_only": "يرجى كتابة سؤالكم نصاً.",
     },
     "en": {
-        "welcome": "🌟 Welcome! I'm your Shiraz health-tourism assistant.\n\n🔹 Doctor: type «heart doctor»\n🔹 Hospital: «Kawsar hospital»\n🔹 Hotel: «5 star hotel»\n🔹 Attraction: «Persepolis»\n🔹 Transport: «metro» or «taxi»\n🔹 Foreign patient guide: «foreign patient admission»",
+        "welcome": "🌟 Welcome to Shiraz Medical!\n\nYour companion on the path of treatment and stay in Shiraz; with a clear purpose and complete services.\n\n🔹 Find specialized doctors and well-equipped hospitals\n🔹 Suitable accommodations and easy transportation\n🔹 Explore Shiraz tourist attractions\n🔹 Support and guidance at every step\n\nWrite your request; we are by your side.\nFor example: heart doctor",
         "more": "Do you have any other question? (Yes / No)",
         "go": "Sure, please go ahead.",
         "rate": "🙏 Were you satisfied with our service? (Yes / No)",
@@ -71,7 +71,6 @@ def add_specialty(filename, *words):
     for w in words:
         SPECIALTY_MAP[w] = filename
 
-# --- تخصص‌های پزشکی ---
 add_specialty("cardiology.json", "قلب", "cardio", "heart")
 add_specialty("dermatology.json", "پوست", "derma", "skin")
 add_specialty("dentistry.json", "دندان", "dental", "dentist")
@@ -95,7 +94,6 @@ add_specialty("hematology_oncology.json", "خون", "آنکولوژی", "سرط�
 add_specialty("endocrinology.json", "غدد", "تیروئید", "دیابت", "endocrinology")
 add_specialty("neurosurgery.json", "مغز و اعصاب", "جراحی مغز", "neurosurgery", "نورولوژی")
 
-# --- بخش‌های غیرپزشکی ---
 NON_MEDICAL_MAP = {
     "hospitals.json": ["بیمارستان", "hospital", "مستشفى"],
     "hotels.json": ["هتل", "hotel", "فندق"],
@@ -294,7 +292,6 @@ def handle(message):
         ask_more(message)
         return
 
-    # اول تخصص پزشکی
     docs = search_specialty(text)
     if docs:
         words = english_words(text)
@@ -306,7 +303,6 @@ def handle(message):
         ask_more(message)
         return
 
-    # بعد بخش غیرپزشکی
     fn = search_non_medical(text)
     if fn:
         data = load_json("data/" + fn)
@@ -320,11 +316,10 @@ def handle(message):
             ask_more(message)
             return
 
-    # در نهایت AI
     ai = get_ai(text, lang)
     if ai: bot.reply_to(message, ai)
     else: bot.reply_to(message, MSG[lang]["retry"])
     ask_more(message)
 
-print("ربات روشن شد... v2")
+print("ربات روشن شد... v3")
 bot.polling()
