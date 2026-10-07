@@ -62,6 +62,88 @@ MSG = {
     },
 }
 
+FIELD_NAMES = {
+    "fa": {
+        "name": "نام", "category": "دسته", "star_rating": "ستاره", "quality_grade": "کیفیت",
+        "address": "آدرس", "district": "منطقه", "phone": "تلفن", "amenities": "امکانات",
+        "distance_to_major_hospitals": "فاصله تا بیمارستان‌ها", "distance_to_city_center": "فاصله تا مرکز شهر",
+        "has_translator": "مترجم", "languages_spoken": "زبان‌ها", "patient_satisfaction_score": "امتیاز",
+        "reviews_summary": "نظر مسافران", "specialty": "تخصص", "medical_code": "کد پزشکی",
+        "office_address": "آدرس مطب", "working_hours": "ساعت کاری", "surgeries_done_at": "بیمارستان‌ها",
+        "price_range_toman": "محدوده قیمت", "consultation_fee_toman": "هزینه ویزیت",
+        "visiting_hours": "ساعت بازدید", "ticket_price_toman": "قیمت بلیط",
+        "duration_of_visit": "مدت بازدید", "best_season": "بهترین فصل", "accessibility": "دسترسی",
+        "suitable_for": "مناسب برای", "unesco_registered": "ثبت یونسکو", "historical_era": "دوره تاریخی",
+        "climate": "آب و هوا", "ethnicity": "قومیت", "is_purely_natural": "طبیعی محض",
+        "nearest_city": "نزدیک‌ترین شهر", "distance_from_shiraz_km": "فاصله از شیراز",
+        "type": "نوع", "service_area": "محدوده خدمات", "pricing_method": "نحوه قیمت‌گذاری",
+        "special_hospital_tourism_service": "خدمات بیمارستانی/گردشگری",
+        "languages_supported": "زبان‌های پشتیبانی", "description": "توضیحات", "services": "خدمات",
+        "emergency_contact": "شماره اضطراری", "notes": "توضیحات", "email": "ایمیل",
+        "response_time": "زمان پاسخ‌دهی", "process": "مراحل",
+        "medical_visa_documents": "مدارک ویزای درمانی", "hospital_admission_documents": "مدارک پذیرش بیمارستان",
+        "translator_requirement": "مترجم", "administrative_steps": "مراحل اداری",
+        "costs_and_payment": "هزینه‌ها و پرداخت", "official_authorities": "مراجع رسمی",
+        "official_system_links": "لینک‌های رسمی", "city": "شهر", "topic": "موضوع",
+        "location_type": "موقعیت", "unesco_status": "وضعیت یونسکو", "ownership": "مالکیت",
+        "ipd_status": "وضعیت IPD", "specialties": "تخصص‌ها", "location": "موقعیت", "contact": "تماس",
+        "name_fa": "نام (فارسی)", "name_en": "نام (انگلیسی)",
+        "medical_visa_documents": "مدارک ویزای درمانی",
+    },
+    "ar": {
+        "name": "الاسم", "category": "الفئة", "star_rating": "التصنيف", "quality_grade": "الجودة",
+        "address": "العنوان", "district": "المنطقة", "phone": "الهاتف", "amenities": "المرافق",
+        "distance_to_major_hospitals": "المسافة إلى المستشفيات", "distance_to_city_center": "المسافة إلى وسط المدينة",
+        "has_translator": "مترجم", "languages_spoken": "اللغات", "patient_satisfaction_score": "التقييم",
+        "reviews_summary": "آراء الزوار", "specialty": "التخصص", "medical_code": "الرمز الطبي",
+        "office_address": "عنوان العيادة", "working_hours": "ساعات العمل", "surgeries_done_at": "المستشفيات",
+        "price_range_toman": "نطاق السعر", "consultation_fee_toman": "رسوم الاستشارة",
+        "visiting_hours": "ساعات الزيارة", "ticket_price_toman": "سعر التذكرة",
+        "duration_of_visit": "مدة الزيارة", "best_season": "أفضل موسم", "accessibility": "الوصول",
+        "suitable_for": "مناسب لـ", "unesco_registered": "مسجل في اليونسكو", "historical_era": "الحقبة التاريخية",
+        "climate": "المناخ", "ethnicity": "الإثنية", "is_purely_natural": "طبيعي بحت",
+        "nearest_city": "أقرب مدينة", "distance_from_shiraz_km": "المسافة من شيراز",
+        "type": "النوع", "service_area": "منطقة الخدمة", "pricing_method": "طريقة التسعير",
+        "special_hospital_tourism_service": "خدمات المستشفى/السياحة",
+        "languages_supported": "اللغات المدعومة", "description": "الوصف", "services": "الخدمات",
+        "emergency_contact": "رقم الطوارئ", "notes": "ملاحظات", "email": "البريد الإلكتروني",
+        "response_time": "وقت الاستجابة", "process": "الخطوات",
+        "medical_visa_documents": "وثائق التأشيرة الطبية", "hospital_admission_documents": "وثائق القبول في المستشفى",
+        "translator_requirement": "مترجم", "administrative_steps": "الخطوات الإدارية",
+        "costs_and_payment": "التكاليف والدفع", "official_authorities": "الجهات الرسمية",
+        "official_system_links": "الروابط الرسمية", "city": "المدينة", "topic": "الموضوع",
+        "location_type": "الموقع", "unesco_status": "حالة اليونسكو", "ownership": "الملكية",
+        "ipd_status": "حالة IPD", "specialties": "التخصصات", "location": "الموقع", "contact": "التواصل",
+        "name_fa": "الاسم (الفارسية)", "name_en": "الاسم (الإنجليزية)",
+    },
+    "en": {
+        "name": "Name", "category": "Category", "star_rating": "Star Rating", "quality_grade": "Quality Grade",
+        "address": "Address", "district": "District", "phone": "Phone", "amenities": "Amenities",
+        "distance_to_major_hospitals": "Distance to Hospitals", "distance_to_city_center": "Distance to City Center",
+        "has_translator": "Has Translator", "languages_spoken": "Languages Spoken", "patient_satisfaction_score": "Rating",
+        "reviews_summary": "Reviews Summary", "specialty": "Specialty", "medical_code": "Medical Code",
+        "office_address": "Office Address", "working_hours": "Working Hours", "surgeries_done_at": "Hospitals",
+        "price_range_toman": "Price Range", "consultation_fee_toman": "Consultation Fee",
+        "visiting_hours": "Visiting Hours", "ticket_price_toman": "Ticket Price",
+        "duration_of_visit": "Duration of Visit", "best_season": "Best Season", "accessibility": "Accessibility",
+        "suitable_for": "Suitable For", "unesco_registered": "UNESCO Registered", "historical_era": "Historical Era",
+        "climate": "Climate", "ethnicity": "Ethnicity", "is_purely_natural": "Purely Natural",
+        "nearest_city": "Nearest City", "distance_from_shiraz_km": "Distance from Shiraz",
+        "type": "Type", "service_area": "Service Area", "pricing_method": "Pricing Method",
+        "special_hospital_tourism_service": "Hospital/Tourism Service",
+        "languages_supported": "Languages Supported", "description": "Description", "services": "Services",
+        "emergency_contact": "Emergency Contact", "notes": "Notes", "email": "Email",
+        "response_time": "Response Time", "process": "Process",
+        "medical_visa_documents": "Medical Visa Documents", "hospital_admission_documents": "Hospital Admission Documents",
+        "translator_requirement": "Translator Requirement", "administrative_steps": "Administrative Steps",
+        "costs_and_payment": "Costs and Payment", "official_authorities": "Official Authorities",
+        "official_system_links": "Official System Links", "city": "City", "topic": "Topic",
+        "location_type": "Location Type", "unesco_status": "UNESCO Status", "ownership": "Ownership",
+        "ipd_status": "IPD Status", "specialties": "Specialties", "location": "Location", "contact": "Contact",
+        "name_fa": "Name (Persian)", "name_en": "Name (English)",
+    },
+}
+
 YES_WORDS = {"بله", "بلی", "آره", "اره", "yes", "yeah", "y", "نعم", "ايوه", "أيوه"}
 NO_WORDS = {"نه", "نخیر", "خیر", "نه ممنون", "نه، ممنون", "نه مرسی", "سوالی ندارم", "سؤالی ندارم", "ندارم", "no", "nope", "n", "no thanks", "لا", "لا شكرا", "لا شكراً"}
 
@@ -177,6 +259,54 @@ def search_non_medical(text):
                 return fn
     return None
 
+def translate_value(v, lang):
+    """ترجمه‌ی برخی مقادیر خاص به زبان انتخابی"""
+    if not isinstance(v, str):
+        return v
+    translations = {
+        "fa": {
+            "هتل": "هتل", "مهمان‌پذیر": "مهمان‌پذیر", "خانه مسافر": "خانه مسافر",
+            "۵ ستاره": "۵ ستاره", "۴ ستاره": "۴ ستاره", "۳ ستاره": "۳ ستاره", "۲ ستاره": "۲ ستاره", "۱ ستاره": "۱ ستاره",
+            "ممتاز": "ممتاز", "درجه یک": "درجه یک", "درجه دو": "درجه دو", "خوب": "خوب", "متوسط": "متوسط", "اقتصادی": "اقتصادی",
+            "بله": "بله", "خیر": "خیر",
+            "تاریخی": "تاریخی", "طبیعی": "طبیعی", "فرهنگی و تاریخی": "فرهنگی و تاریخی",
+            "مذهبی و تاریخی": "مذهبی و تاریخی", "تاریخی و تفریحی": "تاریخی و تفریحی",
+            "داخل شهر": "داخل شهر", "خارج شهر": "خارج شهر",
+            "معتدل": "معتدل", "نیمه‌خشک": "نیمه‌خشک", "کوهستانی": "کوهستانی",
+            "فارس": "فارس", "لر": "لر", "قشقایی": "قشقایی", "فارس و لر": "فارس و لر",
+            "مترو": "مترو", "اتوبوس": "اتوبوس", "تاکسی": "تاکسی", "تاکسی اینترنتی": "تاکسی اینترنتی",
+            "آژانس": "آژانس", "فرودگاه": "فرودگاه", "راه‌آهن": "راه‌آهن", "ون بیمارستانی": "ون بیمارستانی",
+        },
+        "ar": {
+            "هتل": "فندق", "مهمان‌پذیر": "بيت ضيافة", "خانه مسافر": "بيت مسافر",
+            "۵ ستاره": "٥ نجوم", "۴ ستاره": "٤ نجوم", "۳ ستاره": "٣ نجوم", "۲ ستاره": "٢ نجوم", "۱ ستاره": "١ نجمة",
+            "ممتاز": "ممتاز", "درجه یک": "درجة أولى", "درجه دو": "درجة ثانية", "خوب": "جيد", "متوسط": "متوسط", "اقتصادی": "اقتصادي",
+            "بله": "نعم", "خیر": "لا",
+            "تاریخی": "تاريخي", "طبیعی": "طبيعي", "فرهنگی و تاریخی": "ثقافي وتاريخي",
+            "مذهبی و تاریخی": "ديني وتاريخي", "تاریخی و تفریحی": "تاريخي وترفيهي",
+            "داخل شهر": "داخل المدينة", "خارج شهر": "خارج المدينة",
+            "معتدل": "معتدل", "نیمه‌خشک": "شبه جاف", "کوهستانی": "جبلي",
+            "فارس": "فارس", "لر": "لر", "قشقایی": "قشقايي", "فارس و لر": "فارس ولر",
+            "مترو": "مترو", "اتوبوس": "حافلة", "تاکسی": "تاكسي", "تاکسی اینترنتی": "تاكسي عبر الإنترنت",
+            "آژانس": "وكالة", "فرودگاه": "مطار", "راه‌آهن": "سكة حديد", "ون بیمارستانی": "فان المستشفى",
+        },
+        "en": {
+            "هتل": "Hotel", "مهمان‌پذیر": "Guesthouse", "خانه مسافر": "Tourist House",
+            "۵ ستاره": "5 Star", "۴ ستاره": "4 Star", "۳ ستاره": "3 Star", "۲ ستاره": "2 Star", "۱ ستاره": "1 Star",
+            "ممتاز": "Excellent", "درجه یک": "First Class", "درجه دو": "Second Class", "خوب": "Good", "متوسط": "Average", "اقتصادی": "Economy",
+            "بله": "Yes", "خیر": "No",
+            "تاریخی": "Historical", "طبیعی": "Natural", "فرهنگی و تاریخی": "Cultural & Historical",
+            "مذهبی و تاریخی": "Religious & Historical", "تاریخی و تفریحی": "Historical & Recreational",
+            "داخل شهر": "In City", "خارج شهر": "Out of City",
+            "معتدل": "Moderate", "نیمه‌خشک": "Semi-Arid", "کوهستانی": "Mountainous",
+            "فارس": "Fars", "لر": "Lur", "قشقایی": "Qashqai", "فارس و لر": "Fars & Lur",
+            "مترو": "Metro", "اتوبوس": "Bus", "تاکسی": "Taxi", "تاکسی اینترنتی": "Online Taxi",
+            "آژانس": "Agency", "فرودگاه": "Airport", "راه‌آهن": "Railway", "ون بیمارستانی": "Hospital Van",
+        },
+    }
+    lang_trans = translations.get(lang, {})
+    return lang_trans.get(v, v)
+
 def format_doctor(doc, lang):
     n = doc.get('name', '')
     s = doc.get('specialty', '')
@@ -191,6 +321,7 @@ def format_doctor(doc, lang):
     h = "، ".join(hospitals)
     pr = service.get('price_range_toman') or doc.get('price_range_toman', '')
     r = ratings.get('patient_satisfaction_score') or doc.get('patient_satisfaction_score', '')
+
     if lang == "en":
         return f"Doctor: {n}\nSpecialty: {s}\nAddress: {a}\nHospitals: {h}\nPhone: {p}\nPrice: {pr}\nRating: {r}/5"
     if lang == "ar":
@@ -199,15 +330,25 @@ def format_doctor(doc, lang):
 
 def format_generic(item, lang):
     lines = []
+    field_names = FIELD_NAMES.get(lang, {})
     for k, v in item.items():
         if k in ('id',):
             continue
+        label = field_names.get(k, k)
         if isinstance(v, list):
-            v = "، ".join(str(x) for x in v)
+            translated = [translate_value(str(x), lang) for x in v]
+            v = "، ".join(translated)
         elif isinstance(v, dict):
-            v = "، ".join(f"{kk}: {vv}" for kk, vv in v.items())
+            parts = []
+            for kk, vv in v.items():
+                if isinstance(vv, list):
+                    vv = "، ".join(str(x) for x in vv)
+                parts.append(f"{kk}: {vv}")
+            v = "، ".join(parts)
+        elif isinstance(v, str):
+            v = translate_value(v, lang)
         if v and str(v).strip() and str(v) != 'None':
-            lines.append(f"{k}: {v}")
+            lines.append(f"{label}: {v}")
     return "\n".join(lines)
 
 def get_ai(text, lang):
@@ -226,8 +367,6 @@ def ask_more(message):
     bot.reply_to(message, MSG[user_lang.get(cid, "fa")]["more"])
 
 def process_query(message, text, lang):
-    """جستجو و پاسخ به سؤال کاربر"""
-    # اول تخصص پزشکی
     docs = search_specialty(text)
     if docs:
         words = english_words(text)
@@ -238,7 +377,6 @@ def process_query(message, text, lang):
             bot.reply_to(message, format_doctor(d, lang))
         return True
 
-    # بعد بخش غیرپزشکی
     fn = search_non_medical(text)
     if fn:
         data = load_json("data/" + fn)
@@ -251,7 +389,6 @@ def process_query(message, text, lang):
                 bot.reply_to(message, format_generic(item, lang))
             return True
 
-    # در نهایت AI
     ai = get_ai(text, lang)
     if ai:
         bot.reply_to(message, ai)
@@ -278,7 +415,6 @@ def handle(message):
     text = message.text or ""
     state = user_state.get(cid)
 
-    # انتخاب زبان
     if state is None or state == "choose_lang":
         lang = pick_language(text)
         if lang is None:
@@ -293,7 +429,6 @@ def handle(message):
     lang = user_lang.get(cid, "fa")
     t = clean(text)
 
-    # حالت «منتظر بله/نه»
     if state == "awaiting_more":
         if t in YES_WORDS:
             user_state[cid] = "active"
@@ -303,9 +438,7 @@ def handle(message):
             user_state[cid] = "awaiting_rating"
             bot.reply_to(message, MSG[lang]["rate"])
             return
-        # اگه کاربر سؤال جدید پرسید، جوابش رو بده و دوباره بپرس
         user_state[cid] = "active"
-        # ادامه به جستجو
 
     elif state == "awaiting_rating":
         if t in YES_WORDS:
@@ -316,7 +449,6 @@ def handle(message):
             user_state[cid] = "awaiting_feedback"
             bot.reply_to(message, MSG[lang]["why"])
             return
-        # اگه چیز دیگه‌ای گفت، نظرسنجی رو رد کنه و به جستجو بره
         user_state[cid] = "active"
 
     elif state == "awaiting_feedback":
@@ -325,17 +457,15 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["thanks_fb"])
         return
 
-    # چک اورژانس
     if any(k in text.lower() for ks in EMERGENCY.values() for k in ks):
         bot.reply_to(message, EMERGENCY_RESP[lang])
         ask_more(message)
         return
 
-    # جستجو و پاسخ
     answered = process_query(message, text, lang)
     if not answered:
         bot.reply_to(message, MSG[lang]["retry"])
     ask_more(message)
 
-print("ربات روشن شد... v5")
+print("ربات روشن شد... v7")
 bot.polling()
