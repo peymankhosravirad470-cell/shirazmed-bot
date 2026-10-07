@@ -225,6 +225,39 @@ def ask_more(message):
     user_state[cid] = "awaiting_more"
     bot.reply_to(message, MSG[user_lang.get(cid, "fa")]["more"])
 
+def process_query(message, text, lang):
+    """جستجو و پاسخ به سؤال کاربر"""
+    # اول تخصص پزشکی
+    docs = search_specialty(text)
+    if docs:
+        words = english_words(text)
+        if "همه" in text or "all" in words or "كل" in text: limit = len(docs)
+        elif "بهترین" in text or "best" in words or "أفضل" in text: limit = 1
+        else: limit = 3
+        for d in docs[:limit]:
+            bot.reply_to(message, format_doctor(d, lang))
+        return True
+
+    # بعد بخش غیرپزشکی
+    fn = search_non_medical(text)
+    if fn:
+        data = load_json("data/" + fn)
+        if data:
+            if isinstance(data, dict):
+                items = [data]
+            else:
+                items = data[:5]
+            for item in items:
+                bot.reply_to(message, format_generic(item, lang))
+            return True
+
+    # در نهایت AI
+    ai = get_ai(text, lang)
+    if ai:
+        bot.reply_to(message, ai)
+        return True
+    return False
+
 @bot.message_handler(commands=['start'])
 def start(message):
     user_state[message.chat.id] = "choose_lang"
@@ -245,6 +278,7 @@ def handle(message):
     text = message.text or ""
     state = user_state.get(cid)
 
+    # انتخاب زبان
     if state is None or state == "choose_lang":
         lang = pick_language(text)
         if lang is None:
@@ -259,16 +293,19 @@ def handle(message):
     lang = user_lang.get(cid, "fa")
     t = clean(text)
 
+    # حالت «منتظر بله/نه»
     if state == "awaiting_more":
-        if t in NO_WORDS:
-            user_state[cid] = "awaiting_rating"
-            bot.reply_to(message, MSG[lang]["rate"])
-            return
         if t in YES_WORDS:
             user_state[cid] = "active"
             bot.reply_to(message, MSG[lang]["go"])
             return
+        if t in NO_WORDS:
+            user_state[cid] = "awaiting_rating"
+            bot.reply_to(message, MSG[lang]["rate"])
+            return
+        # اگه کاربر سؤال جدید پرسید، جوابش رو بده و دوباره بپرس
         user_state[cid] = "active"
+        # ادامه به جستجو
 
     elif state == "awaiting_rating":
         if t in YES_WORDS:
@@ -279,6 +316,7 @@ def handle(message):
             user_state[cid] = "awaiting_feedback"
             bot.reply_to(message, MSG[lang]["why"])
             return
+        # اگه چیز دیگه‌ای گفت، نظرسنجی رو رد کنه و به جستجو بره
         user_state[cid] = "active"
 
     elif state == "awaiting_feedback":
@@ -287,39 +325,17 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["thanks_fb"])
         return
 
+    # چک اورژانس
     if any(k in text.lower() for ks in EMERGENCY.values() for k in ks):
         bot.reply_to(message, EMERGENCY_RESP[lang])
         ask_more(message)
         return
 
-    docs = search_specialty(text)
-    if docs:
-        words = english_words(text)
-        if "همه" in text or "all" in words or "كل" in text: limit = len(docs)
-        elif "بهترین" in text or "best" in words or "أفضل" in text: limit = 1
-        else: limit = 3
-        for d in docs[:limit]:
-            bot.reply_to(message, format_doctor(d, lang))
-        ask_more(message)
-        return
-
-    fn = search_non_medical(text)
-    if fn:
-        data = load_json("data/" + fn)
-        if data:
-            if isinstance(data, dict):
-                items = [data]
-            else:
-                items = data[:5]
-            for item in items:
-                bot.reply_to(message, format_generic(item, lang))
-            ask_more(message)
-            return
-
-    ai = get_ai(text, lang)
-    if ai: bot.reply_to(message, ai)
-    else: bot.reply_to(message, MSG[lang]["retry"])
+    # جستجو و پاسخ
+    answered = process_query(message, text, lang)
+    if not answered:
+        bot.reply_to(message, MSG[lang]["retry"])
     ask_more(message)
 
-print("ربات روشن شد... v4")
+print("ربات روشن شد... v5")
 bot.polling()
