@@ -326,8 +326,5 @@ def handle(message):
     else: bot.reply_to(message, MSG[lang]["retry"])
     ask_more(message)
 
-print("ربات روشن شد...")
+print("ربات روشن شد... v2")
 bot.polling()
-
- 
-
