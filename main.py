@@ -102,7 +102,7 @@ NON_MEDICAL_MAP = {
     "leisure_city.json": ["جاذبه", "داخل شهر", "حافظیه", "سعدیه", "ارگ", "نصیرالملک", "شاهچراغ", "باغ ارم", "بازار وکیل"],
     "leisure_outside.json": ["تخت جمشید", "پاسارگاد", "نقش رستم", "آبشار", "بیرون شهر", "persepolis", "pasargad"],
     "transport.json": ["حمل‌ونقل", "مترو", "تاکسی", "اتوبوس", "اسنپ", "تپسی", "فرودگاه", "راه‌آهن", "transport", "metro", "taxi"],
-    "support.json": ["پشتیبانی", "اورژانس", "هلال احمر", "شماره اضطراری", "support", "emergency"],
+    "support.json": ["پشتیبانی", "هلال احمر", "شماره اضطراری", "support"],
     "complaints.json": ["شکایت", "شکایات", "complaint"],
     "patient_guide.json": ["راهنمای بیمار", "پذیرش بیمار خارجی", "ویزای درمانی", "patient guide", "medical visa", "قبول مريض"],
 }
@@ -321,5 +321,5 @@ def handle(message):
     else: bot.reply_to(message, MSG[lang]["retry"])
     ask_more(message)
 
-print("ربات روشن شد... v3")
+print("ربات روشن شد... v4")
 bot.polling()
