@@ -28,7 +28,7 @@ START_MSG = """🌟 سلام و خوش آمدید! از اینکه شیراز م
 
 MSG = {
     "fa": {
-        "welcome": "🌟 خوش آمدید! من دستیار گردشگری سلامت شیراز هستم. چطور می‌توانم کمکتان کنم؟ (مثلاً بنویسید: دکتر قلب)",
+        "welcome": "🌟 خوش آمدید! من دستیار گردشگری سلامت شیراز هستم. چطور می‌توانم کمکتان کنم؟\n\n🔹 پزشک: مثلاً بنویسید «دکتر قلب»\n🔹 بیمارستان: «بیمارستان کوثر»\n🔹 هتل: «هتل ۵ ستاره»\n🔹 جاذبه: «تخت جمشید»\n🔹 حمل‌ونقل: «مترو» یا «تاکسی»\n🔹 راهنمای بیمار خارجی: «پذیرش بیمار خارجی»",
         "more": "سؤال دیگری دارید؟ (بله / نه)",
         "go": "بفرمایید، سؤالتان را بنویسید.",
         "rate": "🙏 از خدمات ما راضی بودید؟ (بله / خیر)",
@@ -39,7 +39,7 @@ MSG = {
         "text_only": "لطفاً سؤال خود را به صورت متن بنویسید.",
     },
     "ar": {
-        "welcome": "🌟 أهلاً بكم! أنا مساعدكم للسياحة العلاجية في شيراز. كيف أساعدكم؟ (مثلاً اكتبوا: طبيب قلب)",
+        "welcome": "🌟 أهلاً بكم! أنا مساعدكم للسياحة العلاجية في شيراز.\n\n🔹 طبيب: اكتبوا «طبيب قلب»\n🔹 مستشفى: «مستشفى كوثر»\n🔹 فندق: «فندق ٥ نجوم»\n🔹 معالم: «تخت جمشيد»\n🔹 مواصلات: «مترو» أو «تاكسي»\n🔹 دليل المريض الأجنبي: «قبول مريض أجنبي»",
         "more": "هل لديكم سؤال آخر؟ (نعم / لا)",
         "go": "تفضلوا، اكتبوا سؤالكم.",
         "rate": "🙏 هل أنتم راضون عن خدماتنا؟ (نعم / لا)",
@@ -50,7 +50,7 @@ MSG = {
         "text_only": "يرجى كتابة سؤالكم نصاً.",
     },
     "en": {
-        "welcome": "🌟 Welcome! I'm your Shiraz health-tourism assistant. How can I help you? (For example: heart doctor)",
+        "welcome": "🌟 Welcome! I'm your Shiraz health-tourism assistant.\n\n🔹 Doctor: type «heart doctor»\n🔹 Hospital: «Kawsar hospital»\n🔹 Hotel: «5 star hotel»\n🔹 Attraction: «Persepolis»\n🔹 Transport: «metro» or «taxi»\n🔹 Foreign patient guide: «foreign patient admission»",
         "more": "Do you have any other question? (Yes / No)",
         "go": "Sure, please go ahead.",
         "rate": "🙏 Were you satisfied with our service? (Yes / No)",
@@ -71,9 +71,11 @@ def add_specialty(filename, *words):
     for w in words:
         SPECIALTY_MAP[w] = filename
 
+# --- تخصص‌های پزشکی ---
 add_specialty("cardiology.json", "قلب", "cardio", "heart")
 add_specialty("dermatology.json", "پوست", "derma", "skin")
 add_specialty("dentistry.json", "دندان", "dental", "dentist")
+add_specialty("kids_dentistry.json", "دندان کودکان", "دندانپزشکی کودکان", "kids dental")
 add_specialty("ophthalmology.json", "چشم", "eye")
 add_specialty("ent.json", "گوش", "بینی", "nose", "ent")
 add_specialty("orthopedics.json", "ارتوپدی", "ortho", "bone")
@@ -85,6 +87,27 @@ add_specialty("urology.json", "اورولوژی", "urology")
 add_specialty("general_surgery.json", "جراح", "surgery")
 add_specialty("rhinoplasty.json", "رینوپلاستی", "rhino")
 add_specialty("gastroenterology.json", "گوارش", "معده", "gastro", "کبد", "روده")
+add_specialty("emergency_medicine.json", "اورژانس", "emergency", "طب اورژانس")
+add_specialty("traditional_medicine.json", "طب سنتی", "traditional", "گیاهی")
+add_specialty("pharmacies.json", "داروخانه", "دارو", "pharmacy")
+add_specialty("allergy.json", "آلرژی", "allergy", "حساسیت")
+add_specialty("hematology_oncology.json", "خون", "آنکولوژی", "سرطان", "hematology", "oncology")
+add_specialty("endocrinology.json", "غدد", "تیروئید", "دیابت", "endocrinology")
+add_specialty("neurosurgery.json", "مغز و اعصاب", "جراحی مغز", "neurosurgery", "نورولوژی")
+
+# --- بخش‌های غیرپزشکی ---
+NON_MEDICAL_MAP = {
+    "hospitals.json": ["بیمارستان", "hospital", "مستشفى"],
+    "hotels.json": ["هتل", "hotel", "فندق"],
+    "motels.json": ["مهمان‌پذیر", "مهمان پذیر", "مسافرخانه", "motel"],
+    "tourist_houses.json": ["خانه مسافر", "اقامتگاه", "منزل مبله", "tourist house"],
+    "leisure_city.json": ["جاذبه", "داخل شهر", "حافظیه", "سعدیه", "ارگ", "نصیرالملک", "شاهچراغ", "باغ ارم", "بازار وکیل"],
+    "leisure_outside.json": ["تخت جمشید", "پاسارگاد", "نقش رستم", "آبشار", "بیرون شهر", "persepolis", "pasargad"],
+    "transport.json": ["حمل‌ونقل", "مترو", "تاکسی", "اتوبوس", "اسنپ", "تپسی", "فرودگاه", "راه‌آهن", "transport", "metro", "taxi"],
+    "support.json": ["پشتیبانی", "اورژانس", "هلال احمر", "شماره اضطراری", "support", "emergency"],
+    "complaints.json": ["شکایت", "شکایات", "complaint"],
+    "patient_guide.json": ["راهنمای بیمار", "پذیرش بیمار خارجی", "ویزای درمانی", "patient guide", "medical visa", "قبول مريض"],
+}
 
 EMERGENCY = {
     "fa": ["درد شدید", "تب", "خونریزی", "استفراغ", "ضعف", "غش"],
@@ -113,7 +136,19 @@ def pick_language(text):
 def english_words(text):
     return re.findall(r"[a-z]+", text.lower())
 
-def search_doctors(text):
+def load_json(path):
+    try:
+        with open(path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        if isinstance(data, dict):
+            for v in data.values():
+                if isinstance(v, list):
+                    return v
+        return data if isinstance(data, list) else None
+    except:
+        return None
+
+def search_specialty(text):
     low = text.lower()
     words = english_words(text)
     for k, fn in SPECIALTY_MAP.items():
@@ -122,24 +157,26 @@ def search_doctors(text):
         else:
             found = k in low
         if found:
-            try:
-                with open("data/doctors/" + fn, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                if isinstance(data, dict):
-                    for v in data.values():
-                        if isinstance(v, list):
-                            data = v
-                            break
-                if not isinstance(data, list):
-                    return None
+            data = load_json("data/doctors/" + fn)
+            if data:
                 def score(x):
                     r = x.get('ratings', {})
                     if isinstance(r, dict) and 'patient_satisfaction_score' in r:
                         return r['patient_satisfaction_score']
                     return x.get('patient_satisfaction_score', 0)
-                data.sort(key=score, reverse=True)
+                try:
+                    data.sort(key=score, reverse=True)
+                except:
+                    pass
                 return data
-            except: return None
+    return None
+
+def search_non_medical(text):
+    low = text.lower()
+    for fn, keywords in NON_MEDICAL_MAP.items():
+        for kw in keywords:
+            if kw.lower() in low:
+                return fn
     return None
 
 def format_doctor(doc, lang):
@@ -161,6 +198,19 @@ def format_doctor(doc, lang):
     if lang == "ar":
         return f"الطبيب: {n}\nالتخصص: {s}\nالعنوان: {a}\nالمستشفيات: {h}\nالهاتف: {p}\nالتكلفة: {pr}\nالتقييم: {r}/5"
     return f"دکتر: {n}\nتخصص: {s}\nآدرس: {a}\nبیمارستان: {h}\nتلفن: {p}\nقیمت: {pr}\nامتیاز: {r}/5"
+
+def format_generic(item, lang):
+    lines = []
+    for k, v in item.items():
+        if k in ('id',):
+            continue
+        if isinstance(v, list):
+            v = "، ".join(str(x) for x in v)
+        elif isinstance(v, dict):
+            v = "، ".join(f"{kk}: {vv}" for kk, vv in v.items())
+        if v and str(v).strip() and str(v) != 'None':
+            lines.append(f"{k}: {v}")
+    return "\n".join(lines)
 
 def get_ai(text, lang):
     prompt = SYSTEM_PROMPT + " پاسخ را به زبان " + LANG_NAMES[lang] + " بنویس."
@@ -244,7 +294,8 @@ def handle(message):
         ask_more(message)
         return
 
-    docs = search_doctors(text)
+    # اول تخصص پزشکی
+    docs = search_specialty(text)
     if docs:
         words = english_words(text)
         if "همه" in text or "all" in words or "كل" in text: limit = len(docs)
@@ -255,6 +306,21 @@ def handle(message):
         ask_more(message)
         return
 
+    # بعد بخش غیرپزشکی
+    fn = search_non_medical(text)
+    if fn:
+        data = load_json("data/" + fn)
+        if data:
+            if isinstance(data, dict):
+                items = [data]
+            else:
+                items = data[:5]
+            for item in items:
+                bot.reply_to(message, format_generic(item, lang))
+            ask_more(message)
+            return
+
+    # در نهایت AI
     ai = get_ai(text, lang)
     if ai: bot.reply_to(message, ai)
     else: bot.reply_to(message, MSG[lang]["retry"])
