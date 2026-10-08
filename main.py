@@ -555,5 +555,5 @@ elif state == "awaiting_feedback":
         bot.reply_to(message, MSG[lang]["retry"])
     ask_more(message)
 
-print("ربات روشن شد... v9")
+print("ربات روشن شد... v10")
 bot.polling()
