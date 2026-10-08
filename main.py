@@ -495,22 +495,29 @@ def handle(message):
             return
         user_state[cid] = "active"
 
-    elif state == "awaiting_rating":
-        if t in YES_WORDS:
-            user_state[cid] = "active"
-            bot.reply_to(message, MSG[lang]["thanks"])
-            return
-        if t in NO_WORDS:
-            user_state[cid] = "awaiting_feedback"
-            bot.reply_to(message, MSG[lang]["why"])
-            return
+ elif state == "awaiting_rating":
+    if t in YES_WORDS:
         user_state[cid] = "active"
-
-    elif state == "awaiting_feedback":
-        print("FEEDBACK:", text)
-        user_state[cid] = "active"
-        bot.reply_to(message, MSG[lang]["thanks_fb"])
+        bot.reply_to(message, MSG[lang]["thanks"])
+        if ADMIN_CHAT_ID:
+            try:
+                bot.send_message(ADMIN_CHAT_ID, f"✅ رضایت ({lang})\nاز: {cid}\nپیام: {text}")
+            except: pass
         return
+    if t in NO_WORDS:
+        user_state[cid] = "awaiting_feedback"
+        bot.reply_to(message, MSG[lang]["why"])
+        return
+    user_state[cid] = "active"
+
+elif state == "awaiting_feedback":
+    user_state[cid] = "active"
+    bot.reply_to(message, MSG[lang]["thanks_fb"])
+    if ADMIN_CHAT_ID:
+        try:
+            bot.send_message(ADMIN_CHAT_ID, f"❌ عدم رضایت ({lang})\nاز: {cid}\nپیام: {text}")
+        except: pass
+    return
 
     if any(k in text.lower() for ks in EMERGENCY.values() for k in ks):
         bot.reply_to(message, EMERGENCY_RESP[lang])
