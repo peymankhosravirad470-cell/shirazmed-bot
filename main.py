@@ -478,8 +478,6 @@ def admin_command(message):
 
 @bot.message_handler(commands=['start'])
 def start(message):
-@bot.message_handler(commands=['start'])
-def start(message):
     user_state[message.chat.id] = "choose_lang"
     bot.reply_to(message, START_MSG)
 
