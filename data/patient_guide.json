@@ -1,45 +1,100 @@
 {
-  "city": "شیراز",
-  "topic": "راهنمای جامع پذیرش و درمان اتباع غیرایرانی (بیماران بین‌الملل) در بیمارستان‌های شیراز",
-  "medical_visa_documents": [
+  "id": "patient_guide_01",
+  "city_fa": "شیراز", "city_ar": "شيراز", "city_en": "Shiraz",
+  "topic_fa": "راهنمای جامع پذیرش و درمان اتباع غیرایرانی (بیماران بین‌الملل) در بیمارستان‌های شیراز", "topic_ar": "دليل شامل لقبول وعلاج المواطنين غير الإيرانيين (المرضى الدوليين) في مستشفيات شيراز", "topic_en": "Comprehensive Guide for Admission & Treatment of Non-Iranian Nationals (International Patients) in Shiraz Hospitals",
+  "medical_visa_documents_fa": [
     "گذرنامه معتبر با حداقل ۶ ماه اعتبار از تاریخ درخواست",
     "نامه پذیرش بیمارستان (Acceptance Letter) صادرشده از واحد IPD یکی از بیمارستان‌های دارای مجوز رسمی در شیراز",
     "مدارک پزشکی کامل شامل گزارش پزشک معالج در کشور مبدأ، ترجمه اسکن سونوگرافی، رادیوگرافی، آزمایش‌ها و سوابق بیماری",
     "عکس پرسنلی دیجیتال تمام‌رخ با مشخصات استاندارد کنسولی",
     "تکمیل فرم درخواست روادید در سامانه الکترونیکی"
   ],
-  "hospital_admission_documents": [
+  "medical_visa_documents_ar": [
+    "جواز سفر ساري المفعول بحد أدنى ٦ أشهر من تاريخ الطلب",
+    "خطاب القبول في المستشفى (Acceptance Letter) الصادر من وحدة IPD في أحد مستشفيات شيراز المرخصة رسمياً",
+    "الملف الطبي الكامل بما في ذلك تقرير الطبيب المعالج في بلد المنشأ، ترجمة تصوير الموجات فوق الصوتية، الأشعة، التحاليل والسجل الطبي",
+    "صورة شخصية رقمية بالأمام مع المواصفات القنصلية القياسية",
+    "استكمال نموذج طلب التأشيرة في النظام الإلكتروني"
+  ],
+  "medical_visa_documents_en": [
+    "Valid passport with at least 6 months validity from application date",
+    "Hospital Acceptance Letter issued by the IPD unit of an officially licensed Shiraz hospital",
+    "Complete medical records including treating physician's report in the country of origin, translated ultrasound scans, radiography, lab tests and medical history",
+    "Digital full-face personal photo with standard consular specifications",
+    "Completed visa application form in the electronic system"
+  ],
+  "hospital_admission_documents_fa": [
     "اصل گذرنامه معتبر به همراه کپی صفحه مشخصات و صفحه مهر ورود به کشور / ویزای درمانی",
     "نسخه اصلی نامه پذیرش بیمارستان مورد استفاده برای اخذ ویزا",
     "پرونده و سوابق کامل پزشکی ترجمه‌شده (به زبان انگلیسی یا فارسی) به همراه درخواست کتبی درمان",
     "بیمه مسافرتی بین‌المللی یا پوشش بیمه درمان اتباع (در صورت وجود قرارداد بین‌المللی)",
     "تکمیل و امضای فرم‌های پذیرش، رضایت‌نامه‌های آگاهانه بیمارستانی و قراردادهای مالی بخش بین‌الملل"
   ],
-  "translator_requirement": {
-    "required": "خیر",
-    "details": "خیر به شکل مترجم دادگستری، اما وجود رابط زبانی (مترجم یا هماهنگ‌کننده مسلط به زبان‌های انگلیسی، عربی یا زبان بیمار) توسط بیمارستان در تمام مراحل ویزیت، مشاوره، بستری و ترخیص الزامی است."
-  },
-  "administrative_steps": [
+  "hospital_admission_documents_ar": [
+    "أصل جواز السفر الساري مع نسخة من صفحة البيانات وصفحة ختم الدخول / تأشيرة العلاج",
+    "النسخة الأصلية لخطاب قبول المستشفى المستخدم للحصول على التأشيرة",
+    "الملف والسجل الطبي الكامل مترجماً (إلى الإنجليزية أو الفارسية) مع طلب العلاج الخطي",
+    "التأمين السياحي الدولي أو تغطية التأمين الطبي للأجانب (إن وجد اتفاق دولي)",
+    "استكمال وتوقيع نماذج القبول والموافقات المستنيرة للمستشفى والعقود المالية لقسم العلاقات الدولية"
+  ],
+  "hospital_admission_documents_en": [
+    "Original valid passport with copy of data page and entry stamp page / medical visa",
+    "Original hospital acceptance letter used for visa application",
+    "Complete translated medical records (English or Persian) with written treatment request",
+    "International travel insurance or foreign medical insurance coverage (if international agreement exists)",
+    "Completed and signed hospital admission forms, informed consent and international department financial contracts"
+  ],
+  "translator_requirement_fa": "خیر به شکل مترجم دادگستری، اما وجود رابط زبانی (مترجم یا هماهنگ‌کننده مسلط به زبان‌های انگلیسی، عربی یا زبان بیمار) توسط بیمارستان در تمام مراحل ویزیت، مشاوره، بستری و ترخیص الزامی است.",
+  "translator_requirement_ar": "لا بصيغة مترجم قضائي، لكن وجود رابط لغوي (مترجم أو منسق يتقن الإنجليزية أو العربية أو لغة المريض) من قبل المستشفى في جميع مراحل الزيارة والاستشارة والإقامة والخروج إلزامي.",
+  "translator_requirement_en": "No in the form of a judicial translator, but the presence of a language liaison (translator or coordinator fluent in English, Arabic or the patient's language) by the hospital at all stages of visit, consultation, admission and discharge is mandatory.",
+  "administrative_steps_fa": [
     {"step": 1, "title": "ارسال مدارک و مشاوره اولیه", "description": "ارسال پرونده پزشکی به بیمارستان‌های دارای مجوز IPD در شیراز به صورت مستقیم یا از طریق شرکت‌های تسهیل‌گر مجاز گردشگری سلامت."},
     {"step": 2, "title": "بررسی پزشکی و صدور پذیرش", "description": "بررسی مدارک توسط پزشک متخصص بیمارستان و صدور «نامه پذیرش درمان» حاوی هزینه تقریبی و طول درمان."},
     {"step": 3, "title": "ثبت‌نام ویزا", "description": "ورود به سامانه روادید الکترونیکی وزارت امور خارجه، بارگذاری نامه پذیرش و دریافت کد رهگیری ۱۰ رقمی."},
     {"step": 4, "title": "صدور روادید (ویزای T)", "description": "بررسی و تایید نهایی توسط وزارت خارجه و صدور روادید درمانی."},
     {"step": 5, "title": "ورود به شیراز و پذیرش بالینی", "description": "مراجعه به واحد IPD بیمارستان، تشکیل پرونده مالی و بالینی، و شروع فرآیند درمان."},
-    {"step": 6, "title": "ثبت اقامت", "description": "ثبت اطلاعات مسافرتی و اقامتی بیمار در سیستم‌های نظارتی و اقامتگاه‌های مجاز زیر نظر اداره اماکن و اتباع."}
+    {"step": 6, "title": "ثبت اقامت", "description": "ثبت اطلاعات مسافرتی و اقامتی بیمار در سیستم‌های نظارتی و اقامتگاه‌های مجاز."}
   ],
-  "costs_and_payment": {
-    "tariff_calculation": "هزینه‌های درمان و تخت-روز بیمارستانی اتباع غیرایرانی بر اساس تعرفه‌های مصوب وزارت بهداشت ویژه بیماران بین‌الملل (IPD) محاسبه می‌شود.",
-    "payment_method": "پرداخت معمولاً به صورت ارزی (دلار یا یورو) یا معادل ریالی آن از طریق درگاه‌های بانکی بیمارستان، صرافی‌های مجاز رسمی یا کارت‌های بانکی تأییدشده انجام می‌شود (همراه با دریافت پیش‌پرداخت/Deposit)."
-  },
-  "official_authorities": [
+  "administrative_steps_ar": [
+    {"step": 1, "title": "إرسال الوثائق والاستشارة الأولية", "description": "إرسال الملف الطبي إلى المستشفيات المرخصة IPD في شيراز مباشرة أو عبر شركات تسهيل السياحة الصحية المعتمدة."},
+    {"step": 2, "title": "الفحص الطبي وإصدار القبول", "description": "فحص الوثائق من قبل طبيب المستشفى المتخصص وإصدار «خطاب قبول العلاج» متضمناً التكلفة التقريبية ومدة العلاج."},
+    {"step": 3, "title": "تسجيل التأشيرة", "description": "الدخول إلى نظام التأشيرة الإلكترونية لوزارة الخارجية، تحميل خطاب القبول واستلام رمز التتبع المكون من ١٠ أرقام."},
+    {"step": 4, "title": "إصدار التأشيرة (T)", "description": "الفحص والموافقة النهائية من قبل وزارة الخارجية وإصدار تأشيرة العلاج."},
+    {"step": 5, "title": "الدخول إلى شيراز والقبول السريري", "description": "المراجعة إلى وحدة IPD في المستشفى، تشكيل الملف المالي والسريري، وبدء عملية العلاج."},
+    {"step": 6, "title": "تسجيل الإقامة", "description": "تسجيل بيانات سفر وإقامة المريض في الأنظمة الرقابية وأماكن الإقامة المرخصة."}
+  ],
+  "administrative_steps_en": [
+    {"step": 1, "title": "Document Submission & Initial Consultation", "description": "Sending medical records to IPD-licensed hospitals in Shiraz directly or through authorized health tourism facilitator companies."},
+    {"step": 2, "title": "Medical Review & Acceptance Issuance", "description": "Review of documents by hospital specialist and issuance of 'Treatment Acceptance Letter' with approximate cost and treatment duration."},
+    {"step": 3, "title": "Visa Registration", "description": "Entering Ministry of Foreign Affairs e-visa system, uploading acceptance letter and receiving 10-digit tracking code."},
+    {"step": 4, "title": "Visa Issuance (T Visa)", "description": "Final review and approval by Ministry of Foreign Affairs and medical visa issuance."},
+    {"step": 5, "title": "Arrival in Shiraz & Clinical Admission", "description": "Visiting hospital IPD unit, forming financial and clinical file, and starting treatment process."},
+    {"step": 6, "title": "Residence Registration", "description": "Registering patient's travel and residence information in supervisory systems and licensed accommodations."}
+  ],
+  "costs_and_payment_fa": "هزینه‌های درمان و تخت-روز بیمارستانی اتباع غیرایرانی بر اساس تعرفه‌های مصوب وزارت بهداشت ویژه بیماران بین‌الملل (IPD) محاسبه می‌شود. پرداخت معمولاً به صورت ارزی (دلار یا یورو) یا معادل ریالی آن از طریق درگاه‌های بانکی بیمارستان، صرافی‌های مجاز رسمی یا کارت‌های بانکی تأییدشده انجام می‌شود (همراه با دریافت پیش‌پرداخت/Deposit).",
+  "costs_and_payment_ar": "تُحسب تكاليف العلاج والإقامة في المستشفى للأجانب وفقاً للتعرفات المعتمدة من وزارة الصحة الخاصة بالمرضى الدوليين (IPD). يتم الدفع عادةً بالعملة الأجنبية (الدولار أو اليورو) أو ما يعادلها بالريال عبر البوابات المصرفية للمستشفى أو محلات الصرافة المرخصة رسمياً أو البطاقات المصرفية المعتمدة (مع استلام دفعة مقدمة/Deposit).",
+  "costs_and_payment_en": "Treatment and hospital bed-day costs for non-Iranian nationals are calculated according to Ministry of Health approved tariffs for international patients (IPD). Payment is usually made in foreign currency (USD or EUR) or its Rial equivalent through hospital banking gateways, officially licensed exchange offices, or approved bank cards (along with receiving a deposit/prepayment).",
+  "official_authorities_fa": [
     {"organization": "معاونت درمان وزارت بهداشت، درمان و آموزش پزشکی", "role": "مرجع صادرکننده گواهینامه و مجوز رسمی IPD به بیمارستان‌ها"},
     {"organization": "وزارت امور خارجه جمهوری اسلامی ایران", "role": "مرجع رسمی بررسی صلاحیت و صدور روادید (ویزای درمانی)"},
     {"organization": "دانشگاه علوم پزشکی شیراز (واحد گردشگری سلامت)", "role": "ناظر عالی بر عملکرد بیمارستان‌ها و مراکز درمانی ارائه‌دهنده خدمات به بیماران خارجی در سطح استان فارس"}
   ],
-  "official_system_links": [
-    {"name": "سامانه روادید الکترونیکی وزارت امور خارجه", "url": "https://evisa.mfa.ir"},
-    {"name": "سامانه جامع پاسخگویی و ثبت شکایات و راهنمایی گردشگران (ملی سفر)", "url": "https://09629.ir"},
-    {"name": "پایگاه رسمی دانشگاه علوم پزشکی شیراز", "url": "https://www.sums.ac.ir"}
+  "official_authorities_ar": [
+    {"organization": "معاونية العلاج بوزارة الصحة والعلاج والتعليم الطبي", "role": "الجهة المصدرة لشهادات وتراخيص IPD الرسمية للمستشفيات"},
+    {"organization": "وزارة الخارجية لجمهورية إيران الإسلامية", "role": "الجهة الرسمية لفحص الأهلية وإصدار التأشيرة (تأشيرة العلاج)"},
+    {"organization": "جامعة شيراز للعلوم الطبية (وحدة السياحة الصحية)", "role": "المراقب الأعلى لأداء المستشفيات والمراكز الطبية المقدمة للخدمات للمرضى الأجانب في محافظة فارس"}
   ],
-  "languages_supported": ["فارسی", "انگلیسی", "عربی"]
+  "official_authorities_en": [
+    {"organization": "Deputy of Treatment, Ministry of Health, Treatment & Medical Education", "role": "Issuing authority for official IPD certificates and licenses to hospitals"},
+    {"organization": "Ministry of Foreign Affairs of the Islamic Republic of Iran", "role": "Official authority for eligibility review and visa issuance (medical visa)"},
+    {"organization": "Shiraz University of Medical Sciences (Health Tourism Unit)", "role": "Supreme overseer of hospital and medical center performance for foreign patients in Fars Province"}
+  ],
+  "official_system_links": [
+    {"name_fa": "سامانه روادید الکترونیکی وزارت امور خارجه", "name_ar": "نظام التأشيرة الإلكترونية لوزارة الخارجية", "name_en": "Ministry of Foreign Affairs E-Visa System", "url": "https://evisa.mfa.ir"},
+    {"name_fa": "سامانه جامع پاسخگویی و ثبت شکایات و راهنمایی گردشگران (ملی سفر)", "name_ar": "نظام الرد الشامل وتسجيل الشكاوى وإرشاد السياح (السفر الوطني)", "name_en": "Comprehensive Tourist Response & Complaint System (National Travel)", "url": "https://09629.ir"},
+    {"name_fa": "پایگاه رسمی دانشگاه علوم پزشکی شیراز", "name_ar": "الموقع الرسمي لجامعة شيراز للعلوم الطبية", "name_en": "Shiraz University of Medical Sciences Official Website", "url": "https://www.sums.ac.ir"}
+  ],
+  "languages_supported_fa": ["فارسی", "انگلیسی", "عربی"],
+  "languages_supported_ar": ["الفارسية", "الإنجليزية", "العربية"],
+  "languages_supported_en": ["Persian", "English", "Arabic"]
 }
