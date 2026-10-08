@@ -1,7 +1,72 @@
 [
-  {"id": "complaint_01", "category": "پزشکی و بهداشتی", "department": "مرکز پاسخگویی و رسیدگی به شکایات دانشگاه علوم پزشکی شیراز (سامانه ۱۹۰)", "phone": "190", "email": "info@sums.ac.ir", "working_hours": "۲۴ ساعته", "response_time": "۲۴ تا ۷۲ ساعت کاری", "languages_supported": ["فارسی"], "process": ["تماس با ۱۹۰ یا مراجعه به سامانه اینترنتی وزارت بهداشت", "ارائه مشخصات مرکز درمانی، پزشک یا داروخانه و شرح تخلف", "دریافت کد پیگیری", "ارجاع پرونده به معاونت درمان یا بهداشت شیراز و اعلام نتیجه"], "notes": "مرجع اصلی رسیدگی به تخلفات درمانی، خطاهای پزشکی، مسائل بهداشت محیط و قیمت‌گذاری غیرمتعارف."},
-  {"id": "complaint_02", "category": "اقامتی و گردشگری", "department": "سامانه ملی سفر و بازرسی اداره کل میراث فرهنگی، گردشگری و صنایع دستی استان فارس", "phone": "09629 / 07132276550", "email": "fars@mcth.ir", "working_hours": "۲۴ ساعته", "response_time": "۲۴ تا ۴۸ ساعت", "languages_supported": ["فارسی", "انگلیسی"], "process": ["تماس با 09629 یا ورود به سایت 09629.ir", "انتخاب استان فارس و شهر شیراز", "مشخص کردن واحد متخلف (هتل، خانه مسافر، آژانس مسافرتی یا راهنما)", "ثبت شرح شکایت و دریافت کد رهگیری"], "notes": "ویژه رسیدگی به شکایات گردشگران از واحدهای اقامتی، تورها و راهنمایان تور."},
-  {"id": "complaint_03", "category": "مالی و اصناف", "department": "سامانه نظارت بر بازار و رسیدگی به شکایات اداره کل صنعت، معدن و تجارت (صمت) استان فارس", "phone": "124 / 07132340011", "email": "fars@mimt.gov.ir", "working_hours": "روزهای اداری ۷:۳۰ الی ۱۴:۳۰ (ثبت سیستمی ۲۴ ساعته در samt.124.ir)", "response_time": "۴۸ تا ۷۲ ساعت", "languages_supported": ["فارسی"], "process": ["تماس با ۱۲۴ یا مراجعه به سامانه samt.124.ir", "ورود از طریق پنجره ملی خدمات دولت هوشمند", "انتخاب صنف مربوطه و ثبت فاکتور یا شرح گران‌فروشی/کم‌فروشی", "دریافت کد پیگیری و بررسی بازرسان صمت"], "notes": "مرجع قانونی رسیدگی به گران‌فروشی، کم‌فروشی، عدم درج قیمت و تقلب در اصناف شیراز."},
-  {"id": "complaint_04", "category": "حمل‌ونقل", "department": "سازمان حمل‌ونقل و ترافیک و اداره بازرسی تاکسیرانی و اتوبوسرانی شیراز", "phone": "07138384400 (تاکسیرانی) / 07137330222 (اتوبوسرانی)", "email": "traffic@shiraz.ir", "working_hours": "شنبه تا چهارشنبه ۷:۳۰ الی ۱۵:۳۰", "response_time": "۲۴ ساعت تا یک هفته کاری", "languages_supported": ["فارسی"], "process": ["تماس با واحد بازرسی یا سامانه ۱۳۷ شهرداری شیراز", "اعلام پلاک تاکسی، اتوبوس یا مشخصات سفر", "ثبت شکایت بابت امتناع از سوار کردن، اضافه‌کرایه یا رفتار نامناسب", "پیگیری با کد پیگیری"], "notes": "مرجع رسیدگی به تخلفات ناوگان تاکسیرانی، اتوبوس‌های خطی و بی‌آرتی، و تاکسی‌های فرودگاهی شیراز."},
-  {"id": "complaint_05", "category": "رفتاری و انتظامی", "department": "دفتر نظارت همگانی و بازرسی فرماندهی انتظامی استان فارس (۱۹۷)", "phone": "197 / 07132192000", "email": "fars_bazresi@police.ir", "working_hours": "۲۴ ساعته", "response_time": "۲۴ تا ۷۲ ساعت", "languages_supported": ["فارسی"], "process": ["تماس با شماره ۱۹۷", "شرح مشکل یا رفتار نامناسب عوامل انتظامی یا امنیتی", "دریافت کد پیگیری", "بررسی توسط دپارتمان بازرسی ناجا و اعلام نتیجه"], "notes": "سامانه رسمی رسیدگی به انتقادات، پیشنهادات، شکایات و تقدیر از عملکرد نیروی انتظامی."}
+  {
+    "id": "complaint_01",
+    "category_fa": "پزشکی و بهداشتی", "category_ar": "طبي وصحي", "category_en": "Medical & Health",
+    "department_fa": "مرکز پاسخگویی و رسیدگی به شکایات دانشگاه علوم پزشکی شیراز (سامانه ۱۹۰)", "department_ar": "مركز الرد ومعالجة الشكاوى لجامعة شيراز للعلوم الطبية (نظام ١٩٠)", "department_en": "Shiraz University of Medical Sciences Complaint Center (System 190)",
+    "phone": "190",
+    "email": "info@sums.ac.ir",
+    "working_hours_fa": "۲۴ ساعته", "working_hours_ar": "٢٤ ساعة", "working_hours_en": "24 Hours",
+    "response_time_fa": "۲۴ تا ۷۲ ساعت کاری", "response_time_ar": "٢٤ إلى ٧٢ ساعة عمل", "response_time_en": "24 to 72 Working Hours",
+    "languages_supported_fa": ["فارسی"], "languages_supported_ar": ["الفارسية"], "languages_supported_en": ["Persian"],
+    "process_fa": ["تماس با ۱۹۰ یا مراجعه به سامانه اینترنتی وزارت بهداشت", "ارائه مشخصات مرکز درمانی، پزشک یا داروخانه و شرح تخلف", "دریافت کد پیگیری", "ارجاع پرونده به معاونت درمان و اعلام نتیجه"],
+    "process_ar": ["الاتصال بـ١٩٠ أو زيارة الموقع الإلكتروني لوزارة الصحة", "تقديم بيانات المركز الطبي أو الطبيب أو الصيدلية وشرح المخالفة", "استلام رمز المتابعة", "إحالة الملف إلى معاونية العلاج وإعلان النتيجة"],
+    "process_en": ["Call 190 or Visit Ministry of Health Website", "Provide Medical Center, Doctor or Pharmacy Info & Violation Description", "Receive Tracking Code", "Refer File to Treatment Deputy & Announce Result"],
+    "notes_fa": "مرجع اصلی رسیدگی به تخلفات درمانی، خطاهای پزشکی، مسائل بهداشت محیط و قیمت‌گذاری غیرمتعارف.", "notes_ar": "المرجع الرئيسي لمعالجة المخالفات الطبية، الأخطاء الطبية، قضايا الصحة البيئية والتسعير غير القانوني.", "notes_en": "Main reference for handling medical violations, malpractice, environmental health issues and unreasonable pricing."
+  },
+  {
+    "id": "complaint_02",
+    "category_fa": "اقامتی و گردشگری", "category_ar": "إقامة وسياحة", "category_en": "Accommodation & Tourism",
+    "department_fa": "سامانه ملی سفر و بازرسی اداره کل میراث فرهنگی، گردشگری و صنایع دستی استان فارس", "department_ar": "نظام السفر الوطني ومراقبة الإدارة العامة للتراث الثقافي والسياحة والحرف اليدوية لمحافظة فارس", "department_en": "National Travel & Inspection System of Fars Province Cultural Heritage, Tourism & Handicrafts Office",
+    "phone": "09629 / 07132276550",
+    "email": "fars@mcth.ir",
+    "working_hours_fa": "۲۴ ساعته", "working_hours_ar": "٢٤ ساعة", "working_hours_en": "24 Hours",
+    "response_time_fa": "۲۴ تا ۴۸ ساعت", "response_time_ar": "٢٤ إلى ٤٨ ساعة", "response_time_en": "24 to 48 Hours",
+    "languages_supported_fa": ["فارسی", "انگلیسی"], "languages_supported_ar": ["الفارسية", "الإنجليزية"], "languages_supported_en": ["Persian", "English"],
+    "process_fa": ["تماس با 09629 یا ورود به سایت 09629.ir", "انتخاب استان فارس و شهر شیراز", "مشخص کردن واحد متخلف (هتل، خانه مسافر، آژانس یا راهنما)", "ثبت شرح شکایت و دریافت کد رهگیری"],
+    "process_ar": ["الاتصال بـ٠٩٦٢٩ أو الدخول إلى موقع 09629.ir", "اختيار محافظة فارس ومدينة شيراز", "تحديد الوحدة المخالفة (فندق، بيت مسافر، وكالة أو مرشد)", "تسجيل شرح الشكوى واستلام رمز التتبع"],
+    "process_en": ["Call 09629 or Visit 09629.ir", "Select Fars Province & Shiraz City", "Specify Offending Unit (Hotel, Tourist House, Agency or Guide)", "Register Complaint & Receive Tracking Code"],
+    "notes_fa": "ویژه رسیدگی به شکایات گردشگران از واحدهای اقامتی، تورها و راهنمایان تور.", "notes_ar": "خاص بمعالجة شكاوى السياح من وحدات الإقامة والجولات والمرشدين.", "notes_en": "Specifically for handling tourist complaints about accommodations, tours and tour guides."
+  },
+  {
+    "id": "complaint_03",
+    "category_fa": "مالی و اصناف", "category_ar": "مالي ونقابي", "category_en": "Financial & Trade",
+    "department_fa": "سامانه نظارت بر بازار و رسیدگی به شکایات اداره کل صنعت، معدن و تجارت (صمت) استان فارس", "department_ar": "نظام مراقبة السوق ومعالجة الشكاوى للإدارة العامة للصناعة والتعدين والتجارة لمحافظة فارس", "department_en": "Fars Province Industry, Mine & Trade (SIMT) Market Supervision & Complaint System",
+    "phone": "124 / 07132340011",
+    "email": "fars@mimt.gov.ir",
+    "working_hours_fa": "روزهای اداری ۷:۳۰ الی ۱۴:۳۰ (ثبت سیستمی ۲۴ ساعته)", "working_hours_ar": "أيام العمل ٧:٣٠ حتى ١٤:٣٠ (التسجيل الإلكتروني ٢٤ ساعة)", "working_hours_en": "Working Days 7:30 AM - 2:30 PM (Online Registration 24 Hours)",
+    "response_time_fa": "۴۸ تا ۷۲ ساعت", "response_time_ar": "٤٨ إلى ٧٢ ساعة", "response_time_en": "48 to 72 Hours",
+    "languages_supported_fa": ["فارسی"], "languages_supported_ar": ["الفارسية"], "languages_supported_en": ["Persian"],
+    "process_fa": ["تماس با ۱۲۴ یا مراجعه به سامانه samt.124.ir", "ورود از طریق پنجره ملی خدمات دولت هوشمند", "انتخاب صنف مربوطه و ثبت فاکتور یا شرح گران‌فروشی/کم‌فروشی", "دریافت کد پیگیری و بررسی بازرسان"],
+    "process_ar": ["الاتصال بـ١٢٤ أو زيارة نظام samt.124.ir", "الدخول عبر نافذة الخدمات الحكومية الذكية", "اختيار النقابة المعنية وتسجيل الفاتورة أو شرح الغش", "استلام رمز المتابعة وفحص المفتشين"],
+    "process_en": ["Call 124 or Visit samt.124.ir", "Login via National Smart Government Services Window", "Select Relevant Guild & Register Invoice or Overpricing/Underpricing", "Receive Tracking Code & Inspector Review"],
+    "notes_fa": "مرجع قانونی رسیدگی به گران‌فروشی، کم‌فروشی، عدم درج قیمت و تقلب در اصناف شیراز.", "notes_ar": "المرجع القانوني لمعالجة الغش، نقص الوزن، عدم إدراج السعر والاحتيال في نقابات شيراز.", "notes_en": "Legal reference for handling overpricing, underpricing, missing price tags and fraud in Shiraz trades."
+  },
+  {
+    "id": "complaint_04",
+    "category_fa": "حمل‌ونقل", "category_ar": "مواصلات", "category_en": "Transportation",
+    "department_fa": "سازمان حمل‌ونقل و ترافیک و اداره بازرسی تاکسیرانی و اتوبوسرانی شیراز", "department_ar": "منظمة النقل والمرور وإدارة تفتيش سيارات الأجرة والحافلات في شيراز", "department_en": "Shiraz Transport & Traffic Organization & Taxi/Bus Inspection Department",
+    "phone": "07138384400 / 07137330222",
+    "email": "traffic@shiraz.ir",
+    "working_hours_fa": "شنبه تا چهارشنبه ۷:۳۰ الی ۱۵:۳۰", "working_hours_ar": "السبت إلى الأربعاء ٧:٣٠ حتى ١٥:٣٠", "working_hours_en": "Sat-Wed 7:30 AM - 3:30 PM",
+    "response_time_fa": "۲۴ ساعت تا یک هفته کاری", "response_time_ar": "٢٤ ساعة إلى أسبوع عمل", "response_time_en": "24 Hours to One Week",
+    "languages_supported_fa": ["فارسی"], "languages_supported_ar": ["الفارسية"], "languages_supported_en": ["Persian"],
+    "process_fa": ["تماس با واحد بازرسی یا سامانه ۱۳۷ شهرداری شیراز", "اعلام پلاک تاکسی، اتوبوس یا مشخصات سفر", "ثبت شکایت بابت امتناع از سوار کردن، اضافه‌کرایه یا رفتار نامناسب", "پیگیری با کد پیگیری"],
+    "process_ar": ["الاتصال بوحدة التفتيش أو نظام ١٣٧ لبلدية شيراز", "الإبلاغ عن لوحة سيارة الأجرة أو الحافلة أو تفاصيل الرحلة", "تسجيل شكوى بسبب الامتناع عن النقل، الأجرة الزائدة أو السلوك غير اللائق", "المتابعة برمز التتبع"],
+    "process_en": ["Call Inspection Unit or Shiraz Municipality System 137", "Report Taxi/Bus Plate or Trip Details", "File Complaint for Refusal to Pick Up, Overcharging or Misconduct", "Follow Up with Tracking Code"],
+    "notes_fa": "مرجع رسیدگی به تخلفات ناوگان تاکسیرانی، اتوبوس‌های خطی و بی‌آرتی، و تاکسی‌های فرودگاهی.", "notes_ar": "المرجع لمعالجة مخالفات أسطول سيارات الأجرة، الحافلات الخطية وBRT، وتاكسي المطار.", "notes_en": "Reference for handling taxi fleet, line & BRT bus, and airport taxi violations."
+  },
+  {
+    "id": "complaint_05",
+    "category_fa": "رفتاری و انتظامی", "category_ar": "سلوكي وأمني", "category_en": "Behavioral & Police",
+    "department_fa": "دفتر نظارت همگانی و بازرسی فرماندهی انتظامی استان فارس (۱۹۷)", "department_ar": "مكتب الرقابة العامة وتفتيش قيادة الشرطة لمحافظة فارس (١٩٧)", "department_en": "Fars Province Police Command Public Supervision & Inspection Office (197)",
+    "phone": "197 / 07132192000",
+    "email": "fars_bazresi@police.ir",
+    "working_hours_fa": "۲۴ ساعته", "working_hours_ar": "٢٤ ساعة", "working_hours_en": "24 Hours",
+    "response_time_fa": "۲۴ تا ۷۲ ساعت", "response_time_ar": "٢٤ إلى ٧٢ ساعة", "response_time_en": "24 to 72 Hours",
+    "languages_supported_fa": ["فارسی"], "languages_supported_ar": ["الفارسية"], "languages_supported_en": ["Persian"],
+    "process_fa": ["تماس با شماره ۱۹۷", "شرح مشکل یا رفتار نامناسب عوامل انتظامی یا امنیتی", "دریافت کد پیگیری", "بررسی توسط دپارتمان بازرسی ناجا و اعلام نتیجه"],
+    "process_ar": ["الاتصال بالرقم ١٩٧", "شرح المشكلة أو السلوك غير اللائق لعناصر الأمن", "استلام رمز المتابعة", "الفحص من قبل إدارة التفتيش وإعلان النتيجة"],
+    "process_en": ["Call 197", "Describe Problem or Inappropriate Behavior of Police/Security Officers", "Receive Tracking Code", "Review by Police Inspection Department & Announce Result"],
+    "notes_fa": "سامانه رسمی رسیدگی به انتقادات، پیشنهادات، شکایات و تقدیر از عملکرد نیروی انتظامی.", "notes_ar": "النظام الرسمي لمعالجة الانتقادات والاقتراحات والشكاوى وتقدير أداء الشرطة.", "notes_en": "Official system for handling criticism, suggestions, complaints and appreciation of police performance."
+  }
 ]
