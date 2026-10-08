@@ -473,4 +473,34 @@
   "languages_spoken_en": ["Persian", "English"],
   "patient_satisfaction_score": 4.4,
   "reviews_summary_fa": "هتل ۲ ستاره نوساز و اقتصادی نزدیک به بیمارستان نمازی و شهید فقیهی.",
-  "reviews_summary_ar": "فندق ٢ نجوم حديث واقتصادي قريب من مستشفى
+      "reviews_summary_ar": "فندق ٢ نجوم حديث واقتصادي قريب من مستشفى نمازي والشهيد فقيهي.",
+    "reviews_summary_en": "New 2-star economy hotel close to Namazi and Shahid Faghihi hospitals."
+  },
+  {
+    "id": "hotel_20",
+    "name_fa": "هتل کیوان شیراز", "name_ar": "فندق كيفان شيراز", "name_en": "Keyvan Hotel Shiraz",
+    "category_fa": "هتل", "category_ar": "فندق", "category_en": "Hotel",
+    "star_rating_fa": "۱ ستاره", "star_rating_ar": "١ نجمة", "star_rating_en": "1 Star",
+    "quality_grade_fa": "اقتصادی", "quality_grade_ar": "اقتصادي", "quality_grade_en": "Economy",
+    "address_fa": "شیراز، میدان شهرداری، پشت ارگ کریم‌خان", "address_ar": "شيراز، ميدان البلدية، خلف قلعة كريم خان", "address_en": "Shiraz, Municipality Square, Behind Karim Khan Citadel",
+    "district_fa": "مرکز شهر", "district_ar": "وسط المدينة", "district_en": "City Center",
+    "phone": "07132241315",
+    "amenities_fa": ["موقعیت بسیار مرکزی", "دسترسی پیاده به ارگ و بازار وکیل", "اینترنت", "لابی"],
+    "amenities_ar": ["موقع مركزي للغاية", "وصول سيراً على الأقدام إلى القلعة وسوق وكيل", "إنترنت", "لوبي"],
+    "amenities_en": ["Very Central Location", "Walking Access to Citadel & Vakil Bazaar", "Internet", "Lobby"],
+    "distance_to_hospitals_fa": {"بیمارستان نمازی": "۳.۲ کیلومتر (۸ دقیقه)", "بیمارستان کوثر": "۸.۲ کیلومتر (۱۷ دقیقه)", "بیمارستان شهید فقیهی": "۲.۴ کیلومتر (۶ دقیقه)"},
+    "distance_to_hospitals_ar": {"مستشفى نمازي": "٣.٢ كم (٨ دقيقة)", "مستشفى كوثر": "٨.٢ كم (١٧ دقيقة)", "مستشفى الشهيد فقيهي": "٢.٤ كم (٦ دقيقة)"},
+    "distance_to_hospitals_en": {"Namazi Hospital": "3.2 km (8 min)", "Kawsar Hospital": "8.2 km (17 min)", "Shahid Faghihi Hospital": "2.4 km (6 min)"},
+    "distance_to_city_center_fa": "در قلب مرکز شهر (میدان شهرداری)",
+    "distance_to_city_center_ar": "في قلب وسط المدينة (ميدان البلدية)",
+    "distance_to_city_center_en": "Heart of city center (Municipality Square)",
+    "has_translator_fa": "خیر", "has_translator_ar": "لا", "has_translator_en": "No",
+    "languages_spoken_fa": ["فارسی"],
+    "languages_spoken_ar": ["الفارسية"],
+    "languages_spoken_en": ["Persian"],
+    "patient_satisfaction_score": 4.0,
+    "reviews_summary_fa": "هتل ۱ ستاره اقتصادی در قلب بافت تاریخی شیراز.",
+    "reviews_summary_ar": "فندق ١ نجمة اقتصادي في قلب النسيج التاريخي لشيراز.",
+    "reviews_summary_en": "1-star economy hotel in the heart of Shiraz historical district."
+  }
+]
