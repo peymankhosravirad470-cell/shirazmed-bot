@@ -66,7 +66,8 @@ FIELD_NAMES = {
     "fa": {
         "name": "نام", "category": "دسته", "star_rating": "ستاره", "quality_grade": "کیفیت",
         "address": "آدرس", "district": "منطقه", "phone": "تلفن", "amenities": "امکانات",
-        "distance_to_major_hospitals": "فاصله تا بیمارستان‌ها", "distance_to_city_center": "فاصله تا مرکز شهر",
+        "distance_to_hospitals": "فاصله تا بیمارستان‌ها", "distance_to_city_center": "فاصله تا مرکز شهر",
+        "distance_to_major_hospitals": "فاصله تا بیمارستان‌ها",
         "has_translator": "مترجم", "languages_spoken": "زبان‌ها", "patient_satisfaction_score": "امتیاز",
         "reviews_summary": "نظر مسافران", "specialty": "تخصص", "medical_code": "کد پزشکی",
         "office_address": "آدرس مطب", "working_hours": "ساعت کاری", "surgeries_done_at": "بیمارستان‌ها",
@@ -87,13 +88,13 @@ FIELD_NAMES = {
         "official_system_links": "لینک‌های رسمی", "city": "شهر", "topic": "موضوع",
         "location_type": "موقعیت", "unesco_status": "وضعیت یونسکو", "ownership": "مالکیت",
         "ipd_status": "وضعیت IPD", "specialties": "تخصص‌ها", "location": "موقعیت", "contact": "تماس",
-        "name_fa": "نام (فارسی)", "name_ar": "نام (عربی)", "name_en": "نام (انگلیسی)",
-        "name_fa_display": "نام", "license_status": "وضعیت مجوز",
+        "license_status": "وضعیت مجوز",
     },
     "ar": {
         "name": "الاسم", "category": "الفئة", "star_rating": "التصنيف", "quality_grade": "الجودة",
         "address": "العنوان", "district": "المنطقة", "phone": "الهاتف", "amenities": "المرافق",
-        "distance_to_major_hospitals": "المسافة إلى المستشفيات", "distance_to_city_center": "المسافة إلى وسط المدينة",
+        "distance_to_hospitals": "المسافة إلى المستشفيات", "distance_to_city_center": "المسافة إلى وسط المدينة",
+        "distance_to_major_hospitals": "المسافة إلى المستشفيات",
         "has_translator": "مترجم", "languages_spoken": "اللغات", "patient_satisfaction_score": "التقييم",
         "reviews_summary": "آراء الزوار", "specialty": "التخصص", "medical_code": "الرمز الطبي",
         "office_address": "عنوان العيادة", "working_hours": "ساعات العمل", "surgeries_done_at": "المستشفيات",
@@ -114,13 +115,13 @@ FIELD_NAMES = {
         "official_system_links": "الروابط الرسمية", "city": "المدينة", "topic": "الموضوع",
         "location_type": "الموقع", "unesco_status": "حالة اليونسكو", "ownership": "الملكية",
         "ipd_status": "حالة IPD", "specialties": "التخصصات", "location": "الموقع", "contact": "التواصل",
-        "name_fa": "الاسم (الفارسية)", "name_ar": "الاسم (العربية)", "name_en": "الاسم (الإنجليزية)",
-        "name_fa_display": "الاسم", "license_status": "حالة الترخيص",
+        "license_status": "حالة الترخيص",
     },
     "en": {
         "name": "Name", "category": "Category", "star_rating": "Star Rating", "quality_grade": "Quality Grade",
         "address": "Address", "district": "District", "phone": "Phone", "amenities": "Amenities",
-        "distance_to_major_hospitals": "Distance to Hospitals", "distance_to_city_center": "Distance to City Center",
+        "distance_to_hospitals": "Distance to Hospitals", "distance_to_city_center": "Distance to City Center",
+        "distance_to_major_hospitals": "Distance to Hospitals",
         "has_translator": "Has Translator", "languages_spoken": "Languages Spoken", "patient_satisfaction_score": "Rating",
         "reviews_summary": "Reviews Summary", "specialty": "Specialty", "medical_code": "Medical Code",
         "office_address": "Office Address", "working_hours": "Working Hours", "surgeries_done_at": "Hospitals",
@@ -141,13 +142,14 @@ FIELD_NAMES = {
         "official_system_links": "Official System Links", "city": "City", "topic": "Topic",
         "location_type": "Location Type", "unesco_status": "UNESCO Status", "ownership": "Ownership",
         "ipd_status": "IPD Status", "specialties": "Specialties", "location": "Location", "contact": "Contact",
-        "name_fa": "Name (Persian)", "name_ar": "Name (Arabic)", "name_en": "Name (English)",
-        "name_fa_display": "Name", "license_status": "License Status",
+        "license_status": "License Status",
     },
 }
 
 YES_WORDS = {"بله", "بلی", "آره", "اره", "yes", "yeah", "y", "نعم", "ايوه", "أيوه"}
 NO_WORDS = {"نه", "نخیر", "خیر", "نه ممنون", "نه، ممنون", "نه مرسی", "سوالی ندارم", "سؤالی ندارم", "ندارم", "no", "nope", "n", "no thanks", "لا", "لا شكرا", "لا شكراً"}
+
+ALL_WORDS = ["همه", "تمام", "کل", "همگی", "all", "كل", "جميع"]
 
 SPECIALTY_MAP = {}
 
@@ -230,6 +232,42 @@ def load_json(path):
     except:
         return None
 
+def get_value(item, key, lang):
+    """هوشمندانه مقدار فیلد رو به زبان کاربر برمی‌گردونه"""
+    key_lang = f"{key}_{lang}"
+    if key_lang in item:
+        return item[key_lang]
+    if f"{key}_fa" in item:
+        return item[f"{key}_fa"]
+    if key in item:
+        return item[key]
+    return None
+
+def item_name_for_search(item):
+    """اسم پزشک/آیتم رو برای جستجو استخراج می‌کنه"""
+    for k in ("name_fa", "name_ar", "name_en", "name"):
+        if k in item:
+            return str(item[k])
+    return ""
+
+def search_by_doctor_name(text):
+    """جستجوی پزشک بر اساس اسم"""
+    low = text.lower()
+    # حذف کلمات اضافی
+    search_text = low.replace("دکتر", "").replace("doctor", "").replace("طبيب", "").strip()
+    if not search_text or len(search_text) < 3:
+        return None
+    for filename in SPECIALTY_MAP.values():
+        path = "data/doctors/" + filename
+        data = load_json(path)
+        if not data:
+            continue
+        for item in data:
+            name = item_name_for_search(item).lower()
+            if search_text in name or name in search_text:
+                return item
+    return None
+
 def search_specialty(text):
     low = text.lower()
     words = english_words(text)
@@ -261,32 +299,36 @@ def search_non_medical(text):
                 return fn
     return None
 
-def get_value(item, key, lang):
-    """هوشمندانه مقدار فیلد رو به زبان کاربر برمی‌گردونه"""
-    # اگه فیلد با پسوند زبان موجود بود
-    key_lang = f"{key}_{lang}"
-    if key_lang in item:
-        return item[key_lang]
-    # اگه key_fa موجود بود (برای وقتی که lang ar یا en هست ولی fa داریم)
-    if f"{key}_fa" in item:
-        return item[f"{key}_fa"]
-    # اگه کلید ساده موجود بود (ساختار قدیمی)
-    if key in item:
-        return item[key]
-    return None
+def is_all_request(text):
+    """تشخیص درخواست «همه»"""
+    low = text.lower()
+    for w in ALL_WORDS:
+        if w in low:
+            return True
+    return False
+
+def is_best_request(text):
+    """تشخیص درخواست «بهترین»"""
+    low = text.lower()
+    words = english_words(text)
+    if "بهترین" in low or "best" in words or "أفضل" in low:
+        return True
+    return False
 
 def format_doctor(doc, lang):
     n = get_value(doc, 'name', lang) or ''
     s = get_value(doc, 'specialty', lang) or ''
+    
     contact = doc.get('contact', {}) if isinstance(doc.get('contact'), dict) else {}
     service = doc.get('service_details', {}) if isinstance(doc.get('service_details'), dict) else {}
     ratings = doc.get('ratings', {}) if isinstance(doc.get('ratings'), dict) else {}
+    
     p = contact.get('phone') or doc.get('phone', '')
     a = contact.get('office_address') or doc.get('office_address', '')
     hospitals = service.get('hospitals') or doc.get('surgeries_done_at') or doc.get('hospitals') or []
     if isinstance(hospitals, str):
         hospitals = [hospitals]
-    h = "، ".join(hospitals)
+    h = "، ".join(str(x) for x in hospitals)
     pr = service.get('price_range_toman') or doc.get('price_range_toman', '')
     r = ratings.get('patient_satisfaction_score') or doc.get('patient_satisfaction_score', '')
     
@@ -297,7 +339,6 @@ def format_doctor(doc, lang):
     return f"دکتر: {n}\nتخصص: {s}\nآدرس: {a}\nبیمارستان: {h}\nتلفن: {p}\nقیمت: {pr}\nامتیاز: {r}/5"
 
 def format_generic(item, lang):
-    """نمایش هر آیتم با ترجمه‌ی هوشمند فیلدها به زبان کاربر"""
     if not isinstance(item, dict):
         return str(item)
     
@@ -308,9 +349,7 @@ def format_generic(item, lang):
     for k, v in item.items():
         if k == 'id':
             continue
-        # اگه کلید با پسوند زبان دیگه‌ایه، رد کن
         if any(k.endswith(f"_{l}") for l in ("fa", "ar", "en") if l != lang):
-            # ولی اگه نسخه‌ی زبان کاربر نیست، از fa استفاده کن
             base_key = None
             for l in ("fa", "ar", "en"):
                 if k.endswith(f"_{l}"):
@@ -318,15 +357,12 @@ def format_generic(item, lang):
                     break
             if base_key and base_key in seen_keys:
                 continue
-            # بذار توی ادامه بررسی بشه
         
-        # پیدا کردن مقدار مناسب
         display_key = k
         if k.endswith("_fa") or k.endswith("_ar") or k.endswith("_en"):
             base_key = k[:-3]
             if base_key in seen_keys:
                 continue
-            # ترتیب اولویت: زبان کاربر > فارسی > انگلیسی > عربی
             priority = [lang, "fa", "en", "ar"]
             value = None
             for p in priority:
@@ -344,10 +380,8 @@ def format_generic(item, lang):
             value = v
             seen_keys.add(k)
         
-        # ترجمه‌ی اسم فیلد
         label = field_names.get(display_key, display_key)
         
-        # پردازش مقدار
         if isinstance(value, list):
             value = "، ".join(str(x) for x in value)
         elif isinstance(value, dict):
@@ -379,16 +413,23 @@ def ask_more(message):
     bot.reply_to(message, MSG[user_lang.get(cid, "fa")]["more"])
 
 def process_query(message, text, lang):
+    # 1. جستجوی اسم پزشک
+    doc = search_by_doctor_name(text)
+    if doc:
+        bot.reply_to(message, format_doctor(doc, lang))
+        return True
+    
+    # 2. جستجوی تخصص
     docs = search_specialty(text)
     if docs:
-        words = english_words(text)
-        if "همه" in text or "all" in words or "كل" in text: limit = len(docs)
-        elif "بهترین" in text or "best" in words or "أفضل" in text: limit = 1
+        if is_all_request(text): limit = len(docs)
+        elif is_best_request(text): limit = 1
         else: limit = 3
         for d in docs[:limit]:
             bot.reply_to(message, format_doctor(d, lang))
         return True
-
+    
+    # 3. جستجوی بخش غیرپزشکی
     fn = search_non_medical(text)
     if fn:
         data = load_json("data/" + fn)
@@ -400,7 +441,8 @@ def process_query(message, text, lang):
             for item in items:
                 bot.reply_to(message, format_generic(item, lang))
             return True
-
+    
+    # 4. AI
     ai = get_ai(text, lang)
     if ai:
         bot.reply_to(message, ai)
@@ -479,5 +521,5 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["retry"])
     ask_more(message)
 
-print("ربات روشن شد... v8")
+print("ربات روشن شد... v9")
 bot.polling()
