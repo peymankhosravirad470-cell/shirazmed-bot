@@ -449,7 +449,35 @@ def process_query(message, text, lang):
         bot.reply_to(message, ai)
         return True
     return False
+def get_meta_info():
+    try:
+        with open("data/meta.json", 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except:
+        return None
 
+@bot.message_handler(commands=['admin'])
+def admin_command(message):
+    if str(message.chat.id) != str(ADMIN_CHAT_ID):
+        return
+    meta = get_meta_info()
+    if not meta:
+        bot.reply_to(message, "❌ فایل meta.json پیدا نشد.")
+        return
+    last_update = meta.get("last_update", "نامشخص")
+    next_update = meta.get("next_update", "نامشخص")
+    lines = [f"📊 وضعیت آپدیت:\n\nآخرین آپدیت: {last_update}\nآپدیت بعدی: {next_update}\n"]
+    files = meta.get("files", {})
+    if files:
+        lines.append(f"\n📁 تعداد فایل‌ها: {len(files)}")
+        for path, info in list(files.items())[:10]:
+            lines.append(f"- {path}: {info.get('updated', '?')}")
+        if len(files) > 10:
+            lines.append(f"... و {len(files) - 10} فایل دیگر")
+    bot.reply_to(message, "\n".join(lines))
+
+@bot.message_handler(commands=['start'])
+def start(message):
 @bot.message_handler(commands=['start'])
 def start(message):
     user_state[message.chat.id] = "choose_lang"
