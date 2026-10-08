@@ -87,8 +87,8 @@ FIELD_NAMES = {
         "official_system_links": "لینک‌های رسمی", "city": "شهر", "topic": "موضوع",
         "location_type": "موقعیت", "unesco_status": "وضعیت یونسکو", "ownership": "مالکیت",
         "ipd_status": "وضعیت IPD", "specialties": "تخصص‌ها", "location": "موقعیت", "contact": "تماس",
-        "name_fa": "نام (فارسی)", "name_en": "نام (انگلیسی)",
-        "medical_visa_documents": "مدارک ویزای درمانی",
+        "name_fa": "نام (فارسی)", "name_ar": "نام (عربی)", "name_en": "نام (انگلیسی)",
+        "name_fa_display": "نام", "license_status": "وضعیت مجوز",
     },
     "ar": {
         "name": "الاسم", "category": "الفئة", "star_rating": "التصنيف", "quality_grade": "الجودة",
@@ -114,7 +114,8 @@ FIELD_NAMES = {
         "official_system_links": "الروابط الرسمية", "city": "المدينة", "topic": "الموضوع",
         "location_type": "الموقع", "unesco_status": "حالة اليونسكو", "ownership": "الملكية",
         "ipd_status": "حالة IPD", "specialties": "التخصصات", "location": "الموقع", "contact": "التواصل",
-        "name_fa": "الاسم (الفارسية)", "name_en": "الاسم (الإنجليزية)",
+        "name_fa": "الاسم (الفارسية)", "name_ar": "الاسم (العربية)", "name_en": "الاسم (الإنجليزية)",
+        "name_fa_display": "الاسم", "license_status": "حالة الترخيص",
     },
     "en": {
         "name": "Name", "category": "Category", "star_rating": "Star Rating", "quality_grade": "Quality Grade",
@@ -140,7 +141,8 @@ FIELD_NAMES = {
         "official_system_links": "Official System Links", "city": "City", "topic": "Topic",
         "location_type": "Location Type", "unesco_status": "UNESCO Status", "ownership": "Ownership",
         "ipd_status": "IPD Status", "specialties": "Specialties", "location": "Location", "contact": "Contact",
-        "name_fa": "Name (Persian)", "name_en": "Name (English)",
+        "name_fa": "Name (Persian)", "name_ar": "Name (Arabic)", "name_en": "Name (English)",
+        "name_fa_display": "Name", "license_status": "License Status",
     },
 }
 
@@ -259,57 +261,23 @@ def search_non_medical(text):
                 return fn
     return None
 
-def translate_value(v, lang):
-    """ترجمه‌ی برخی مقادیر خاص به زبان انتخابی"""
-    if not isinstance(v, str):
-        return v
-    translations = {
-        "fa": {
-            "هتل": "هتل", "مهمان‌پذیر": "مهمان‌پذیر", "خانه مسافر": "خانه مسافر",
-            "۵ ستاره": "۵ ستاره", "۴ ستاره": "۴ ستاره", "۳ ستاره": "۳ ستاره", "۲ ستاره": "۲ ستاره", "۱ ستاره": "۱ ستاره",
-            "ممتاز": "ممتاز", "درجه یک": "درجه یک", "درجه دو": "درجه دو", "خوب": "خوب", "متوسط": "متوسط", "اقتصادی": "اقتصادی",
-            "بله": "بله", "خیر": "خیر",
-            "تاریخی": "تاریخی", "طبیعی": "طبیعی", "فرهنگی و تاریخی": "فرهنگی و تاریخی",
-            "مذهبی و تاریخی": "مذهبی و تاریخی", "تاریخی و تفریحی": "تاریخی و تفریحی",
-            "داخل شهر": "داخل شهر", "خارج شهر": "خارج شهر",
-            "معتدل": "معتدل", "نیمه‌خشک": "نیمه‌خشک", "کوهستانی": "کوهستانی",
-            "فارس": "فارس", "لر": "لر", "قشقایی": "قشقایی", "فارس و لر": "فارس و لر",
-            "مترو": "مترو", "اتوبوس": "اتوبوس", "تاکسی": "تاکسی", "تاکسی اینترنتی": "تاکسی اینترنتی",
-            "آژانس": "آژانس", "فرودگاه": "فرودگاه", "راه‌آهن": "راه‌آهن", "ون بیمارستانی": "ون بیمارستانی",
-        },
-        "ar": {
-            "هتل": "فندق", "مهمان‌پذیر": "بيت ضيافة", "خانه مسافر": "بيت مسافر",
-            "۵ ستاره": "٥ نجوم", "۴ ستاره": "٤ نجوم", "۳ ستاره": "٣ نجوم", "۲ ستاره": "٢ نجوم", "۱ ستاره": "١ نجمة",
-            "ممتاز": "ممتاز", "درجه یک": "درجة أولى", "درجه دو": "درجة ثانية", "خوب": "جيد", "متوسط": "متوسط", "اقتصادی": "اقتصادي",
-            "بله": "نعم", "خیر": "لا",
-            "تاریخی": "تاريخي", "طبیعی": "طبيعي", "فرهنگی و تاریخی": "ثقافي وتاريخي",
-            "مذهبی و تاریخی": "ديني وتاريخي", "تاریخی و تفریحی": "تاريخي وترفيهي",
-            "داخل شهر": "داخل المدينة", "خارج شهر": "خارج المدينة",
-            "معتدل": "معتدل", "نیمه‌خشک": "شبه جاف", "کوهستانی": "جبلي",
-            "فارس": "فارس", "لر": "لر", "قشقایی": "قشقايي", "فارس و لر": "فارس ولر",
-            "مترو": "مترو", "اتوبوس": "حافلة", "تاکسی": "تاكسي", "تاکسی اینترنتی": "تاكسي عبر الإنترنت",
-            "آژانس": "وكالة", "فرودگاه": "مطار", "راه‌آهن": "سكة حديد", "ون بیمارستانی": "فان المستشفى",
-        },
-        "en": {
-            "هتل": "Hotel", "مهمان‌پذیر": "Guesthouse", "خانه مسافر": "Tourist House",
-            "۵ ستاره": "5 Star", "۴ ستاره": "4 Star", "۳ ستاره": "3 Star", "۲ ستاره": "2 Star", "۱ ستاره": "1 Star",
-            "ممتاز": "Excellent", "درجه یک": "First Class", "درجه دو": "Second Class", "خوب": "Good", "متوسط": "Average", "اقتصادی": "Economy",
-            "بله": "Yes", "خیر": "No",
-            "تاریخی": "Historical", "طبیعی": "Natural", "فرهنگی و تاریخی": "Cultural & Historical",
-            "مذهبی و تاریخی": "Religious & Historical", "تاریخی و تفریحی": "Historical & Recreational",
-            "داخل شهر": "In City", "خارج شهر": "Out of City",
-            "معتدل": "Moderate", "نیمه‌خشک": "Semi-Arid", "کوهستانی": "Mountainous",
-            "فارس": "Fars", "لر": "Lur", "قشقایی": "Qashqai", "فارس و لر": "Fars & Lur",
-            "مترو": "Metro", "اتوبوس": "Bus", "تاکسی": "Taxi", "تاکسی اینترنتی": "Online Taxi",
-            "آژانس": "Agency", "فرودگاه": "Airport", "راه‌آهن": "Railway", "ون بیمارستانی": "Hospital Van",
-        },
-    }
-    lang_trans = translations.get(lang, {})
-    return lang_trans.get(v, v)
+def get_value(item, key, lang):
+    """هوشمندانه مقدار فیلد رو به زبان کاربر برمی‌گردونه"""
+    # اگه فیلد با پسوند زبان موجود بود
+    key_lang = f"{key}_{lang}"
+    if key_lang in item:
+        return item[key_lang]
+    # اگه key_fa موجود بود (برای وقتی که lang ar یا en هست ولی fa داریم)
+    if f"{key}_fa" in item:
+        return item[f"{key}_fa"]
+    # اگه کلید ساده موجود بود (ساختار قدیمی)
+    if key in item:
+        return item[key]
+    return None
 
 def format_doctor(doc, lang):
-    n = doc.get('name', '')
-    s = doc.get('specialty', '')
+    n = get_value(doc, 'name', lang) or ''
+    s = get_value(doc, 'specialty', lang) or ''
     contact = doc.get('contact', {}) if isinstance(doc.get('contact'), dict) else {}
     service = doc.get('service_details', {}) if isinstance(doc.get('service_details'), dict) else {}
     ratings = doc.get('ratings', {}) if isinstance(doc.get('ratings'), dict) else {}
@@ -321,7 +289,7 @@ def format_doctor(doc, lang):
     h = "، ".join(hospitals)
     pr = service.get('price_range_toman') or doc.get('price_range_toman', '')
     r = ratings.get('patient_satisfaction_score') or doc.get('patient_satisfaction_score', '')
-
+    
     if lang == "en":
         return f"Doctor: {n}\nSpecialty: {s}\nAddress: {a}\nHospitals: {h}\nPhone: {p}\nPrice: {pr}\nRating: {r}/5"
     if lang == "ar":
@@ -329,26 +297,70 @@ def format_doctor(doc, lang):
     return f"دکتر: {n}\nتخصص: {s}\nآدرس: {a}\nبیمارستان: {h}\nتلفن: {p}\nقیمت: {pr}\nامتیاز: {r}/5"
 
 def format_generic(item, lang):
-    lines = []
+    """نمایش هر آیتم با ترجمه‌ی هوشمند فیلدها به زبان کاربر"""
+    if not isinstance(item, dict):
+        return str(item)
+    
     field_names = FIELD_NAMES.get(lang, {})
+    lines = []
+    seen_keys = set()
+    
     for k, v in item.items():
-        if k in ('id',):
+        if k == 'id':
             continue
-        label = field_names.get(k, k)
-        if isinstance(v, list):
-            translated = [translate_value(str(x), lang) for x in v]
-            v = "، ".join(translated)
-        elif isinstance(v, dict):
+        # اگه کلید با پسوند زبان دیگه‌ایه، رد کن
+        if any(k.endswith(f"_{l}") for l in ("fa", "ar", "en") if l != lang):
+            # ولی اگه نسخه‌ی زبان کاربر نیست، از fa استفاده کن
+            base_key = None
+            for l in ("fa", "ar", "en"):
+                if k.endswith(f"_{l}"):
+                    base_key = k[:-3]
+                    break
+            if base_key and base_key in seen_keys:
+                continue
+            # بذار توی ادامه بررسی بشه
+        
+        # پیدا کردن مقدار مناسب
+        display_key = k
+        if k.endswith("_fa") or k.endswith("_ar") or k.endswith("_en"):
+            base_key = k[:-3]
+            if base_key in seen_keys:
+                continue
+            # ترتیب اولویت: زبان کاربر > فارسی > انگلیسی > عربی
+            priority = [lang, "fa", "en", "ar"]
+            value = None
+            for p in priority:
+                pk = f"{base_key}_{p}"
+                if pk in item:
+                    value = item[pk]
+                    break
+            if value is None:
+                continue
+            display_key = base_key
+            seen_keys.add(base_key)
+        else:
+            if k in seen_keys:
+                continue
+            value = v
+            seen_keys.add(k)
+        
+        # ترجمه‌ی اسم فیلد
+        label = field_names.get(display_key, display_key)
+        
+        # پردازش مقدار
+        if isinstance(value, list):
+            value = "، ".join(str(x) for x in value)
+        elif isinstance(value, dict):
             parts = []
-            for kk, vv in v.items():
+            for kk, vv in value.items():
                 if isinstance(vv, list):
                     vv = "، ".join(str(x) for x in vv)
                 parts.append(f"{kk}: {vv}")
-            v = "، ".join(parts)
-        elif isinstance(v, str):
-            v = translate_value(v, lang)
-        if v and str(v).strip() and str(v) != 'None':
-            lines.append(f"{label}: {v}")
+            value = "، ".join(parts)
+        
+        if value and str(value).strip() and str(value) != 'None':
+            lines.append(f"{label}: {value}")
+    
     return "\n".join(lines)
 
 def get_ai(text, lang):
@@ -467,5 +479,5 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["retry"])
     ask_more(message)
 
-print("ربات روشن شد... v7")
+print("ربات روشن شد... v8")
 bot.polling()
