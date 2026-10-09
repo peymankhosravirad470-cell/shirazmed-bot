@@ -151,57 +151,155 @@ FIELD_NAMES = {
     },
 }
 
-# ============ WORDS ============
+# ============ YES/NO/ALL WORDS ============
 YES_WORDS = {"بله", "بلی", "آره", "اره", "yes", "yeah", "y", "نعم", "ايوه", "أيوه"}
 NO_WORDS = {"نه", "نخیر", "خیر", "نه ممنون", "نه، ممنون", "نه مرسی", "سوالی ندارم", "سؤالی ندارم", "ندارم", "no", "nope", "n", "no thanks", "لا", "لا شكرا", "لا شكراً"}
 ALL_WORDS = ["همه", "تمام", "کل", "همگی", "all", "كل", "جميع"]
 
-# ============ SPECIALTY MAP ============
+# ============================================================
+#  SPECIALTY MAP — کلیدواژه‌های سه‌زبانه برای ۲۲ تخصص پزشکی
+# ============================================================
 SPECIALTY_MAP = {}
 
 def add_specialty(filename, *words):
     for w in words:
-        SPECIALTY_MAP[w] = filename
+        SPECIALTY_MAP[w.lower()] = filename
 
-add_specialty("cardiology.json", "قلب", "cardio", "heart")
-add_specialty("dermatology.json", "پوست", "derma", "skin")
-add_specialty("dentistry.json", "دندان", "dental", "dentist")
-add_specialty("kids_dentistry.json", "دندان کودکان", "دندانپزشکی کودکان", "kids dental")
-add_specialty("ophthalmology.json", "چشم", "eye")
-add_specialty("ent.json", "گوش", "بینی", "nose", "ent")
-add_specialty("orthopedics.json", "ارتوپدی", "ortho", "bone")
-add_specialty("gynecology.json", "زنان", "نازایی", "ivf")
-add_specialty("pediatrics.json", "کودک", "اطفال", "pediatric")
-add_specialty("psychiatry.json", "روان", "psych")
-add_specialty("internal_medicine.json", "داخلی", "internal")
-add_specialty("urology.json", "اورولوژی", "urology")
-add_specialty("general_surgery.json", "جراح", "surgery")
-add_specialty("rhinoplasty.json", "رینوپلاستی", "rhino")
-add_specialty("gastroenterology.json", "گوارش", "معده", "gastro", "کبد", "روده")
-add_specialty("emergency_medicine.json", "اورژانس", "emergency", "طب اورژانس")
-add_specialty("traditional_medicine.json", "طب سنتی", "traditional", "گیاهی")
-add_specialty("pharmacies.json", "داروخانه", "دارو", "pharmacy")
-add_specialty("allergy.json", "آلرژی", "allergy", "حساسیت")
-add_specialty("hematology_oncology.json", "خون", "آنکولوژی", "سرطان", "hematology", "oncology")
-add_specialty("endocrinology.json", "غدد", "تیروئید", "دیابت", "endocrinology")
-add_specialty("neurosurgery.json", "مغز و اعصاب", "جراحی مغز", "neurosurgery", "نورولوژی")
+# کاردیولوژی - قلب
+add_specialty("cardiology.json",
+    "قلب", "قلبی", "کاردیو", "cardio", "heart", "قلبية", "قلب و عروق", "عروق", "سکته قلبی", "فشار خون")
 
-# ============ NON MEDICAL MAP ============
+# پوست
+add_specialty("dermatology.json",
+    "پوست", "درماتولوژی", "derma", "skin", "جلد", "جلدية", "زیبایی پوست", "آکنه", "جوش")
+
+# دندانپزشکی
+add_specialty("dentistry.json",
+    "دندان", "دندانپزشک", "دندانپزشکی", "dental", "dentist", "أسنان", "اسنان", "طبيب أسنان")
+
+# دندانپزشکی کودکان
+add_specialty("kids_dentistry.json",
+    "دندان کودکان", "دندانپزشکی کودکان", "kids dental", "دندان شیری", "أسنان أطفال", "أطفال أسنان")
+
+# چشم‌پزشکی
+add_specialty("ophthalmology.json",
+    "چشم", "چشم‌پزشک", "چشم پزشکی", "eye", "ophthal", "عيون", "عين", "بصري", "آب مروارید", "لیزیک")
+
+# گوش و حلق و بینی
+add_specialty("ent.json",
+    "گوش", "بینی", "گلو", "حلق", "ent", "nose", "throat", "أنف", "أذن", "حنجرة", "سینوس")
+
+# ارتوپدی
+add_specialty("orthopedics.json",
+    "ارتوپدی", "استخوان", "مفصل", "ortho", "bone", "joint", "عظام", "عظمي", "مفاصل", "زانو", "کمر")
+
+# زنان و زایمان
+add_specialty("gynecology.json",
+    "زنان", "زایمان", "نازایی", "ivf", "gyneco", "obgyn", "نساء", "ولادة", "توليد", "ناباروری", "بارداری")
+
+# اطفال
+add_specialty("pediatrics.json",
+    "کودک", "اطفال", "نوزاد", "pediatric", "child", "أطفال", "طفل", "رضع")
+
+# روان‌پزشکی
+add_specialty("psychiatry.json",
+    "روان", "روانپزشک", "روان‌پزشکی", "اعصاب و روان", "psych", "mental", "نفسي", "طب نفسي", "افسردگی", "اضطراب")
+
+# داخلی
+add_specialty("internal_medicine.json",
+    "داخلی", "internal", "باطنی", "باطنية", "general medicine", "طب داخلی")
+
+# اورولوژی
+add_specialty("urology.json",
+    "اورولوژی", "کلیه", "مثانه", "urology", "urinary", "مسالك", "كلى", "مثانة", "پروستات", "prostate")
+
+# جراحی عمومی
+add_specialty("general_surgery.json",
+    "جراح عمومی", "جراحی عمومی", "general surgery", "جراحة عامة", "جراح", "surgery")
+
+# رینوپلاستی
+add_specialty("rhinoplasty.json",
+    "رینوپلاستی", "جراحی بینی", "rhino", "nose surgery", "تجميل الأنف", "عملية الأنف", "بینی")
+
+# گوارش
+add_specialty("gastroenterology.json",
+    "گوارش", "معده", "روده", "کبد", "gastro", "digestive", "هضمي", "معدة", "أمعاء", "كبد", "کولون", "آندوسکوپی")
+
+# اورژانس
+add_specialty("emergency_medicine.json",
+    "اورژانس", "فوریت", "emergency", "طوارئ", "إسعاف", "طب اورژانس")
+
+# طب سنتی
+add_specialty("traditional_medicine.json",
+    "طب سنتی", "سنتی", "گیاهی", "traditional", "herbal", "طب تقليدي", "أعشاب", "حجامت")
+
+# داروخانه
+add_specialty("pharmacies.json",
+    "داروخانه", "دارو", "pharmacy", "drugstore", "صيدلية", "صيدليه", "دواء", "أدوية")
+
+# آلرژی
+add_specialty("allergy.json",
+    "آلرژی", "حساسیت", "allergy", "aller", "حساسية", "تحسس")
+
+# خون و آنکولوژی
+add_specialty("hematology_oncology.json",
+    "خون", "آنکولوژی", "سرطان", "hematology", "oncology", "cancer", "دم", "أورام", "سرطان", "كدمات")
+
+# غدد
+add_specialty("endocrinology.json",
+    "غدد", "تیروئید", "دیابت", "قند", "endocrinology", "غدة", "سكري", "درقية", "هرمون", "هورمون")
+
+# جراحی مغز و اعصاب
+add_specialty("neurosurgery.json",
+    "مغز و اعصاب", "جراحی مغز", "نوروسرجری", "neurosurgery", "neurology", "نورولوژی", "دماغ", "أعصاب", "دماغي", "صرع", "ام اس", "ms")
+
+# ============================================================
+#  NON MEDICAL MAP — کلیدواژه‌های سه‌زبانه برای ۱۲ دسته
+# ============================================================
 NON_MEDICAL_MAP = {
-    "hospitals.json": ["بیمارستان", "hospital", "مستشفى"],
-    "hotels.json": ["هتل", "hotel", "فندق"],
-    "motels.json": ["مهمان‌پذیر", "مهمان پذیر", "مسافرخانه", "motel"],
-    "tourist_houses.json": ["خانه مسافر", "اقامتگاه", "منزل مبله", "tourist house"],
-    "leisure_city.json": ["جاذبه", "داخل شهر", "حافظیه", "سعدیه", "ارگ", "نصیرالملک", "شاهچراغ", "باغ ارم", "بازار وکیل"],
-    "leisure_outside.json": ["تخت جمشید", "پاسارگاد", "نقش رستم", "آبشار", "بیرون شهر", "persepolis", "pasargad"],
-    "transport.json": ["حمل‌ونقل", "مترو", "تاکسی", "اتوبوس", "اسنپ", "تپسی", "فرودگاه", "راه‌آهن", "transport", "metro", "taxi"],
-    "support.json": ["پشتیبانی", "هلال احمر", "شماره اضطراری", "support"],
-    "complaints.json": ["شکایت", "شکایات", "complaint"],
-    "patient_guide.json": ["راهنمای بیمار", "پذیرش بیمار خارجی", "ویزای درمانی", "patient guide", "medical visa", "قبول مريض"],
+    "hospitals.json": [
+        "بیمارستان", "hospital", "مستشفى", "مستشفيات", "كلينيك", "کلینیک", "clinic"
+    ],
+    "hotels.json": [
+        "هتل", "hotel", "فندق", "فنادق", "اقامتگاه", "خوابگاه", "hotel", "هتل پنج ستاره"
+    ],
+    "motels.json": [
+        "مهمان‌پذیر", "مهمان پذیر", "مسافرخانه", "motel", "نُزل", "نزل", "بيت ضيافة", "خوابگاه ارزان"
+    ],
+    "tourist_houses.json": [
+        "خانه مسافر", "اقامتگاه بومگردی", "منزل مبله", "tourist house", "guest house", "بيت مسافر", "دار ضيافة"
+    ],
+    "leisure_city.json": [
+        "جاذبه", "داخل شهر", "حافظیه", "سعدیه", "ارگ", "نصیرالملک", "شاهچراغ", "باغ ارم", "بازار وکیل",
+        "شیراز گردی", "دیدنی", "موزه", "مسجد", "attraction", "hafez", "saadi", "قصر", "باغ"
+    ],
+    "leisure_outside.json": [
+        "تخت جمشید", "پاسارگاد", "نقش رستم", "آبشار", "بیرون شهر", "persepolis", "pasargad",
+        "naqsh-e rostam", "تخت جمشيد", "بیرون از شهر", "طبیعت گردی", "کوه", "دشت"
+    ],
+    "transport.json": [
+        "حمل‌ونقل", "مترو", "تاکسی", "اتوبوس", "اسنپ", "تپسی", "فرودگاه", "راه‌آهن",
+        "transport", "metro", "taxi", "bus", "snapp", "airport", "مواصلات", "نقل", "مطار", "قطار", "سفر"
+    ],
+    "support.json": [
+        "پشتیبانی", "هلال احمر", "شماره اضطراری", "support", "کمک", "دعم", "مساعدة", "إسعاف", "help"
+    ],
+    "complaints.json": [
+        "شکایت", "شکایات", "complaint", "گله", "شكوى", "شكاوى", "انتقاد"
+    ],
+    "patient_guide.json": [
+        "راهنمای بیمار", "پذیرش بیمار خارجی", "ویزای درمانی", "patient guide", "medical visa",
+        "قبول مريض", "تأشيرة طبية", "دليل المريض", "پذیرش", "ترخیص"
+    ],
 }
 
-# کلماتی که در جستجوهای مختلف ممکنه تکرار بشن و نباید وزن کامل بگیرن
-CONTEXT_WORDS = ["بیمارستان", "hospital", "مستشفى", "شیراز", "shiraz", "شيراز", "doctor", "دکتر", "طبيب", "طبیب"]
+# ============================================================
+#  CONTEXT WORDS — کلماتی که در جستجوهای مختلف تکرار می‌شن
+# ============================================================
+CONTEXT_WORDS = [
+    "بیمارستان", "hospital", "مستشفى", "شیراز", "shiraz", "شيراز",
+    "doctor", "دکتر", "طبيب", "طبیب", "doctor", "dr", "دكتر"
+]
 
 # ============ EMERGENCY ============
 EMERGENCY = {
@@ -265,7 +363,10 @@ def item_name_for_search(item):
 # ============ SEARCH: DOCTOR BY NAME ============
 def search_by_doctor_name(text):
     low = text.lower()
-    search_text = low.replace("دکتر", "").replace("doctor", "").replace("طبيب", "").replace("دكتورة", "").replace("دكتور", "").strip()
+    search_text = low
+    for w in ["دکتر", "doctor", "دكتور", "دكتورة", "طبيب", "طبیب", "dr"]:
+        search_text = search_text.replace(w, "")
+    search_text = search_text.strip()
     if not search_text or len(search_text) < 3:
         return None
     for filename in set(SPECIALTY_MAP.values()):
@@ -284,23 +385,29 @@ def search_specialty(text):
     low = text.lower()
     words = english_words(text)
     
-    # امتیازدهی به تخصص‌ها
     scores = {}
     for k, fn in SPECIALTY_MAP.items():
+        matched = False
         if k.isascii():
-            found = k in words or (k + "s") in words
+            if k in words or (k + "s") in words:
+                matched = True
         else:
-            found = k in low
-        if found:
-            # امتیاز بر اساس طول کلمه (کلمه‌ی خاص‌تر = امتیاز بیشتر)
+            if k in low:
+                matched = True
+        
+        if matched:
             if fn not in scores:
                 scores[fn] = 0
-            scores[fn] += len(k)
+            # امتیاز بر اساس طول کلمه (کلمه‌ی خاص‌تر = امتیاز بیشتر)
+            weight = len(k)
+            # اگه کلمه زمینه‌ای باشه، وزن کم‌تر
+            if k in [cw.lower() for cw in CONTEXT_WORDS]:
+                weight = weight * 0.3
+            scores[fn] += weight
     
     if not scores:
         return None
     
-    # بالاترین امتیاز رو انتخاب کن
     best_fn = max(scores, key=scores.get)
     data = load_json("data/doctors/" + best_fn)
     if not data:
@@ -320,11 +427,6 @@ def search_specialty(text):
 
 # ============ SEARCH: NON-MEDICAL (IMPROVED WITH SCORING) ============
 def search_non_medical(text):
-    """
-    سیستم امتیازدهی برای انتخاب دقیق‌ترین فایل بر اساس کلمات کلیدی.
-    کلمه‌های بلندتر امتیاز بیشتر می‌گیرن.
-    کلمات عمومی مثل 'بیمارستان' وزن کمتری می‌گیرن.
-    """
     low = text.lower()
     words = english_words(text)
     
@@ -345,9 +447,8 @@ def search_non_medical(text):
                     matched = True
             
             if matched:
-                # امتیاز بر اساس طول کلمه
                 weight = len(kw_low)
-                # اگه کلمه جزو کلمات عمومی/زمینه‌ای باشه، وزنش رو کم کن
+                # اگه کلمه جزو کلمات زمینه‌ای باشه، وزنش رو کم کن
                 if kw_low in [cw.lower() for cw in CONTEXT_WORDS]:
                     weight = weight * 0.3
                 score += weight
@@ -358,7 +459,6 @@ def search_non_medical(text):
     if not scores:
         return None
     
-    # بالاترین امتیاز
     best = max(scores, key=scores.get)
     return best
 
@@ -488,7 +588,7 @@ def process_query(message, text, lang):
         bot.reply_to(message, format_doctor(doc, lang))
         return True
     
-    # 2. جستجو تخصص
+    # 2. جستجو تخصص (پزشکی + داروخانه)
     docs = search_specialty(text)
     if docs:
         if is_all_request(text):
@@ -501,7 +601,7 @@ def process_query(message, text, lang):
             bot.reply_to(message, format_doctor(d, lang))
         return True
     
-    # 3. جستجوی غیرپزشکی (با امتیازدهی)
+    # 3. جستجوی غیرپزشکی (بیمارستان، هتل، موتل، جاذبه، حمل‌ونقل، پشتیبانی، شکایت، راهنما)
     fn = search_non_medical(text)
     if fn:
         data = load_json("data/" + fn)
@@ -644,5 +744,5 @@ def handle(message):
     ask_more(message)
 
 # ============ START ============
-print("ربات روشن شد... v13 (نسخه سه‌زبانه با امتیازدهی جستجو)")
+print("ربات روشن شد... v14 (نسخه سه‌زبانه کامل با پوشش تمام کلیدواژه‌ها)")
 bot.polling()
