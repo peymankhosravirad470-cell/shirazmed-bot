@@ -227,7 +227,7 @@ NON_MEDICAL_MAP = {
 }
 
 # ============================================================
-#  CONTEXT WORDS — کلمات زمینه‌ای که وزن کمتری می‌گیرن
+#  CONTEXT WORDS
 # ============================================================
 CONTEXT_WORDS = [
     "بیمارستان", "hospital", "مستشفى", "شیراز", "shiraz", "شيراز",
@@ -294,44 +294,38 @@ def item_name_for_search(item):
     return ""
 
 # ============================================================
-#  LANGUAGE DETECTION (v17 — تطبیق کلمه‌ای دقیق)
+#  LANGUAGE DETECTION (v18 — قطعی)
 # ============================================================
 def detect_text_language(text):
     """
-    تشخیص خودکار زبان با تطبیق دقیق کلمه (نه زیررشته).
-    اولویت: حروف اختصاصی > کلمات کلیدی
+    تشخیص خودکار زبان با اولویت حروف اختصاصی، سپس کلمات کلیدی.
     """
     text = text.strip()
     if not text:
         return None
 
-    # ۱. اگه حروف لاتین داره و حروف عربی/فارسی نداره → انگلیسی
     has_latin = bool(re.search(r'[a-zA-Z]', text))
     has_arabic_range = bool(re.search(r'[\u0600-\u06FF]', text))
+
+    # ۱. حروف لاتین بدون عربی/فارسی → انگلیسی
     if has_latin and not has_arabic_range:
         return "en"
 
-    # ۲. اگه حروف مخصوص فارسی داره → فارسی
+    # ۲. حروف مخصوص فارسی → فارسی
     if re.search(r'[پچژگ]', text):
         return "fa"
 
-    # ۳. اگه حروف مخصوص عربی داره → عربی
+    # ۳. حروف مخصوص عربی → عربی
     if re.search(r'[يكةىأإآؤئ]', text):
         return "ar"
 
-    # ۴. اگه فقط حروف مشترک داره، کلمات کلیدی رو چک کن
+    # ۴. فقط حروف مشترک → کلمات کلیدی
     if has_arabic_range:
-        # نرمال‌سازی: نیم‌فاصله → فاصله، حذف اعراب
         normalized = text.replace('\u200c', ' ').replace('\u200f', ' ').replace('\u200e', ' ')
         normalized = re.sub(r'[\u064B-\u0652]', '', normalized)
-
-        # تقسیم به کلمات مستقل
         words_list = re.findall(r'[\u0600-\u06FF]+', normalized)
-        words_set = set()
-        for w in words_list:
-            words_set.add(w.replace('\u200c', '').lower())
+        words_set = set(w.replace('\u200c', '').lower() for w in words_list)
 
-        # کلمات کلیدی فارسی
         persian_markers = {
             "دنبال", "میگردم", "میخوام", "میخواهم", "هستم", "دارید", "دارم", "داریم",
             "نیاز", "لطفا", "لطفاً", "کجا", "چطور", "چگونه", "چرا", "چیه",
@@ -341,10 +335,9 @@ def detect_text_language(text):
             "اقامت", "هتل", "مسافرخانه", "بلیط", "تور", "سفر", "جاذبه", "گردش",
             "شیراز", "فارسی", "خوب", "بله", "نه", "الان", "امروز", "فردا", "دیروز",
             "بیمه", "قیمت", "هزینه", "پول", "پرداخت", "کلینیک",
-            "میکنم", "میکنید", "میخواهم", "بگرد", "پیدا", "بهترین"
+            "میکنم", "میکنید", "بگرد", "پیدا", "بهترین"
         }
 
-        # کلمات کلیدی عربی
         arabic_markers = {
             "هل", "هناك", "أريد", "أحتاج", "أبحث", "أستطيع", "لدي", "عندي",
             "نحن", "أنتم", "أنا", "أنت", "يمكن",
@@ -356,7 +349,6 @@ def detect_text_language(text):
             "غدا", "أمس", "تأمين", "سعر", "تكلفة", "مال", "دفع", "أفضل", "قريب"
         }
 
-        # شمارش تطابق کلمه‌ی کامل
         persian_score = sum(1 for w in words_set if w in persian_markers)
         arabic_score = sum(1 for w in words_set if w in arabic_markers)
 
@@ -673,12 +665,13 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["welcome"])
         return
 
-    # ============ تعویض خودکار زبان ============
-    if state == "active":
+    # ============ تعویض خودکار زبان (مستقل از state) ============
+    # اگه کاربر قبلاً زبان انتخاب کرده، همیشه زبان پیام جدید رو تشخیص بده
+    if cid in user_lang:
         detected = detect_text_language(text)
         if detected and detected != user_lang.get(cid):
             user_lang[cid] = detected
-    # ============================================
+    # =========================================================
 
     lang = user_lang.get(cid, "fa")
     t = clean(text)
@@ -738,5 +731,5 @@ def handle(message):
     ask_more(message)
 
 # ============ START ============
-print("ربات روشن شد... v17 (تعویض خودکار قطعی)")
+print("ربات روشن شد... v18 (تعویض زبان قطعی)")
 bot.polling()
