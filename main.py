@@ -68,7 +68,6 @@ FIELD_NAMES = {
         "name": "نام", "category": "دسته", "star_rating": "ستاره", "quality_grade": "کیفیت",
         "address": "آدرس", "district": "منطقه", "phone": "تلفن", "amenities": "امکانات",
         "distance_to_hospitals": "فاصله تا بیمارستان‌ها", "distance_to_city_center": "فاصله تا مرکز شهر",
-        "distance_to_major_hospitals": "فاصله تا بیمارستان‌ها",
         "has_translator": "مترجم", "languages_spoken": "زبان‌ها", "patient_satisfaction_score": "امتیاز",
         "reviews_summary": "نظر مسافران", "specialty": "تخصص", "medical_code": "کد پزشکی",
         "office_address": "آدرس مطب", "working_hours": "ساعت کاری", "surgeries_done_at": "بیمارستان‌ها",
@@ -95,7 +94,6 @@ FIELD_NAMES = {
         "name": "الاسم", "category": "الفئة", "star_rating": "التصنيف", "quality_grade": "الجودة",
         "address": "العنوان", "district": "المنطقة", "phone": "الهاتف", "amenities": "المرافق",
         "distance_to_hospitals": "المسافة إلى المستشفيات", "distance_to_city_center": "المسافة إلى وسط المدينة",
-        "distance_to_major_hospitals": "المسافة إلى المستشفيات",
         "has_translator": "مترجم", "languages_spoken": "اللغات", "patient_satisfaction_score": "التقييم",
         "reviews_summary": "آراء الزوار", "specialty": "التخصص", "medical_code": "الرمز الطبي",
         "office_address": "عنوان العيادة", "working_hours": "ساعات العمل", "surgeries_done_at": "المستشفيات",
@@ -122,7 +120,6 @@ FIELD_NAMES = {
         "name": "Name", "category": "Category", "star_rating": "Star Rating", "quality_grade": "Quality Grade",
         "address": "Address", "district": "District", "phone": "Phone", "amenities": "Amenities",
         "distance_to_hospitals": "Distance to Hospitals", "distance_to_city_center": "Distance to City Center",
-        "distance_to_major_hospitals": "Distance to Hospitals",
         "has_translator": "Has Translator", "languages_spoken": "Languages Spoken", "patient_satisfaction_score": "Rating",
         "reviews_summary": "Reviews Summary", "specialty": "Specialty", "medical_code": "Medical Code",
         "office_address": "Office Address", "working_hours": "Working Hours", "surgeries_done_at": "Hospitals",
@@ -234,7 +231,6 @@ def load_json(path):
         return None
 
 def get_value(item, key, lang):
-    """هوشمندانه مقدار فیلد رو به زبان کاربر برمی‌گردونه"""
     key_lang = f"{key}_{lang}"
     if key_lang in item:
         return item[key_lang]
@@ -245,16 +241,13 @@ def get_value(item, key, lang):
     return None
 
 def item_name_for_search(item):
-    """اسم پزشک/آیتم رو برای جستجو استخراج می‌کنه"""
     for k in ("name_fa", "name_ar", "name_en", "name"):
         if k in item:
             return str(item[k])
     return ""
 
 def search_by_doctor_name(text):
-    """جستجوی پزشک بر اساس اسم"""
     low = text.lower()
-    # حذف کلمات اضافی
     search_text = low.replace("دکتر", "").replace("doctor", "").replace("طبيب", "").strip()
     if not search_text or len(search_text) < 3:
         return None
@@ -301,7 +294,6 @@ def search_non_medical(text):
     return None
 
 def is_all_request(text):
-    """تشخیص درخواست «همه»"""
     low = text.lower()
     for w in ALL_WORDS:
         if w in low:
@@ -309,7 +301,6 @@ def is_all_request(text):
     return False
 
 def is_best_request(text):
-    """تشخیص درخواست «بهترین»"""
     low = text.lower()
     words = english_words(text)
     if "بهترین" in low or "best" in words or "أفضل" in low:
@@ -319,11 +310,9 @@ def is_best_request(text):
 def format_doctor(doc, lang):
     n = get_value(doc, 'name', lang) or ''
     s = get_value(doc, 'specialty', lang) or ''
-    
     contact = doc.get('contact', {}) if isinstance(doc.get('contact'), dict) else {}
     service = doc.get('service_details', {}) if isinstance(doc.get('service_details'), dict) else {}
     ratings = doc.get('ratings', {}) if isinstance(doc.get('ratings'), dict) else {}
-    
     p = contact.get('phone') or doc.get('phone', '')
     a = contact.get('office_address') or doc.get('office_address', '')
     hospitals = service.get('hospitals') or doc.get('surgeries_done_at') or doc.get('hospitals') or []
@@ -332,7 +321,6 @@ def format_doctor(doc, lang):
     h = "، ".join(str(x) for x in hospitals)
     pr = service.get('price_range_toman') or doc.get('price_range_toman', '')
     r = ratings.get('patient_satisfaction_score') or doc.get('patient_satisfaction_score', '')
-    
     if lang == "en":
         return f"Doctor: {n}\nSpecialty: {s}\nAddress: {a}\nHospitals: {h}\nPhone: {p}\nPrice: {pr}\nRating: {r}/5"
     if lang == "ar":
@@ -342,11 +330,9 @@ def format_doctor(doc, lang):
 def format_generic(item, lang):
     if not isinstance(item, dict):
         return str(item)
-    
     field_names = FIELD_NAMES.get(lang, {})
     lines = []
     seen_keys = set()
-    
     for k, v in item.items():
         if k == 'id':
             continue
@@ -358,7 +344,6 @@ def format_generic(item, lang):
                     break
             if base_key and base_key in seen_keys:
                 continue
-        
         display_key = k
         if k.endswith("_fa") or k.endswith("_ar") or k.endswith("_en"):
             base_key = k[:-3]
@@ -380,9 +365,7 @@ def format_generic(item, lang):
                 continue
             value = v
             seen_keys.add(k)
-        
         label = field_names.get(display_key, display_key)
-        
         if isinstance(value, list):
             value = "، ".join(str(x) for x in value)
         elif isinstance(value, dict):
@@ -392,10 +375,8 @@ def format_generic(item, lang):
                     vv = "، ".join(str(x) for x in vv)
                 parts.append(f"{kk}: {vv}")
             value = "، ".join(parts)
-        
         if value and str(value).strip() and str(value) != 'None':
             lines.append(f"{label}: {value}")
-    
     return "\n".join(lines)
 
 def get_ai(text, lang):
@@ -406,7 +387,8 @@ def get_ai(text, lang):
             json={"model": AI_MODEL, "messages": [{"role": "system", "content": prompt}, {"role": "user", "content": text}]},
             timeout=15)
         return r.json()['choices'][0]['message']['content']
-    except: return None
+    except:
+        return None
 
 def ask_more(message):
     cid = message.chat.id
@@ -414,23 +396,21 @@ def ask_more(message):
     bot.reply_to(message, MSG[user_lang.get(cid, "fa")]["more"])
 
 def process_query(message, text, lang):
-    # 1. جستجوی اسم پزشک
     doc = search_by_doctor_name(text)
     if doc:
         bot.reply_to(message, format_doctor(doc, lang))
         return True
-    
-    # 2. جستجوی تخصص
     docs = search_specialty(text)
     if docs:
-        if is_all_request(text): limit = len(docs)
-        elif is_best_request(text): limit = 1
-        else: limit = 3
+        if is_all_request(text):
+            limit = len(docs)
+        elif is_best_request(text):
+            limit = 1
+        else:
+            limit = 3
         for d in docs[:limit]:
             bot.reply_to(message, format_doctor(d, lang))
         return True
-    
-    # 3. جستجوی بخش غیرپزشکی
     fn = search_non_medical(text)
     if fn:
         data = load_json("data/" + fn)
@@ -442,13 +422,12 @@ def process_query(message, text, lang):
             for item in items:
                 bot.reply_to(message, format_generic(item, lang))
             return True
-    
-    # 4. AI
     ai = get_ai(text, lang)
     if ai:
         bot.reply_to(message, ai)
         return True
     return False
+
 def get_meta_info():
     try:
         with open("data/meta.json", 'r', encoding='utf-8') as f:
@@ -521,29 +500,31 @@ def handle(message):
             return
         user_state[cid] = "active"
 
- elif state == "awaiting_rating":
-    if t in YES_WORDS:
+    elif state == "awaiting_rating":
+        if t in YES_WORDS:
+            user_state[cid] = "active"
+            bot.reply_to(message, MSG[lang]["thanks"])
+            if ADMIN_CHAT_ID:
+                try:
+                    bot.send_message(ADMIN_CHAT_ID, f"✅ رضایت ({lang})\nاز: {cid}\nپیام: {text}")
+                except:
+                    pass
+            return
+        if t in NO_WORDS:
+            user_state[cid] = "awaiting_feedback"
+            bot.reply_to(message, MSG[lang]["why"])
+            return
         user_state[cid] = "active"
-        bot.reply_to(message, MSG[lang]["thanks"])
+
+    elif state == "awaiting_feedback":
+        user_state[cid] = "active"
+        bot.reply_to(message, MSG[lang]["thanks_fb"])
         if ADMIN_CHAT_ID:
             try:
-                bot.send_message(ADMIN_CHAT_ID, f"✅ رضایت ({lang})\nاز: {cid}\nپیام: {text}")
-            except: pass
+                bot.send_message(ADMIN_CHAT_ID, f"❌ عدم رضایت ({lang})\nاز: {cid}\nپیام: {text}")
+            except:
+                pass
         return
-    if t in NO_WORDS:
-        user_state[cid] = "awaiting_feedback"
-        bot.reply_to(message, MSG[lang]["why"])
-        return
-    user_state[cid] = "active"
-
-elif state == "awaiting_feedback":
-    user_state[cid] = "active"
-    bot.reply_to(message, MSG[lang]["thanks_fb"])
-    if ADMIN_CHAT_ID:
-        try:
-            bot.send_message(ADMIN_CHAT_ID, f"❌ عدم رضایت ({lang})\nاز: {cid}\nپیام: {text}")
-        except: pass
-    return
 
     if any(k in text.lower() for ks in EMERGENCY.values() for k in ks):
         bot.reply_to(message, EMERGENCY_RESP[lang])
