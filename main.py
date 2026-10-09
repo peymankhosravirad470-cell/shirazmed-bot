@@ -293,89 +293,80 @@ def item_name_for_search(item):
             return str(item[k])
     return ""
 
-# ============ LANGUAGE DETECTION (IMPROVED v16) ============
+# ============================================================
+#  LANGUAGE DETECTION (v17 — تطبیق کلمه‌ای دقیق)
+# ============================================================
 def detect_text_language(text):
     """
-    تشخیص خودکار زبان متن کاربر با استفاده از حروف و کلمات کلیدی.
-    نسخه بهبودیافته v16 — پوشش کلمات بیشتر + نرمال‌سازی متن.
+    تشخیص خودکار زبان با تطبیق دقیق کلمه (نه زیررشته).
+    اولویت: حروف اختصاصی > کلمات کلیدی
     """
     text = text.strip()
     if not text:
         return None
-    
-    # شمارش نوع حروف
-    has_persian_specific = bool(re.search(r'[پچژگ]', text))
-    has_arabic_specific = bool(re.search(r'[يكةى]', text)) or bool(re.search(r'[أإآؤئ]', text))
-    has_arabic_range = bool(re.search(r'[\u0600-\u06FF]', text))
-    has_latin = bool(re.search(r'[a-zA-Z]', text))
-    
+
     # ۱. اگه حروف لاتین داره و حروف عربی/فارسی نداره → انگلیسی
+    has_latin = bool(re.search(r'[a-zA-Z]', text))
+    has_arabic_range = bool(re.search(r'[\u0600-\u06FF]', text))
     if has_latin and not has_arabic_range:
         return "en"
-    
+
     # ۲. اگه حروف مخصوص فارسی داره → فارسی
-    if has_persian_specific:
+    if re.search(r'[پچژگ]', text):
         return "fa"
-    
+
     # ۳. اگه حروف مخصوص عربی داره → عربی
-    if has_arabic_specific:
+    if re.search(r'[يكةىأإآؤئ]', text):
         return "ar"
-    
-    # ۴. اگه فقط حروف مشترک عربی/فارسی داره، از کلمات کلیدی استفاده کن
+
+    # ۴. اگه فقط حروف مشترک داره، کلمات کلیدی رو چک کن
     if has_arabic_range:
-        # نرمال‌سازی: حذف نیم‌فاصله، فاصله، علائم و اعراب
-        normalized = text.replace('\u200c', '').replace(' ', '').replace('\u200f', '').replace('\u200e', '')
-        normalized = re.sub(r'[\u064B-\u0652]', '', normalized)  # حذف اعراب
-        normalized = normalized.lower()
-        
-        # کلمات کلیدی فارسی (گسترده)
-        persian_markers = [
-            # افعال و ضمایر
-            "دنبال", "میگردم", "میخوام", "میخواهم", "میگردم", "هستم", "هستی", "هستیم",
-            "دارید", "دارم", "داریم", "نیاز", "میخوای", "میخواید", "بگو", "بگویید",
-            # کلمات پرسشی
-            "کجا", "چطور", "چگونه", "چرا", "چیست", "چیه", "چند", "چقدر", "کدام",
-            "کدوم", "چی", "چه", "آیا", "میشه", "میشود",
-            # کلمات ربطی و محاوره
-            "لطفا", "لطفاً", "ببخشید", "سلام", "ممنون", "مرسی", "خواهش",
-            # کلمات پزشکی
-            "بیمار", "متخصص", "دکتر", "بیمارستان", "پزشک", "درمان", "نوبت", "ویزیت",
-            # کلمات گردشگری
-            "اقامت", "هتل", "مسافرخانه", "بلیط", "تور", "سفر", "جاذبه",
-            # کلمات عمومی
-            "شیراز", "فارسی", "خوب", "بله", "نه", "بعد", "قبل", "الان", "امروز",
-            "فردا", "دیروز", "بیمه", "قیمت", "هزینه", "پول", "پرداخت"
-        ]
-        
-        # کلمات کلیدی عربی (گسترده)
-        arabic_markers = [
-            # افعال و ضمایر
-            "هل", "هناك", "أريد", "أحتاج", "أبحث", "أستطيع", "لدي", "عندي", "نحن",
-            "أنتم", "أنا", "أنت", "أستطيع", "يمكن", "أستفسر",
-            # کلمات پرسشی
-            "أين", "متى", "لماذا", "كيف", "ما", "ماذا", "كم", "بكم", "أي", "أيها",
-            "أيتها", "هل لديك",
-            # کلمات محاوره
-            "مرحبا", "أهلا", "شكرا", "شكراً", "عفوا", "من فضلك", "السلام",
-            # کلمات پزشکی
-            "مستشفى", "طبيب", "دكتور", "صيدلية", "مرض", "علاج", "دواء", "عطاء",
-            # کلمات گردشگری
+        # نرمال‌سازی: نیم‌فاصله → فاصله، حذف اعراب
+        normalized = text.replace('\u200c', ' ').replace('\u200f', ' ').replace('\u200e', ' ')
+        normalized = re.sub(r'[\u064B-\u0652]', '', normalized)
+
+        # تقسیم به کلمات مستقل
+        words_list = re.findall(r'[\u0600-\u06FF]+', normalized)
+        words_set = set()
+        for w in words_list:
+            words_set.add(w.replace('\u200c', '').lower())
+
+        # کلمات کلیدی فارسی
+        persian_markers = {
+            "دنبال", "میگردم", "میخوام", "میخواهم", "هستم", "دارید", "دارم", "داریم",
+            "نیاز", "لطفا", "لطفاً", "کجا", "چطور", "چگونه", "چرا", "چیه",
+            "چند", "چقدر", "کدام", "کدوم", "چی", "چه", "آیا", "میشه", "میشود",
+            "سلام", "ممنون", "مرسی", "خواهش", "ببخشید",
+            "بیمار", "متخصص", "دکتر", "بیمارستان", "پزشک", "درمان", "ویزیت", "نوبت",
+            "اقامت", "هتل", "مسافرخانه", "بلیط", "تور", "سفر", "جاذبه", "گردش",
+            "شیراز", "فارسی", "خوب", "بله", "نه", "الان", "امروز", "فردا", "دیروز",
+            "بیمه", "قیمت", "هزینه", "پول", "پرداخت", "کلینیک",
+            "میکنم", "میکنید", "میخواهم", "بگرد", "پیدا", "بهترین"
+        }
+
+        # کلمات کلیدی عربی
+        arabic_markers = {
+            "هل", "هناك", "أريد", "أحتاج", "أبحث", "أستطيع", "لدي", "عندي",
+            "نحن", "أنتم", "أنا", "أنت", "يمكن",
+            "أين", "متى", "لماذا", "كيف", "ما", "ماذا", "كم", "بكم", "أي",
+            "مرحبا", "أهلا", "شكرا", "عفوا", "السلام",
+            "مستشفى", "طبيب", "دكتور", "صيدلية", "مرض", "علاج", "دواء",
             "فندق", "نزل", "حجز", "سيارة", "مطار", "رحلة", "سياحة",
-            # کلمات عمومی
-            "شيراز", "العربية", "جيد", "نعم", "لا", "بعد", "قبل", "الآن", "اليوم",
-            "غدا", "أمس", "تأمين", "سعر", "تكلفة", "مال", "دفع"
-        ]
-        
-        arabic_score = sum(1 for m in arabic_markers if m in normalized)
-        persian_score = sum(1 for m in persian_markers if m in normalized)
-        
+            "شيراز", "العربية", "جيد", "نعم", "لا", "الآن", "اليوم",
+            "غدا", "أمس", "تأمين", "سعر", "تكلفة", "مال", "دفع", "أفضل", "قريب"
+        }
+
+        # شمارش تطابق کلمه‌ی کامل
+        persian_score = sum(1 for w in words_set if w in persian_markers)
+        arabic_score = sum(1 for w in words_set if w in arabic_markers)
+
         if arabic_score > persian_score:
             return "ar"
         elif persian_score > arabic_score:
             return "fa"
         else:
             return None
-    
+
     return None
 
 # ============ SEARCH: DOCTOR BY NAME ============
@@ -398,11 +389,10 @@ def search_by_doctor_name(text):
                 return item
     return None
 
-# ============ SEARCH: SPECIALTY (IMPROVED) ============
+# ============ SEARCH: SPECIALTY ============
 def search_specialty(text):
     low = text.lower()
     words = english_words(text)
-    
     scores = {}
     for k, fn in SPECIALTY_MAP.items():
         matched = False
@@ -412,7 +402,6 @@ def search_specialty(text):
         else:
             if k in low:
                 matched = True
-        
         if matched:
             if fn not in scores:
                 scores[fn] = 0
@@ -420,60 +409,49 @@ def search_specialty(text):
             if k in [cw.lower() for cw in CONTEXT_WORDS]:
                 weight = weight * 0.3
             scores[fn] += weight
-    
     if not scores:
         return None
-    
     best_fn = max(scores, key=scores.get)
     data = load_json("data/doctors/" + best_fn)
     if not data:
         return None
-    
     def score(x):
         r = x.get('ratings', {})
         if isinstance(r, dict) and 'patient_satisfaction_score' in r:
             return r['patient_satisfaction_score']
         return x.get('patient_satisfaction_score', 0)
-    
     try:
         data.sort(key=score, reverse=True)
     except:
         pass
     return data
 
-# ============ SEARCH: NON-MEDICAL (IMPROVED WITH SCORING) ============
+# ============ SEARCH: NON-MEDICAL ============
 def search_non_medical(text):
     low = text.lower()
     words = english_words(text)
-    
     scores = {}
     for fn, keywords in NON_MEDICAL_MAP.items():
         score = 0
         for kw in keywords:
             kw_low = kw.lower()
             matched = False
-            
             if kw_low.isascii():
                 if kw_low in words or (kw_low + "s") in words:
                     matched = True
             else:
                 if kw_low in low:
                     matched = True
-            
             if matched:
                 weight = len(kw_low)
                 if kw_low in [cw.lower() for cw in CONTEXT_WORDS]:
                     weight = weight * 0.3
                 score += weight
-        
         if score > 0:
             scores[fn] = score
-    
     if not scores:
         return None
-    
-    best = max(scores, key=scores.get)
-    return best
+    return max(scores, key=scores.get)
 
 # ============ HELPERS ============
 def is_all_request(text):
@@ -599,7 +577,6 @@ def process_query(message, text, lang):
     if doc:
         bot.reply_to(message, format_doctor(doc, lang))
         return True
-    
     docs = search_specialty(text)
     if docs:
         if is_all_request(text):
@@ -611,7 +588,6 @@ def process_query(message, text, lang):
         for d in docs[:limit]:
             bot.reply_to(message, format_doctor(d, lang))
         return True
-    
     fn = search_non_medical(text)
     if fn:
         data = load_json("data/" + fn)
@@ -623,7 +599,6 @@ def process_query(message, text, lang):
             for item in items:
                 bot.reply_to(message, format_generic(item, lang))
             return True
-    
     ai = get_ai(text, lang)
     if ai:
         bot.reply_to(message, ai)
@@ -763,5 +738,5 @@ def handle(message):
     ask_more(message)
 
 # ============ START ============
-print("ربات روشن شد... v16 (نسخه سه‌زبانه + تعویض خودکار پیشرفته)")
+print("ربات روشن شد... v17 (تعویض خودکار قطعی)")
 bot.polling()
