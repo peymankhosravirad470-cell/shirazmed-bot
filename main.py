@@ -1,5 +1,6 @@
 import json, os, re, telebot, requests
 
+# ============ CONFIG ============
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 AVALAI_API_KEY = os.environ.get("AVALAI_API_KEY", "")
 BALE_BOT_TOKEN = os.environ.get("BALE_BOT_TOKEN", "")
@@ -7,6 +8,7 @@ ADMIN_CHAT_ID = os.environ.get("ADMIN_CHAT_ID", "")
 AI_MODEL = "gpt-4o-mini"
 AVALAI_URL = "https://api.avalai.ir/v1/chat/completions"
 
+# ============ BOT INIT ============
 if BALE_BOT_TOKEN:
     telebot.apihelper.API_URL = "https://tapi.bale.ai/bot{0}/{1}"
     telebot.apihelper.FILE_URL = "https://tapi.bale.ai/file/bot{0}/{1}"
@@ -27,6 +29,7 @@ START_MSG = """🌟 سلام و خوش آمدید! از اینکه شیراز م
 2 - العربية
 3 - English"""
 
+# ============ MESSAGES ============
 MSG = {
     "fa": {
         "welcome": "🌟 به شیراز مدیکال خوش آمدید!\n\nهمراه شما در مسیر درمان و اقامت در شیراز؛ با هدفی روشن و خدماتی کامل.\n\n🔹 معرفی پزشکان متخصص و بیمارستان‌های مجهز\n🔹 اقامتگاه‌های مناسب و حمل‌ونقل آسان\n🔹 گشت‌وگذار در جاذبه‌های دیدنی شیراز\n🔹 پشتیبانی و راهنمایی در تمام مراحل\n\nخواسته‌ی خود را بنویسید؛ ما در کنار شما هستیم.\nمثلاً: دکتر قلب",
@@ -63,6 +66,7 @@ MSG = {
     },
 }
 
+# ============ FIELD NAMES ============
 FIELD_NAMES = {
     "fa": {
         "name": "نام", "category": "دسته", "star_rating": "ستاره", "quality_grade": "کیفیت",
@@ -88,7 +92,8 @@ FIELD_NAMES = {
         "official_system_links": "لینک‌های رسمی", "city": "شهر", "topic": "موضوع",
         "location_type": "موقعیت", "unesco_status": "وضعیت یونسکو", "ownership": "مالکیت",
         "ipd_status": "وضعیت IPD", "specialties": "تخصص‌ها", "location": "موقعیت", "contact": "تماس",
-        "license_status": "وضعیت مجوز",
+        "license_status": "وضعیت مجوز", "pharmacy_code": "کد داروخانه", "services_offered": "خدمات ارائه‌شده",
+        "is_24h": "شبانه‌روزی", "ipd_code": "کد IPD", "translator_languages": "زبان‌های مترجم",
     },
     "ar": {
         "name": "الاسم", "category": "الفئة", "star_rating": "التصنيف", "quality_grade": "الجودة",
@@ -114,7 +119,8 @@ FIELD_NAMES = {
         "official_system_links": "الروابط الرسمية", "city": "المدينة", "topic": "الموضوع",
         "location_type": "الموقع", "unesco_status": "حالة اليونسكو", "ownership": "الملكية",
         "ipd_status": "حالة IPD", "specialties": "التخصصات", "location": "الموقع", "contact": "التواصل",
-        "license_status": "حالة الترخيص",
+        "license_status": "حالة الترخيص", "pharmacy_code": "رمز الصيدلية", "services_offered": "الخدمات المقدمة",
+        "is_24h": "على مدار الساعة", "ipd_code": "رمز IPD", "translator_languages": "لغات المترجم",
     },
     "en": {
         "name": "Name", "category": "Category", "star_rating": "Star Rating", "quality_grade": "Quality Grade",
@@ -140,15 +146,17 @@ FIELD_NAMES = {
         "official_system_links": "Official System Links", "city": "City", "topic": "Topic",
         "location_type": "Location Type", "unesco_status": "UNESCO Status", "ownership": "Ownership",
         "ipd_status": "IPD Status", "specialties": "Specialties", "location": "Location", "contact": "Contact",
-        "license_status": "License Status",
+        "license_status": "License Status", "pharmacy_code": "Pharmacy Code", "services_offered": "Services Offered",
+        "is_24h": "24 Hours", "ipd_code": "IPD Code", "translator_languages": "Translator Languages",
     },
 }
 
+# ============ WORDS ============
 YES_WORDS = {"بله", "بلی", "آره", "اره", "yes", "yeah", "y", "نعم", "ايوه", "أيوه"}
 NO_WORDS = {"نه", "نخیر", "خیر", "نه ممنون", "نه، ممنون", "نه مرسی", "سوالی ندارم", "سؤالی ندارم", "ندارم", "no", "nope", "n", "no thanks", "لا", "لا شكرا", "لا شكراً"}
-
 ALL_WORDS = ["همه", "تمام", "کل", "همگی", "all", "كل", "جميع"]
 
+# ============ SPECIALTY MAP ============
 SPECIALTY_MAP = {}
 
 def add_specialty(filename, *words):
@@ -178,6 +186,7 @@ add_specialty("hematology_oncology.json", "خون", "آنکولوژی", "سرط�
 add_specialty("endocrinology.json", "غدد", "تیروئید", "دیابت", "endocrinology")
 add_specialty("neurosurgery.json", "مغز و اعصاب", "جراحی مغز", "neurosurgery", "نورولوژی")
 
+# ============ NON MEDICAL MAP ============
 NON_MEDICAL_MAP = {
     "hospitals.json": ["بیمارستان", "hospital", "مستشفى"],
     "hotels.json": ["هتل", "hotel", "فندق"],
@@ -191,6 +200,10 @@ NON_MEDICAL_MAP = {
     "patient_guide.json": ["راهنمای بیمار", "پذیرش بیمار خارجی", "ویزای درمانی", "patient guide", "medical visa", "قبول مريض"],
 }
 
+# کلماتی که در جستجوهای مختلف ممکنه تکرار بشن و نباید وزن کامل بگیرن
+CONTEXT_WORDS = ["بیمارستان", "hospital", "مستشفى", "شیراز", "shiraz", "شيراز", "doctor", "دکتر", "طبيب", "طبیب"]
+
+# ============ EMERGENCY ============
 EMERGENCY = {
     "fa": ["درد شدید", "تب", "خونریزی", "استفراغ", "ضعف", "غش"],
     "ar": ["ألم شديد", "حمى", "نزيف", "قيء", "ضعف", "إغماء"],
@@ -202,11 +215,12 @@ EMERGENCY_RESP = {
     "en": "🚨 Go to emergency. Phone: 115"
 }
 
+# ============ STATE ============
 user_state = {}
 user_lang = {}
-
 satisfaction_counter = {"count": 0, "positive": 0, "negative": 0}
 
+# ============ HELPERS ============
 def clean(text):
     return text.strip().lower().strip(" .!؟?،,")
 
@@ -248,12 +262,13 @@ def item_name_for_search(item):
             return str(item[k])
     return ""
 
+# ============ SEARCH: DOCTOR BY NAME ============
 def search_by_doctor_name(text):
     low = text.lower()
-    search_text = low.replace("دکتر", "").replace("doctor", "").replace("طبيب", "").strip()
+    search_text = low.replace("دکتر", "").replace("doctor", "").replace("طبيب", "").replace("دكتورة", "").replace("دكتور", "").strip()
     if not search_text or len(search_text) < 3:
         return None
-    for filename in SPECIALTY_MAP.values():
+    for filename in set(SPECIALTY_MAP.values()):
         path = "data/doctors/" + filename
         data = load_json(path)
         if not data:
@@ -264,37 +279,90 @@ def search_by_doctor_name(text):
                 return item
     return None
 
+# ============ SEARCH: SPECIALTY (IMPROVED) ============
 def search_specialty(text):
     low = text.lower()
     words = english_words(text)
+    
+    # امتیازدهی به تخصص‌ها
+    scores = {}
     for k, fn in SPECIALTY_MAP.items():
         if k.isascii():
             found = k in words or (k + "s") in words
         else:
             found = k in low
         if found:
-            data = load_json("data/doctors/" + fn)
-            if data:
-                def score(x):
-                    r = x.get('ratings', {})
-                    if isinstance(r, dict) and 'patient_satisfaction_score' in r:
-                        return r['patient_satisfaction_score']
-                    return x.get('patient_satisfaction_score', 0)
-                try:
-                    data.sort(key=score, reverse=True)
-                except:
-                    pass
-                return data
-    return None
+            # امتیاز بر اساس طول کلمه (کلمه‌ی خاص‌تر = امتیاز بیشتر)
+            if fn not in scores:
+                scores[fn] = 0
+            scores[fn] += len(k)
+    
+    if not scores:
+        return None
+    
+    # بالاترین امتیاز رو انتخاب کن
+    best_fn = max(scores, key=scores.get)
+    data = load_json("data/doctors/" + best_fn)
+    if not data:
+        return None
+    
+    def score(x):
+        r = x.get('ratings', {})
+        if isinstance(r, dict) and 'patient_satisfaction_score' in r:
+            return r['patient_satisfaction_score']
+        return x.get('patient_satisfaction_score', 0)
+    
+    try:
+        data.sort(key=score, reverse=True)
+    except:
+        pass
+    return data
 
+# ============ SEARCH: NON-MEDICAL (IMPROVED WITH SCORING) ============
 def search_non_medical(text):
+    """
+    سیستم امتیازدهی برای انتخاب دقیق‌ترین فایل بر اساس کلمات کلیدی.
+    کلمه‌های بلندتر امتیاز بیشتر می‌گیرن.
+    کلمات عمومی مثل 'بیمارستان' وزن کمتری می‌گیرن.
+    """
     low = text.lower()
+    words = english_words(text)
+    
+    scores = {}
     for fn, keywords in NON_MEDICAL_MAP.items():
+        score = 0
         for kw in keywords:
-            if kw.lower() in low:
-                return fn
-    return None
+            kw_low = kw.lower()
+            matched = False
+            
+            # برای کلمات انگلیسی، تطابق کلمه‌ای دقیق
+            if kw_low.isascii():
+                if kw_low in words or (kw_low + "s") in words:
+                    matched = True
+            else:
+                # برای فارسی و عربی، تطابق زیررشته
+                if kw_low in low:
+                    matched = True
+            
+            if matched:
+                # امتیاز بر اساس طول کلمه
+                weight = len(kw_low)
+                # اگه کلمه جزو کلمات عمومی/زمینه‌ای باشه، وزنش رو کم کن
+                if kw_low in [cw.lower() for cw in CONTEXT_WORDS]:
+                    weight = weight * 0.3
+                score += weight
+        
+        if score > 0:
+            scores[fn] = score
+    
+    if not scores:
+        return None
+    
+    # بالاترین امتیاز
+    best = max(scores, key=scores.get)
+    return best
 
+# ============ HELPERS ============
 def is_all_request(text):
     low = text.lower()
     for w in ALL_WORDS:
@@ -309,6 +377,7 @@ def is_best_request(text):
         return True
     return False
 
+# ============ FORMATTERS ============
 def format_doctor(doc, lang):
     n = get_value(doc, 'name', lang) or ''
     s = get_value(doc, 'specialty', lang) or ''
@@ -381,6 +450,7 @@ def format_generic(item, lang):
             lines.append(f"{label}: {value}")
     return "\n".join(lines)
 
+# ============ AI ============
 def get_ai(text, lang):
     prompt = SYSTEM_PROMPT + " پاسخ را به زبان " + LANG_NAMES[lang] + " بنویس."
     try:
@@ -392,6 +462,7 @@ def get_ai(text, lang):
     except:
         return None
 
+# ============ STATE HELPERS ============
 def ask_more(message):
     cid = message.chat.id
     user_state[cid] = "awaiting_more"
@@ -409,11 +480,15 @@ def get_user_name(message):
     except:
         return "ناشناس"
 
+# ============ QUERY PROCESSOR ============
 def process_query(message, text, lang):
+    # 1. جستجو با نام پزشک
     doc = search_by_doctor_name(text)
     if doc:
         bot.reply_to(message, format_doctor(doc, lang))
         return True
+    
+    # 2. جستجو تخصص
     docs = search_specialty(text)
     if docs:
         if is_all_request(text):
@@ -425,6 +500,8 @@ def process_query(message, text, lang):
         for d in docs[:limit]:
             bot.reply_to(message, format_doctor(d, lang))
         return True
+    
+    # 3. جستجوی غیرپزشکی (با امتیازدهی)
     fn = search_non_medical(text)
     if fn:
         data = load_json("data/" + fn)
@@ -436,12 +513,15 @@ def process_query(message, text, lang):
             for item in items:
                 bot.reply_to(message, format_generic(item, lang))
             return True
+    
+    # 4. AI fallback
     ai = get_ai(text, lang)
     if ai:
         bot.reply_to(message, ai)
         return True
     return False
 
+# ============ META INFO ============
 def get_meta_info():
     try:
         with open("data/meta.json", 'r', encoding='utf-8') as f:
@@ -449,6 +529,7 @@ def get_meta_info():
     except:
         return None
 
+# ============ HANDLERS ============
 @bot.message_handler(commands=['admin'])
 def admin_command(message):
     if str(message.chat.id) != str(ADMIN_CHAT_ID):
@@ -550,15 +631,18 @@ def handle(message):
                 pass
         return
 
+    # Emergency check
     if any(k in text.lower() for ks in EMERGENCY.values() for k in ks):
         bot.reply_to(message, EMERGENCY_RESP[lang])
         ask_more(message)
         return
 
+    # Process query
     answered = process_query(message, text, lang)
     if not answered:
         bot.reply_to(message, MSG[lang]["retry"])
     ask_more(message)
 
-print("ربات روشن شد... v12")
+# ============ START ============
+print("ربات روشن شد... v13 (نسخه سه‌زبانه با امتیازدهی جستجو)")
 bot.polling()
