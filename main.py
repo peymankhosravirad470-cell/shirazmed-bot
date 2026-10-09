@@ -165,91 +165,48 @@ def add_specialty(filename, *words):
     for w in words:
         SPECIALTY_MAP[w.lower()] = filename
 
-# کاردیولوژی - قلب
 add_specialty("cardiology.json",
     "قلب", "قلبی", "کاردیو", "cardio", "heart", "قلبية", "قلب و عروق", "عروق", "سکته قلبی", "فشار خون")
-
-# پوست
 add_specialty("dermatology.json",
     "پوست", "درماتولوژی", "derma", "skin", "جلد", "جلدية", "زیبایی پوست", "آکنه", "جوش")
-
-# دندانپزشکی
 add_specialty("dentistry.json",
     "دندان", "دندانپزشک", "دندانپزشکی", "dental", "dentist", "أسنان", "اسنان", "طبيب أسنان")
-
-# دندانپزشکی کودکان
 add_specialty("kids_dentistry.json",
     "دندان کودکان", "دندانپزشکی کودکان", "kids dental", "دندان شیری", "أسنان أطفال", "أطفال أسنان")
-
-# چشم‌پزشکی
 add_specialty("ophthalmology.json",
     "چشم", "چشم‌پزشک", "چشم پزشکی", "eye", "ophthal", "عيون", "عين", "بصري", "آب مروارید", "لیزیک")
-
-# گوش و حلق و بینی
 add_specialty("ent.json",
     "گوش", "بینی", "گلو", "حلق", "ent", "nose", "throat", "أنف", "أذن", "حنجرة", "سینوس")
-
-# ارتوپدی
 add_specialty("orthopedics.json",
     "ارتوپدی", "استخوان", "مفصل", "ortho", "bone", "joint", "عظام", "عظمي", "مفاصل", "زانو", "کمر")
-
-# زنان و زایمان
 add_specialty("gynecology.json",
     "زنان", "زایمان", "نازایی", "ivf", "gyneco", "obgyn", "نساء", "ولادة", "توليد", "ناباروری", "بارداری")
-
-# اطفال
 add_specialty("pediatrics.json",
     "کودک", "اطفال", "نوزاد", "pediatric", "child", "أطفال", "طفل", "رضع")
-
-# روان‌پزشکی
 add_specialty("psychiatry.json",
     "روان", "روانپزشک", "روان‌پزشکی", "اعصاب و روان", "psych", "mental", "نفسي", "طب نفسي", "افسردگی", "اضطراب")
-
-# داخلی
 add_specialty("internal_medicine.json",
     "داخلی", "internal", "باطنی", "باطنية", "general medicine", "طب داخلی")
-
-# اورولوژی
 add_specialty("urology.json",
     "اورولوژی", "کلیه", "مثانه", "urology", "urinary", "مسالك", "كلى", "مثانة", "پروستات", "prostate")
-
-# جراحی عمومی
 add_specialty("general_surgery.json",
     "جراح عمومی", "جراحی عمومی", "general surgery", "جراحة عامة", "جراح", "surgery")
-
-# رینوپلاستی
 add_specialty("rhinoplasty.json",
     "رینوپلاستی", "جراحی بینی", "rhino", "nose surgery", "تجميل الأنف", "عملية الأنف", "بینی")
-
-# گوارش
 add_specialty("gastroenterology.json",
     "گوارش", "معده", "روده", "کبد", "gastro", "digestive", "هضمي", "معدة", "أمعاء", "كبد", "کولون", "آندوسکوپی")
-
-# اورژانس
 add_specialty("emergency_medicine.json",
     "اورژانس", "فوریت", "emergency", "طوارئ", "إسعاف", "طب اورژانس")
-
-# طب سنتی
 add_specialty("traditional_medicine.json",
     "طب سنتی", "سنتی", "گیاهی", "traditional", "herbal", "طب تقليدي", "أعشاب", "حجامت")
-
-# داروخانه
 add_specialty("pharmacies.json",
     "داروخانه", "دارو", "pharmacy", "drugstore", "صيدلية", "صيدليه", "دواء", "أدوية")
-
-# آلرژی
 add_specialty("allergy.json",
     "آلرژی", "حساسیت", "allergy", "aller", "حساسية", "تحسس")
-
-# خون و آنکولوژی
 add_specialty("hematology_oncology.json",
     "خون", "آنکولوژی", "سرطان", "hematology", "oncology", "cancer", "دم", "أورام", "سرطان", "كدمات")
-
-# غدد
 add_specialty("endocrinology.json",
     "غدد", "تیروئید", "دیابت", "قند", "endocrinology", "غدة", "سكري", "درقية", "هرمون", "هورمون")
-
-# جراحی مغز و اعصاب
 add_specialty("neurosurgery.json",
     "مغز و اعصاب", "جراحی مغز", "نوروسرجری", "neurosurgery", "neurology", "نورولوژی", "دماغ", "أعصاب", "دماغي", "صرع", "ام اس", "ms")
 
@@ -257,48 +214,24 @@ add_specialty("neurosurgery.json",
 #  NON MEDICAL MAP — کلیدواژه‌های سه‌زبانه برای ۱۲ دسته
 # ============================================================
 NON_MEDICAL_MAP = {
-    "hospitals.json": [
-        "بیمارستان", "hospital", "مستشفى", "مستشفيات", "كلينيك", "کلینیک", "clinic"
-    ],
-    "hotels.json": [
-        "هتل", "hotel", "فندق", "فنادق", "اقامتگاه", "خوابگاه", "hotel", "هتل پنج ستاره"
-    ],
-    "motels.json": [
-        "مهمان‌پذیر", "مهمان پذیر", "مسافرخانه", "motel", "نُزل", "نزل", "بيت ضيافة", "خوابگاه ارزان"
-    ],
-    "tourist_houses.json": [
-        "خانه مسافر", "اقامتگاه بومگردی", "منزل مبله", "tourist house", "guest house", "بيت مسافر", "دار ضيافة"
-    ],
-    "leisure_city.json": [
-        "جاذبه", "داخل شهر", "حافظیه", "سعدیه", "ارگ", "نصیرالملک", "شاهچراغ", "باغ ارم", "بازار وکیل",
-        "شیراز گردی", "دیدنی", "موزه", "مسجد", "attraction", "hafez", "saadi", "قصر", "باغ"
-    ],
-    "leisure_outside.json": [
-        "تخت جمشید", "پاسارگاد", "نقش رستم", "آبشار", "بیرون شهر", "persepolis", "pasargad",
-        "naqsh-e rostam", "تخت جمشيد", "بیرون از شهر", "طبیعت گردی", "کوه", "دشت"
-    ],
-    "transport.json": [
-        "حمل‌ونقل", "مترو", "تاکسی", "اتوبوس", "اسنپ", "تپسی", "فرودگاه", "راه‌آهن",
-        "transport", "metro", "taxi", "bus", "snapp", "airport", "مواصلات", "نقل", "مطار", "قطار", "سفر"
-    ],
-    "support.json": [
-        "پشتیبانی", "هلال احمر", "شماره اضطراری", "support", "کمک", "دعم", "مساعدة", "إسعاف", "help"
-    ],
-    "complaints.json": [
-        "شکایت", "شکایات", "complaint", "گله", "شكوى", "شكاوى", "انتقاد"
-    ],
-    "patient_guide.json": [
-        "راهنمای بیمار", "پذیرش بیمار خارجی", "ویزای درمانی", "patient guide", "medical visa",
-        "قبول مريض", "تأشيرة طبية", "دليل المريض", "پذیرش", "ترخیص"
-    ],
+    "hospitals.json": ["بیمارستان", "hospital", "مستشفى", "مستشفيات", "كلينيك", "کلینیک", "clinic"],
+    "hotels.json": ["هتل", "hotel", "فندق", "فنادق", "اقامتگاه", "خوابگاه"],
+    "motels.json": ["مهمان‌پذیر", "مهمان پذیر", "مسافرخانه", "motel", "نُزل", "نزل", "بيت ضيافة"],
+    "tourist_houses.json": ["خانه مسافر", "اقامتگاه بومگردی", "منزل مبله", "tourist house", "guest house", "بيت مسافر", "دار ضيافة"],
+    "leisure_city.json": ["جاذبه", "داخل شهر", "حافظیه", "سعدیه", "ارگ", "نصیرالملک", "شاهچراغ", "باغ ارم", "بازار وکیل", "شیراز گردی", "دیدنی", "موزه", "مسجد", "attraction", "hafez", "saadi"],
+    "leisure_outside.json": ["تخت جمشید", "پاسارگاد", "نقش رستم", "آبشار", "بیرون شهر", "persepolis", "pasargad", "naqsh-e rostam", "تخت جمشيد"],
+    "transport.json": ["حمل‌ونقل", "مترو", "تاکسی", "اتوبوس", "اسنپ", "تپسی", "فرودگاه", "راه‌آهن", "transport", "metro", "taxi", "bus", "snapp", "airport", "مواصلات", "نقل", "مطار", "قطار", "سفر"],
+    "support.json": ["پشتیبانی", "هلال احمر", "شماره اضطراری", "support", "کمک", "دعم", "مساعدة", "إسعاف", "help"],
+    "complaints.json": ["شکایت", "شکایات", "complaint", "گله", "شكوى", "شكاوى", "انتقاد"],
+    "patient_guide.json": ["راهنمای بیمار", "پذیرش بیمار خارجی", "ویزای درمانی", "patient guide", "medical visa", "قبول مريض", "تأشيرة طبية", "دليل المريض", "پذیرش", "ترخیص"],
 }
 
 # ============================================================
-#  CONTEXT WORDS — کلماتی که در جستجوهای مختلف تکرار می‌شن
+#  CONTEXT WORDS — کلمات زمینه‌ای که وزن کمتری می‌گیرن
 # ============================================================
 CONTEXT_WORDS = [
     "بیمارستان", "hospital", "مستشفى", "شیراز", "shiraz", "شيراز",
-    "doctor", "دکتر", "طبيب", "طبیب", "doctor", "dr", "دكتر"
+    "doctor", "دکتر", "طبيب", "طبیب", "dr", "دكتر"
 ]
 
 # ============ EMERGENCY ============
@@ -360,6 +293,51 @@ def item_name_for_search(item):
             return str(item[k])
     return ""
 
+# ============ LANGUAGE DETECTION (NEW) ============
+def detect_text_language(text):
+    """
+    تشخیص خودکار زبان متن کاربر با استفاده از حروف و کلمات کلیدی.
+    """
+    text = text.strip()
+    if not text:
+        return None
+    
+    # شمارش نوع حروف
+    has_persian_specific = bool(re.search(r'[پچژگ]', text))
+    has_arabic_specific = bool(re.search(r'[يكةى]', text)) or bool(re.search(r'[أإآؤئ]', text))
+    has_arabic_range = bool(re.search(r'[\u0600-\u06FF]', text))
+    has_latin = bool(re.search(r'[a-zA-Z]', text))
+    
+    # ۱. اگه حروف لاتین داره و حروف عربی/فارسی نداره → انگلیسی
+    if has_latin and not has_arabic_range:
+        return "en"
+    
+    # ۲. اگه حروف مخصوص فارسی داره → فارسی
+    if has_persian_specific:
+        return "fa"
+    
+    # ۳. اگه حروف مخصوص عربی داره → عربی
+    if has_arabic_specific:
+        return "ar"
+    
+    # ۴. اگه فقط حروف مشترک عربی/فارسی داره، از کلمات کلیدی استفاده کن
+    if has_arabic_range:
+        arabic_markers = ["هل", "هناك", "أريد", "ما هي", "كيف", "أين", "متى", "لماذا", "فندق", "مستشفى", "صيدلية", "طبيب", "سيارة", "أحتاج", "أبحث"]
+        persian_markers = ["دنبال", "می‌گردم", "می گردم", "کجا", "چطور", "هست", "دارید", "می‌خوام", "میخوام", "لطفا", "لطفاً"]
+        
+        text_lower = text.lower()
+        arabic_score = sum(1 for m in arabic_markers if m in text_lower)
+        persian_score = sum(1 for m in persian_markers if m in text_lower)
+        
+        if arabic_score > persian_score:
+            return "ar"
+        elif persian_score > arabic_score:
+            return "fa"
+        else:
+            return None  # مبهم، زبان فعلی حفظ بشه
+    
+    return None
+
 # ============ SEARCH: DOCTOR BY NAME ============
 def search_by_doctor_name(text):
     low = text.lower()
@@ -398,9 +376,7 @@ def search_specialty(text):
         if matched:
             if fn not in scores:
                 scores[fn] = 0
-            # امتیاز بر اساس طول کلمه (کلمه‌ی خاص‌تر = امتیاز بیشتر)
             weight = len(k)
-            # اگه کلمه زمینه‌ای باشه، وزن کم‌تر
             if k in [cw.lower() for cw in CONTEXT_WORDS]:
                 weight = weight * 0.3
             scores[fn] += weight
@@ -437,18 +413,15 @@ def search_non_medical(text):
             kw_low = kw.lower()
             matched = False
             
-            # برای کلمات انگلیسی، تطابق کلمه‌ای دقیق
             if kw_low.isascii():
                 if kw_low in words or (kw_low + "s") in words:
                     matched = True
             else:
-                # برای فارسی و عربی، تطابق زیررشته
                 if kw_low in low:
                     matched = True
             
             if matched:
                 weight = len(kw_low)
-                # اگه کلمه جزو کلمات زمینه‌ای باشه، وزنش رو کم کن
                 if kw_low in [cw.lower() for cw in CONTEXT_WORDS]:
                     weight = weight * 0.3
                 score += weight
@@ -582,13 +555,11 @@ def get_user_name(message):
 
 # ============ QUERY PROCESSOR ============
 def process_query(message, text, lang):
-    # 1. جستجو با نام پزشک
     doc = search_by_doctor_name(text)
     if doc:
         bot.reply_to(message, format_doctor(doc, lang))
         return True
     
-    # 2. جستجو تخصص (پزشکی + داروخانه)
     docs = search_specialty(text)
     if docs:
         if is_all_request(text):
@@ -601,7 +572,6 @@ def process_query(message, text, lang):
             bot.reply_to(message, format_doctor(d, lang))
         return True
     
-    # 3. جستجوی غیرپزشکی (بیمارستان، هتل، موتل، جاذبه، حمل‌ونقل، پشتیبانی، شکایت، راهنما)
     fn = search_non_medical(text)
     if fn:
         data = load_json("data/" + fn)
@@ -614,7 +584,6 @@ def process_query(message, text, lang):
                 bot.reply_to(message, format_generic(item, lang))
             return True
     
-    # 4. AI fallback
     ai = get_ai(text, lang)
     if ai:
         bot.reply_to(message, ai)
@@ -653,6 +622,11 @@ def admin_command(message):
     lines.append(f"عدم رضایت: {satisfaction_counter['negative']}")
     bot.reply_to(message, "\n".join(lines))
 
+@bot.message_handler(commands=['lang'])
+def lang_command(message):
+    user_state[message.chat.id] = "choose_lang"
+    bot.reply_to(message, START_MSG)
+
 @bot.message_handler(commands=['start'])
 def start(message):
     user_state[message.chat.id] = "choose_lang"
@@ -683,6 +657,14 @@ def handle(message):
         user_state[cid] = "active"
         bot.reply_to(message, MSG[lang]["welcome"])
         return
+
+    # ============ تعویض خودکار زبان (NEW) ============
+    # اگه کاربر وسط چت فعاله و زبان متنش با زبان فعلی فرق داره، عوض کن
+    if state == "active":
+        detected = detect_text_language(text)
+        if detected and detected != user_lang.get(cid):
+            user_lang[cid] = detected
+    # ================================================
 
     lang = user_lang.get(cid, "fa")
     t = clean(text)
@@ -731,18 +713,16 @@ def handle(message):
                 pass
         return
 
-    # Emergency check
     if any(k in text.lower() for ks in EMERGENCY.values() for k in ks):
         bot.reply_to(message, EMERGENCY_RESP[lang])
         ask_more(message)
         return
 
-    # Process query
     answered = process_query(message, text, lang)
     if not answered:
         bot.reply_to(message, MSG[lang]["retry"])
     ask_more(message)
 
 # ============ START ============
-print("ربات روشن شد... v14 (نسخه سه‌زبانه کامل با پوشش تمام کلیدواژه‌ها)")
+print("ربات روشن شد... v15 (نسخه سه‌زبانه + تعویض خودکار زبان)")
 bot.polling()
