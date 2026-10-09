@@ -312,17 +312,17 @@ def is_best_request(text):
 def format_doctor(doc, lang):
     n = get_value(doc, 'name', lang) or ''
     s = get_value(doc, 'specialty', lang) or ''
-    contact = doc.get('contact', {}) if isinstance(doc.get('contact'), dict) else {}
-    service = doc.get('service_details', {}) if isinstance(doc.get('service_details'), dict) else {}
-    ratings = doc.get('ratings', {}) if isinstance(doc.get('ratings'), dict) else {}
-    p = contact.get('phone') or doc.get('phone', '')
-    a = contact.get('office_address') or doc.get('office_address', '')
-    hospitals = service.get('hospitals') or doc.get('surgeries_done_at') or doc.get('hospitals') or []
+    p = get_value(doc, 'phone', lang) or ''
+    a = get_value(doc, 'office_address', lang) or ''
+    hospitals = get_value(doc, 'surgeries_done_at', lang) or get_value(doc, 'hospitals', lang) or []
     if isinstance(hospitals, str):
         hospitals = [hospitals]
     h = "، ".join(str(x) for x in hospitals)
-    pr = service.get('price_range_toman') or doc.get('price_range_toman', '')
-    r = ratings.get('patient_satisfaction_score') or doc.get('patient_satisfaction_score', '')
+    pr = get_value(doc, 'price_range_toman', lang) or ''
+    r = doc.get('patient_satisfaction_score', '')
+    if not r:
+        ratings = doc.get('ratings', {}) if isinstance(doc.get('ratings'), dict) else {}
+        r = ratings.get('patient_satisfaction_score', '')
     if lang == "en":
         return f"Doctor: {n}\nSpecialty: {s}\nAddress: {a}\nHospitals: {h}\nPhone: {p}\nPrice: {pr}\nRating: {r}/5"
     if lang == "ar":
