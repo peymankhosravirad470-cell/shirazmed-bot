@@ -205,6 +205,9 @@ EMERGENCY_RESP = {
 user_state = {}
 user_lang = {}
 
+# شمارنده‌ی رضایت‌ها (برای خلاصه هر ۱۰ تا)
+satisfaction_counter = {"count": 0, "positive": 0, "negative": 0}
+
 def clean(text):
     return text.strip().lower().strip(" .!؟?،,")
 
@@ -395,6 +398,18 @@ def ask_more(message):
     user_state[cid] = "awaiting_more"
     bot.reply_to(message, MSG[user_lang.get(cid, "fa")]["more"])
 
+def get_user_name(message):
+    try:
+        fn = message.from_user.first_name or ""
+        ln = message.from_user.last_name or ""
+        username = message.from_user.username or ""
+        full = (fn + " " + ln).strip()
+        if not full:
+            full = username if username else "ناشناس"
+        return full
+    except:
+        return "ناشناس"
+
 def process_query(message, text, lang):
     doc = search_by_doctor_name(text)
     if doc:
@@ -453,6 +468,9 @@ def admin_command(message):
             lines.append(f"- {path}: {info.get('updated', '?')}")
         if len(files) > 10:
             lines.append(f"... و {len(files) - 10} فایل دیگر")
+    lines.append(f"\n\n📈 آمار نظرسنجی این دوره:")
+    lines.append(f"رضایت: {satisfaction_counter['positive']}")
+    lines.append(f"عدم رضایت: {satisfaction_counter['negative']}")
     bot.reply_to(message, "\n".join(lines))
 
 @bot.message_handler(commands=['start'])
@@ -488,6 +506,7 @@ def handle(message):
 
     lang = user_lang.get(cid, "fa")
     t = clean(text)
+    user_name = get_user_name(message)
 
     if state == "awaiting_more":
         if t in YES_WORDS:
@@ -504,9 +523,12 @@ def handle(message):
         if t in YES_WORDS:
             user_state[cid] = "active"
             bot.reply_to(message, MSG[lang]["thanks"])
-            if ADMIN_CHAT_ID:
+            satisfaction_counter["count"] += 1
+            satisfaction_counter["positive"] += 1
+            if ADMIN_CHAT_ID and satisfaction_counter["count"] % 10 == 0:
                 try:
-                    bot.send_message(ADMIN_CHAT_ID, f"✅ رضایت ({lang})\nاز: {cid}\nپیام: {text}")
+                    summary = f"✅ خلاصه‌ی نظرسنجی (هر ۱۰ تا):\nدر ۱۰ پیام آخر:\n{10} رضایت ثبت شده\n\n(به /admin برای آمار کامل مراجعه کنید)"
+                    bot.send_message(ADMIN_CHAT_ID, summary)
                 except:
                     pass
             return
@@ -519,9 +541,12 @@ def handle(message):
     elif state == "awaiting_feedback":
         user_state[cid] = "active"
         bot.reply_to(message, MSG[lang]["thanks_fb"])
+        satisfaction_counter["count"] += 1
+        satisfaction_counter["negative"] += 1
         if ADMIN_CHAT_ID:
             try:
-                bot.send_message(ADMIN_CHAT_ID, f"❌ عدم رضایت ({lang})\nاز: {cid}\nپیام: {text}")
+                msg = f"❌ عدم رضایت\nزبان: {LANG_NAMES.get(lang, lang)}\nنام بیمار: {user_name}\nChatID: {cid}\nمتن شکایت: {text}"
+                bot.send_message(ADMIN_CHAT_ID, msg)
             except:
                 pass
         return
@@ -536,5 +561,5 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["retry"])
     ask_more(message)
 
-print("ربات روشن شد... v10")
+print("ربات روشن شد... v11")
 bot.polling()
