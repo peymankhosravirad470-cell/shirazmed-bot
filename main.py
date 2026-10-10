@@ -239,7 +239,7 @@ def pick_language(text):
     return None
 
 def english_words(text):
-    return re.findall(r"[a-z]+", text.lower())
+    return re.findall(r"[a-zA-Z]+", text.lower())
 
 def load_json(path):
     try:
@@ -268,19 +268,31 @@ def item_name_for_search(item):
             return str(item[k])
     return ""
 
-# ============ LANGUAGE DETECTION ============
+# ============ FIXED: is_all_request ============
+def is_all_request(text):
+    low = text.lower()
+    words = re.findall(r"\w+", low)
+    for w in ALL_WORDS:
+        if w.lower() in words:
+            return True
+    return False
+
+# ============ NEW: is_emergency ============
+def is_emergency(text):
+    low = text.lower()
+    words = re.findall(r"\w+", low)
+    for ks in EMERGENCY.values():
+        for k in ks:
+            if " " in k:
+                if k in low:
+                    return True
+            else:
+                if k in words:
+                    return True
+    return False
+
+# ============ LANGUAGE DETECTION (غیرفعال شده) ============
 def detect_text_language(text):
-    text = text.strip()
-    if not text:
-        return None
-    has_latin = bool(re.search(r'[a-zA-Z]', text))
-    has_arabic = bool(re.search(r'[\u0600-\u06FF]', text))
-    if has_latin and not has_arabic:
-        return "en"
-    if re.search(r'[پچژگ]', text):
-        return "fa"
-    if re.search(r'[يكةىأإآؤئ]', text):
-        return "ar"
     return None
 
 # ============ DATE HELPERS ============
@@ -448,13 +460,6 @@ def search_non_medical(text):
         return None
     return max(scores, key=scores.get)
 
-def is_all_request(text):
-    low = text.lower()
-    for w in ALL_WORDS:
-        if w in low:
-            return True
-    return False
-
 def is_best_request(text):
     low = text.lower()
     words = english_words(text)
@@ -616,6 +621,10 @@ def get_meta_info():
     except:
         return None
 # ============ HANDLERS ============
+@bot.message_handler(commands=['id'])
+def id_command(message):
+    bot.reply_to(message, str(message.chat.id))
+
 @bot.message_handler(commands=['admin'])
 def admin_command(message):
     if str(message.chat.id) != str(ADMIN_CHAT_ID):
@@ -685,11 +694,6 @@ def handle(message):
         user_state[cid] = "active"
         bot.reply_to(message, MSG[lang]["welcome"])
         return
-
-    if cid in user_lang and state == "active":
-        detected = detect_text_language(text)
-        if detected and detected != user_lang.get(cid):
-            user_lang[cid] = detected
 
     lang = user_lang.get(cid, "fa")
     t = clean(text)
@@ -856,7 +860,7 @@ def handle(message):
                 pass
         return
 
-    if any(k in text.lower() for ks in EMERGENCY.values() for k in ks):
+    if is_emergency(text):
         bot.reply_to(message, EMERGENCY_RESP[lang])
         ask_more(message)
         return
@@ -871,5 +875,5 @@ def handle(message):
     ask_more(message)
 
 # ============ START ============
-print("ربات روشن شد... v25 (کامل)")
-bot.polling()
+print("ربات روشن شد... v26 (کامل با تمام اصلاحات)")
+bot.infinity_polling(timeout=30, long_polling_timeout=30)
