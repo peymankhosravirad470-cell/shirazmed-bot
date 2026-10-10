@@ -875,5 +875,5 @@ def handle(message):
     ask_more(message)
 
 # ============ START ============
-print("ربات روشن شد... v27 (کامل با اعداد فارسی/عربی)")
+print("ربات روشن شد... v28 (کامل با اعداد فارسی/عربی)")
 bot.infinity_polling(timeout=30, long_polling_timeout=30)
