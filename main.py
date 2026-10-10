@@ -998,10 +998,14 @@ def handle(message):
         return
 
     # ===== پردازش عادی =====
-    answered = process_query(message, text, lang)
-    if not answered:
-        bot.reply_to(message, MSG[lang]["retry"])
-    ask_more(message)
+old_state = user_state.get(cid)
+answered = process_query(message, text, lang)
+new_state = user_state.get(cid)
+if new_state != old_state:
+    return
+if not answered:
+    bot.reply_to(message, MSG[lang]["retry"])
+ask_more(message)
 
 # ============ START ============
 print("ربات روشن شد... v20 (نوبت‌گیری چند پزشکی + تاریخ شمسی/میلادی)")
