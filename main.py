@@ -30,7 +30,6 @@ START_MSG = """🌟 سلام و خوش آمدید! از اینکه شیراز م
 2 - العربية
 3 - English"""
 
-# ============ MESSAGES ============
 MSG = {
     "fa": {
         "welcome": "🌟 به شیراز مدیکال خوش آمدید!\n\nهمراه شما در مسیر درمان و اقامت در شیراز؛ با هدفی روشن و خدماتی کامل.\n\n🔹 معرفی پزشکان متخصص و بیمارستان‌های مجهز\n🔹 اقامتگاه‌های مناسب و حمل‌ونقل آسان\n🔹 گشت‌وگذار در جاذبه‌های دیدنی شیراز\n🔹 پشتیبانی و راهنمایی در تمام مراحل\n\nخواسته‌ی خود را بنویسید؛ ما در کنار شما هستیم.\nمثلاً: دکتر قلب",
@@ -43,6 +42,8 @@ MSG = {
         "retry": "متأسفم، الان نتوانستم جواب بدهم. دوباره تلاش کنید.",
         "text_only": "لطفاً سؤال خود را به صورت متن بنویسید.",
         "apt_ask": "📅 برای گرفتن نوبت با این پزشک، شماره ۱ را بزنید.\n📞 برای تماس مستقیم، شماره ۲ را بزنید.",
+        "apt_pick_title": "👨‍⚕️ پزشکان بالا:",
+        "apt_pick_footer": "\n📅 برای گرفتن نوبت، شماره‌ی پزشک مورد نظرت رو بنویس:",
         "apt_date": "🗓 تاریخ نوبت را انتخاب کنید:\n1. امروز\n2. فردا\n3. پس‌فردا\n4. انصراف",
         "apt_time": "⏰ ساعت نوبت را انتخاب کنید:\n1. ۱۰:۰۰ صبح\n2. ۱۲:۰۰ ظهر\n3. ۱۶:۰۰ عصر\n4. ۱۸:۰۰ عصر\n5. ۲۰:۰۰ شب\n6. انصراف",
         "apt_name": "👤 لطفاً نام و نام خانوادگی خود را بنویسید:",
@@ -66,6 +67,8 @@ MSG = {
         "retry": "عذراً، لم أستطع الرد الآن. حاولوا مرة أخرى.",
         "text_only": "يرجى كتابة سؤالكم نصاً.",
         "apt_ask": "📅 لحجز موعد مع هذا الطبيب، اضغط ١.\n📞 للاتصال المباشر، اضغط ٢.",
+        "apt_pick_title": "👨‍⚕️ الأطباء أعلاه:",
+        "apt_pick_footer": "\n📅 لحجز موعد، اكتب رقم الطبيب:",
         "apt_date": "🗓 اختر تاريخ الموعد:\n١. اليوم\n٢. غداً\n٣. بعد الغد\n٤. إلغاء",
         "apt_time": "⏰ اختر وقت الموعد:\n١. ١٠:٠٠ صباحاً\n٢. ١٢:٠٠ ظهراً\n٣. ٤:٠٠ عصراً\n٤. ٦:٠٠ مساءً\n٥. ٨:٠٠ مساءً\n٦. إلغاء",
         "apt_name": "👤 يرجى كتابة الاسم الكامل:",
@@ -89,6 +92,8 @@ MSG = {
         "retry": "Sorry, I couldn't answer right now. Please try again.",
         "text_only": "Please write your question as text.",
         "apt_ask": "📅 To book an appointment with this doctor, press 1.\n📞 For direct call, press 2.",
+        "apt_pick_title": "👨‍⚕️ Doctors above:",
+        "apt_pick_footer": "\n📅 To book, write the doctor number:",
         "apt_date": "🗓 Choose appointment date:\n1. Today\n2. Tomorrow\n3. Day after tomorrow\n4. Cancel",
         "apt_time": "⏰ Choose appointment time:\n1. 10:00 AM\n2. 12:00 PM\n3. 4:00 PM\n4. 6:00 PM\n5. 8:00 PM\n6. Cancel",
         "apt_name": "👤 Please write your full name:",
@@ -374,9 +379,8 @@ def detect_text_language(text):
             return "fa"
     return None
 
-# ============ DATE HELPERS (بدون کتابخانه) ============
+# ============ DATE HELPERS ============
 def gregorian_to_shamsi(g_y, g_m, g_d):
-    """تبدیل تاریخ میلادی به شمسی"""
     g_days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     j_days_in_month = [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29]
     gy = g_y - 1600
@@ -406,7 +410,6 @@ def gregorian_to_shamsi(g_y, g_m, g_d):
     return jy, jm, jd
 
 def format_date_full(offset_days=0, lang="fa"):
-    """نمایش تاریخ شمسی + میلادی"""
     today = datetime.now() + timedelta(days=offset_days)
     miladi = today.strftime("%Y/%m/%d")
     try:
@@ -690,12 +693,22 @@ def process_query(message, text, lang):
             limit = 1
         else:
             limit = 3
-        for d in docs[:limit]:
+        shown = docs[:limit]
+        for d in shown:
             bot.reply_to(message, format_doctor(d, lang))
-        if limit == 1 and len(docs) > 0:
-            user_temp[cid] = {"doctor": docs[0]}
+        if len(shown) == 1:
+            user_temp[cid] = {"doctor": shown[0]}
             user_state[cid] = "awaiting_apt_choice"
             bot.reply_to(message, MSG[lang]["apt_ask"])
+        elif len(shown) > 1:
+            user_temp[cid] = {"doctors": shown}
+            user_state[cid] = "awaiting_apt_pick"
+            lines = [MSG[lang]["apt_pick_title"]]
+            for i, d in enumerate(shown, 1):
+                name = d.get(f"name_{lang}") or d.get('name_fa', '')
+                lines.append(f"{i}. {name}")
+            lines.append(MSG[lang]["apt_pick_footer"])
+            bot.reply_to(message, "\n".join(lines))
         return True
     # ۳. جستجوی غیرپزشکی
     fn = search_non_medical(text)
@@ -739,11 +752,7 @@ def admin_command(message):
     files = meta.get("files", {})
     if files:
         lines.append(f"\n📁 تعداد فایل‌ها: {len(files)}")
-        for path, info in list(files.items())[:10]:
-            lines.append(f"- {path}: {info.get('updated', '?')}")
-        if len(files) > 10:
-            lines.append(f"... و {len(files) - 10} فایل دیگر")
-    lines.append(f"\n\n📈 آمار نظرسنجی این دوره:")
+    lines.append(f"\n📈 آمار نظرسنجی این دوره:")
     lines.append(f"رضایت: {satisfaction_counter['positive']}")
     lines.append(f"عدم رضایت: {satisfaction_counter['negative']}")
     apt_data = load_appointments()
@@ -789,7 +798,7 @@ def handle(message):
     text = message.text or ""
     state = user_state.get(cid)
 
-    # ===== مرحله انتخاب زبان =====
+    # ===== انتخاب زبان =====
     if state is None or state == "choose_lang":
         lang = pick_language(text)
         if lang is None:
@@ -801,7 +810,7 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["welcome"])
         return
 
-    # ===== تعویض خودکار زبان (فقط توی حالت active) =====
+    # ===== تعویض خودکار زبان (فقط توی active) =====
     if cid in user_lang and state == "active":
         detected = detect_text_language(text)
         if detected and detected != user_lang.get(cid):
@@ -810,6 +819,19 @@ def handle(message):
     lang = user_lang.get(cid, "fa")
     t = clean(text)
     user_name = get_user_name(message)
+
+    # ===== awaiting_apt_pick =====
+    if state == "awaiting_apt_pick":
+        pick_map = {"1": 0, "۱": 0, "یک": 0, "2": 1, "۲": 1, "دو": 1, "3": 2, "۳": 2, "سه": 2}
+        if t in pick_map:
+            idx = pick_map[t]
+            doctors = user_temp.get(cid, {}).get("doctors", [])
+            if idx < len(doctors):
+                user_temp[cid] = {"doctor": doctors[idx]}
+                user_state[cid] = "awaiting_apt_choice"
+                bot.reply_to(message, MSG[lang]["apt_ask"])
+                return
+        user_state[cid] = "active"
 
     # ===== awaiting_apt_choice =====
     if state == "awaiting_apt_choice":
@@ -982,5 +1004,5 @@ def handle(message):
     ask_more(message)
 
 # ============ START ============
-print("ربات روشن شد... v19 (نوبت‌گیری + تاریخ شمسی/میلادی)")
+print("ربات روشن شد... v20 (نوبت‌گیری چند پزشکی + تاریخ شمسی/میلادی)")
 bot.polling()
