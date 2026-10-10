@@ -1,2 +1,6 @@
 pyTelegramBotAPI
 requests
+pyTelegramBotAPI
+requests
+jdatetime
+hijri-converter
