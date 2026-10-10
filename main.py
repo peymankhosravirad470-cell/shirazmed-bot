@@ -807,5 +807,5 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["retry"])
     ask_more(message)
 
-print("ربات روشن شد... v22")
+print("ربات روشن شد... v23")
 bot.polling()
