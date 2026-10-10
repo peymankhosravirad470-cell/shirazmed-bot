@@ -1007,6 +1007,7 @@ if not answered:
     bot.reply_to(message, MSG[lang]["retry"])
 ask_more(message)
 
+
 # ============ START ============
 print("ربات روشن شد... v20 (نوبت‌گیری چند پزشکی + تاریخ شمسی/میلادی)")
 bot.polling()
