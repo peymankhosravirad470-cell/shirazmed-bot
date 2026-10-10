@@ -1,13 +1,5 @@
 import json, os, re, telebot, requests
 from datetime import datetime, timedelta
-try:
-    import jdatetime
-except:
-    jdatetime = None
-try:
-    from hijri_converter import Gregorian
-except:
-    Gregorian = None
 
 # ============ CONFIG ============
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
@@ -50,13 +42,12 @@ MSG = {
         "thanks_fb": "ممنون از نظرتان. 🙏",
         "retry": "متأسفم، الان نتوانستم جواب بدهم. دوباره تلاش کنید.",
         "text_only": "لطفاً سؤال خود را به صورت متن بنویسید.",
-        # ===== نوبت‌گیری =====
         "apt_ask": "📅 برای گرفتن نوبت با این پزشک، شماره ۱ را بزنید.\n📞 برای تماس مستقیم، شماره ۲ را بزنید.",
         "apt_date": "🗓 تاریخ نوبت را انتخاب کنید:\n1. امروز\n2. فردا\n3. پس‌فردا\n4. انصراف",
         "apt_time": "⏰ ساعت نوبت را انتخاب کنید:\n1. ۱۰:۰۰ صبح\n2. ۱۲:۰۰ ظهر\n3. ۱۶:۰۰ عصر\n4. ۱۸:۰۰ عصر\n5. ۲۰:۰۰ شب\n6. انصراف",
         "apt_name": "👤 لطفاً نام و نام خانوادگی خود را بنویسید:",
         "apt_phone": "📞 لطفاً شماره تماس خود را بنویسید (مثال: 09123456789):",
-        "apt_confirmed": "✅ نوبت شما با موفقیت ثبت شد!\n\n📋 کد پیگیری: {id}\n👨‍⚕️ پزشک: {doctor}\n📅 تاریخ: {date}\n⏰ ساعت: {time}\n📍 آدرس: {address}\n\n🔔 یادآوری: یک روز قبل و دو ساعت قبل از نوبت به شما اطلاع می‌دهیم.\n\nلطفاً کد پیگیری را نزد خود نگه دارید.",
+        "apt_confirmed": "✅ نوبت شما با موفقیت ثبت شد!\n\n📋 کد پیگیری: {id}\n👨‍⚕️ پزشک: {doctor}\n📅 تاریخ: {date}\n⏰ ساعت: {time}\n📍 آدرس: {address}\n\nلطفاً کد پیگیری را نزد خود نگه دارید.",
         "apt_cancelled": "❌ ثبت نوبت لغو شد.",
         "apt_invalid": "لطفاً یکی از شماره‌های داده شده را بزنید.",
         "apt_error": "❌ متأسفانه در ثبت نوبت مشکلی پیش آمد. لطفاً دوباره تلاش کنید.",
@@ -74,13 +65,12 @@ MSG = {
         "thanks_fb": "شكراً لملاحظاتكم. 🙏",
         "retry": "عذراً، لم أستطع الرد الآن. حاولوا مرة أخرى.",
         "text_only": "يرجى كتابة سؤالكم نصاً.",
-        # ===== نوبت‌گیری =====
         "apt_ask": "📅 لحجز موعد مع هذا الطبيب، اضغط ١.\n📞 للاتصال المباشر، اضغط ٢.",
         "apt_date": "🗓 اختر تاريخ الموعد:\n١. اليوم\n٢. غداً\n٣. بعد الغد\n٤. إلغاء",
         "apt_time": "⏰ اختر وقت الموعد:\n١. ١٠:٠٠ صباحاً\n٢. ١٢:٠٠ ظهراً\n٣. ٤:٠٠ عصراً\n٤. ٦:٠٠ مساءً\n٥. ٨:٠٠ مساءً\n٦. إلغاء",
         "apt_name": "👤 يرجى كتابة الاسم الكامل:",
         "apt_phone": "📞 يرجى كتابة رقم الهاتف (مثال: 09123456789):",
-        "apt_confirmed": "✅ تم تسجيل موعدكم بنجاح!\n\n📋 رقم المتابعة: {id}\n👨‍⚕️ الطبيب: {doctor}\n📅 التاريخ: {date}\n⏰ الوقت: {time}\n📍 العنوان: {address}\n\n🔔 سنذكركم قبل الموعد بيوم وقبل ساعتين.\n\nيرجى الاحتفاظ برقم المتابعة.",
+        "apt_confirmed": "✅ تم تسجيل موعدكم بنجاح!\n\n📋 رقم المتابعة: {id}\n👨‍⚕️ الطبيب: {doctor}\n📅 التاريخ: {date}\n⏰ الوقت: {time}\n📍 العنوان: {address}\n\nيرجى الاحتفاظ برقم المتابعة.",
         "apt_cancelled": "❌ تم إلغاء تسجيل الموعد.",
         "apt_invalid": "يرجى الضغط على أحد الأرقام المعطاة.",
         "apt_error": "❌ عذراً، حدثت مشكلة في تسجيل الموعد. حاولوا مرة أخرى.",
@@ -98,13 +88,12 @@ MSG = {
         "thanks_fb": "Thank you for your feedback. 🙏",
         "retry": "Sorry, I couldn't answer right now. Please try again.",
         "text_only": "Please write your question as text.",
-        # ===== نوبت‌گیری =====
         "apt_ask": "📅 To book an appointment with this doctor, press 1.\n📞 For direct call, press 2.",
         "apt_date": "🗓 Choose appointment date:\n1. Today\n2. Tomorrow\n3. Day after tomorrow\n4. Cancel",
         "apt_time": "⏰ Choose appointment time:\n1. 10:00 AM\n2. 12:00 PM\n3. 4:00 PM\n4. 6:00 PM\n5. 8:00 PM\n6. Cancel",
         "apt_name": "👤 Please write your full name:",
         "apt_phone": "📞 Please write your phone number (e.g., 09123456789):",
-        "apt_confirmed": "✅ Your appointment has been booked successfully!\n\n📋 Tracking code: {id}\n👨‍⚕️ Doctor: {doctor}\n📅 Date: {date}\n⏰ Time: {time}\n📍 Address: {address}\n\n🔔 We will remind you one day before and two hours before.\n\nPlease keep your tracking code.",
+        "apt_confirmed": "✅ Your appointment has been booked successfully!\n\n📋 Tracking code: {id}\n👨‍⚕️ Doctor: {doctor}\n📅 Date: {date}\n⏰ Time: {time}\n📍 Address: {address}\n\nPlease keep your tracking code.",
         "apt_cancelled": "❌ Appointment booking cancelled.",
         "apt_invalid": "Please press one of the given numbers.",
         "apt_error": "❌ Sorry, there was a problem booking. Please try again.",
@@ -204,7 +193,7 @@ NO_WORDS = {"نه", "نخیر", "خیر", "نه ممنون", "نه، ممنون"
 ALL_WORDS = ["همه", "تمام", "کل", "همگی", "all", "كل", "جميع"]
 
 # ============================================================
-#  SPECIALTY MAP — کلیدواژه‌های سه‌زبانه برای ۲۲ تخصص پزشکی
+#  SPECIALTY MAP
 # ============================================================
 SPECIALTY_MAP = {}
 
@@ -258,7 +247,7 @@ add_specialty("neurosurgery.json",
     "مغز و اعصاب", "جراحی مغز", "نوروسرجری", "neurosurgery", "neurology", "نورولوژی", "دماغ", "أعصاب", "دماغي", "صرع", "ام اس", "ms")
 
 # ============================================================
-#  NON MEDICAL MAP — کلیدواژه‌های سه‌زبانه برای ۱۲ دسته
+#  NON MEDICAL MAP
 # ============================================================
 NON_MEDICAL_MAP = {
     "hospitals.json": ["بیمارستان", "hospital", "مستشفى", "مستشفيات", "كلينيك", "کلینیک", "clinic"],
@@ -293,7 +282,7 @@ EMERGENCY_RESP = {
 # ============ STATE ============
 user_state = {}
 user_lang = {}
-user_temp = {}  # ذخیره‌ی اطلاعات موقت نوبت
+user_temp = {}
 satisfaction_counter = {"count": 0, "positive": 0, "negative": 0}
 
 # ============ HELPERS ============
@@ -365,7 +354,7 @@ def detect_text_language(text):
             "اقامت", "هتل", "مسافرخانه", "بلیط", "تور", "سفر", "جاذبه", "گردش",
             "شیراز", "فارسی", "خوب", "بله", "نه", "الان", "امروز", "فردا", "دیروز",
             "بیمه", "قیمت", "هزینه", "پول", "پرداخت", "کلینیک",
-            "میکنم", "میکنید", "بگرد", "پیدا", "بهترین", "نوبت", "وقت"
+            "میکنم", "میکنید", "بگرد", "پیدا", "بهترین", "وقت"
         }
         arabic_markers = {
             "هل", "هناك", "أريد", "أحتاج", "أبحث", "أستطيع", "لدي", "عندي",
@@ -385,43 +374,51 @@ def detect_text_language(text):
             return "fa"
     return None
 
-# ============ DATE HELPERS (سه‌زبانه) ============
-def get_date_strings(offset_days=0):
-    """تاریخ شمسی، میلادی، قمری با آفست روز"""
-    today = datetime.now() + timedelta(days=offset_days)
-    # میلادی
-    miladi = today.strftime("%Y/%m/%d")
-    # شمسی
-    shamsi = "—"
-    if jdatetime:
-        try:
-            j = jdatetime.date.fromgregorian(date=today.date())
-            shamsi = j.strftime("%Y/%m/%d")
-        except:
-            pass
-    # قمری
-    ghamari = "—"
-    if Gregorian:
-        try:
-            h = Gregorian(today.year, today.month, today.day).to_hijri()
-            ghamari = f"{h.year}/{h.month:02d}/{h.day:02d}"
-        except:
-            pass
-    return {
-        "miladi": miladi,
-        "shamsi": shamsi,
-        "ghamari": ghamari,
-        "weekday_fa": ["دوشنبه", "سه‌شنبه", "چهارشنبه", "پنجشنبه", "جمعه", "شنبه", "یکشنبه"][today.weekday()],
-    }
+# ============ DATE HELPERS (بدون کتابخانه) ============
+def gregorian_to_shamsi(g_y, g_m, g_d):
+    """تبدیل تاریخ میلادی به شمسی"""
+    g_days_in_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    j_days_in_month = [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29]
+    gy = g_y - 1600
+    gm = g_m - 1
+    gd = g_d - 1
+    g_day_no = 365 * gy + (gy + 3) // 4 - (gy + 99) // 100 + (gy + 399) // 400
+    for i in range(gm):
+        g_day_no += g_days_in_month[i]
+    if gm > 1 and ((g_y % 4 == 0 and g_y % 100 != 0) or (g_y % 400 == 0)):
+        g_day_no += 1
+    g_day_no += gd
+    j_day_no = g_day_no - 79
+    j_np = j_day_no // 12053
+    j_day_no %= 12053
+    jy = 979 + 33 * j_np + 4 * (j_day_no // 1461)
+    j_day_no %= 1461
+    if j_day_no >= 366:
+        jy += (j_day_no - 1) // 365
+        j_day_no = (j_day_no - 1) % 365
+    i = 0
+    for i in range(11):
+        if j_day_no < j_days_in_month[i]:
+            break
+        j_day_no -= j_days_in_month[i]
+    jm = i + 1
+    jd = j_day_no + 1
+    return jy, jm, jd
 
 def format_date_full(offset_days=0, lang="fa"):
-    """نمایش کامل تاریخ سه‌زبانه"""
-    d = get_date_strings(offset_days)
+    """نمایش تاریخ شمسی + میلادی"""
+    today = datetime.now() + timedelta(days=offset_days)
+    miladi = today.strftime("%Y/%m/%d")
+    try:
+        jy, jm, jd = gregorian_to_shamsi(today.year, today.month, today.day)
+        shamsi = f"{jy}/{jm:02d}/{jd:02d}"
+    except:
+        shamsi = "—"
     if lang == "en":
-        return f"{d['miladi']}  (Shamsi: {d['shamsi']})"
+        return f"{miladi} (Shamsi: {shamsi})"
     if lang == "ar":
-        return f"{d['ghamari']} هـ.ق  |  {d['miladi']} م"
-    return f"{d['shamsi']} ش  |  {d['miladi']} م  |  {d['ghamari']} ق"
+        return f"{miladi} م  |  {shamsi} ش"
+    return f"{shamsi} ش  |  {miladi} م"
 # ============ APPOINTMENTS ============
 APPOINTMENTS_FILE = "data/appointments.json"
 
@@ -461,9 +458,7 @@ def create_appointment(doctor, patient_name, patient_phone, chat_id, lang, date_
         "date": date_str,
         "time": time_str,
         "status": "confirmed",
-        "created_at": datetime.now().strftime("%Y/%m/%d %H:%M"),
-        "reminder_1day_sent": False,
-        "reminder_2hour_sent": False
+        "created_at": datetime.now().strftime("%Y/%m/%d %H:%M")
     }
     data['appointments'].append(appointment)
     save_appointments(data)
@@ -697,7 +692,6 @@ def process_query(message, text, lang):
             limit = 3
         for d in docs[:limit]:
             bot.reply_to(message, format_doctor(d, lang))
-        # اگه فقط یه پزشک بود، نوبت‌گیری پیشنهاد بده
         if limit == 1 and len(docs) > 0:
             user_temp[cid] = {"doctor": docs[0]}
             user_state[cid] = "awaiting_apt_choice"
@@ -752,7 +746,6 @@ def admin_command(message):
     lines.append(f"\n\n📈 آمار نظرسنجی این دوره:")
     lines.append(f"رضایت: {satisfaction_counter['positive']}")
     lines.append(f"عدم رضایت: {satisfaction_counter['negative']}")
-    # تعداد نوبت‌ها
     apt_data = load_appointments()
     lines.append(f"\n📅 کل نوبت‌های ثبت‌شده: {len(apt_data['appointments'])}")
     bot.reply_to(message, "\n".join(lines))
@@ -808,7 +801,7 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["welcome"])
         return
 
-    # ===== تعویض خودکار زبان =====
+    # ===== تعویض خودکار زبان (فقط توی حالت active) =====
     if cid in user_lang and state == "active":
         detected = detect_text_language(text)
         if detected and detected != user_lang.get(cid):
@@ -825,11 +818,12 @@ def handle(message):
             bot.reply_to(message, MSG[lang]["apt_date"])
             return
         if t in ("2", "۲", "دو"):
+            doctor = user_temp.get(cid, {}).get("doctor", {})
+            phone = doctor.get("phone", "")
             user_state[cid] = "active"
-            bot.reply_to(message, "📞 " + (user_temp.get(cid, {}).get("doctor", {}).get("phone", "")))
+            bot.reply_to(message, f"📞 {phone}")
             ask_more(message)
             return
-        # اگه چیز دیگه‌ای گفت، برو حالت active
         user_state[cid] = "active"
 
     # ===== awaiting_apt_date =====
@@ -912,11 +906,8 @@ def handle(message):
                 doc_name = doctor.get(f"name_{lang}") or doctor.get("name_fa", "")
                 address = doctor.get(f"office_address_{lang}") or doctor.get("office_address_fa", "")
                 msg = MSG[lang]["apt_confirmed"].format(
-                    id=apt['id'],
-                    doctor=doc_name,
-                    date=date_str,
-                    time=time_str,
-                    address=address
+                    id=apt['id'], doctor=doc_name, date=date_str,
+                    time=time_str, address=address
                 )
                 bot.reply_to(message, msg)
                 if ADMIN_CHAT_ID:
@@ -925,7 +916,7 @@ def handle(message):
                             f"📅 نوبت جدید\nکد: {apt['id']}\nبیمار: {patient_name}\nتلفن: {patient_phone}\nپزشک: {doc_name}\nتاریخ: {date_str}\nساعت: {time_str}\nChatID: {cid}")
                     except:
                         pass
-            except Exception as e:
+            except Exception:
                 bot.reply_to(message, MSG[lang]["apt_error"])
             user_temp.pop(cid, None)
             ask_more(message)
@@ -991,5 +982,5 @@ def handle(message):
     ask_more(message)
 
 # ============ START ============
-print("ربات روشن شد... v19 (نسخه سه‌زبانه + نوبت‌گیری + تاریخ سه‌گانه)")
+print("ربات روشن شد... v19 (نوبت‌گیری + تاریخ شمسی/میلادی)")
 bot.polling()
