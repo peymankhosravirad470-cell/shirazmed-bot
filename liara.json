@@ -1,5 +1,5 @@
 {
-  "platform": "python",
+  "platform": "docker",
   "app": "shirazmed",
   "port": 8080
 }
