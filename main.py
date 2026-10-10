@@ -1,6 +1,11 @@
-import json, os, re, telebot, requests
+import json
+import os
+import re
+import telebot
+import requests
 from datetime import datetime, timedelta
 
+# ============ CONFIG ============
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 AVALAI_API_KEY = os.environ.get("AVALAI_API_KEY", "")
 BALE_BOT_TOKEN = os.environ.get("BALE_BOT_TOKEN", "")
@@ -8,6 +13,7 @@ ADMIN_CHAT_ID = os.environ.get("ADMIN_CHAT_ID", "")
 AI_MODEL = "gpt-4o-mini"
 AVALAI_URL = "https://api.avalai.ir/v1/chat/completions"
 
+# ============ BOT INIT ============
 if BALE_BOT_TOKEN:
     telebot.apihelper.API_URL = "https://tapi.bale.ai/bot{0}/{1}"
     telebot.apihelper.FILE_URL = "https://tapi.bale.ai/file/bot{0}/{1}"
@@ -105,17 +111,57 @@ MSG = {
         "apt_confirm_final": "Confirm this appointment? (Yes / No)\n\n👤 Name: {name}\n📞 Phone: {phone}\n📅 Date: {date}\n⏰ Time: {time}",
     },
 }
+# ============ FIELD NAMES ============
 FIELD_NAMES = {
-    "fa": {"name": "نام", "address": "آدرس", "phone": "تلفن", "specialty": "تخصص", "office_address": "آدرس مطب", "working_hours": "ساعت کاری", "price_range_toman": "قیمت", "patient_satisfaction_score": "امتیاز", "reviews_summary": "نظر مسافران"},
-    "ar": {"name": "الاسم", "address": "العنوان", "phone": "الهاتف", "specialty": "التخصص", "office_address": "عنوان العيادة", "working_hours": "ساعات العمل", "price_range_toman": "السعر", "patient_satisfaction_score": "التقييم", "reviews_summary": "آراء الزوار"},
-    "en": {"name": "Name", "address": "Address", "phone": "Phone", "specialty": "Specialty", "office_address": "Office Address", "working_hours": "Working Hours", "price_range_toman": "Price", "patient_satisfaction_score": "Rating", "reviews_summary": "Reviews"},
+    "fa": {
+        "name": "نام", "address": "آدرس", "phone": "تلفن", "specialty": "تخصص",
+        "office_address": "آدرس مطب", "working_hours": "ساعت کاری",
+        "price_range_toman": "قیمت", "patient_satisfaction_score": "امتیاز",
+        "reviews_summary": "نظر مسافران", "surgeries_done_at": "بیمارستان‌ها",
+        "category": "دسته", "star_rating": "ستاره", "quality_grade": "کیفیت",
+        "district": "منطقه", "amenities": "امکانات", "distance_to_hospitals": "فاصله تا بیمارستان",
+        "has_translator": "مترجم", "languages_spoken": "زبان‌ها",
+        "description": "توضیحات", "services": "خدمات",
+        "pharmacy_code": "کد داروخانه", "services_offered": "خدمات ارائه‌شده",
+        "is_24h": "شبانه‌روزی", "ipd_code": "کد IPD",
+        "ownership": "مالکیت", "specialties": "تخصص‌ها",
+    },
+    "ar": {
+        "name": "الاسم", "address": "العنوان", "phone": "الهاتف", "specialty": "التخصص",
+        "office_address": "عنوان العيادة", "working_hours": "ساعات العمل",
+        "price_range_toman": "السعر", "patient_satisfaction_score": "التقييم",
+        "reviews_summary": "آراء الزوار", "surgeries_done_at": "المستشفيات",
+        "category": "الفئة", "star_rating": "التصنيف", "quality_grade": "الجودة",
+        "district": "المنطقة", "amenities": "المرافق", "distance_to_hospitals": "المسافة إلى المستشفيات",
+        "has_translator": "مترجم", "languages_spoken": "اللغات",
+        "description": "الوصف", "services": "الخدمات",
+        "pharmacy_code": "رمز الصيدلية", "services_offered": "الخدمات المقدمة",
+        "is_24h": "على مدار الساعة", "ipd_code": "رمز IPD",
+        "ownership": "الملكية", "specialties": "التخصصات",
+    },
+    "en": {
+        "name": "Name", "address": "Address", "phone": "Phone", "specialty": "Specialty",
+        "office_address": "Office Address", "working_hours": "Working Hours",
+        "price_range_toman": "Price", "patient_satisfaction_score": "Rating",
+        "reviews_summary": "Reviews", "surgeries_done_at": "Hospitals",
+        "category": "Category", "star_rating": "Star Rating", "quality_grade": "Quality",
+        "district": "District", "amenities": "Amenities", "distance_to_hospitals": "Distance to Hospitals",
+        "has_translator": "Has Translator", "languages_spoken": "Languages",
+        "description": "Description", "services": "Services",
+        "pharmacy_code": "Pharmacy Code", "services_offered": "Services Offered",
+        "is_24h": "24 Hours", "ipd_code": "IPD Code",
+        "ownership": "Ownership", "specialties": "Specialties",
+    },
 }
 
+# ============ WORDS ============
 YES_WORDS = {"بله", "بلی", "آره", "اره", "yes", "yeah", "y", "نعم", "ايوه", "أيوه"}
 NO_WORDS = {"نه", "نخیر", "خیر", "نه ممنون", "ندارم", "no", "nope", "n", "لا", "لا شكرا"}
 ALL_WORDS = ["همه", "تمام", "کل", "همگی", "all", "كل", "جميع"]
 
+# ============ SPECIALTY MAP ============
 SPECIALTY_MAP = {}
+
 def add_specialty(filename, *words):
     for w in words:
         SPECIALTY_MAP[w.lower()] = filename
@@ -143,6 +189,7 @@ add_specialty("hematology_oncology.json", "خون", "آنکولوژی", "سرط�
 add_specialty("endocrinology.json", "غدد", "تیروئید", "دیابت", "endocrinology", "غدة", "سكري", "درقية")
 add_specialty("neurosurgery.json", "مغز و اعصاب", "نوروسرجری", "neurosurgery", "دماغ", "أعصاب", "صرع", "ms")
 
+# ============ NON MEDICAL MAP ============
 NON_MEDICAL_MAP = {
     "hospitals.json": ["بیمارستان", "hospital", "مستشفى", "کلینیک", "clinic"],
     "hotels.json": ["هتل", "hotel", "فندق", "فنادق", "اقامتگاه"],
@@ -158,22 +205,26 @@ NON_MEDICAL_MAP = {
 
 CONTEXT_WORDS = ["بیمارستان", "hospital", "مستشفى", "شیراز", "shiraz", "شيراز", "doctor", "دکتر", "طبيب", "dr"]
 
+# ============ EMERGENCY ============
 EMERGENCY = {
     "fa": ["درد شدید", "تب", "خونریزی", "استفراغ", "ضعف", "غش"],
     "ar": ["ألم شديد", "حمى", "نزيف", "قيء", "ضعف", "إغماء"],
     "en": ["severe pain", "fever", "bleeding", "vomiting", "weakness", "fainting"]
 }
+
 EMERGENCY_RESP = {
     "fa": "🚨 فوراً به اورژانس مراجعه کن. تلفن: ۱۱۵",
     "ar": "🚨 توجه فوراً إلى الطوارئ. هاتف: ۱۱۵",
     "en": "🚨 Go to emergency. Phone: 115"
 }
 
+# ============ STATE ============
 user_state = {}
 user_lang = {}
 user_temp = {}
 satisfaction_counter = {"count": 0, "positive": 0, "negative": 0}
 
+# ============ BASIC HELPERS ============
 def clean(text):
     return text.strip().lower().strip(" .!؟?،,")
 
@@ -217,6 +268,7 @@ def item_name_for_search(item):
             return str(item[k])
     return ""
 
+# ============ LANGUAGE DETECTION ============
 def detect_text_language(text):
     text = text.strip()
     if not text:
@@ -231,6 +283,7 @@ def detect_text_language(text):
         return "ar"
     return None
 
+# ============ DATE HELPERS ============
 def gregorian_to_shamsi(g_y, g_m, g_d):
     gdm = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     jdm = [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29]
@@ -271,6 +324,7 @@ def format_date_full(offset_days=0, lang="fa"):
     if lang == "ar":
         return miladi + " - " + shamsi
     return shamsi + " - " + miladi
+# ============ APPOINTMENTS ============
 APPOINTMENTS_FILE = "data/appointments.json"
 
 def load_appointments():
@@ -319,6 +373,7 @@ def get_patient_appointments(chat_id):
     data = load_appointments()
     return [a for a in data['appointments'] if a['patient_chat_id'] == str(chat_id)]
 
+# ============ SEARCH FUNCTIONS ============
 def search_by_doctor_name(text):
     low = text.lower()
     st = low
@@ -407,6 +462,7 @@ def is_best_request(text):
         return True
     return False
 
+# ============ FORMATTERS ============
 def format_doctor(doc, lang):
     n = get_value(doc, 'name', lang) or ''
     s = get_value(doc, 'specialty', lang) or ''
@@ -453,6 +509,8 @@ def format_generic(item, lang):
             seen.add(k)
             val = v
             label = fnames.get(k, k)
+        if val is None:
+            continue
         if isinstance(val, list):
             val = " - ".join(str(x) for x in val)
         elif isinstance(val, dict):
@@ -462,10 +520,12 @@ def format_generic(item, lang):
                     vv = " - ".join(str(x) for x in vv)
                 parts.append(str(kk) + ": " + str(vv))
             val = " - ".join(parts)
-        if val and str(val).strip() and str(val) != 'None':
-            lines.append(str(label) + ": " + str(val))
+        sv = str(val).strip()
+        if sv and sv != 'None':
+            lines.append(str(label) + ": " + sv)
     return "\n".join(lines)
 
+# ============ AI ============
 def get_ai(text, lang):
     prompt = SYSTEM_PROMPT + " پاسخ را به زبان " + LANG_NAMES[lang] + " بنویس."
     try:
@@ -477,6 +537,7 @@ def get_ai(text, lang):
     except:
         return None
 
+# ============ STATE HELPERS ============
 def ask_more(message):
     cid = message.chat.id
     user_state[cid] = "awaiting_more"
@@ -496,6 +557,7 @@ def get_user_name(message):
     except:
         return "ناشناس"
 
+# ============ QUERY PROCESSOR ============
 def process_query(message, text, lang):
     cid = message.chat.id
     doc = search_by_doctor_name(text)
@@ -553,6 +615,7 @@ def get_meta_info():
             return json.load(f)
     except:
         return None
+# ============ HANDLERS ============
 @bot.message_handler(commands=['admin'])
 def admin_command(message):
     if str(message.chat.id) != str(ADMIN_CHAT_ID):
@@ -807,5 +870,6 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["retry"])
     ask_more(message)
 
-print("ربات روشن شد... v23")
+# ============ START ============
+print("ربات روشن شد... v24 (کامل)")
 bot.polling()
