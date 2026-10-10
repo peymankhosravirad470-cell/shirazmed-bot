@@ -871,5 +871,5 @@ def handle(message):
     ask_more(message)
 
 # ============ START ============
-print("ربات روشن شد... v24 (کامل)")
+print("ربات روشن شد... v25 (کامل)")
 bot.polling()
