@@ -40,7 +40,7 @@ MSG = {
         "more": "سؤال دیگری دارید؟ (بله / نه)",
         "go": "بفرمایید، سؤالتان را بنویسید.",
         "rate": "🙏 از خدمات ما راضی بودید؟ (بله / خیر)",
-        "thanks": "سپاسگزاریم. 🙏",
+        "thanks": "🙏 سپاسگزاریم!\n\nاگر از خدمات ما راضی بودید، لطفاً ما را به دوستان و آشنایان خود معرفی کنید. 🌹",
         "why": "متأسفیم. لطفاً بنویسید چه چیزی باعث نارضایتی شد.",
         "thanks_fb": "ممنون از نظرتان. 🙏",
         "retry": "متأسفم، الان نتوانستم جواب بدهم. دوباره تلاش کنید.",
@@ -65,7 +65,7 @@ MSG = {
         "more": "هل لديكم سؤال آخر؟ (نعم / لا)",
         "go": "تفضلوا، اكتبوا سؤالكم.",
         "rate": "🙏 هل أنتم راضون عن خدماتنا؟ (نعم / لا)",
-        "thanks": "شكراً لكم. 🙏",
+        "thanks": "🙏 شكراً لكم!\n\nإذا كنتم راضين عن خدماتنا، يرجى تعريفنا لأصدقائكم ومعارفكم. 🌹",
         "why": "نأسف. يرجى كتابة سبب عدم رضاكم.",
         "thanks_fb": "شكراً لملاحظاتكم. 🙏",
         "retry": "عذراً، لم أستطع الرد الآن.",
@@ -90,7 +90,7 @@ MSG = {
         "more": "Any other question? (Yes / No)",
         "go": "Please go ahead.",
         "rate": "🙏 Were you satisfied? (Yes / No)",
-        "thanks": "Thank you. 🙏",
+        "thanks": "🙏 Thank you!\n\nIf you were satisfied with our services, please recommend us to your friends and acquaintances. 🌹",
         "why": "We're sorry. Please tell us what went wrong.",
         "thanks_fb": "Thank you for your feedback. 🙏",
         "retry": "Sorry, I couldn't answer. Please try again.",
@@ -159,6 +159,9 @@ YES_WORDS = {"بله", "بلی", "آره", "اره", "yes", "yeah", "y", "نعم
 NO_WORDS = {"نه", "نخیر", "خیر", "نه ممنون", "ندارم", "no", "nope", "n", "لا", "لا شكرا"}
 ALL_WORDS = ["همه", "تمام", "کل", "همگی", "all", "كل", "جميع"]
 
+# ============ DIGITS (تبدیل اعداد فارسی/عربی) ============
+DIGITS = str.maketrans("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩", "01234567890123456789")
+
 # ============ SPECIALTY MAP ============
 SPECIALTY_MAP = {}
 
@@ -226,7 +229,7 @@ satisfaction_counter = {"count": 0, "positive": 0, "negative": 0}
 
 # ============ BASIC HELPERS ============
 def clean(text):
-    return text.strip().lower().strip(" .!؟?،,")
+    return text.translate(DIGITS).strip().lower().strip(" .!؟?،,")
 
 def pick_language(text):
     t = clean(text)
@@ -268,7 +271,6 @@ def item_name_for_search(item):
             return str(item[k])
     return ""
 
-# ============ FIXED: is_all_request ============
 def is_all_request(text):
     low = text.lower()
     words = re.findall(r"\w+", low)
@@ -277,7 +279,6 @@ def is_all_request(text):
             return True
     return False
 
-# ============ NEW: is_emergency ============
 def is_emergency(text):
     low = text.lower()
     words = re.findall(r"\w+", low)
@@ -291,7 +292,6 @@ def is_emergency(text):
                     return True
     return False
 
-# ============ LANGUAGE DETECTION (غیرفعال شده) ============
 def detect_text_language(text):
     return None
 
@@ -773,7 +773,7 @@ def handle(message):
         return
 
     if state == "awaiting_apt_phone":
-        phone = re.sub(r'[^0-9+]', '', text.strip())
+        phone = re.sub(r'[^0-9+]', '', text.translate(DIGITS).strip())
         if len(phone) < 8:
             bot.reply_to(message, MSG[lang]["apt_phone"])
             return
@@ -875,5 +875,5 @@ def handle(message):
     ask_more(message)
 
 # ============ START ============
-print("ربات روشن شد... v26 (کامل با تمام اصلاحات)")
+print("ربات روشن شد... v27 (کامل با اعداد فارسی/عربی)")
 bot.infinity_polling(timeout=30, long_polling_timeout=30)
