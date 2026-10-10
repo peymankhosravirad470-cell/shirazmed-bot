@@ -997,7 +997,7 @@ def handle(message):
         ask_more(message)
         return
 
-    # ===== پردازش عادی =====
+    # ===== پردازش عادی ===== 
 old_state = user_state.get(cid)
 answered = process_query(message, text, lang)
 new_state = user_state.get(cid)
