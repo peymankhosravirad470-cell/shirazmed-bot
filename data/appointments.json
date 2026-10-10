@@ -1,5 +1,4 @@
 {
-  "platform": "docker",
-  "app": "shirazmed",
-  "port": 8080
+  "next_id": 1001,
+  "appointments": []
 }
