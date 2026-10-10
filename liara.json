@@ -1,5 +1,11 @@
 {
-  "platform": "docker",
-  "app": "shirazmed",
-  "port": 8080
+  "platform": "python",
+  "app": "shirazmedical",
+  "port": 8080,
+  "disks": [
+    {
+      "name": "data",
+      "mountTo": "/app/data"
+    }
+  ]
 }
