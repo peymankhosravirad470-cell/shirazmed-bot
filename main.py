@@ -179,9 +179,12 @@ def clean(text):
 
 def pick_language(text):
     t = clean(text)
-    if t in ("1", "۱") or "فارسی" in t or "persian" in t or "farsi" in t: return "fa"
-    if t in ("2", "۲") or "عرب" in t or "arab" in t: return "ar"
-    if t in ("3", "۳") or "english" in t or "انگلیس" in t: return "en"
+    if t in ("1", "۱") or "فارسی" in t or "persian" in t or "farsi" in t:
+        return "fa"
+    if t in ("2", "۲") or "عرب" in t or "arab" in t:
+        return "ar"
+    if t in ("3", "۳") or "english" in t or "انگلیس" in t:
+        return "en"
     return None
 
 def english_words(text):
@@ -200,9 +203,12 @@ def load_json(path):
         return None
 
 def get_value(item, key, lang):
-    if f"{key}_{lang}" in item: return item[f"{key}_{lang}"]
-    if f"{key}_fa" in item: return item[f"{key}_fa"]
-    if key in item: return item[key]
+    if (key + "_" + lang) in item:
+        return item[key + "_" + lang]
+    if (key + "_fa") in item:
+        return item[key + "_fa"]
+    if key in item:
+        return item[key]
     return None
 
 def item_name_for_search(item):
@@ -213,32 +219,29 @@ def item_name_for_search(item):
 
 def detect_text_language(text):
     text = text.strip()
-    if not text: return None
+    if not text:
+        return None
     has_latin = bool(re.search(r'[a-zA-Z]', text))
     has_arabic = bool(re.search(r'[\u0600-\u06FF]', text))
-    if has_latin and not has_arabic: return "en"
-    if re.search(r'[پچژگ]', text): return "fa"
-    if re.search(r'[يكةىأإآؤئ]', text): return "ar"
-    if has_arabic:
-        normalized = text.replace('\u200c', ' ').replace('\u200f', ' ').replace('\u200e', ' ')
-        normalized = re.sub(r'[\u064B-\u0652]', '', normalized)
-        words_list = re.findall(r'[\u0600-\u06FF]+', normalized)
-        words_set = set(w.replace('\u200c', '').lower() for w in words_list)
-        persian = {"دنبال", "میگردم", "میخوام", "هستم", "دارید", "دارم", "نیاز", "لطفا", "کجا", "چطور", "چرا", "چند", "چقدر", "چی", "چه", "آیا", "سلام", "ممنون", "مرسی", "بیمار", "متخصص", "دکتر", "بیمارستان", "پزشک", "درمان", "ویزیت", "نوبت", "اقامت", "هتل", "بلیط", "تور", "سفر", "جاذبه", "شیراز", "فارسی", "خوب", "بله", "نه", "الان", "امروز", "فردا", "بیمه", "قیمت", "هزینه", "پول", "پرداخت", "کلینیک", "میکنم", "میکنید", "بگرد", "پیدا", "بهترین", "وقت"}
-        arabic = {"هل", "هناك", "أريد", "أحتاج", "أبحث", "أستطيع", "لدي", "عندي", "نحن", "أنتم", "أنا", "أنت", "يمكن", "أين", "متى", "لماذا", "كيف", "ما", "ماذا", "كم", "بكم", "أي", "مرحبا", "أهلا", "شكرا", "عفوا", "السلام", "مستشفى", "طبيب", "دكتور", "صيدلية", "مرض", "علاج", "دواء", "فندق", "نزل", "حجز", "سيارة", "مطار", "رحلة", "سياحة", "شيراز", "العربية", "جيد", "نعم", "لا", "الآن", "اليوم", "غدا", "أمس", "تأمين", "سعر", "تكلفة", "مال", "دفع", "أفضل", "قريب", "موعد"}
-        ps = sum(1 for w in words_set if w in persian)
-        ars = sum(1 for w in words_set if w in arabic)
-        if ars > ps: return "ar"
-        elif ps > ars: return "fa"
+    if has_latin and not has_arabic:
+        return "en"
+    if re.search(r'[پچژگ]', text):
+        return "fa"
+    if re.search(r'[يكةىأإآؤئ]', text):
+        return "ar"
     return None
 
 def gregorian_to_shamsi(g_y, g_m, g_d):
     gdm = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     jdm = [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29]
-    gy = g_y - 1600; gm = g_m - 1; gd = g_d - 1
+    gy = g_y - 1600
+    gm = g_m - 1
+    gd = g_d - 1
     gdn = 365 * gy + (gy + 3) // 4 - (gy + 99) // 100 + (gy + 399) // 400
-    for i in range(gm): gdn += gdm[i]
-    if gm > 1 and ((g_y % 4 == 0 and g_y % 100 != 0) or (g_y % 400 == 0)): gdn += 1
+    for i in range(gm):
+        gdn += gdm[i]
+    if gm > 1 and ((g_y % 4 == 0 and g_y % 100 != 0) or (g_y % 400 == 0)):
+        gdn += 1
     gdn += gd
     jdn = gdn - 79
     jnp = jdn // 12053
@@ -250,7 +253,8 @@ def gregorian_to_shamsi(g_y, g_m, g_d):
         jdn = (jdn - 1) % 365
     i = 0
     for i in range(11):
-        if jdn < jdm[i]: break
+        if jdn < jdm[i]:
+            break
         jdn -= jdm[i]
     return jy, i + 1, jdn + 1
 
@@ -259,12 +263,14 @@ def format_date_full(offset_days=0, lang="fa"):
     miladi = today.strftime("%Y/%m/%d")
     try:
         jy, jm, jd = gregorian_to_shamsi(today.year, today.month, today.day)
-        shamsi = f"{jy}/{jm:02d}/{jd:02d}"
+        shamsi = str(jy) + "/" + str(jm).zfill(2) + "/" + str(jd).zfill(2)
     except:
-        shamsi = "—"
-    if lang == "en": return f"{miladi} (Shamsi: {shamsi})"
-    if lang == "ar": return f"{miladi} م  |  {shamsi} ش"
-    return f"{shamsi} ش  |  {miladi} م"
+        shamsi = "---"
+    if lang == "en":
+        return miladi + " (Shamsi: " + shamsi + ")"
+    if lang == "ar":
+        return miladi + " - " + shamsi
+    return shamsi + " - " + miladi
 APPOINTMENTS_FILE = "data/appointments.json"
 
 def load_appointments():
@@ -323,7 +329,8 @@ def search_by_doctor_name(text):
         return None
     for fn in set(SPECIALTY_MAP.values()):
         data = load_json("data/doctors/" + fn)
-        if not data: continue
+        if not data:
+            continue
         for item in data:
             name = item_name_for_search(item).lower()
             if st in name or name in st:
@@ -340,14 +347,18 @@ def search_specialty(text):
         else:
             matched = k in low
         if matched:
-            if fn not in scores: scores[fn] = 0
+            if fn not in scores:
+                scores[fn] = 0
             w = len(k)
-            if k in [cw.lower() for cw in CONTEXT_WORDS]: w *= 0.3
+            if k in [cw.lower() for cw in CONTEXT_WORDS]:
+                w = w * 0.3
             scores[fn] += w
-    if not scores: return None
+    if not scores:
+        return None
     best = max(scores, key=scores.get)
     data = load_json("data/doctors/" + best)
-    if not data: return None
+    if not data:
+        return None
     def sc(x):
         r = x.get('ratings', {})
         if isinstance(r, dict) and 'patient_satisfaction_score' in r:
@@ -373,20 +384,28 @@ def search_non_medical(text):
                 matched = kl in low
             if matched:
                 w = len(kl)
-                if kl in [cw.lower() for cw in CONTEXT_WORDS]: w *= 0.3
+                if kl in [cw.lower() for cw in CONTEXT_WORDS]:
+                    w = w * 0.3
                 s += w
-        if s > 0: scores[fn] = s
-    if not scores: return None
+        if s > 0:
+            scores[fn] = s
+    if not scores:
+        return None
     return max(scores, key=scores.get)
 
 def is_all_request(text):
     low = text.lower()
-    return any(w in low for w in ALL_WORDS)
+    for w in ALL_WORDS:
+        if w in low:
+            return True
+    return False
 
 def is_best_request(text):
     low = text.lower()
     words = english_words(text)
-    return "بهترین" in low or "best" in words or "أفضل" in low
+    if "بهترین" in low or "best" in words or "أفضل" in low:
+        return True
+    return False
 
 def format_doctor(doc, lang):
     n = get_value(doc, 'name', lang) or ''
@@ -394,50 +413,57 @@ def format_doctor(doc, lang):
     p = get_value(doc, 'phone', lang) or ''
     a = get_value(doc, 'office_address', lang) or ''
     hs = get_value(doc, 'surgeries_done_at', lang) or []
-    if isinstance(hs, str): hs = [hs]
-    h = "، ".join(str(x) for x in hs)
+    if isinstance(hs, str):
+        hs = [hs]
+    h = " - ".join(str(x) for x in hs)
     pr = get_value(doc, 'price_range_toman', lang) or ''
     r = doc.get('patient_satisfaction_score', '')
     if lang == "en":
-        return f"Doctor: {n}\nSpecialty: {s}\nAddress: {a}\nHospitals: {h}\nPhone: {p}\nPrice: {pr}\nRating: {r}/5"
+        return "Doctor: " + str(n) + "\nSpecialty: " + str(s) + "\nAddress: " + str(a) + "\nHospitals: " + str(h) + "\nPhone: " + str(p) + "\nPrice: " + str(pr) + "\nRating: " + str(r) + "/5"
     if lang == "ar":
-        return f"الطبيب: {n}\nالتخصص: {s}\nالعنوان: {a}\nالمستشفيات: {h}\nالهاتف: {p}\nالتكلفة: {pr}\nالتقييم: {r}/5"
-    return f"دکتر: {n}\nتخصص: {s}\nآدرس: {a}\nبیمارستان: {h}\nتلفن: {p}\nقیمت: {pr}\nامتیاز: {r}/5"
+        return "الطبيب: " + str(n) + "\nالتخصص: " + str(s) + "\nالعنوان: " + str(a) + "\nالمستشفيات: " + str(h) + "\nالهاتف: " + str(p) + "\nالتكلفة: " + str(pr) + "\nالتقييم: " + str(r) + "/5"
+    return "دکتر: " + str(n) + "\nتخصص: " + str(s) + "\nآدرس: " + str(a) + "\nبیمارستان: " + str(h) + "\nتلفن: " + str(p) + "\nقیمت: " + str(pr) + "\nامتیاز: " + str(r) + "/5"
 
 def format_generic(item, lang):
-    if not isinstance(item, dict): return str(item)
+    if not isinstance(item, dict):
+        return str(item)
     fnames = FIELD_NAMES.get(lang, {})
     lines = []
     seen = set()
     for k, v in item.items():
-        if k == 'id': continue
+        if k == 'id':
+            continue
         if k.endswith("_fa") or k.endswith("_ar") or k.endswith("_en"):
             bk = k[:-3]
-            if bk in seen: continue
+            if bk in seen:
+                continue
             val = None
             for p in [lang, "fa", "en", "ar"]:
-                pk = f"{bk}_{p}"
+                pk = bk + "_" + p
                 if pk in item:
                     val = item[pk]
                     break
-            if val is None: continue
+            if val is None:
+                continue
             seen.add(bk)
             label = fnames.get(bk, bk)
         else:
-            if k in seen: continue
+            if k in seen:
+                continue
             seen.add(k)
             val = v
             label = fnames.get(k, k)
         if isinstance(val, list):
-            val = "، ".join(str(x) for x in val)
+            val = " - ".join(str(x) for x in val)
         elif isinstance(val, dict):
             parts = []
             for kk, vv in val.items():
-                if isinstance(vv, list): vv = "، ".join(str(x) for x in vv)
-                parts.append(f"{kk}: {vv}")
-            val = "، ".join(parts)
+                if isinstance(vv, list):
+                    vv = " - ".join(str(x) for x in vv)
+                parts.append(str(kk) + ": " + str(vv))
+            val = " - ".join(parts)
         if val and str(val).strip() and str(val) != 'None':
-            lines.append(f"{label}: {val}")
+            lines.append(str(label) + ": " + str(val))
     return "\n".join(lines)
 
 def get_ai(text, lang):
@@ -462,7 +488,11 @@ def get_user_name(message):
         ln = message.from_user.last_name or ""
         un = message.from_user.username or ""
         full = (fn + " " + ln).strip()
-        return full if full else (un if un else "ناشناس")
+        if full:
+            return full
+        if un:
+            return un
+        return "ناشناس"
     except:
         return "ناشناس"
 
@@ -477,9 +507,12 @@ def process_query(message, text, lang):
         return True
     docs = search_specialty(text)
     if docs:
-        if is_all_request(text): limit = len(docs)
-        elif is_best_request(text): limit = 1
-        else: limit = 3
+        if is_all_request(text):
+            limit = len(docs)
+        elif is_best_request(text):
+            limit = 1
+        else:
+            limit = 3
         shown = docs[:limit]
         for d in shown:
             bot.reply_to(message, format_doctor(d, lang))
@@ -501,7 +534,10 @@ def process_query(message, text, lang):
     if fn:
         data = load_json("data/" + fn)
         if data:
-            items = [data] if isinstance(data, dict) else data[:5]
+            if isinstance(data, dict):
+                items = [data]
+            else:
+                items = data[:5]
             for item in items:
                 bot.reply_to(message, format_generic(item, lang))
             return True
@@ -517,13 +553,13 @@ def get_meta_info():
             return json.load(f)
     except:
         return None
-
 @bot.message_handler(commands=['admin'])
 def admin_command(message):
-    if str(message.chat.id) != str(ADMIN_CHAT_ID): return
+    if str(message.chat.id) != str(ADMIN_CHAT_ID):
+        return
     meta = get_meta_info()
     if not meta:
-        bot.reply_to(message, "❌ فایل meta.json پیدا نشد.")
+        bot.reply_to(message, "❌ meta.json پیدا نشد.")
         return
     lines = ["📊 وضعیت آپدیت:"]
     lines.append("آخرین آپدیت: " + str(meta.get("last_update", "نامشخص")))
@@ -575,6 +611,7 @@ def handle(message):
     cid = message.chat.id
     text = message.text or ""
     state = user_state.get(cid)
+
     if state is None or state == "choose_lang":
         lang = pick_language(text)
         if lang is None:
@@ -585,13 +622,16 @@ def handle(message):
         user_state[cid] = "active"
         bot.reply_to(message, MSG[lang]["welcome"])
         return
+
     if cid in user_lang and state == "active":
         detected = detect_text_language(text)
         if detected and detected != user_lang.get(cid):
             user_lang[cid] = detected
+
     lang = user_lang.get(cid, "fa")
     t = clean(text)
     user_name = get_user_name(message)
+
     if state == "awaiting_apt_pick":
         pm = {"1": 0, "۱": 0, "یک": 0, "2": 1, "۲": 1, "دو": 1, "3": 2, "۳": 2, "سه": 2}
         if t in pm:
@@ -603,6 +643,7 @@ def handle(message):
                 bot.reply_to(message, MSG[lang]["apt_ask"])
                 return
         user_state[cid] = "active"
+
     if state == "awaiting_apt_choice":
         if t in ("1", "۱", "یک"):
             user_state[cid] = "awaiting_apt_date"
@@ -615,10 +656,14 @@ def handle(message):
             ask_more(message)
             return
         user_state[cid] = "active"
+
     if state == "awaiting_apt_date":
-        if t in ("1", "۱", "یک"): offset = 0
-        elif t in ("2", "۲", "دو"): offset = 1
-        elif t in ("3", "۳", "سه"): offset = 2
+        if t in ("1", "۱", "یک"):
+            offset = 0
+        elif t in ("2", "۲", "دو"):
+            offset = 1
+        elif t in ("3", "۳", "سه"):
+            offset = 2
         elif t in ("4", "۴", "چهار"):
             user_state[cid] = "active"
             bot.reply_to(message, MSG[lang]["apt_cancelled"])
@@ -628,13 +673,16 @@ def handle(message):
             bot.reply_to(message, MSG[lang]["apt_invalid"])
             return
         dstr = format_date_full(offset, lang)
-        if cid not in user_temp: user_temp[cid] = {}
+        if cid not in user_temp:
+            user_temp[cid] = {}
         user_temp[cid]["date"] = dstr
         user_state[cid] = "awaiting_apt_time"
         bot.reply_to(message, MSG[lang]["apt_time"])
         return
+
     if state == "awaiting_apt_time":
-        tms = {"1": "10:00", "2": "12:00", "3": "16:00", "4": "18:00", "5": "20:00", "۱": "10:00", "۲": "12:00", "۳": "16:00", "۴": "18:00", "۵": "20:00"}
+        tms = {"1": "10:00", "2": "12:00", "3": "16:00", "4": "18:00", "5": "20:00",
+               "۱": "10:00", "۲": "12:00", "۳": "16:00", "۴": "18:00", "۵": "20:00"}
         if t in ("6", "۶"):
             user_state[cid] = "active"
             bot.reply_to(message, MSG[lang]["apt_cancelled"])
@@ -647,6 +695,7 @@ def handle(message):
         user_state[cid] = "awaiting_apt_name"
         bot.reply_to(message, MSG[lang]["apt_name"])
         return
+
     if state == "awaiting_apt_name":
         if len(text.strip()) < 2:
             bot.reply_to(message, MSG[lang]["apt_name"])
@@ -655,6 +704,7 @@ def handle(message):
         user_state[cid] = "awaiting_apt_phone"
         bot.reply_to(message, MSG[lang]["apt_phone"])
         return
+
     if state == "awaiting_apt_phone":
         phone = re.sub(r'[^0-9+]', '', text.strip())
         if len(phone) < 8:
@@ -669,6 +719,7 @@ def handle(message):
             time=user_temp[cid].get("time", "")
         ))
         return
+
     if state == "awaiting_apt_confirm":
         if t in YES_WORDS:
             doc = user_temp.get(cid, {}).get("doctor", {})
@@ -680,10 +731,14 @@ def handle(message):
                 apt = create_appointment(doc, pname, pphone, cid, lang, dstr, tstr)
                 dn = doc.get("name_" + lang) or doc.get("name_fa", "")
                 ad = doc.get("office_address_" + lang) or doc.get("office_address_fa", "")
-                bot.reply_to(message, MSG[lang]["apt_confirmed"].format(id=apt['id'], doctor=dn, date=dstr, time=tstr, address=ad))
+                bot.reply_to(message, MSG[lang]["apt_confirmed"].format(
+                    id=apt['id'], doctor=dn, date=dstr, time=tstr, address=ad))
                 if ADMIN_CHAT_ID:
                     try:
-                        bot.send_message(ADMIN_CHAT_ID, "📅 نوبت جدید\nکد: " + apt['id'] + "\nبیمار: " + pname + "\nتلفن: " + pphone + "\nپزشک: " + dn + "\nتاریخ: " + dstr + "\nساعت: " + tstr + "\nChatID: " + str(cid))
+                        bot.send_message(ADMIN_CHAT_ID,
+                            "📅 نوبت جدید\nکد: " + apt['id'] + "\nبیمار: " + pname +
+                            "\nتلفن: " + pphone + "\nپزشک: " + dn +
+                            "\nتاریخ: " + dstr + "\nساعت: " + tstr + "\nChatID: " + str(cid))
                     except:
                         pass
             except Exception:
@@ -698,6 +753,7 @@ def handle(message):
             return
         bot.reply_to(message, MSG[lang]["apt_invalid"])
         return
+
     if state == "awaiting_more":
         if t in YES_WORDS:
             user_state[cid] = "active"
@@ -708,6 +764,7 @@ def handle(message):
             bot.reply_to(message, MSG[lang]["rate"])
             return
         user_state[cid] = "active"
+
     if state == "awaiting_rating":
         if t in YES_WORDS:
             user_state[cid] = "active"
@@ -720,6 +777,7 @@ def handle(message):
             bot.reply_to(message, MSG[lang]["why"])
             return
         user_state[cid] = "active"
+
     if state == "awaiting_feedback":
         user_state[cid] = "active"
         bot.reply_to(message, MSG[lang]["thanks_fb"])
@@ -727,14 +785,19 @@ def handle(message):
         satisfaction_counter["negative"] += 1
         if ADMIN_CHAT_ID:
             try:
-                bot.send_message(ADMIN_CHAT_ID, "❌ عدم رضایت\nزبان: " + LANG_NAMES.get(lang, lang) + "\nنام: " + user_name + "\nChatID: " + str(cid) + "\nمتن: " + text)
+                bot.send_message(ADMIN_CHAT_ID,
+                    "❌ عدم رضایت\nزبان: " + LANG_NAMES.get(lang, lang) +
+                    "\nنام: " + user_name + "\nChatID: " + str(cid) +
+                    "\nمتن: " + text)
             except:
                 pass
         return
+
     if any(k in text.lower() for ks in EMERGENCY.values() for k in ks):
         bot.reply_to(message, EMERGENCY_RESP[lang])
         ask_more(message)
         return
+
     old_state = user_state.get(cid)
     answered = process_query(message, text, lang)
     new_state = user_state.get(cid)
@@ -744,5 +807,5 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["retry"])
     ask_more(message)
 
-print("ربات روشن شد... v21")
+print("ربات روشن شد... v22")
 bot.polling()
