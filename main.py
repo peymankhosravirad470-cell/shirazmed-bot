@@ -2060,7 +2060,6 @@ if not answered:
     bot.reply_to(message, MSG[lang]["retry"])
 ask_more(message)
 
-
 # ============ START ============
 print("ربات روشن شد... v32 (پرونده + معرفی + همراه + امید + دارو + SOS + آمار + حذف داده)")
 bot.infinity_polling(timeout=30, long_polling_timeout=30)
