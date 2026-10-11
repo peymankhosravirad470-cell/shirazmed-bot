@@ -69,7 +69,7 @@ MSG = {
         "apt_phone": "📞 لطفاً شماره تماس خود را بنویسید (مثال: 09123456789):",
         "apt_submitted": "✅ درخواست نوبت شما ثبت شد!\n\n📋 کد پیگیری: {id}\n👨‍⚕️ پزشک: {doctor}\n\n⏳ ما با مطب تماس می‌گیریم و سریع‌ترین نوبت موجود رو براتون هماهنگ می‌کنیم.\nنتیجه از طریق همین ربات اطلاع داده می‌شه.",
         "apt_cancelled": "❌ ثبت نوبت لغو شد.",
-        "apt_invalid": "لطفاً یکی از شماره‌های داده شده را بزنید.",
+        "apt_invalid": "لطفاً یکی از شماره‌های داده شده را بزنید.\n\n🚪 برای خروج از این مرحله، بنویسید: منو",
         "apt_error": "❌ متأسفانه در ثبت نوبت مشکلی پیش آمد.",
         "apt_my": "📋 نوبت‌های شما:",
         "apt_none": "شما هنوز هیچ نوبتی ثبت نکرده‌اید.",
@@ -94,7 +94,7 @@ MSG = {
         "pt_apt_line_pending": "⏳ {id} — {doctor} — در انتظار تعیین تاریخ",
         "pt_apt_line_confirmed": "✅ {id} — {doctor} — {date} ساعت {time}",
         "pt_not_found": "شما هنوز پرونده‌ای ندارید. با اولین نوبت، پرونده‌ی شما ساخته می‌شه 💙",
-        "delete_ask": "⚠️ آیا مطمئنی می‌خوای همه‌ی اطلاعاتت پاک بشه؟\n\nاین کار قابل بازگشت نیست.\nبرای تأیید بنویس: بله حذف کن",
+        "delete_ask": "⚠️ آیا مطمئنی می‌خوای همه‌ی اطلاعاتت پاک بشه؟\n\nاین کار قابل بازگشت نیست.\nبرای تأیید بنویس: بله حذف کن\nبرای انصراف بنویس: نه",
         "delete_done": "✅ همه‌ی اطلاعات شما پاک شد.\n\nاگه بازم به ما نیاز داشتی، در خدمتیم 💙",
         "delete_cancel": "باشه، اطلاعاتت دست‌نخورده موند.",
     },
@@ -115,7 +115,7 @@ MSG = {
         "apt_phone": "📞 يرجى كتابة رقم الهاتف:",
         "apt_submitted": "✅ تم تسجيل طلب الموعد!\n\n📋 رقم المتابعة: {id}\n👨‍⚕️ الطبيب: {doctor}\n\n⏳ سنتصل بالعيادة وننسق أسرع موعد متاح.\nسنبلغكم بالنتيجة عبر هذا الروبوت.",
         "apt_cancelled": "❌ تم إلغاء تسجيل الموعد.",
-        "apt_invalid": "يرجى الضغط على أحد الأرقام المعطاة.",
+        "apt_invalid": "يرجى الضغط على أحد الأرقام المعطاة.\n\n🚪 للخروج، اكتبوا: قائمة",
         "apt_error": "❌ عذراً، حدثت مشكلة في تسجيل الموعد.",
         "apt_my": "📋 مواعيدكم:",
         "apt_none": "لم تسجلوا أي موعد بعد.",
@@ -140,7 +140,7 @@ MSG = {
         "pt_apt_line_pending": "⏳ {id} — {doctor} — في انتظار تحديد التاريخ",
         "pt_apt_line_confirmed": "✅ {id} — {doctor} — {date} الساعة {time}",
         "pt_not_found": "ليس لديكم ملف بعد. مع أول موعد، سيتم إنشاء ملفكم 💙",
-        "delete_ask": "⚠️ هل أنتم متأكدون من حذف كل معلوماتكم؟\n\nهذا الإجراء لا يمكن التراجع عنه.\nللتأكيد اكتبوا: نعم احذف",
+        "delete_ask": "⚠️ هل أنتم متأكدون من حذف كل معلوماتكم؟\n\nهذا الإجراء لا يمكن التراجع عنه.\nللتأكيد اكتبوا: نعم احذف\nللإلغاء اكتبوا: لا",
         "delete_done": "✅ تم حذف كل معلوماتكم.\n\nإذا احتجتم إلينا مجدداً، نحن في خدمتكم 💙",
         "delete_cancel": "حسناً، معلوماتكم محفوظة.",
     },
@@ -161,7 +161,7 @@ MSG = {
         "apt_phone": "📞 Please write your phone number (e.g., 09123456789):",
         "apt_submitted": "✅ Your appointment request has been submitted!\n\n📋 Tracking code: {id}\n👨‍⚕️ Doctor: {doctor}\n\n⏳ We'll contact the clinic and arrange the earliest available appointment.\nYou'll be notified through this bot.",
         "apt_cancelled": "❌ Booking cancelled.",
-        "apt_invalid": "Please press one of the given numbers.",
+        "apt_invalid": "Please press one of the given numbers.\n\n🚪 To exit, write: menu",
         "apt_error": "❌ Sorry, there was a problem booking.",
         "apt_my": "📋 Your appointments:",
         "apt_none": "You have no appointments yet.",
@@ -186,7 +186,7 @@ MSG = {
         "pt_apt_line_pending": "⏳ {id} — {doctor} — awaiting date assignment",
         "pt_apt_line_confirmed": "✅ {id} — {doctor} — {date} at {time}",
         "pt_not_found": "You don't have a file yet. Your file will be created with the first appointment 💙",
-        "delete_ask": "⚠️ Are you sure you want to delete all your data?\n\nThis cannot be undone.\nTo confirm, write: yes delete",
+        "delete_ask": "⚠️ Are you sure you want to delete all your data?\n\nThis cannot be undone.\nTo confirm, write: yes delete\nTo cancel, write: no",
         "delete_done": "✅ All your data has been deleted.\n\nIf you ever need us again, we're here 💙",
         "delete_cancel": "Okay, your data remains intact.",
     },
@@ -219,19 +219,19 @@ MSG2 = {
         "comp_ask_name": "👤 اسم همراهتون چیه؟",
         "comp_saved": "✅ همراه شما ثبت شد\n\n👤 نام: {name}\n📞 تلفن: {phone}\n\nدر مواقع مهم بهشون اطلاع می‌دیم 💙",
         "comp_skip": "باشه، هر وقت خواستید همراه اضافه کنید، فقط بنویسید: همراه",
-        "sos_menu": "🚨 وضعیت اضطراری\n\nلطفاً یکی از شماره‌ها رو بزنید:\n\n1️⃣ اورژانس ۱۱۵\n2️⃣ نزدیک‌ترین بیمارستان\n3️⃣ راهنمای کمک‌های اولیه\n4️⃣ اطلاع به همراه من\n5️⃣ انصراف",
+        "sos_menu": "🚨 وضعیت اضطراری\n\nلطفاً یکی از شماره‌ها رو بزنید:\n\n1️⃣ اورژانس ۱۱۵\n2️⃣ نزدیک‌ترین بیمارستان\n3️⃣ راهنمای کمک‌های اولیه\n4️⃣ اطلاع به همراه من\n5️⃣ انصراف\n\n🚪 برای خروج، بنویسید: منو",
         "sos_115": "🚑 شماره اورژانس: ۱۱۵\n\nلطفاً تماس بگیرید و آدرس دقیقتون رو بگید.\n\nاگه با کسی هستید، بهش بگید بهم کمک کنه.",
         "sos_first_aid": "🩺 کمک‌های اولیه\n\n🔹 درد قفسه سینه:\n- بشین و استراحت کن\n- قرص زیر زبانی اگه داری مصرف کن\n- فوراً ۱۱۵\n\n🔹 خونریزی:\n- فشار مستقیم روی زخم\n- بالا نگه دار اندام رو\n- ۱۱۵\n\n🔹 تنگی نفس:\n- بشین، صاف\n- لباس رو شل کن\n- ۱۱۵\n\n⚠️ این راهنما فقط کمک اولیه‌ست، جایگزین پزشک نیست.",
         "sos_alert_companion": "⚠️ پیام اضطراری\n\nبیمار {name} (کد: {code}) الان اضطراری داره.\n\nلطفاً فوراً تماس بگیرید.\n📞 {phone}",
         "sos_no_companion": "❌ شما همراه ثبت نکردید. اگه می‌خواید، بنویسید: همراه",
-        "comp_voice_menu": "📩 صدای شما\n\nما به نظر شما اهمیت می‌دیم. لطفاً انتخاب کنید:\n\n1️⃣ انتقاد از پزشک\n2️⃣ انتقاد از مرکز درمانی\n3️⃣ انتقاد از اقامت\n4️⃣ انتقاد از حمل‌ونقل\n5️⃣ شکایت کلی\n6️⃣ انصراف",
-        "comp_voice_text": "📝 لطفاً نظرتون رو بنویسید:\n\nمی‌تونید اسم بگید یا ناشناس بمونید. (اختیاری)\n\nاگه ناشناس می‌خواید، فقط «ناشناس» بنویسید.",
+        "comp_voice_menu": "📩 صدای شما\n\nما به نظر شما اهمیت می‌دیم. لطفاً انتخاب کنید:\n\n1️⃣ انتقاد از پزشک\n2️⃣ انتقاد از مرکز درمانی\n3️⃣ انتقاد از اقامت\n4️⃣ انتقاد از حمل‌ونقل\n5️⃣ شکایت کلی\n6️⃣ انصراف\n\n🚪 برای خروج، بنویسید: منو",
+        "comp_voice_text": "📝 لطفاً نظرتون رو بنویسید:\n\nمی‌تونید اسم بگید یا ناشناس بمونید. (اختیاری)\n\nاگه ناشناس می‌خواید، فقط «ناشناس» بنویسید.\n\n🚪 برای خروج، بنویسید: منو",
         "comp_voice_saved": "✅ پیام شما ثبت شد\n\n📋 کد پیگیری: {id}\n\nما در اسرع وقت پیگیری می‌کنیم و از طریق همین ربات بهتون خبر می‌دیم 💙\n\nممنون که بهمون اعتماد کردید.",
         "comp_voice_skip": "باشه، هر وقت خواستید، فقط بنویسید: شکایت",
         "comp_voice_admin": "📩 شکایت جدید\n\n📋 کد: {id}\nدسته: {category}\nنام: {name}\nChatID: {cid}\n\nمتن:\n{text}",
         "rights_title": "⚖️ حقوق شما به عنوان بیمار\n━━━━━━━━━━━━━━━",
         "rights_body": "1️⃣ دریافت اطلاعات کامل درباره بیماری و درمان\n2️⃣ حق انتخاب پزشک و مرکز درمانی\n3️⃣ محرمانه بودن اطلاعات پزشکی\n4️⃣ رضایت آگاهانه قبل از هر اقدام\n5️⃣ دریافت نسخه و مدارک درمانی\n6️⃣ حق شکایت و پیگیری\n7️⃣ احترام بدون تبعیض\n8️⃣ دسترسی به پرونده‌ی پزشکی خود\n\n📞 در صورت نقض هرکدوم:\n- با ما: @ShirazMedBot\n- سازمان نظام پزشکی\n- وزارت بهداشت: 190",
-        "med_menu": "⏰ یادآور دارو\n\nمی‌تونیم یادت بندازیم که داروهات رو سر وقت مصرف کنی 💙\n\n1️⃣ افزودن یادآور جدید\n2️⃣ مشاهده‌ی یادآورهای من\n3️⃣ انصراف",
+        "med_menu": "⏰ یادآور دارو\n\nمی‌تونیم یادت بندازیم که داروهات رو سر وقت مصرف کنی 💙\n\n1️⃣ افزودن یادآور جدید\n2️⃣ مشاهده‌ی یادآورهای من\n3️⃣ انصراف\n\n🚪 برای خروج، بنویسید: منو",
         "med_ask_name": "💊 اسم دارو چیه؟",
         "med_ask_time": "⏰ چه ساعتی یادآوری کنم؟\n\nمثال: 08:00 یا 20:30",
         "med_saved": "✅ یادآور ثبت شد\n\n💊 دارو: {name}\n⏰ ساعت: {time}\n\nما سر وقت بهت اطلاع می‌دیم 💙",
@@ -242,11 +242,12 @@ MSG2 = {
         "med_none": "هنوز یادآوری ثبت نکردی. هر وقت خواستی، بنویس: دارو",
         "food_title": "🍏 راهنمای تغذیه و تداخلات\n━━━━━━━━━━━━━━━",
         "food_body": "🔴 تداخل‌های مهم دارویی:\n\n• آنتی‌بیوتیک + لبنیات (۲ ساعت فاصله)\n• آهن + چای/قهوه (۱ ساعت فاصله)\n• وارفارین + کلم و اسفناج (احتیاط)\n• تیروئید + صبح ناشتا\n• مسکن + معده خالی (ممنوع)\n\n💧 در طول درمان آب زیاد بنوش\n🥗 میوه و سبزیجات تازه مصرف کن\n🚫 از خوددرمانی پرهیز کن\n\n⚠️ این راهنمای کلیه، نه جایگزین پزشک.",
-        "menu_main": "📋 منوی شیراز مدیکال\n\n💬 خواسته‌ت رو بنویس (مثلاً: دکتر قلب)\n\n🔹 پرونده — مشاهده‌ی پرونده\n🔹 نوبت — نوبت‌های من\n🔹 همراه — افزودن همراه\n🔹 شکایت — ارسال نظر\n🔹 دارو — یادآور دارو\n🔹 حقوق — حقوق بیمار\n🔹 چی بخورم — تغذیه\n🔹 گل — جمله‌ی امیدبخش\n🔹 اضطراری — کمک فوری\n🔹 دعوت — کد معرفی من\n🔹 شب‌بخیر — پیام شب\n\n🏥 سرویس‌های ویژه:\n🔹 پیراپزشکی — فیزیوتراپی، آزمایشگاه\n🔹 سالمندان — خانه سالمندان شیراز",
+        "menu_main": "📋 منوی شیراز مدیکال\n\n💬 خواسته‌ت رو بنویس (مثلاً: دکتر قلب)\n\n🔹 پرونده — مشاهده‌ی پرونده\n🔹 نوبت — نوبت‌های من\n🔹 همراه — افزودن همراه\n🔹 شکایت — ارسال نظر\n🔹 دارو — یادآور دارو\n🔹 حقوق — حقوق بیمار\n🔹 چی بخورم — تغذیه\n🔹 گل — جمله‌ی امیدبخش\n🔹 اضطراری — کمک فوری\n🔹 دعوت — کد معرفی من\n🔹 شب‌بخیر — پیام شب\n\n🏥 سرویس‌های ویژه:\n🔹 پیراپزشکی — فیزیوتراپی، آزمایشگاه\n🔹 سالمندان — خانه سالمندان شیراز\n\n🚪 هر جا گیر کردی، بنویس: منو",
         "cmd_help": "برای دیدن منو، بنویسید: منو",
         "ai_unavailable": "🙏 الان نمی‌تونم پاسخ بدم.\n\nلطفاً دوباره تلاش کنید یا از منو استفاده کنید:\nبنویسید: منو",
         "para_menu": "🏥 خدمات پیراپزشکی\n\nچه نوع خدماتی می‌خواید؟\n\n🔹 فیزیوتراپی — بنویسید: فیزیوتراپی\n🔹 آزمایشگاه — بنویسید: آزمایشگاه\n🔹 رادیولوژی — بنویسید: رادیولوژی\n🔹 پرستاری در منزل — بنویسید: پرستاری\n🔹 تزریق — بنویسید: تزریق\n🔹 طب سنتی — بنویسید: طب سنتی\n🔹 کاردرمانی — بنویسید: کاردرمانی\n🔹 گفتاردرمانی — بنویسید: گفتاردرمانی\n🔹 پروتز و ارتوپدی فنی — بنویسید: پروتز",
-        "elderly_menu": "🏡 خانه‌های سالمندان شیراز\n\nبرای دیدن لیست کامل، بنویسید: خانه سالمندان\n\nیا بنویسید: همه خانه‌های سالمندان",
+        "elderly_menu": "🏡 خانه‌های سالمندان شیراز\n\nبرای دیدن لیست کامل، بنویسید: همه خانه سالمندان\n\n🚪 برای خروج، بنویسید: منو",
+        "elderly_all_title": "🏡 خانه‌های سالمندان شیراز:",
     },
     "ar": {
         "ref_your_code": "🔗 رمز الإحالة: {code}\n\nكل من تدعوه إلى شيراز ميديكال، كلاكما تحصلان على مكافأة 💙\n\nالرابط الخاص:\n{link}",
@@ -274,19 +275,19 @@ MSG2 = {
         "comp_ask_name": "👤 ما اسم المرافق؟",
         "comp_saved": "✅ تم تسجيل المرافق\n\n👤 الاسم: {name}\n📞 الهاتف: {phone}\n\nسنبلغه في الأوقات المهمة 💙",
         "comp_skip": "حسناً، متى أردتم إضافة مرافق، اكتبوا: مرافق",
-        "sos_menu": "🚨 حالة طارئة\n\nيرجى الضغط على أحد الأرقام:\n\n1️⃣ الإسعاف ١١٥\n2️⃣ أقرب مستشفى\n3️⃣ الإسعافات الأولية\n4️⃣ إبلاغ مرافقي\n5️⃣ إلغاء",
+        "sos_menu": "🚨 حالة طارئة\n\nيرجى الضغط على أحد الأرقام:\n\n1️⃣ الإسعاف ١١٥\n2️⃣ أقرب مستشفى\n3️⃣ الإسعافات الأولية\n4️⃣ إبلاغ مرافقي\n5️⃣ إلغاء\n\n🚪 للخروج، اكتبوا: قائمة",
         "sos_115": "🚑 رقم الإسعاف: ١١٥\n\nيرجى الاتصال وإعطاء عنوانكم بدقة.",
         "sos_first_aid": "🩺 الإسعافات الأولية\n\n🔹 ألم الصدر:\n- اجلس واسترح\n- حبة تحت اللسان إن وجدت\n- اتصل ١١٥\n\n🔹 نزيف:\n- ضغط مباشر\n- ارفع الطرف\n- اتصل ١١٥\n\n🔹 ضيق التنفس:\n- اجلس مستقيماً\n- فك الملابس\n- اتصل ١١٥\n\n⚠️ هذا إسعاف أولي فقط، وليس بديلاً عن الطبيب.",
         "sos_alert_companion": "⚠️ رسالة طارئة\n\nالمريض {name} (كود: {code}) في حالة طارئة.\n\nيرجى الاتصال فوراً.\n📞 {phone}",
         "sos_no_companion": "❌ لم تسجلوا مرافقاً. إن أردتم، اكتبوا: مرافق",
-        "comp_voice_menu": "📩 صوتكم\n\nنهتم برأيكم. يرجى الاختيار:\n\n1️⃣ انتقاد الطبيب\n2️⃣ انتقاد المركز الطبي\n3️⃣ انتقاد الإقامة\n4️⃣ انتقاد المواصلات\n5️⃣ شكوى عامة\n6️⃣ إلغاء",
+        "comp_voice_menu": "📩 صوتكم\n\nنهتم برأيكم. يرجى الاختيار:\n\n1️⃣ انتقاد الطبيب\n2️⃣ انتقاد المركز الطبي\n3️⃣ انتقاد الإقامة\n4️⃣ انتقاد المواصلات\n5️⃣ شكوى عامة\n6️⃣ إلغاء\n\n🚪 للخروج، اكتبوا: قائمة",
         "comp_voice_text": "📝 يرجى كتابة رأيكم:\n\nيمكنكم ذكر الاسم أو البقاء مجهولين. (اختياري)\n\nإن أردتم المجهول، اكتبوا: مجهول",
         "comp_voice_saved": "✅ تم تسجيل رسالتكم\n\n📋 رقم المتابعة: {id}\n\nسنتابع في أقرب وقت ونبلغكم عبر هذا الروبوت 💙\n\nشكراً لثقتكم.",
         "comp_voice_skip": "حسناً، متى أردتم، اكتبوا: شكوى",
         "comp_voice_admin": "📩 شكوى جديدة\n\n📋 الرقم: {id}\nالفئة: {category}\nالاسم: {name}\nChatID: {cid}\n\nالنص:\n{text}",
         "rights_title": "⚖️ حقوقكم كمريض\n━━━━━━━━━━━━━━━",
         "rights_body": "1️⃣ الحصول على معلومات كاملة\n2️⃣ حق اختيار الطبيب والمركز\n3️⃣ سرية المعلومات الطبية\n4️⃣ الموافقة قبل أي إجراء\n5️⃣ الحصول على الوصفة والمستندات\n6️⃣ حق الشكوى والمتابعة\n7️⃣ الاحترام دون تمييز\n8️⃣ الوصول إلى ملفكم الطبي\n\n📞 في حال انتهاك أي منها:\n- معنا: @ShirazMedBot\n- نقابة الأطباء\n- وزارة الصحة: 190",
-        "med_menu": "⏰ تذكير الدواء\n\nيمكننا تذكيركم بتناول أدويتكم 💙\n\n1️⃣ إضافة تذكير جديد\n2️⃣ عرض تذكيراتي\n3️⃣ إلغاء",
+        "med_menu": "⏰ تذكير الدواء\n\nيمكننا تذكيركم بتناول أدويتكم 💙\n\n1️⃣ إضافة تذكير جديد\n2️⃣ عرض تذكيراتي\n3️⃣ إلغاء\n\n🚪 للخروج، اكتبوا: قائمة",
         "med_ask_name": "💊 ما اسم الدواء؟",
         "med_ask_time": "⏰ في أي ساعة نذكركم؟\n\nمثال: 08:00 أو 20:30",
         "med_saved": "✅ تم حفظ التذكير\n\n💊 الدواء: {name}\n⏰ الساعة: {time}\n\nسنذكركم في الوقت المحدد 💙",
@@ -297,11 +298,12 @@ MSG2 = {
         "med_none": "لم تسجلوا تذكيراً بعد. متى أردتم، اكتبوا: دواء",
         "food_title": "🍏 دليل التغذية والتداخلات\n━━━━━━━━━━━━━━━",
         "food_body": "🔴 تداخلات مهمة:\n\n• مضاد حيوي + ألبان (ساعتان)\n• حديد + شاي/قهوة (ساعة)\n• وارفارين + ملفوف وسبانخ (حذر)\n• الغدة الدرقية + صباحاً على الريق\n• مسكن + معدة فارغة (ممنوع)\n\n💧 اشربوا ماء كثيراً\n🥗 فواكه وخضروات طازجة\n🚫 تجنبوا العلاج الذاتي\n\n⚠️ هذا دليل عام، وليس بديلاً عن الطبيب.",
-        "menu_main": "📋 قائمة شيراز ميديكال\n\n💬 اكتبوا طلبكم (مثلاً: طبيب قلب)\n\n🔹 ملف — عرض الملف\n🔹 موعد — مواعيدي\n🔹 مرافق — إضافة مرافق\n🔹 شكوى — إرسال رأي\n🔹 دواء — تذكير الدواء\n🔹 حقوق — حقوق المريض\n🔹 طعام — التغذية\n🔹 زهرة — جملة أمل\n🔹 طوارئ — مساعدة عاجلة\n🔹 دعوة — رمز الإحالة\n🔹 مساء الخير — رسالة المساء\n\n🏥 خدمات خاصة:\n🔹 مساعد طبي — علاج طبيعي، مختبر\n🔹 مسنين — دور رعاية المسنين",
+        "menu_main": "📋 قائمة شيراز ميديكال\n\n💬 اكتبوا طلبكم (مثلاً: طبيب قلب)\n\n🔹 ملف — عرض الملف\n🔹 موعد — مواعيدي\n🔹 مرافق — إضافة مرافق\n🔹 شكوى — إرسال رأي\n🔹 دواء — تذكير الدواء\n🔹 حقوق — حقوق المريض\n🔹 طعام — التغذية\n🔹 زهرة — جملة أمل\n🔹 طوارئ — مساعدة عاجلة\n🔹 دعوة — رمز الإحالة\n🔹 مساء الخير — رسالة المساء\n\n🏥 خدمات خاصة:\n🔹 مساعد طبي — علاج طبيعي، مختبر\n🔹 مسنين — دور رعاية المسنين\n\n🚪 في أي مكان، اكتبوا: قائمة",
         "cmd_help": "لعرض القائمة، اكتبوا: قائمة",
         "ai_unavailable": "🙏 لا أستطيع الرد الآن.\n\nحاولوا مجدداً أو استخدموا القائمة:\nاكتبوا: قائمة",
         "para_menu": "🏥 الخدمات الطبية المساعدة\n\nماذا تريدون؟\n\n🔹 علاج طبيعي — اكتبوا: علاج طبيعي\n🔹 مختبر — اكتبوا: مختبر\n🔹 أشعة — اكتبوا: أشعة\n🔹 تمريض منزلي — اكتبوا: تمريض\n🔹 حقن — اكتبوا: حقن\n🔹 طب تقليدي — اكتبوا: طب تقليدي\n🔹 علاج وظيفي — اكتبوا: علاج وظيفي\n🔹 علاج النطق — اكتبوا: علاج النطق\n🔹 أطراف صناعية — اكتبوا: أطراف",
-        "elderly_menu": "🏡 دور رعاية المسنين في شيراز\n\nلعرض القائمة الكاملة، اكتبوا: دار المسنين\n\nأو اكتبوا: كل دور المسنين",
+        "elderly_menu": "🏡 دور رعاية المسنين في شيراز\n\nلعرض القائمة الكاملة، اكتبوا: كل دور المسنين\n\n🚪 للخروج، اكتبوا: قائمة",
+        "elderly_all_title": "🏡 دور رعاية المسنين في شيراز:",
     },
     "en": {
         "ref_your_code": "🔗 Your referral code: {code}\n\nEveryone you invite to Shiraz Medical, both get rewards 💙\n\nYour link:\n{link}",
@@ -329,19 +331,19 @@ MSG2 = {
         "comp_ask_name": "👤 What is the companion's name?",
         "comp_saved": "✅ Companion saved\n\n👤 Name: {name}\n📞 Phone: {phone}\n\nWe'll inform them at important moments 💙",
         "comp_skip": "Okay, whenever you want to add a companion, just write: companion",
-        "sos_menu": "🚨 Emergency\n\nPlease press one:\n\n1️⃣ Emergency 115\n2️⃣ Nearest hospital\n3️⃣ First aid guide\n4️⃣ Alert my companion\n5️⃣ Cancel",
+        "sos_menu": "🚨 Emergency\n\nPlease press one:\n\n1️⃣ Emergency 115\n2️⃣ Nearest hospital\n3️⃣ First aid guide\n4️⃣ Alert my companion\n5️⃣ Cancel\n\n🚪 To exit, write: menu",
         "sos_115": "🚑 Emergency number: 115\n\nPlease call and give your exact address.",
         "sos_first_aid": "🩺 First Aid\n\n🔹 Chest pain:\n- Sit and rest\n- Sublingual pill if available\n- Call 115\n\n🔹 Bleeding:\n- Direct pressure\n- Elevate the limb\n- Call 115\n\n🔹 Shortness of breath:\n- Sit upright\n- Loosen clothing\n- Call 115\n\n⚠️ This is first aid only, not a substitute for a doctor.",
         "sos_alert_companion": "⚠️ EMERGENCY\n\nPatient {name} (code: {code}) has an emergency.\n\nPlease call immediately.\n📞 {phone}",
         "sos_no_companion": "❌ No companion registered. If you want, write: companion",
-        "comp_voice_menu": "📩 Your Voice\n\nWe value your opinion. Please choose:\n\n1️⃣ Complaint about doctor\n2️⃣ Complaint about medical center\n3️⃣ Complaint about accommodation\n4️⃣ Complaint about transport\n5️⃣ General complaint\n6️⃣ Cancel",
+        "comp_voice_menu": "📩 Your Voice\n\nWe value your opinion. Please choose:\n\n1️⃣ Complaint about doctor\n2️⃣ Complaint about medical center\n3️⃣ Complaint about accommodation\n4️⃣ Complaint about transport\n5️⃣ General complaint\n6️⃣ Cancel\n\n🚪 To exit, write: menu",
         "comp_voice_text": "📝 Please write your feedback:\n\nYou can give your name or stay anonymous. (Optional)\n\nFor anonymous, write: anonymous",
         "comp_voice_saved": "✅ Your message was recorded\n\n📋 Tracking code: {id}\n\nWe'll follow up soon and notify you through this bot 💙\n\nThank you for trusting us.",
         "comp_voice_skip": "Okay, whenever you want, write: complaint",
         "comp_voice_admin": "📩 New Complaint\n\n📋 Code: {id}\nCategory: {category}\nName: {name}\nChatID: {cid}\n\nText:\n{text}",
         "rights_title": "⚖️ Your Rights as a Patient\n━━━━━━━━━━━━━━━",
         "rights_body": "1️⃣ Right to full information\n2️⃣ Right to choose doctor & center\n3️⃣ Confidentiality of medical info\n4️⃣ Informed consent before any procedure\n5️⃣ Right to prescriptions & documents\n6️⃣ Right to complain & follow up\n7️⃣ Respect without discrimination\n8️⃣ Access to your own medical file\n\n📞 If any is violated:\n- With us: @ShirazMedBot\n- Medical Council\n- Ministry of Health: 190",
-        "med_menu": "⏰ Medication Reminder\n\nWe can remind you to take your meds 💙\n\n1️⃣ Add new reminder\n2️⃣ View my reminders\n3️⃣ Cancel",
+        "med_menu": "⏰ Medication Reminder\n\nWe can remind you to take your meds 💙\n\n1️⃣ Add new reminder\n2️⃣ View my reminders\n3️⃣ Cancel\n\n🚪 To exit, write: menu",
         "med_ask_name": "💊 What's the medication name?",
         "med_ask_time": "⏰ What time should we remind?\n\nExample: 08:00 or 20:30",
         "med_saved": "✅ Reminder saved\n\n💊 Medication: {name}\n⏰ Time: {time}\n\nWe'll remind you on time 💙",
@@ -352,11 +354,12 @@ MSG2 = {
         "med_none": "No reminders yet. Whenever you want, write: med",
         "food_title": "🍏 Nutrition & Interactions Guide\n━━━━━━━━━━━━━━━",
         "food_body": "🔴 Important interactions:\n\n• Antibiotics + dairy (2h gap)\n• Iron + tea/coffee (1h gap)\n• Warfarin + cabbage/spinach (caution)\n• Thyroid + empty stomach in morning\n• Painkillers + empty stomach (avoid)\n\n💧 Drink plenty of water\n🥗 Fresh fruits & vegetables\n🚫 Avoid self-medication\n\n⚠️ This is general info, not a substitute for a doctor.",
-        "menu_main": "📋 Shiraz Medical Menu\n\n💬 Write your request (e.g., heart doctor)\n\n🔹 file — view your file\n🔹 appointment — my appointments\n🔹 companion — add companion\n🔹 complaint — send feedback\n🔹 med — medication reminder\n🔹 rights — patient rights\n🔹 food — nutrition\n🔹 flower — hope message\n🔹 emergency — urgent help\n🔹 invite — my referral code\n🔹 goodnight — evening message\n\n🏥 Special services:\n🔹 paramedical — physiotherapy, lab\n🔹 elderly — Shiraz nursing homes",
+        "menu_main": "📋 Shiraz Medical Menu\n\n💬 Write your request (e.g., heart doctor)\n\n🔹 file — view your file\n🔹 appointment — my appointments\n🔹 companion — add companion\n🔹 complaint — send feedback\n🔹 med — medication reminder\n🔹 rights — patient rights\n🔹 food — nutrition\n🔹 flower — hope message\n🔹 emergency — urgent help\n🔹 invite — my referral code\n🔹 goodnight — evening message\n\n🏥 Special services:\n🔹 paramedical — physiotherapy, lab\n🔹 elderly — Shiraz nursing homes\n\n🚪 If stuck anywhere, write: menu",
         "cmd_help": "To see menu, write: menu",
         "ai_unavailable": "🙏 I can't answer right now.\n\nPlease try again or use the menu:\nwrite: menu",
         "para_menu": "🏥 Paramedical Services\n\nWhat service do you need?\n\n🔹 Physiotherapy — write: physiotherapy\n🔹 Lab — write: lab\n🔹 Radiology — write: radiology\n🔹 Home nursing — write: nursing\n🔹 Injection — write: injection\n🔹 Traditional medicine — write: traditional\n🔹 Occupational therapy — write: occupational\n🔹 Speech therapy — write: speech\n🔹 Orthotics — write: orthotics",
-        "elderly_menu": "🏡 Nursing Homes in Shiraz\n\nFor full list, write: nursing home\n\nOr write: all nursing homes",
+        "elderly_menu": "🏡 Nursing Homes in Shiraz\n\nFor full list, write: all nursing homes\n\n🚪 To exit, write: menu",
+        "elderly_all_title": "🏡 Nursing Homes in Shiraz:",
     },
 }
 # ============ WORD LISTS ============
@@ -411,7 +414,7 @@ NON_MEDICAL_MAP = {
         "رادیولوژی", "تصویربرداری", "ام آر آی", "mri", "ct", "سونوگرافی", "radiology", "أشعة",
         "پرستاری", "پرستار", "nursing", "nurse", "تمريض",
         "تزریق", "سرم", "injection", "iv", "حقن",
-        "طب سنتی", "حجامت", "traditional", "cupping", "طب تقليدي",
+        "حجامت", "cupping",
         "کاردرمانی", "occupational", "علاج وظيفي",
         "گفتاردرمانی", "speech", "علاج النطق",
         "پروتز", "ارتوپدی فنی", "بریس", "کفی", "orthotics", "prosthetics", "أطراف",
@@ -473,7 +476,6 @@ FIELD_NAMES = {
     },
 }
 
-# ============ PRICE MAP ============
 PRICE_MAP = {
     "Low": {"fa": "اقتصادی", "ar": "اقتصادي", "en": "Low"},
     "Medium": {"fa": "متوسط", "ar": "متوسط", "en": "Medium"},
@@ -511,10 +513,7 @@ CMD_NIGHT = {"شب بخیر", "شب‌بخیر", "مساء الخير", "good ni
 CMD_DELETE = {"حذف اطلاعات", "پاک کردن", "delete my data", "احذف معلوماتي"}
 CMD_PARA = {"پیراپزشکی", "پارامدیکال", "paramedical", "مساعد طبي"}
 CMD_ELDERLY = {"خانه سالمندان", "خانه‌ی سالمندان", "آسایشگاه", "سرای سالمندان", "nursing home", "elderly", "دار المسنين"}
-
-def is_simple_cmd(text, cmd_set):
-    t = clean(text)
-    return t in cmd_set
+CMD_ELDERLY_ALL = {"همه خانه سالمندان", "کل خانه سالمندان", "all nursing homes", "كل دور المسنين"}
 
 # ============ BASIC HELPERS ============
 def clean(text):
@@ -532,6 +531,9 @@ def pick_language(text):
 
 def english_words(text):
     return re.findall(r"[a-zA-Z]+", text.lower())
+
+def is_simple_cmd(text, cmd_set):
+    return clean(text) in cmd_set
 
 def load_json(path):
     try:
@@ -1208,7 +1210,7 @@ def handle_sos_choice(message, t, lang):
         for h in data[:3]:
             n = get_value(h, 'name', lang) or ''
             a = get_value(h, 'address', lang) or ''
-            p = get_value(h, 'phone', lang) or ''
+            p = get_value(h, 'phone', lang) or h.get('phone', '')
             lines.append("🏥 " + str(n) + "\n📍 " + str(a) + "\n📞 " + str(p))
         if lines:
             bot.reply_to(message, "\n\n".join(lines))
@@ -1422,7 +1424,7 @@ def format_generic(item, lang):
     fnames = FIELD_NAMES.get(lang, {})
     lines = []
     seen = set()
-    skip_keys = ('id', 'status', 'lat', 'lng', 'created_at')
+    skip_keys = ('id', 'status', 'lat', 'lng', 'created_at', 'updated_at')
     for k, v in item.items():
         if k in skip_keys:
             continue
@@ -1573,6 +1575,13 @@ def process_query(message, text, lang):
         return True
     if is_simple_cmd(text, CMD_PARA):
         bot.reply_to(message, MSG2[lang]["para_menu"])
+        return True
+    if is_simple_cmd(text, CMD_ELDERLY_ALL):
+        data = load_json("data/elderly_homes.json")
+        if data:
+            bot.reply_to(message, MSG2[lang]["elderly_all_title"])
+            for item in data[:10]:
+                bot.reply_to(message, format_generic(item, lang))
         return True
     if is_simple_cmd(text, CMD_ELDERLY):
         bot.reply_to(message, MSG2[lang]["elderly_menu"])
@@ -1849,7 +1858,9 @@ def handle(message):
     t = clean(text)
     user_name = get_user_name(message)
 
-    if t in ("منو", "لغو", "انصراف"):
+    # ==== خروج فوری از هر state با کلمات منو/لغو/انصراف ====
+    ESCAPE_WORDS = {"منو", "لغو", "انصراف", "قائمة", "menu", "cancel", "help"}
+    if t in ESCAPE_WORDS:
         user_state[cid] = "active"
         user_temp.pop(cid, None)
         show_main_menu(message, lang)
@@ -2141,5 +2152,5 @@ def handle(message):
 
 
 # ============ START ============
-print("ربات روشن شد... v33 (مسیریاب + پیراپزشکی + خانه سالمندان + AI + کامل)")
+print("ربات روشن شد... v34 (خروج از هر state با منو + کامل)")
 bot.infinity_polling(timeout=30, long_polling_timeout=30)
