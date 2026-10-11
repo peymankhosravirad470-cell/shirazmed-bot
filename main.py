@@ -5,6 +5,7 @@ import random
 import telebot
 import requests
 from datetime import datetime, timedelta
+from urllib.parse import quote
 
 # ============ CONFIG ============
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
@@ -41,7 +42,6 @@ START_MSG = """🌟 سلام و خوش آمدید! از اینکه شیراز م
 2 - العربية
 3 - English"""
 
-# ============ DIGITS ============
 DIGITS = str.maketrans("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩", "01234567890123456789")
 
 # ============ STATE ============
@@ -75,8 +75,6 @@ MSG = {
         "apt_none": "شما هنوز هیچ نوبتی ثبت نکرده‌اید.",
         "apt_confirm_final": "آیا درخواست با این اطلاعات ثبت شود؟ (بله / نه)\n\n👤 نام: {name}\n📞 تلفن: {phone}\n👨‍⚕️ پزشک: {doctor}",
         "apt_admin_new": "📥 درخواست نوبت جدید\n\n📋 کد: {id}\n👤 بیمار: {name}\n📞 تلفن: {phone}\n👨‍⚕️ پزشک: {doctor}\n📞 تلفن مطب: {dphone}\n\n⏳ در انتظار تأیید شما.\nبرای ثبت تاریخ قطعی:\n/confirm {id} 1405/09/20 10:30",
-        "apt_admin_confirm_ok": "✅ نوبت {id} تأیید شد و به بیمار اطلاع داده شد.",
-        "apt_admin_confirm_bad": "❌ نوبت {id} پیدا نشد یا فرمت اشتباه است.\nفرمت: /confirm APT-1001 1405/09/20 10:30",
         "apt_patient_confirmed": "🎉 نوبت شما تأیید شد!\n\n📋 کد: {id}\n👨‍⚕️ پزشک: {doctor}\n📅 تاریخ: {date}\n⏰ ساعت: {time}\n📍 آدرس: {address}\n\nلطفاً ۱۵ دقیقه قبل در مطب باشید.",
         "pt_created": "🎫 پرونده‌ی شما ساخته شد\n\n📋 کد پرونده: {code}\n\nاین کد رو یه جای امن نگه دار 💙\nهر وقت خواستی ببینی کجای کاریم، فقط بنویس: پرونده",
         "pt_title": "🎫 پرونده‌ی سلامت شما\n━━━━━━━━━━━━━━━",
@@ -123,8 +121,6 @@ MSG = {
         "apt_none": "لم تسجلوا أي موعد بعد.",
         "apt_confirm_final": "هل نسجل الطلب بهذه المعلومات؟ (نعم / لا)\n\n👤 الاسم: {name}\n📞 الهاتف: {phone}\n👨‍⚕️ الطبيب: {doctor}",
         "apt_admin_new": "📥 طلب موعد جديد\n\n📋 الرقم: {id}\n👤 المريض: {name}\n📞 الهاتف: {phone}\n👨‍⚕️ الطبيب: {doctor}\n📞 هاتف العيادة: {dphone}\n\n⏳ في انتظار تأكيدكم.\nلتسجيل التاريخ النهائي:\n/confirm {id} 1405/09/20 10:30",
-        "apt_admin_confirm_ok": "✅ تم تأكيد الموعد {id} وإبلاغ المريض.",
-        "apt_admin_confirm_bad": "❌ الموعد {id} غير موجود أو الصيغة خاطئة.\nالصيغة: /confirm APT-1001 1405/09/20 10:30",
         "apt_patient_confirmed": "🎉 تم تأكيد موعدكم!\n\n📋 الرقم: {id}\n👨‍⚕️ الطبيب: {doctor}\n📅 التاريخ: {date}\n⏰ الوقت: {time}\n📍 العنوان: {address}\n\nيرجى الحضور قبل ١٥ دقيقة.",
         "pt_created": "🎫 تم إنشاء ملفكم\n\n📋 رقم الملف: {code}\n\nاحفظوا هذا الرقم في مكان آمن 💙\nمتى أردتم معرفة مرحلة علاجكم، اكتبوا: ملف",
         "pt_title": "🎫 ملفكم الصحي\n━━━━━━━━━━━━━━━",
@@ -171,8 +167,6 @@ MSG = {
         "apt_none": "You have no appointments yet.",
         "apt_confirm_final": "Submit this request? (Yes / No)\n\n👤 Name: {name}\n📞 Phone: {phone}\n👨‍⚕️ Doctor: {doctor}",
         "apt_admin_new": "📥 New appointment request\n\n📋 Code: {id}\n👤 Patient: {name}\n📞 Phone: {phone}\n👨‍⚕️ Doctor: {doctor}\n📞 Clinic phone: {dphone}\n\n⏳ Awaiting your confirmation.\nTo set the final date:\n/confirm {id} 1405/09/20 10:30",
-        "apt_admin_confirm_ok": "✅ Appointment {id} confirmed and patient notified.",
-        "apt_admin_confirm_bad": "❌ Appointment {id} not found or format invalid.\nFormat: /confirm APT-1001 1405/09/20 10:30",
         "apt_patient_confirmed": "🎉 Your appointment is confirmed!\n\n📋 Code: {id}\n👨‍⚕️ Doctor: {doctor}\n📅 Date: {date}\n⏰ Time: {time}\n📍 Address: {address}\n\nPlease arrive 15 minutes early.",
         "pt_created": "🎫 Your file has been created\n\n📋 File code: {code}\n\nKeep this code safe 💙\nWhenever you want to see your progress, just write: file",
         "pt_title": "🎫 Your Health File\n━━━━━━━━━━━━━━━",
@@ -248,14 +242,11 @@ MSG2 = {
         "med_none": "هنوز یادآوری ثبت نکردی. هر وقت خواستی، بنویس: دارو",
         "food_title": "🍏 راهنمای تغذیه و تداخلات\n━━━━━━━━━━━━━━━",
         "food_body": "🔴 تداخل‌های مهم دارویی:\n\n• آنتی‌بیوتیک + لبنیات (۲ ساعت فاصله)\n• آهن + چای/قهوه (۱ ساعت فاصله)\n• وارفارین + کلم و اسفناج (احتیاط)\n• تیروئید + صبح ناشتا\n• مسکن + معده خالی (ممنوع)\n\n💧 در طول درمان آب زیاد بنوش\n🥗 میوه و سبزیجات تازه مصرف کن\n🚫 از خوددرمانی پرهیز کن\n\n⚠️ این راهنمای کلیه، نه جایگزین پزشک.",
-        "menu_main": "📋 منوی شیراز مدیکال\n\n💬 خواسته‌ت رو بنویس (مثلاً: دکتر قلب)\n\n🔹 پرونده — مشاهده‌ی پرونده\n🔹 نوبت — نوبت‌های من\n🔹 همراه — افزودن همراه\n🔹 شکایت — ارسال نظر\n🔹 دارو — یادآور دارو\n🔹 حقوق — حقوق بیمار\n🔹 چی بخورم — تغذیه\n🔹 گل — جمله‌ی امیدبخش\n🔹 اضطراری — کمک فوری\n🔹 دعوت — کد معرفی من\n🔹 شب‌بخیر — پیام شب",
+        "menu_main": "📋 منوی شیراز مدیکال\n\n💬 خواسته‌ت رو بنویس (مثلاً: دکتر قلب)\n\n🔹 پرونده — مشاهده‌ی پرونده\n🔹 نوبت — نوبت‌های من\n🔹 همراه — افزودن همراه\n🔹 شکایت — ارسال نظر\n🔹 دارو — یادآور دارو\n🔹 حقوق — حقوق بیمار\n🔹 چی بخورم — تغذیه\n🔹 گل — جمله‌ی امیدبخش\n🔹 اضطراری — کمک فوری\n🔹 دعوت — کد معرفی من\n🔹 شب‌بخیر — پیام شب\n\n🏥 سرویس‌های ویژه:\n🔹 پیراپزشکی — فیزیوتراپی، آزمایشگاه\n🔹 سالمندان — خانه سالمندان شیراز",
         "cmd_help": "برای دیدن منو، بنویسید: منو",
-        "admin_stats": "📊 وضعیت ربات\n\n👥 کاربران:\n• کل: {total}\n• فعال امروز: {dau}\n• فعال ۷ روز: {wau}\n• فعال ۳۰ روز: {mau}\n\n📈 نرخ تبدیل:\n• start → نوبت: {conv}%\n\n📅 نوبت‌ها:\n• در انتظار: {pending}\n• تأیید شده: {confirmed}\n\n📩 شکایت جدید: {complaints}\n\n📈 نظرسنجی:\n• رضایت: {pos}\n• عدم رضایت: {neg}",
-        "admin_deactivate_ok": "✅ پزشک {name} غیرفعال شد.",
-        "admin_deactivate_bad": "❌ پزشک با شناسه {id} پیدا نشد.\nفرمت: /deactivate doc_001",
-        "admin_activate_ok": "✅ پزشک {name} فعال شد.",
-        "admin_activate_bad": "❌ پزشک با شناسه {id} پیدا نشد.",
         "ai_unavailable": "🙏 الان نمی‌تونم پاسخ بدم.\n\nلطفاً دوباره تلاش کنید یا از منو استفاده کنید:\nبنویسید: منو",
+        "para_menu": "🏥 خدمات پیراپزشکی\n\nچه نوع خدماتی می‌خواید؟\n\n🔹 فیزیوتراپی — بنویسید: فیزیوتراپی\n🔹 آزمایشگاه — بنویسید: آزمایشگاه\n🔹 رادیولوژی — بنویسید: رادیولوژی\n🔹 پرستاری در منزل — بنویسید: پرستاری\n🔹 تزریق — بنویسید: تزریق\n🔹 طب سنتی — بنویسید: طب سنتی\n🔹 کاردرمانی — بنویسید: کاردرمانی\n🔹 گفتاردرمانی — بنویسید: گفتاردرمانی\n🔹 پروتز و ارتوپدی فنی — بنویسید: پروتز",
+        "elderly_menu": "🏡 خانه‌های سالمندان شیراز\n\nبرای دیدن لیست کامل، بنویسید: خانه سالمندان\n\nیا بنویسید: همه خانه‌های سالمندان",
     },
     "ar": {
         "ref_your_code": "🔗 رمز الإحالة: {code}\n\nكل من تدعوه إلى شيراز ميديكال، كلاكما تحصلان على مكافأة 💙\n\nالرابط الخاص:\n{link}",
@@ -306,14 +297,11 @@ MSG2 = {
         "med_none": "لم تسجلوا تذكيراً بعد. متى أردتم، اكتبوا: دواء",
         "food_title": "🍏 دليل التغذية والتداخلات\n━━━━━━━━━━━━━━━",
         "food_body": "🔴 تداخلات مهمة:\n\n• مضاد حيوي + ألبان (ساعتان)\n• حديد + شاي/قهوة (ساعة)\n• وارفارين + ملفوف وسبانخ (حذر)\n• الغدة الدرقية + صباحاً على الريق\n• مسكن + معدة فارغة (ممنوع)\n\n💧 اشربوا ماء كثيراً\n🥗 فواكه وخضروات طازجة\n🚫 تجنبوا العلاج الذاتي\n\n⚠️ هذا دليل عام، وليس بديلاً عن الطبيب.",
-        "menu_main": "📋 قائمة شيراز ميديكال\n\n💬 اكتبوا طلبكم (مثلاً: طبيب قلب)\n\n🔹 ملف — عرض الملف\n🔹 موعد — مواعيدي\n🔹 مرافق — إضافة مرافق\n🔹 شكوى — إرسال رأي\n🔹 دواء — تذكير الدواء\n🔹 حقوق — حقوق المريض\n🔹 طعام — التغذية\n🔹 زهرة — جملة أمل\n🔹 طوارئ — مساعدة عاجلة\n🔹 دعوة — رمز الإحالة\n🔹 مساء الخير — رسالة المساء",
+        "menu_main": "📋 قائمة شيراز ميديكال\n\n💬 اكتبوا طلبكم (مثلاً: طبيب قلب)\n\n🔹 ملف — عرض الملف\n🔹 موعد — مواعيدي\n🔹 مرافق — إضافة مرافق\n🔹 شكوى — إرسال رأي\n🔹 دواء — تذكير الدواء\n🔹 حقوق — حقوق المريض\n🔹 طعام — التغذية\n🔹 زهرة — جملة أمل\n🔹 طوارئ — مساعدة عاجلة\n🔹 دعوة — رمز الإحالة\n🔹 مساء الخير — رسالة المساء\n\n🏥 خدمات خاصة:\n🔹 مساعد طبي — علاج طبيعي، مختبر\n🔹 مسنين — دور رعاية المسنين",
         "cmd_help": "لعرض القائمة، اكتبوا: قائمة",
-        "admin_stats": "📊 حالة الروبوت\n\n👥 المستخدمون:\n• الكل: {total}\n• اليوم: {dau}\n• ٧ أيام: {wau}\n• ٣٠ يوم: {mau}\n\n📈 التحويل:\n• start → موعد: {conv}%\n\n📅 المواعيد:\n• قيد الانتظار: {pending}\n• مؤكدة: {confirmed}\n\n📩 شكاوى جديدة: {complaints}\n\n📈 الاستبيان:\n• رضا: {pos}\n• عدم رضا: {neg}",
-        "admin_deactivate_ok": "✅ تم تعطيل الطبيب {name}.",
-        "admin_deactivate_bad": "❌ الطبيب {id} غير موجود.\nالصيغة: /deactivate doc_001",
-        "admin_activate_ok": "✅ تم تفعيل الطبيب {name}.",
-        "admin_activate_bad": "❌ الطبيب {id} غير موجود.",
         "ai_unavailable": "🙏 لا أستطيع الرد الآن.\n\nحاولوا مجدداً أو استخدموا القائمة:\nاكتبوا: قائمة",
+        "para_menu": "🏥 الخدمات الطبية المساعدة\n\nماذا تريدون؟\n\n🔹 علاج طبيعي — اكتبوا: علاج طبيعي\n🔹 مختبر — اكتبوا: مختبر\n🔹 أشعة — اكتبوا: أشعة\n🔹 تمريض منزلي — اكتبوا: تمريض\n🔹 حقن — اكتبوا: حقن\n🔹 طب تقليدي — اكتبوا: طب تقليدي\n🔹 علاج وظيفي — اكتبوا: علاج وظيفي\n🔹 علاج النطق — اكتبوا: علاج النطق\n🔹 أطراف صناعية — اكتبوا: أطراف",
+        "elderly_menu": "🏡 دور رعاية المسنين في شيراز\n\nلعرض القائمة الكاملة، اكتبوا: دار المسنين\n\nأو اكتبوا: كل دور المسنين",
     },
     "en": {
         "ref_your_code": "🔗 Your referral code: {code}\n\nEveryone you invite to Shiraz Medical, both get rewards 💙\n\nYour link:\n{link}",
@@ -364,14 +352,11 @@ MSG2 = {
         "med_none": "No reminders yet. Whenever you want, write: med",
         "food_title": "🍏 Nutrition & Interactions Guide\n━━━━━━━━━━━━━━━",
         "food_body": "🔴 Important interactions:\n\n• Antibiotics + dairy (2h gap)\n• Iron + tea/coffee (1h gap)\n• Warfarin + cabbage/spinach (caution)\n• Thyroid + empty stomach in morning\n• Painkillers + empty stomach (avoid)\n\n💧 Drink plenty of water\n🥗 Fresh fruits & vegetables\n🚫 Avoid self-medication\n\n⚠️ This is general info, not a substitute for a doctor.",
-        "menu_main": "📋 Shiraz Medical Menu\n\n💬 Write your request (e.g., heart doctor)\n\n🔹 file — view your file\n🔹 appointment — my appointments\n🔹 companion — add companion\n🔹 complaint — send feedback\n🔹 med — medication reminder\n🔹 rights — patient rights\n🔹 food — nutrition\n🔹 flower — hope message\n🔹 emergency — urgent help\n🔹 invite — my referral code\n🔹 goodnight — evening message",
+        "menu_main": "📋 Shiraz Medical Menu\n\n💬 Write your request (e.g., heart doctor)\n\n🔹 file — view your file\n🔹 appointment — my appointments\n🔹 companion — add companion\n🔹 complaint — send feedback\n🔹 med — medication reminder\n🔹 rights — patient rights\n🔹 food — nutrition\n🔹 flower — hope message\n🔹 emergency — urgent help\n🔹 invite — my referral code\n🔹 goodnight — evening message\n\n🏥 Special services:\n🔹 paramedical — physiotherapy, lab\n🔹 elderly — Shiraz nursing homes",
         "cmd_help": "To see menu, write: menu",
-        "admin_stats": "📊 Bot Status\n\n👥 Users:\n• Total: {total}\n• Active today: {dau}\n• Active 7d: {wau}\n• Active 30d: {mau}\n\n📈 Conversion:\n• start → appointment: {conv}%\n\n📅 Appointments:\n• Pending: {pending}\n• Confirmed: {confirmed}\n\n📩 New complaints: {complaints}\n\n📈 Survey:\n• Positive: {pos}\n• Negative: {neg}",
-        "admin_deactivate_ok": "✅ Doctor {name} deactivated.",
-        "admin_deactivate_bad": "❌ Doctor {id} not found.\nFormat: /deactivate doc_001",
-        "admin_activate_ok": "✅ Doctor {name} activated.",
-        "admin_activate_bad": "❌ Doctor {id} not found.",
         "ai_unavailable": "🙏 I can't answer right now.\n\nPlease try again or use the menu:\nwrite: menu",
+        "para_menu": "🏥 Paramedical Services\n\nWhat service do you need?\n\n🔹 Physiotherapy — write: physiotherapy\n🔹 Lab — write: lab\n🔹 Radiology — write: radiology\n🔹 Home nursing — write: nursing\n🔹 Injection — write: injection\n🔹 Traditional medicine — write: traditional\n🔹 Occupational therapy — write: occupational\n🔹 Speech therapy — write: speech\n🔹 Orthotics — write: orthotics",
+        "elderly_menu": "🏡 Nursing Homes in Shiraz\n\nFor full list, write: nursing home\n\nOr write: all nursing homes",
     },
 }
 # ============ WORD LISTS ============
@@ -420,6 +405,23 @@ NON_MEDICAL_MAP = {
     "support.json": ["پشتیبانی", "هلال احمر", "شماره اضطراری", "support", "دعم", "مساعدة"],
     "complaints.json": ["شکایت", "شکایات", "complaint", "شكوى"],
     "patient_guide.json": ["راهنمای بیمار", "ویزای درمانی", "patient guide", "medical visa", "قبول مريض", "تأشيرة طبية"],
+    "paramedical.json": [
+        "فیزیوتراپی", "فیزیوتراپ", "physiotherapy", "physio", "علاج طبيعي",
+        "آزمایشگاه", "آزمایش", "lab", "laboratory", "مختبر",
+        "رادیولوژی", "تصویربرداری", "ام آر آی", "mri", "ct", "سونوگرافی", "radiology", "أشعة",
+        "پرستاری", "پرستار", "nursing", "nurse", "تمريض",
+        "تزریق", "سرم", "injection", "iv", "حقن",
+        "طب سنتی", "حجامت", "traditional", "cupping", "طب تقليدي",
+        "کاردرمانی", "occupational", "علاج وظيفي",
+        "گفتاردرمانی", "speech", "علاج النطق",
+        "پروتز", "ارتوپدی فنی", "بریس", "کفی", "orthotics", "prosthetics", "أطراف",
+        "پیراپزشکی", "paramedical", "مساعد طبي"
+    ],
+    "elderly_homes.json": [
+        "خانه سالمندان", "خانه‌ی سالمندان", "آسایشگاه", "سرای سالمندان", "سالمندان",
+        "nursing home", "nursing homes", "elderly", "senior",
+        "دار المسنين", "دار رعاية المسنين", "مسنين", "عجزة"
+    ],
 }
 
 # ============ FIELD_NAMES ============
@@ -427,42 +429,55 @@ FIELD_NAMES = {
     "fa": {
         "name": "نام", "address": "آدرس", "phone": "تلفن", "specialty": "تخصص",
         "office_address": "آدرس مطب", "working_hours": "ساعت کاری",
-        "price_range_toman": "قیمت", "patient_satisfaction_score": "امتیاز",
+        "price_range_toman": "قیمت", "price_range": "قیمت",
+        "patient_satisfaction_score": "امتیاز", "rating": "امتیاز",
         "reviews_summary": "نظر مسافران", "surgeries_done_at": "بیمارستان‌ها",
         "category": "دسته", "star_rating": "ستاره", "quality_grade": "کیفیت",
         "district": "منطقه", "amenities": "امکانات", "distance_to_hospitals": "فاصله تا بیمارستان",
         "has_translator": "مترجم", "languages_spoken": "زبان‌ها",
-        "description": "توضیحات", "services": "خدمات",
+        "description": "توضیحات", "services": "خدمات", "type": "نوع",
         "pharmacy_code": "کد داروخانه", "services_offered": "خدمات ارائه‌شده",
         "is_24h": "شبانه‌روزی", "ipd_code": "کد IPD",
         "ownership": "مالکیت", "specialties": "تخصص‌ها",
+        "has_home_service": "خدمات در منزل", "capacity": "ظرفیت",
     },
     "ar": {
         "name": "الاسم", "address": "العنوان", "phone": "الهاتف", "specialty": "التخصص",
         "office_address": "عنوان العيادة", "working_hours": "ساعات العمل",
-        "price_range_toman": "السعر", "patient_satisfaction_score": "التقييم",
+        "price_range_toman": "السعر", "price_range": "السعر",
+        "patient_satisfaction_score": "التقييم", "rating": "التقييم",
         "reviews_summary": "آراء الزوار", "surgeries_done_at": "المستشفيات",
         "category": "الفئة", "star_rating": "التصنيف", "quality_grade": "الجودة",
         "district": "المنطقة", "amenities": "المرافق", "distance_to_hospitals": "المسافة إلى المستشفيات",
         "has_translator": "مترجم", "languages_spoken": "اللغات",
-        "description": "الوصف", "services": "الخدمات",
+        "description": "الوصف", "services": "الخدمات", "type": "النوع",
         "pharmacy_code": "رمز الصيدلية", "services_offered": "الخدمات المقدمة",
         "is_24h": "على مدار الساعة", "ipd_code": "رمز IPD",
         "ownership": "الملكية", "specialties": "التخصصات",
+        "has_home_service": "خدمة منزلية", "capacity": "السعة",
     },
     "en": {
         "name": "Name", "address": "Address", "phone": "Phone", "specialty": "Specialty",
         "office_address": "Office Address", "working_hours": "Working Hours",
-        "price_range_toman": "Price", "patient_satisfaction_score": "Rating",
+        "price_range_toman": "Price", "price_range": "Price",
+        "patient_satisfaction_score": "Rating", "rating": "Rating",
         "reviews_summary": "Reviews", "surgeries_done_at": "Hospitals",
         "category": "Category", "star_rating": "Star Rating", "quality_grade": "Quality",
         "district": "District", "amenities": "Amenities", "distance_to_hospitals": "Distance to Hospitals",
         "has_translator": "Has Translator", "languages_spoken": "Languages",
-        "description": "Description", "services": "Services",
+        "description": "Description", "services": "Services", "type": "Type",
         "pharmacy_code": "Pharmacy Code", "services_offered": "Services Offered",
         "is_24h": "24 Hours", "ipd_code": "IPD Code",
         "ownership": "Ownership", "specialties": "Specialties",
+        "has_home_service": "Home Service", "capacity": "Capacity",
     },
+}
+
+# ============ PRICE MAP ============
+PRICE_MAP = {
+    "Low": {"fa": "اقتصادی", "ar": "اقتصادي", "en": "Low"},
+    "Medium": {"fa": "متوسط", "ar": "متوسط", "en": "Medium"},
+    "High": {"fa": "گران", "ar": "غالي", "en": "High"},
 }
 
 CONTEXT_WORDS = ["بیمارستان", "hospital", "مستشفى", "شیراز", "shiraz", "شيراز", "doctor", "دکتر", "طبيب", "dr"]
@@ -494,6 +509,8 @@ CMD_INVITE = {"دعوت", "معرفی", "کد معرف", "دعوة", "إحالة
 CMD_MENU = {"منو", "راهنما", "کمک منو", "قائمة", "مساعدة", "menu", "help", "guide"}
 CMD_NIGHT = {"شب بخیر", "شب‌بخیر", "مساء الخير", "good night", "goodnight"}
 CMD_DELETE = {"حذف اطلاعات", "پاک کردن", "delete my data", "احذف معلوماتي"}
+CMD_PARA = {"پیراپزشکی", "پارامدیکال", "paramedical", "مساعد طبي"}
+CMD_ELDERLY = {"خانه سالمندان", "خانه‌ی سالمندان", "آسایشگاه", "سرای سالمندان", "nursing home", "elderly", "دار المسنين"}
 
 def is_simple_cmd(text, cmd_set):
     t = clean(text)
@@ -520,27 +537,61 @@ def load_json(path):
     try:
         with open(path, 'r', encoding='utf-8') as f:
             data = json.load(f)
+        if isinstance(data, list):
+            return data
         if isinstance(data, dict):
             for v in data.values():
                 if isinstance(v, list):
                     return v
-        return data if isinstance(data, list) else []
+        return []
     except:
         return []
 
 def get_value(item, key, lang):
+    if not isinstance(item, dict):
+        return None
+    if key in item:
+        v = item[key]
+        if isinstance(v, dict):
+            if lang in v:
+                return v[lang]
+            if "fa" in v:
+                return v["fa"]
+            if "en" in v:
+                return v["en"]
+            if "ar" in v:
+                return v["ar"]
+            return None
+        return v
     if (key + "_" + lang) in item:
         return item[key + "_" + lang]
     if (key + "_fa") in item:
         return item[key + "_fa"]
-    if key in item:
-        return item[key]
+    if (key + "_en") in item:
+        return item[key + "_en"]
+    if (key + "_ar") in item:
+        return item[key + "_ar"]
     return None
+
+def get_price(item, lang):
+    p = item.get('price_range', '')
+    if not p:
+        p = item.get('price_range_toman', '')
+    if not p:
+        return ""
+    if isinstance(p, dict):
+        return p.get(lang, p.get('fa', ''))
+    if p in PRICE_MAP:
+        return PRICE_MAP[p].get(lang, p)
+    return p
 
 def item_name_for_search(item):
     for k in ("name_fa", "name_ar", "name_en", "name"):
         if k in item:
-            return str(item[k])
+            v = item[k]
+            if isinstance(v, dict):
+                return v.get('fa', '') or v.get('en', '') or v.get('ar', '')
+            return str(v)
     return ""
 
 def is_all_request(text):
@@ -659,7 +710,6 @@ def format_date_full(offset_days=0, lang="fa"):
     if lang == "ar":
         return miladi + " - " + shamsi
     return shamsi + " - " + miladi
-
 # ============ DATA FILES ============
 DATA_DIR = "/app/data"
 DATA_DIR_FALLBACK = "data"
@@ -711,13 +761,13 @@ def create_appointment(doctor, pname, pphone, chat_id, lang):
     apt = {
         "id": apt_id,
         "doctor_id": doctor.get('id', ''),
-        "doctor_name_fa": doctor.get('name_fa', ''),
-        "doctor_name_ar": doctor.get('name_ar', ''),
-        "doctor_name_en": doctor.get('name_en', ''),
+        "doctor_name_fa": get_value(doctor, 'name', 'fa') or '',
+        "doctor_name_ar": get_value(doctor, 'name', 'ar') or '',
+        "doctor_name_en": get_value(doctor, 'name', 'en') or '',
         "doctor_phone": doctor.get('phone', ''),
-        "doctor_address_fa": doctor.get('office_address_fa', ''),
-        "doctor_address_ar": doctor.get('office_address_ar', ''),
-        "doctor_address_en": doctor.get('office_address_en', ''),
+        "doctor_address_fa": get_value(doctor, 'office_address', 'fa') or get_value(doctor, 'address', 'fa') or '',
+        "doctor_address_ar": get_value(doctor, 'office_address', 'ar') or get_value(doctor, 'address', 'ar') or '',
+        "doctor_address_en": get_value(doctor, 'office_address', 'en') or get_value(doctor, 'address', 'en') or '',
         "doctor_lat": doctor.get('lat', ''),
         "doctor_lng": doctor.get('lng', ''),
         "patient_name": pname,
@@ -989,9 +1039,8 @@ def try_apply_start_param(message, text, lang):
     res = apply_referral(message.chat.id, code)
     if res:
         bot.reply_to(message, MSG2[lang]["ref_welcome_new"].format(code=code))
-        inviter_lang = user_lang.get(int(res["inviter"]), "fa") if res["inviter"].isdigit() else "fa"
         try:
-            bot.send_message(res["inviter"], MSG2[inviter_lang]["ref_new_from"].format(code=code))
+            bot.send_message(res["inviter"], MSG2[lang]["ref_new_from"].format(code=code))
         except:
             pass
     return res
@@ -1013,7 +1062,7 @@ def get_companion(chat_id):
     data = load_companions()
     return data['companions'].get(str(chat_id))
 
-# ============ USERS (آمار) ============
+# ============ USERS ============
 def load_users():
     return _load_default(USERS_FILE, {"users": {}, "start_count": 0, "apt_count": 0})
 
@@ -1072,6 +1121,7 @@ def get_user_stats():
     if starts > 0:
         conv = round((apts / starts) * 100, 1)
     return {"total": total, "dau": dau, "wau": wau, "mau": mau, "conv": conv}
+
 # ============ COMPLAINTS ============
 def load_complaints():
     return _load_default(COMPLAINTS_FILE, {"next_id": 1001, "complaints": []})
@@ -1176,10 +1226,6 @@ def handle_sos_choice(message, t, lang):
             bot.reply_to(message, MSG2[lang]["sos_no_companion"])
             user_state[cid] = "active"
             return
-        patient = get_patient_by_chat(cid) or {}
-        pcode = patient.get('code', '')
-        pname = patient.get('name', '')
-        pp = patient.get('phone', '')
         bot.reply_to(message, "✅ اطلاعات به همراه شما اطلاع داده شد.\n\n👤 " + str(comp.get('name', '')) + "\n📞 " + str(comp.get('phone', '')))
         user_state[cid] = "active"
         return
@@ -1270,7 +1316,8 @@ def search_specialty(text):
         r = x.get('ratings', {})
         if isinstance(r, dict) and 'patient_satisfaction_score' in r:
             return r['patient_satisfaction_score']
-        return x.get('patient_satisfaction_score', 0)
+        v = x.get('patient_satisfaction_score', x.get('rating', 0))
+        return v
     try:
         data.sort(key=sc, reverse=True)
     except:
@@ -1311,14 +1358,14 @@ def is_best_request(text):
 def format_doctor(doc, lang):
     n = get_value(doc, 'name', lang) or ''
     s = get_value(doc, 'specialty', lang) or ''
-    p = get_value(doc, 'phone', lang) or ''
-    a = get_value(doc, 'office_address', lang) or ''
+    p = get_value(doc, 'phone', lang) or doc.get('phone', '')
+    a = get_value(doc, 'office_address', lang) or get_value(doc, 'address', lang) or ''
     hs = get_value(doc, 'surgeries_done_at', lang) or []
     if isinstance(hs, str):
         hs = [hs]
     h = " - ".join(str(x) for x in hs)
-    pr = get_value(doc, 'price_range_toman', lang) or ''
-    r = doc.get('patient_satisfaction_score', '')
+    pr = get_value(doc, 'price_range_toman', lang) or get_value(doc, 'price_range', lang) or ''
+    r = doc.get('patient_satisfaction_score', doc.get('rating', ''))
     lat = doc.get('lat', '')
     lng = doc.get('lng', '')
     lines = []
@@ -1326,32 +1373,47 @@ def format_doctor(doc, lang):
         lines.append("Doctor: " + str(n))
         lines.append("Specialty: " + str(s))
         lines.append("Address: " + str(a))
-        lines.append("Hospitals: " + str(h))
+        if h:
+            lines.append("Hospitals: " + str(h))
         lines.append("Phone: " + str(p))
-        lines.append("Price: " + str(pr))
-        lines.append("Rating: " + str(r) + "/5")
+        if pr:
+            lines.append("Price: " + str(pr))
+        if r != '':
+            lines.append("Rating: " + str(r) + "/5")
         if lat and lng:
             lines.append("Map: https://www.google.com/maps/dir/?api=1&destination=" + str(lat) + "," + str(lng))
+        elif a and str(a) != 'None':
+            lines.append("Map: https://www.google.com/maps/search/?api=1&query=" + quote(str(a)))
     elif lang == "ar":
         lines.append("الطبيب: " + str(n))
         lines.append("التخصص: " + str(s))
         lines.append("العنوان: " + str(a))
-        lines.append("المستشفيات: " + str(h))
+        if h:
+            lines.append("المستشفيات: " + str(h))
         lines.append("الهاتف: " + str(p))
-        lines.append("التكلفة: " + str(pr))
-        lines.append("التقييم: " + str(r) + "/5")
+        if pr:
+            lines.append("التكلفة: " + str(pr))
+        if r != '':
+            lines.append("التقييم: " + str(r) + "/5")
         if lat and lng:
             lines.append("الخريطة: https://www.google.com/maps/dir/?api=1&destination=" + str(lat) + "," + str(lng))
+        elif a and str(a) != 'None':
+            lines.append("الخريطة: https://www.google.com/maps/search/?api=1&query=" + quote(str(a)))
     else:
         lines.append("دکتر: " + str(n))
         lines.append("تخصص: " + str(s))
         lines.append("آدرس: " + str(a))
-        lines.append("بیمارستان: " + str(h))
+        if h:
+            lines.append("بیمارستان: " + str(h))
         lines.append("تلفن: " + str(p))
-        lines.append("قیمت: " + str(pr))
-        lines.append("امتیاز: " + str(r) + "/5")
+        if pr:
+            lines.append("قیمت: " + str(pr))
+        if r != '':
+            lines.append("امتیاز: " + str(r) + "/5")
         if lat and lng:
             lines.append("مسیریاب: https://www.google.com/maps/dir/?api=1&destination=" + str(lat) + "," + str(lng))
+        elif a and str(a) != 'None':
+            lines.append("مسیریاب: https://www.google.com/maps/search/?api=1&query=" + quote(str(a)))
     return "\n".join(lines)
 
 def format_generic(item, lang):
@@ -1360,8 +1422,9 @@ def format_generic(item, lang):
     fnames = FIELD_NAMES.get(lang, {})
     lines = []
     seen = set()
+    skip_keys = ('id', 'status', 'lat', 'lng', 'created_at')
     for k, v in item.items():
-        if k == 'id' or k == 'status':
+        if k in skip_keys:
             continue
         if k.endswith("_fa") or k.endswith("_ar") or k.endswith("_en"):
             bk = k[:-3]
@@ -1385,22 +1448,30 @@ def format_generic(item, lang):
             label = fnames.get(k, k)
         if val is None:
             continue
+        if isinstance(val, dict):
+            if lang in val:
+                val = val[lang]
+            elif "fa" in val:
+                val = val["fa"]
+            elif "en" in val:
+                val = val["en"]
+            else:
+                continue
         if isinstance(val, list):
             val = " - ".join(str(x) for x in val)
-        elif isinstance(val, dict):
-            parts = []
-            for kk, vv in val.items():
-                if isinstance(vv, list):
-                    vv = " - ".join(str(x) for x in vv)
-                parts.append(str(kk) + ": " + str(vv))
-            val = " - ".join(parts)
+        elif isinstance(val, bool):
+            if k in ("has_home_service", "has_translator"):
+                val = "✅" if val else "❌"
         sv = str(val).strip()
         if sv and sv != 'None':
             lines.append(str(label) + ": " + sv)
     lat = item.get('lat', '')
     lng = item.get('lng', '')
+    addr = get_value(item, 'address', lang)
     if lat and lng:
         lines.append("مسیریاب: https://www.google.com/maps/dir/?api=1&destination=" + str(lat) + "," + str(lng))
+    elif addr and str(addr) != 'None':
+        lines.append("مسیریاب: https://www.google.com/maps/search/?api=1&query=" + quote(str(addr)))
     return "\n".join(lines)
 
 # ============ ADMIN: deactivate/activate ============
@@ -1500,6 +1571,12 @@ def process_query(message, text, lang):
         user_state[cid] = "awaiting_delete_confirm"
         bot.reply_to(message, MSG[lang]["delete_ask"])
         return True
+    if is_simple_cmd(text, CMD_PARA):
+        bot.reply_to(message, MSG2[lang]["para_menu"])
+        return True
+    if is_simple_cmd(text, CMD_ELDERLY):
+        bot.reply_to(message, MSG2[lang]["elderly_menu"])
+        return True
 
     doc = search_by_doctor_name(text)
     if doc:
@@ -1529,7 +1606,7 @@ def process_query(message, text, lang):
             user_state[cid] = "awaiting_apt_pick"
             lines = [MSG[lang]["apt_pick_title"]]
             for i, d in enumerate(shown, 1):
-                nm = d.get("name_" + lang) or d.get('name_fa', '')
+                nm = get_value(d, 'name', lang) or get_value(d, 'name', 'fa') or ''
                 lines.append(str(i) + ". " + str(nm))
             lines.append(MSG[lang]["apt_pick_footer"])
             bot.reply_to(message, "\n".join(lines))
@@ -1539,8 +1616,8 @@ def process_query(message, text, lang):
     if fn:
         data = load_json("data/" + fn)
         if data:
-            if isinstance(data, dict):
-                items = [data]
+            if is_all_request(text):
+                items = data[:10]
             else:
                 items = data[:5]
             for item in items:
@@ -1660,9 +1737,9 @@ def deactivate_command(message):
         return
     doc_id = parts[1]
     if set_doctor_status(doc_id, 'inactive'):
-        bot.reply_to(message, MSG2["fa"]["admin_deactivate_ok"].format(name=doc_id))
+        bot.reply_to(message, "✅ پزشک " + doc_id + " غیرفعال شد.")
     else:
-        bot.reply_to(message, MSG2["fa"]["admin_deactivate_bad"].format(id=doc_id))
+        bot.reply_to(message, "❌ پزشک با شناسه " + doc_id + " پیدا نشد.")
 
 @bot.message_handler(commands=['activate'])
 def activate_command(message):
@@ -1674,9 +1751,9 @@ def activate_command(message):
         return
     doc_id = parts[1]
     if set_doctor_status(doc_id, 'active'):
-        bot.reply_to(message, MSG2["fa"]["admin_activate_ok"].format(name=doc_id))
+        bot.reply_to(message, "✅ پزشک " + doc_id + " فعال شد.")
     else:
-        bot.reply_to(message, MSG2["fa"]["admin_activate_bad"].format(id=doc_id))
+        bot.reply_to(message, "❌ پزشک با شناسه " + doc_id + " پیدا نشد.")
 
 @bot.message_handler(commands=['lang'])
 def lang_command(message):
@@ -1755,7 +1832,6 @@ def handle(message):
     text = message.text or ""
     state = user_state.get(cid)
 
-    # ---- انتخاب زبان ----
     if state is None or state == "choose_lang":
         lang = pick_language(text)
         if lang is None:
@@ -1772,12 +1848,13 @@ def handle(message):
     lang = user_lang.get(cid, "fa")
     t = clean(text)
     user_name = get_user_name(message)
+
     if t in ("منو", "لغو", "انصراف"):
         user_state[cid] = "active"
         user_temp.pop(cid, None)
         show_main_menu(message, lang)
         return
-    # ---- انتخاب پزشک ----
+
     if state == "awaiting_apt_pick":
         pm = {"1": 0, "۱": 0, "یک": 0, "2": 1, "۲": 1, "دو": 1, "3": 2, "۳": 2, "سه": 2}
         if t in pm:
@@ -1790,7 +1867,6 @@ def handle(message):
                 return
         user_state[cid] = "active"
 
-    # ---- نوبت یا تماس ----
     if state == "awaiting_apt_choice":
         if t in ("1", "۱", "یک"):
             user_state[cid] = "awaiting_apt_name"
@@ -1804,7 +1880,6 @@ def handle(message):
             return
         user_state[cid] = "active"
 
-    # ---- اسم بیمار ----
     if state == "awaiting_apt_name":
         if len(text.strip()) < 2:
             bot.reply_to(message, MSG[lang]["apt_name"])
@@ -1816,7 +1891,6 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["apt_phone"])
         return
 
-    # ---- تلفن بیمار ----
     if state == "awaiting_apt_phone":
         phone = validate_phone(text)
         if not phone:
@@ -1825,7 +1899,7 @@ def handle(message):
         user_temp[cid]["phone"] = phone
         user_state[cid] = "awaiting_apt_confirm"
         doc = user_temp.get(cid, {}).get("doctor", {})
-        dn = doc.get("name_" + lang) or doc.get("name_fa", "")
+        dn = get_value(doc, 'name', lang) or get_value(doc, 'name', 'fa') or ''
         bot.reply_to(message, MSG[lang]["apt_confirm_final"].format(
             name=user_temp[cid].get("name", ""),
             phone=phone,
@@ -1833,7 +1907,6 @@ def handle(message):
         ))
         return
 
-    # ---- تأیید نهایی ----
     if state == "awaiting_apt_confirm":
         if t in YES_WORDS:
             doc = user_temp.get(cid, {}).get("doctor", {})
@@ -1845,7 +1918,7 @@ def handle(message):
                 add_appointment_to_patient(cid, apt['id'])
                 update_patient_stage(cid, 'doctor', True)
                 register_appointment_for_stats(cid)
-                dn = doc.get("name_" + lang) or doc.get("name_fa", "")
+                dn = get_value(doc, 'name', lang) or get_value(doc, 'name', 'fa') or ''
                 bot.reply_to(message, MSG[lang]["apt_submitted"].format(
                     id=apt['id'], doctor=dn))
                 bot.reply_to(message, MSG[lang]["pt_created"].format(code=patient['code']))
@@ -1859,7 +1932,8 @@ def handle(message):
                                 doctor=dn, dphone=dphone))
                     except:
                         pass
-            except Exception:
+            except Exception as e:
+                print("APT_ERR: " + str(e))
                 bot.reply_to(message, MSG[lang]["apt_error"])
             user_temp.pop(cid, None)
             user_state[cid] = "awaiting_comp_ask"
@@ -1873,7 +1947,6 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["apt_invalid"])
         return
 
-    # ---- همراه ----
     if state == "awaiting_comp_ask":
         if t in YES_WORDS:
             user_state[cid] = "awaiting_comp_name"
@@ -1910,7 +1983,6 @@ def handle(message):
         ask_more(message)
         return
 
-    # ---- منوی شکایت ----
     if state == "awaiting_complaint_menu":
         cat_map = {"1": "doctor", "2": "center", "3": "accommodation", "4": "transport", "5": "general",
                    "۱": "doctor", "۲": "center", "۳": "accommodation", "۴": "transport", "۵": "general"}
@@ -1946,7 +2018,6 @@ def handle(message):
         ask_more(message)
         return
 
-    # ---- منوی دارو ----
     if state == "awaiting_med_menu":
         if t in ("1", "۱"):
             user_state[cid] = "awaiting_med_name"
@@ -1994,12 +2065,10 @@ def handle(message):
         ask_more(message)
         return
 
-    # ---- SOS ----
     if state == "awaiting_sos_choice":
         handle_sos_choice(message, t, lang)
         return
 
-    # ---- تأیید حذف داده ----
     if state == "awaiting_delete_confirm":
         if t in ("بله حذف کن", "نعم احذف", "yes delete"):
             delete_patient_data(cid)
@@ -2013,7 +2082,6 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["delete_ask"])
         return
 
-    # ---- بیشتر ----
     if state == "awaiting_more":
         if t in YES_WORDS:
             user_state[cid] = "active"
@@ -2025,7 +2093,6 @@ def handle(message):
             return
         user_state[cid] = "active"
 
-    # ---- نظرسنجی ----
     if state == "awaiting_rating":
         if t in YES_WORDS:
             user_state[cid] = "active"
@@ -2057,19 +2124,22 @@ def handle(message):
                 pass
         return
 
-    # ---- اضطراری ----
     if is_emergency(text):
         bot.reply_to(message, EMERGENCY_RESP[lang])
         ask_more(message)
         return
 
-    # ---- پردازش عادی ----
     old_state = user_state.get(cid)
     answered = process_query(message, text, lang)
     new_state = user_state.get(cid)
-    if not answered: bot.reply_to(message, MSG[lang]["retry"])
-    if new_state == old_state or not answered: ask_more(message)
+    if new_state != old_state and answered:
+        return
+    if not answered:
+        bot.reply_to(message, MSG[lang]["retry"])
+    if new_state == old_state or not answered:
+        ask_more(message)
+
 
 # ============ START ============
-print("ربات روشن شد... v32 (پرونده + معرفی + همراه + امید + دارو + SOS + آمار + حذف داده)")
+print("ربات روشن شد... v33 (مسیریاب + پیراپزشکی + خانه سالمندان + AI + کامل)")
 bot.infinity_polling(timeout=30, long_polling_timeout=30)
