@@ -2671,5 +2671,5 @@ def handle(message):
 
 
 # ============ START ============
-print("ربات روشن شد... v36 (Inline Keyboard درختی + همه‌چیز کامل)")
+print("ربات روشن شد... v37 (Inline Keyboard درختی + همه‌چیز کامل)")
 bot.infinity_polling(timeout=30, long_polling_timeout=30)
