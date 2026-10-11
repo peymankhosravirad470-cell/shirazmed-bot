@@ -1199,16 +1199,25 @@ def show_food_guide(message, lang):
 # ============ AI ============
 def get_ai(text, lang):
     prompt = SYSTEM_PROMPT + " پاسخ را به زبان " + LANG_NAMES[lang] + " بنویس."
+    if not AVALAI_API_KEY:
+        print("AI_ERR: key empty")
+        return None
     try:
         r = requests.post(AVALAI_URL,
             headers={"Authorization": "Bearer " + AVALAI_API_KEY, "Content-Type": "application/json"},
             json={"model": AI_MODEL, "messages": [{"role": "system", "content": prompt}, {"role": "user", "content": text}]},
-            timeout=15)
+            timeout=20)
+        print("AI_STATUS: " + str(r.status_code))
+        if r.status_code != 200:
+            print("AI_BODY: " + r.text[:400])
+            return None
         result = r.json()['choices'][0]['message']['content']
+        print("AI_OK_LEN: " + str(len(result)))
         if result and len(result.strip()) > 5:
             return result
         return None
-    except:
+    except Exception as e:
+        print("AI_EXC: " + str(e))
         return None
 
 # ============ SEARCH ============
