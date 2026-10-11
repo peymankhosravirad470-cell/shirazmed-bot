@@ -1763,7 +1763,11 @@ def handle(message):
     lang = user_lang.get(cid, "fa")
     t = clean(text)
     user_name = get_user_name(message)
-
+    if t in ("منو", "لغو", "انصراف"):
+        user_state[cid] = "active"
+        user_temp.pop(cid, None)
+        show_main_menu(message, lang)
+        return
     # ---- انتخاب پزشک ----
     if state == "awaiting_apt_pick":
         pm = {"1": 0, "۱": 0, "یک": 0, "2": 1, "۲": 1, "دو": 1, "3": 2, "۳": 2, "سه": 2}
