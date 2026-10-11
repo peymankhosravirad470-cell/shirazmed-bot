@@ -989,8 +989,9 @@ def try_apply_start_param(message, text, lang):
     res = apply_referral(message.chat.id, code)
     if res:
         bot.reply_to(message, MSG2[lang]["ref_welcome_new"].format(code=code))
+        inviter_lang = user_lang.get(int(res["inviter"]), "fa") if res["inviter"].isdigit() else "fa"
         try:
-            bot.send_message(res["inviter"], MSG2[lang]["ref_new_from"].format(code=code))
+            bot.send_message(res["inviter"], MSG2[inviter_lang]["ref_new_from"].format(code=code))
         except:
             pass
     return res
@@ -1677,6 +1678,8 @@ def lang_command(message):
 def start(message):
     cid = message.chat.id
     user_state[cid] = "choose_lang"
+    if cid in user_lang:
+        register_user(cid, user_lang[cid])
     bot.reply_to(message, START_MSG)
     try_apply_start_param(message, message.text or "", user_lang.get(cid, "fa"))
 
@@ -2048,14 +2051,14 @@ def handle(message):
         return
 
     # ---- پردازش عادی ----
-    old_state = user_state.get(cid)
-    answered = process_query(message, text, lang)
-    new_state = user_state.get(cid)
-    if new_state != old_state:
-        return
-    if not answered:
-        bot.reply_to(message, MSG[lang]["retry"])
-    ask_more(message)
+old_state = user_state.get(cid)
+answered = process_query(message, text, lang)
+new_state = user_state.get(cid)
+if new_state != old_state and answered:
+    return
+if not answered:
+    bot.reply_to(message, MSG[lang]["retry"])
+ask_more(message)
 
 
 # ============ START ============
