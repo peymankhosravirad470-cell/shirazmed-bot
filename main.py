@@ -1901,7 +1901,33 @@ def other_types(message):
     else:
         user_state[cid] = "choose_lang"
         bot.reply_to(message, START_MSG)
+@bot.message_handler(commands=['testbutton'])
+def testbutton_command(message):
+    try:
+        markup = telebot.types.InlineKeyboardMarkup()
+        btn1 = telebot.types.InlineKeyboardButton(text="💎 پکیج", callback_data="t_pkg")
+        btn2 = telebot.types.InlineKeyboardButton(text="👨‍⚕️ دکتر", callback_data="t_doc")
+        btn3 = telebot.types.InlineKeyboardButton(text="🏥 بیمارستان", callback_data="t_hos")
+        markup.row(btn1, btn2, btn3)
+        bot.send_message(message.chat.id, "تست دکمه‌های شیشه‌ای:", reply_markup=markup)
+    except Exception as e:
+        bot.reply_to(message, "❌ خطا: " + str(e))
 
+
+@bot.callback_query_handler(func=lambda call: True)
+def callback_handler(call):
+    try:
+        if call.data == "t_pkg":
+            bot.answer_callback_query(call.id, "✅ پکیج!")
+            bot.send_message(call.message.chat.id, "💎 پکیج کامل درمان و اقامت")
+        elif call.data == "t_doc":
+            bot.answer_callback_query(call.id, "✅ دکتر!")
+            bot.send_message(call.message.chat.id, "👨‍⚕️ دنبال چه تخصصی هستی؟")
+        elif call.data == "t_hos":
+            bot.answer_callback_query(call.id, "✅ بیمارستان!")
+            bot.send_message(call.message.chat.id, "🏥 بیمارستان‌های شیراز")
+    except Exception as e:
+        print("CB_ERR: " + str(e))
 # ============ MAIN HANDLER ============
 @bot.message_handler(func=lambda m: True)
 def handle(message):
