@@ -48,17 +48,19 @@ MSG = {
         "apt_ask": "📅 برای گرفتن نوبت با این پزشک، شماره ۱ را بزنید.\n📞 برای تماس مستقیم، شماره ۲ را بزنید.",
         "apt_pick_title": "👨‍⚕️ پزشکان بالا:",
         "apt_pick_footer": "\n📅 برای گرفتن نوبت، شماره‌ی پزشک مورد نظرت رو بنویس:",
-        "apt_date": "🗓 تاریخ نوبت را انتخاب کنید:\n1. امروز\n2. فردا\n3. پس‌فردا\n4. انصراف",
-        "apt_time": "⏰ ساعت نوبت را انتخاب کنید:\n1. ۱۰:۰۰ صبح\n2. ۱۲:۰۰ ظهر\n3. ۱۶:۰۰ عصر\n4. ۱۸:۰۰ عصر\n5. ۲۰:۰۰ شب\n6. انصراف",
         "apt_name": "👤 لطفاً نام و نام خانوادگی خود را بنویسید:",
         "apt_phone": "📞 لطفاً شماره تماس خود را بنویسید (مثال: 09123456789):",
-        "apt_confirmed": "✅ نوبت شما ثبت شد!\n\n📋 کد: {id}\n👨‍⚕️ پزشک: {doctor}\n📅 تاریخ: {date}\n⏰ ساعت: {time}\n📍 آدرس: {address}",
+        "apt_submitted": "✅ درخواست نوبت شما ثبت شد!\n\n📋 کد پیگیری: {id}\n👨‍⚕️ پزشک: {doctor}\n\n⏳ ما با مطب تماس می‌گیریم و سریع‌ترین نوبت موجود رو براتون هماهنگ می‌کنیم.\nنتیجه از طریق همین ربات اطلاع داده می‌شه.",
         "apt_cancelled": "❌ ثبت نوبت لغو شد.",
         "apt_invalid": "لطفاً یکی از شماره‌های داده شده را بزنید.",
         "apt_error": "❌ متأسفانه در ثبت نوبت مشکلی پیش آمد.",
-        "apt_my": "📋 نوبت‌های ثبت‌شده‌ی شما:",
+        "apt_my": "📋 نوبت‌های شما:",
         "apt_none": "شما هنوز هیچ نوبتی ثبت نکرده‌اید.",
-        "apt_confirm_final": "آیا نوبت با این اطلاعات تایید می‌شود؟ (بله / نه)\n\n👤 نام: {name}\n📞 تلفن: {phone}\n📅 تاریخ: {date}\n⏰ ساعت: {time}",
+        "apt_confirm_final": "آیا درخواست با این اطلاعات ثبت شود؟ (بله / نه)\n\n👤 نام: {name}\n📞 تلفن: {phone}\n👨‍⚕️ پزشک: {doctor}",
+        "apt_admin_new": "📥 درخواست نوبت جدید\n\n📋 کد: {id}\n👤 بیمار: {name}\n📞 تلفن: {phone}\n👨‍⚕️ پزشک: {doctor}\n📞 تلفن مطب: {dphone}\n\n⏳ در انتظار تأیید شما.\nبرای ثبت تاریخ قطعی:\n/confirm {id} 1405/09/20 10:30",
+        "apt_admin_confirm_ok": "✅ نوبت {id} تأیید شد و به بیمار اطلاع داده شد.",
+        "apt_admin_confirm_bad": "❌ نوبت {id} پیدا نشد یا فرمت اشتباه است.\nفرمت: /confirm APT-1001 1405/09/20 10:30",
+        "apt_patient_confirmed": "🎉 نوبت شما تأیید شد!\n\n📋 کد: {id}\n👨‍⚕️ پزشک: {doctor}\n📅 تاریخ: {date}\n⏰ ساعت: {time}\n📍 آدرس: {address}\n\nلطفاً ۱۵ دقیقه قبل در مطب باشید.",
     },
     "ar": {
         "welcome": "🌟 أهلاً بكم في شيراز ميديكال!\n\nرفيقكم في رحلة العلاج والإقامة في شيراز.\n\n🔹 التعريف بالأطباء المتخصصين\n🔹 أماكن الإقامة والمواصلات\n🔹 جولات في معالم شيراز\n🔹 الدعم في جميع المراحل\n\nاكتبوا طلبكم.\nمثلاً: طبيب قلب",
@@ -73,17 +75,19 @@ MSG = {
         "apt_ask": "📅 لحجز موعد مع هذا الطبيب، اضغط ١.\n📞 للاتصال المباشر، اضغط ٢.",
         "apt_pick_title": "👨‍⚕️ الأطباء أعلاه:",
         "apt_pick_footer": "\n📅 لحجز موعد، اكتب رقم الطبيب:",
-        "apt_date": "🗓 اختر تاريخ الموعد:\n١. اليوم\n٢. غداً\n٣. بعد الغد\n٤. إلغاء",
-        "apt_time": "⏰ اختر وقت الموعد:\n١. ١٠:٠٠ صباحاً\n٢. ١٢:٠٠ ظهراً\n٣. ٤:٠٠ عصراً\n٤. ٦:٠٠ مساءً\n٥. ٨:٠٠ مساءً\n٦. إلغاء",
         "apt_name": "👤 يرجى كتابة الاسم الكامل:",
         "apt_phone": "📞 يرجى كتابة رقم الهاتف:",
-        "apt_confirmed": "✅ تم تسجيل موعدكم!\n\n📋 رقم المتابعة: {id}\n👨‍⚕️ الطبيب: {doctor}\n📅 التاريخ: {date}\n⏰ الوقت: {time}\n📍 العنوان: {address}",
+        "apt_submitted": "✅ تم تسجيل طلب الموعد!\n\n📋 رقم المتابعة: {id}\n👨‍⚕️ الطبيب: {doctor}\n\n⏳ سنتصل بالعيادة وننسق أسرع موعد متاح.\nسنبلغكم بالنتيجة عبر هذا الروبوت.",
         "apt_cancelled": "❌ تم إلغاء تسجيل الموعد.",
         "apt_invalid": "يرجى الضغط على أحد الأرقام المعطاة.",
         "apt_error": "❌ عذراً، حدثت مشكلة في تسجيل الموعد.",
-        "apt_my": "📋 مواعيدكم المسجلة:",
+        "apt_my": "📋 مواعيدكم:",
         "apt_none": "لم تسجلوا أي موعد بعد.",
-        "apt_confirm_final": "هل تؤكدون الموعد؟ (نعم / لا)\n\n👤 الاسم: {name}\n📞 الهاتف: {phone}\n📅 التاريخ: {date}\n⏰ الوقت: {time}",
+        "apt_confirm_final": "هل نسجل الطلب بهذه المعلومات؟ (نعم / لا)\n\n👤 الاسم: {name}\n📞 الهاتف: {phone}\n👨‍⚕️ الطبيب: {doctor}",
+        "apt_admin_new": "📥 طلب موعد جديد\n\n📋 الرقم: {id}\n👤 المريض: {name}\n📞 الهاتف: {phone}\n👨‍⚕️ الطبيب: {doctor}\n📞 هاتف العيادة: {dphone}\n\n⏳ في انتظار تأكيدكم.\nلتسجيل التاريخ النهائي:\n/confirm {id} 1405/09/20 10:30",
+        "apt_admin_confirm_ok": "✅ تم تأكيد الموعد {id} وإبلاغ المريض.",
+        "apt_admin_confirm_bad": "❌ الموعد {id} غير موجود أو الصيغة خاطئة.\nالصيغة: /confirm APT-1001 1405/09/20 10:30",
+        "apt_patient_confirmed": "🎉 تم تأكيد موعدكم!\n\n📋 الرقم: {id}\n👨‍⚕️ الطبيب: {doctor}\n📅 التاريخ: {date}\n⏰ الوقت: {time}\n📍 العنوان: {address}\n\nيرجى الحضور قبل ١٥ دقيقة.",
     },
     "en": {
         "welcome": "🌟 Welcome to Shiraz Medical!\n\nYour companion for treatment and stay in Shiraz.\n\n🔹 Find specialized doctors\n🔹 Accommodation & transportation\n🔹 Explore Shiraz attractions\n🔹 Support at every step\n\nWrite your request.\nE.g.: heart doctor",
@@ -98,19 +102,22 @@ MSG = {
         "apt_ask": "📅 To book with this doctor, press 1.\n📞 For direct call, press 2.",
         "apt_pick_title": "👨‍⚕️ Doctors above:",
         "apt_pick_footer": "\n📅 To book, write the doctor number:",
-        "apt_date": "🗓 Choose date:\n1. Today\n2. Tomorrow\n3. Day after tomorrow\n4. Cancel",
-        "apt_time": "⏰ Choose time:\n1. 10:00 AM\n2. 12:00 PM\n3. 4:00 PM\n4. 6:00 PM\n5. 8:00 PM\n6. Cancel",
         "apt_name": "👤 Please write your full name:",
         "apt_phone": "📞 Please write your phone number (e.g., 09123456789):",
-        "apt_confirmed": "✅ Appointment booked!\n\n📋 Code: {id}\n👨‍⚕️ Doctor: {doctor}\n📅 Date: {date}\n⏰ Time: {time}\n📍 Address: {address}",
+        "apt_submitted": "✅ Your appointment request has been submitted!\n\n📋 Tracking code: {id}\n👨‍⚕️ Doctor: {doctor}\n\n⏳ We'll contact the clinic and arrange the earliest available appointment.\nYou'll be notified through this bot.",
         "apt_cancelled": "❌ Booking cancelled.",
         "apt_invalid": "Please press one of the given numbers.",
         "apt_error": "❌ Sorry, there was a problem booking.",
         "apt_my": "📋 Your appointments:",
         "apt_none": "You have no appointments yet.",
-        "apt_confirm_final": "Confirm this appointment? (Yes / No)\n\n👤 Name: {name}\n📞 Phone: {phone}\n📅 Date: {date}\n⏰ Time: {time}",
+        "apt_confirm_final": "Submit this request? (Yes / No)\n\n👤 Name: {name}\n📞 Phone: {phone}\n👨‍⚕️ Doctor: {doctor}",
+        "apt_admin_new": "📥 New appointment request\n\n📋 Code: {id}\n👤 Patient: {name}\n📞 Phone: {phone}\n👨‍⚕️ Doctor: {doctor}\n📞 Clinic phone: {dphone}\n\n⏳ Awaiting your confirmation.\nTo set the final date:\n/confirm {id} 1405/09/20 10:30",
+        "apt_admin_confirm_ok": "✅ Appointment {id} confirmed and patient notified.",
+        "apt_admin_confirm_bad": "❌ Appointment {id} not found or format invalid.\nFormat: /confirm APT-1001 1405/09/20 10:30",
+        "apt_patient_confirmed": "🎉 Your appointment is confirmed!\n\n📋 Code: {id}\n👨‍⚕️ Doctor: {doctor}\n📅 Date: {date}\n⏰ Time: {time}\n📍 Address: {address}\n\nPlease arrive 15 minutes early.",
     },
 }
+
 # ============ FIELD NAMES ============
 FIELD_NAMES = {
     "fa": {
@@ -159,7 +166,7 @@ YES_WORDS = {"بله", "بلی", "آره", "اره", "yes", "yeah", "y", "نعم
 NO_WORDS = {"نه", "نخیر", "خیر", "نه ممنون", "ندارم", "no", "nope", "n", "لا", "لا شكرا"}
 ALL_WORDS = ["همه", "تمام", "کل", "همگی", "all", "كل", "جميع"]
 
-# ============ DIGITS (تبدیل اعداد فارسی/عربی) ============
+# ============ DIGITS ============
 DIGITS = str.maketrans("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩", "01234567890123456789")
 
 # ============ SPECIALTY MAP ============
@@ -336,25 +343,33 @@ def format_date_full(offset_days=0, lang="fa"):
     if lang == "ar":
         return miladi + " - " + shamsi
     return shamsi + " - " + miladi
+
 # ============ APPOINTMENTS ============
-APPOINTMENTS_FILE = "data/appointments.json"
+APPOINTMENTS_FILE = "/app/data/appointments.json"
+APPOINTMENTS_FILE_FALLBACK = "data/appointments.json"
+
+def _appt_path():
+    d = os.path.dirname(APPOINTMENTS_FILE)
+    if os.path.isdir(d):
+        return APPOINTMENTS_FILE
+    return APPOINTMENTS_FILE_FALLBACK
 
 def load_appointments():
     try:
-        with open(APPOINTMENTS_FILE, 'r', encoding='utf-8') as f:
+        with open(_appt_path(), 'r', encoding='utf-8') as f:
             return json.load(f)
     except:
         return {"next_id": 1001, "appointments": []}
 
 def save_appointments(data):
     try:
-        with open(APPOINTMENTS_FILE, 'w', encoding='utf-8') as f:
+        with open(_appt_path(), 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
         return True
     except:
         return False
 
-def create_appointment(doctor, pname, pphone, chat_id, lang, dstr, tstr):
+def create_appointment(doctor, pname, pphone, chat_id, lang):
     data = load_appointments()
     apt_id = "APT-" + str(data['next_id'])
     data['next_id'] += 1
@@ -372,9 +387,9 @@ def create_appointment(doctor, pname, pphone, chat_id, lang, dstr, tstr):
         "patient_phone": pphone,
         "patient_chat_id": str(chat_id),
         "patient_lang": lang,
-        "date": dstr,
-        "time": tstr,
-        "status": "confirmed",
+        "date": "",
+        "time": "",
+        "status": "pending",
         "created_at": datetime.now().strftime("%Y/%m/%d %H:%M")
     }
     data['appointments'].append(apt)
@@ -384,6 +399,25 @@ def create_appointment(doctor, pname, pphone, chat_id, lang, dstr, tstr):
 def get_patient_appointments(chat_id):
     data = load_appointments()
     return [a for a in data['appointments'] if a['patient_chat_id'] == str(chat_id)]
+
+def find_appointment(apt_id):
+    data = load_appointments()
+    for a in data['appointments']:
+        if a['id'] == apt_id:
+            return a
+    return None
+
+def confirm_appointment(apt_id, date_str, time_str):
+    data = load_appointments()
+    for a in data['appointments']:
+        if a['id'] == apt_id:
+            a['date'] = date_str
+            a['time'] = time_str
+            a['status'] = 'confirmed'
+            a['confirmed_at'] = datetime.now().strftime("%Y/%m/%d %H:%M")
+            save_appointments(data)
+            return a
+    return None
 
 # ============ SEARCH FUNCTIONS ============
 def search_by_doctor_name(text):
@@ -466,7 +500,6 @@ def is_best_request(text):
     if "بهترین" in low or "best" in words or "أفضل" in low:
         return True
     return False
-
 # ============ FORMATTERS ============
 def format_doctor(doc, lang):
     n = get_value(doc, 'name', lang) or ''
@@ -562,6 +595,13 @@ def get_user_name(message):
     except:
         return "ناشناس"
 
+def get_meta_info():
+    try:
+        with open("data/meta.json", 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except:
+        return None
+
 # ============ QUERY PROCESSOR ============
 def process_query(message, text, lang):
     cid = message.chat.id
@@ -613,13 +653,6 @@ def process_query(message, text, lang):
         bot.reply_to(message, ai)
         return True
     return False
-
-def get_meta_info():
-    try:
-        with open("data/meta.json", 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except:
-        return None
 # ============ HANDLERS ============
 @bot.message_handler(commands=['id'])
 def id_command(message):
@@ -630,20 +663,55 @@ def admin_command(message):
     if str(message.chat.id) != str(ADMIN_CHAT_ID):
         return
     meta = get_meta_info()
-    if not meta:
-        bot.reply_to(message, "❌ meta.json پیدا نشد.")
-        return
-    lines = ["📊 وضعیت آپدیت:"]
-    lines.append("آخرین آپدیت: " + str(meta.get("last_update", "نامشخص")))
-    lines.append("آپدیت بعدی: " + str(meta.get("next_update", "نامشخص")))
+    apt_data = load_appointments()
+    pending = [a for a in apt_data['appointments'] if a.get('status') == 'pending']
+    confirmed = [a for a in apt_data['appointments'] if a.get('status') == 'confirmed']
+    lines = ["📊 وضعیت ربات"]
+    if meta:
+        lines.append("آخرین آپدیت: " + str(meta.get("last_update", "نامشخص")))
+        lines.append("آپدیت بعدی: " + str(meta.get("next_update", "نامشخص")))
     lines.append("")
-    lines.append("📈 آمار نظرسنجی:")
+    lines.append("📈 نظرسنجی:")
     lines.append("رضایت: " + str(satisfaction_counter['positive']))
     lines.append("عدم رضایت: " + str(satisfaction_counter['negative']))
-    apt_data = load_appointments()
     lines.append("")
-    lines.append("📅 کل نوبت‌ها: " + str(len(apt_data['appointments'])))
+    lines.append("📅 نوبت‌ها:")
+    lines.append("در انتظار تأیید: " + str(len(pending)))
+    lines.append("تأیید شده: " + str(len(confirmed)))
+    if pending:
+        lines.append("")
+        lines.append("⏳ در انتظار تأیید:")
+        for a in pending[-5:]:
+            dn = a.get("doctor_name_fa", "")
+            lines.append("• " + a['id'] + " — " + a.get('patient_name', '') + " — " + str(dn))
     bot.reply_to(message, "\n".join(lines))
+
+@bot.message_handler(commands=['confirm'])
+def confirm_command(message):
+    if str(message.chat.id) != str(ADMIN_CHAT_ID):
+        return
+    parts = message.text.strip().split()
+    if len(parts) != 4:
+        bot.reply_to(message, "❌ فرمت اشتباه.\nمثال:\n/confirm APT-1001 1405/09/20 10:30")
+        return
+    apt_id = parts[1].upper()
+    date_str = parts[2]
+    time_str = parts[3]
+    apt = confirm_appointment(apt_id, date_str, time_str)
+    if not apt:
+        bot.reply_to(message, "❌ نوبت " + apt_id + " پیدا نشد.")
+        return
+    bot.reply_to(message, "✅ نوبت " + apt_id + " تأیید شد.")
+    patient_cid = apt.get('patient_chat_id', '')
+    p_lang = apt.get('patient_lang', 'fa')
+    if patient_cid:
+        dn = apt.get("doctor_name_" + p_lang) or apt.get("doctor_name_fa", "")
+        ad = apt.get("doctor_address_" + p_lang) or apt.get("doctor_address_fa", "")
+        try:
+            bot.send_message(patient_cid, MSG[p_lang]["apt_patient_confirmed"].format(
+                id=apt_id, doctor=dn, date=date_str, time=time_str, address=ad))
+        except:
+            pass
 
 @bot.message_handler(commands=['lang'])
 def lang_command(message):
@@ -666,8 +734,20 @@ def myapt_command(message):
     lines = [MSG[lang]["apt_my"]]
     for a in apts[-5:]:
         dn = a.get("doctor_name_" + lang) or a.get("doctor_name_fa", "")
-        lines.append("📋 " + a['id'] + "\n👨‍⚕️ " + dn + "\n📅 " + a['date'] + " — ⏰ " + a['time'])
-    bot.reply_to(message, "\n".join(lines))
+        st = a.get('status', 'pending')
+        if st == 'pending':
+            status_icon = "⏳"
+        elif st == 'confirmed':
+            status_icon = "✅"
+        else:
+            status_icon = "❌"
+        line = status_icon + " " + a['id'] + "\n👨‍⚕️ " + str(dn)
+        if a.get('date'):
+            line += "\n📅 " + a['date'] + " — ⏰ " + a.get('time', '')
+        else:
+            line += "\n⏳ در انتظار تأیید"
+        lines.append(line)
+    bot.reply_to(message, "\n\n".join(lines))
 
 @bot.message_handler(content_types=['photo', 'voice', 'audio', 'document', 'video', 'sticker'])
 def other_types(message):
@@ -713,8 +793,8 @@ def handle(message):
 
     if state == "awaiting_apt_choice":
         if t in ("1", "۱", "یک"):
-            user_state[cid] = "awaiting_apt_date"
-            bot.reply_to(message, MSG[lang]["apt_date"])
+            user_state[cid] = "awaiting_apt_name"
+            bot.reply_to(message, MSG[lang]["apt_name"])
             return
         if t in ("2", "۲", "دو"):
             doc = user_temp.get(cid, {}).get("doctor", {})
@@ -723,45 +803,6 @@ def handle(message):
             ask_more(message)
             return
         user_state[cid] = "active"
-
-    if state == "awaiting_apt_date":
-        if t in ("1", "۱", "یک"):
-            offset = 0
-        elif t in ("2", "۲", "دو"):
-            offset = 1
-        elif t in ("3", "۳", "سه"):
-            offset = 2
-        elif t in ("4", "۴", "چهار"):
-            user_state[cid] = "active"
-            bot.reply_to(message, MSG[lang]["apt_cancelled"])
-            ask_more(message)
-            return
-        else:
-            bot.reply_to(message, MSG[lang]["apt_invalid"])
-            return
-        dstr = format_date_full(offset, lang)
-        if cid not in user_temp:
-            user_temp[cid] = {}
-        user_temp[cid]["date"] = dstr
-        user_state[cid] = "awaiting_apt_time"
-        bot.reply_to(message, MSG[lang]["apt_time"])
-        return
-
-    if state == "awaiting_apt_time":
-        tms = {"1": "10:00", "2": "12:00", "3": "16:00", "4": "18:00", "5": "20:00",
-               "۱": "10:00", "۲": "12:00", "۳": "16:00", "۴": "18:00", "۵": "20:00"}
-        if t in ("6", "۶"):
-            user_state[cid] = "active"
-            bot.reply_to(message, MSG[lang]["apt_cancelled"])
-            ask_more(message)
-            return
-        if t not in tms:
-            bot.reply_to(message, MSG[lang]["apt_invalid"])
-            return
-        user_temp[cid]["time"] = tms[t]
-        user_state[cid] = "awaiting_apt_name"
-        bot.reply_to(message, MSG[lang]["apt_name"])
-        return
 
     if state == "awaiting_apt_name":
         if len(text.strip()) < 2:
@@ -779,11 +820,12 @@ def handle(message):
             return
         user_temp[cid]["phone"] = phone
         user_state[cid] = "awaiting_apt_confirm"
+        doc = user_temp.get(cid, {}).get("doctor", {})
+        dn = doc.get("name_" + lang) or doc.get("name_fa", "")
         bot.reply_to(message, MSG[lang]["apt_confirm_final"].format(
             name=user_temp[cid].get("name", ""),
             phone=phone,
-            date=user_temp[cid].get("date", ""),
-            time=user_temp[cid].get("time", "")
+            doctor=dn
         ))
         return
 
@@ -792,20 +834,18 @@ def handle(message):
             doc = user_temp.get(cid, {}).get("doctor", {})
             pname = user_temp.get(cid, {}).get("name", "")
             pphone = user_temp.get(cid, {}).get("phone", "")
-            dstr = user_temp.get(cid, {}).get("date", "")
-            tstr = user_temp.get(cid, {}).get("time", "")
             try:
-                apt = create_appointment(doc, pname, pphone, cid, lang, dstr, tstr)
+                apt = create_appointment(doc, pname, pphone, cid, lang)
                 dn = doc.get("name_" + lang) or doc.get("name_fa", "")
-                ad = doc.get("office_address_" + lang) or doc.get("office_address_fa", "")
-                bot.reply_to(message, MSG[lang]["apt_confirmed"].format(
-                    id=apt['id'], doctor=dn, date=dstr, time=tstr, address=ad))
+                bot.reply_to(message, MSG[lang]["apt_submitted"].format(
+                    id=apt['id'], doctor=dn))
                 if ADMIN_CHAT_ID:
                     try:
+                        dphone = doc.get("phone", "")
                         bot.send_message(ADMIN_CHAT_ID,
-                            "📅 نوبت جدید\nکد: " + apt['id'] + "\nبیمار: " + pname +
-                            "\nتلفن: " + pphone + "\nپزشک: " + dn +
-                            "\nتاریخ: " + dstr + "\nساعت: " + tstr + "\nChatID: " + str(cid))
+                            MSG["fa"]["apt_admin_new"].format(
+                                id=apt['id'], name=pname, phone=pphone,
+                                doctor=dn, dphone=dphone))
                     except:
                         pass
             except Exception:
@@ -875,5 +915,5 @@ def handle(message):
     ask_more(message)
 
 # ============ START ============
-print("ربات روشن شد... v28 (کامل با اعداد فارسی/عربی)")
+print("ربات روشن شد... v29 (نوبت‌گیری pending + /confirm)")
 bot.infinity_polling(timeout=30, long_polling_timeout=30)
