@@ -2054,8 +2054,8 @@ def handle(message):
     old_state = user_state.get(cid)
     answered = process_query(message, text, lang)
     new_state = user_state.get(cid)
-if not answered: bot.reply_to(message, MSG[lang]["retry"])
-if new_state == old_state or not answered: ask_more(message)
+    if not answered: bot.reply_to(message, MSG[lang]["retry"])
+    if new_state == old_state or not answered: ask_more(message)
 
 # ============ START ============
 print("ربات روشن شد... v32 (پرونده + معرفی + همراه + امید + دارو + SOS + آمار + حذف داده)")
