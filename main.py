@@ -53,7 +53,7 @@ satisfaction_counter = {"count": 0, "positive": 0, "negative": 0}
 # ============ MSG ============
 MSG = {
     "fa": {
-        "welcome": "🌟 به شیراز مدیکال خوش آمدید!\n\nهمراه شما در مسیر درمان و اقامت در شیراز.\n\n🔹 معرفی پزشکان متخصص\n🔹 اقامتگاه و حمل‌ونقل\n🔹 گشت‌وگذار در جاذبه‌های شیراز\n🔹 پشتیبانی در تمام مراحل\n\nخواسته‌ی خود را بنویسید.\nمثلاً: دکتر قلب",
+        "welcome": "🌟 یه پیام بدی، همه‌چیز رو آماده می‌کنیم.\n\nاز پزشک تا هتل، از ترانسفر تا مترجم، از نوبت تا گشت گردشگری — همه‌چیز یکجا.\n\nبدون دغدغه، بدون هزینه اضافه 💙\n\n🔹 پزشک متخصص\n🔹 هتل و اقامت\n🔹 ترانسفر و حمل‌ونقل\n🔹 مترجم فارسی/عربی/انگلیسی\n🔹 گشت گردشگری شیراز\n🔹 پیگیری بعد از درمان\n\nخواسته‌ت رو بنویس:\nمثلاً «دکتر قلب» یا «پکیج درمان»",
         "more": "سؤال دیگری دارید؟ (بله / نه)",
         "go": "بفرمایید، سؤالتان را بنویسید.",
         "rate": "🙏 از خدمات ما راضی بودید؟ (بله / خیر)",
@@ -99,7 +99,7 @@ MSG = {
         "delete_cancel": "باشه، اطلاعاتت دست‌نخورده موند.",
     },
     "ar": {
-        "welcome": "🌟 أهلاً بكم في شيراز ميديكال!\n\nرفيقكم في رحلة العلاج والإقامة في شيراز.\n\n🔹 التعريف بالأطباء المتخصصين\n🔹 أماكن الإقامة والمواصلات\n🔹 جولات في معالم شيراز\n🔹 الدعم في جميع المراحل\n\nاكتبوا طلبكم.\nمثلاً: طبيب قلب",
+        "welcome": "🌟 رسالة واحدة، ونجهز لكم كل شيء.\n\nمن الطبيب إلى الفندق، من المواصلات إلى المترجم، من الموعد إلى جولة في شيراز — كل شيء في مكان واحد.\n\nبدون قلق، بدون تكاليف إضافية 💙\n\n🔹 طبيب متخصص\n🔹 فندق وإقامة\n🔹 مواصلات ونقل\n🔹 مترجم فارسي/عربي/إنجليزي\n🔹 جولة سياحية في شيراز\n🔹 متابعة بعد العلاج\n\nاكتبوا طلبكم:\nمثلاً «طبيب قلب» أو «باكج علاج»",
         "more": "هل لديكم سؤال آخر؟ (نعم / لا)",
         "go": "تفضلوا، اكتبوا سؤالكم.",
         "rate": "🙏 هل أنتم راضون عن خدماتنا؟ (نعم / لا)",
@@ -145,7 +145,7 @@ MSG = {
         "delete_cancel": "حسناً، معلوماتكم محفوظة.",
     },
     "en": {
-        "welcome": "🌟 Welcome to Shiraz Medical!\n\nYour companion for treatment and stay in Shiraz.\n\n🔹 Find specialized doctors\n🔹 Accommodation & transportation\n🔹 Explore Shiraz attractions\n🔹 Support at every step\n\nWrite your request.\nE.g.: heart doctor",
+        "welcome": "🌟 One message, and we prepare everything.\n\nFrom doctor to hotel, from transfer to translator, from appointment to Shiraz tour — all in one place.\n\nNo worries, no hidden fees 💙\n\n🔹 Specialized doctor\n🔹 Hotel & accommodation\n🔹 Transfer & transportation\n🔹 Persian/Arabic/English translator\n🔹 Shiraz sightseeing tour\n🔹 Post-treatment follow-up\n\nWrite your request:\nE.g. \"heart doctor\" or \"treatment package\"",
         "more": "Any other question? (Yes / No)",
         "go": "Please go ahead.",
         "rate": "🙏 Were you satisfied? (Yes / No)",
@@ -242,12 +242,20 @@ MSG2 = {
         "med_none": "هنوز یادآوری ثبت نکردی. هر وقت خواستی، بنویس: دارو",
         "food_title": "🍏 راهنمای تغذیه و تداخلات\n━━━━━━━━━━━━━━━",
         "food_body": "🔴 تداخل‌های مهم دارویی:\n\n• آنتی‌بیوتیک + لبنیات (۲ ساعت فاصله)\n• آهن + چای/قهوه (۱ ساعت فاصله)\n• وارفارین + کلم و اسفناج (احتیاط)\n• تیروئید + صبح ناشتا\n• مسکن + معده خالی (ممنوع)\n\n💧 در طول درمان آب زیاد بنوش\n🥗 میوه و سبزیجات تازه مصرف کن\n🚫 از خوددرمانی پرهیز کن\n\n⚠️ این راهنمای کلیه، نه جایگزین پزشک.",
-        "menu_main": "📋 منوی شیراز مدیکال\n\n💬 خواسته‌ت رو بنویس (مثلاً: دکتر قلب)\n\n🔹 پرونده — مشاهده‌ی پرونده\n🔹 نوبت — نوبت‌های من\n🔹 همراه — افزودن همراه\n🔹 شکایت — ارسال نظر\n🔹 دارو — یادآور دارو\n🔹 حقوق — حقوق بیمار\n🔹 چی بخورم — تغذیه\n🔹 گل — جمله‌ی امیدبخش\n🔹 اضطراری — کمک فوری\n🔹 دعوت — کد معرفی من\n🔹 شب‌بخیر — پیام شب\n\n🏥 سرویس‌های ویژه:\n🔹 پیراپزشکی — فیزیوتراپی، آزمایشگاه\n🔹 سالمندان — خانه سالمندان شیراز\n\n🚪 هر جا گیر کردی، بنویس: منو",
+        "menu_main": "📋 منوی شیراز مدیکال\n\n💬 خواسته‌ت رو بنویس (مثلاً: دکتر قلب)\n\n🔹 پرونده — مشاهده‌ی پرونده\n🔹 نوبت — نوبت‌های من\n🔹 همراه — افزودن همراه\n🔹 شکایت — ارسال نظر\n🔹 دارو — یادآور دارو\n🔹 حقوق — حقوق بیمار\n🔹 چی بخورم — تغذیه\n🔹 گل — جمله‌ی امیدبخش\n🔹 اضطراری — کمک فوری\n🔹 دعوت — کد معرفی من\n🔹 شب‌بخیر — پیام شب\n\n🏥 سرویس‌های ویژه:\n🔹 پکیج — پکیج کامل درمان و اقامت\n🔹 پیراپزشکی — فیزیوتراپی، آزمایشگاه\n🔹 سالمندان — خانه سالمندان شیراز\n\n🚪 هر جا گیر کردی، بنویس: منو",
         "cmd_help": "برای دیدن منو، بنویسید: منو",
         "ai_unavailable": "🙏 الان نمی‌تونم پاسخ بدم.\n\nلطفاً دوباره تلاش کنید یا از منو استفاده کنید:\nبنویسید: منو",
         "para_menu": "🏥 خدمات پیراپزشکی\n\nچه نوع خدماتی می‌خواید؟\n\n🔹 فیزیوتراپی — بنویسید: فیزیوتراپی\n🔹 آزمایشگاه — بنویسید: آزمایشگاه\n🔹 رادیولوژی — بنویسید: رادیولوژی\n🔹 پرستاری در منزل — بنویسید: پرستاری\n🔹 تزریق — بنویسید: تزریق\n🔹 طب سنتی — بنویسید: طب سنتی\n🔹 کاردرمانی — بنویسید: کاردرمانی\n🔹 گفتاردرمانی — بنویسید: گفتاردرمانی\n🔹 پروتز و ارتوپدی فنی — بنویسید: پروتز",
         "elderly_menu": "🏡 خانه‌های سالمندان شیراز\n\nبرای دیدن لیست کامل، بنویسید: همه خانه سالمندان\n\n🚪 برای خروج، بنویسید: منو",
         "elderly_all_title": "🏡 خانه‌های سالمندان شیراز:",
+        "package_title": "💎 پکیج کامل درمان و اقامت\n━━━━━━━━━━━━━━━",
+        "package_pitch": "🎯 یه پیام بده، ما همه‌چیز رو آماده می‌کنیم.\n\nبدون دغدغه، بدون هزینه اضافه، بدون سردرگمی.\nاز لحظه‌ای که وارد شیراز می‌شی تا لحظه‌ای که با سلامتی برمی‌گردی، ما کنارتیم.",
+        "package_value": "📦 چی توی این پکیج هست:\n\n👨‍⚕️ ویزیت پزشک متخصص\n🏨 اقامت در هتل\n🚗 ترانسفر فرودگاه و شهر\n🗣️ مترجم همراه (فارسی/عربی/انگلیسی)\n🏛️ گشت گردشگری در شیراز\n📋 پرونده‌ی سلامت شخصی\n💊 یادآور دارو و پیگیری بعد از درمان\n🤝 همراه اختصاصی\n💙 پشتیبانی ۲۴ ساعته",
+        "package_cta": "🎁 همه‌ی این‌ها با یک پیام.\n\nبرای هماهنگی و دریافت قیمت، اسم و شماره‌ت رو بفرست:\n(ما در کمتر از ۲۴ ساعت باهات تماس می‌گیریم)",
+        "package_ask_name": "👤 لطفاً نام و نام خانوادگی‌ات رو بنویس:",
+        "package_ask_phone": "📞 شماره تماس:",
+        "package_saved": "✅ درخواست پکیج شما ثبت شد\n\n📋 کد پیگیری: {id}\n\nتیم ما در کمتر از ۲۴ ساعت با شما تماس می‌گیره.\n\n💙 با آرزوی سلامتی",
+        "package_admin_new": "💎 درخواست پکیج جدید\n\n📋 کد: {id}\n👤 نام: {name}\n📞 تلفن: {phone}\nChatID: {cid}\n\n⏳ در انتظار پیگیری شما.",
     },
     "ar": {
         "ref_your_code": "🔗 رمز الإحالة: {code}\n\nكل من تدعوه إلى شيراز ميديكال، كلاكما تحصلان على مكافأة 💙\n\nالرابط الخاص:\n{link}",
@@ -298,12 +306,20 @@ MSG2 = {
         "med_none": "لم تسجلوا تذكيراً بعد. متى أردتم، اكتبوا: دواء",
         "food_title": "🍏 دليل التغذية والتداخلات\n━━━━━━━━━━━━━━━",
         "food_body": "🔴 تداخلات مهمة:\n\n• مضاد حيوي + ألبان (ساعتان)\n• حديد + شاي/قهوة (ساعة)\n• وارفارين + ملفوف وسبانخ (حذر)\n• الغدة الدرقية + صباحاً على الريق\n• مسكن + معدة فارغة (ممنوع)\n\n💧 اشربوا ماء كثيراً\n🥗 فواكه وخضروات طازجة\n🚫 تجنبوا العلاج الذاتي\n\n⚠️ هذا دليل عام، وليس بديلاً عن الطبيب.",
-        "menu_main": "📋 قائمة شيراز ميديكال\n\n💬 اكتبوا طلبكم (مثلاً: طبيب قلب)\n\n🔹 ملف — عرض الملف\n🔹 موعد — مواعيدي\n🔹 مرافق — إضافة مرافق\n🔹 شكوى — إرسال رأي\n🔹 دواء — تذكير الدواء\n🔹 حقوق — حقوق المريض\n🔹 طعام — التغذية\n🔹 زهرة — جملة أمل\n🔹 طوارئ — مساعدة عاجلة\n🔹 دعوة — رمز الإحالة\n🔹 مساء الخير — رسالة المساء\n\n🏥 خدمات خاصة:\n🔹 مساعد طبي — علاج طبيعي، مختبر\n🔹 مسنين — دور رعاية المسنين\n\n🚪 في أي مكان، اكتبوا: قائمة",
+        "menu_main": "📋 قائمة شيراز ميديكال\n\n💬 اكتبوا طلبكم (مثلاً: طبيب قلب)\n\n🔹 ملف — عرض الملف\n🔹 موعد — مواعيدي\n🔹 مرافق — إضافة مرافق\n🔹 شكوى — إرسال رأي\n🔹 دواء — تذكير الدواء\n🔹 حقوق — حقوق المريض\n🔹 طعام — التغذية\n🔹 زهرة — جملة أمل\n🔹 طوارئ — مساعدة عاجلة\n🔹 دعوة — رمز الإحالة\n🔹 مساء الخير — رسالة المساء\n\n🏥 خدمات خاصة:\n🔹 باكج — باكج شامل العلاج والإقامة\n🔹 مساعد طبي — علاج طبيعي، مختبر\n🔹 مسنين — دور رعاية المسنين\n\n🚪 في أي مكان، اكتبوا: قائمة",
         "cmd_help": "لعرض القائمة، اكتبوا: قائمة",
         "ai_unavailable": "🙏 لا أستطيع الرد الآن.\n\nحاولوا مجدداً أو استخدموا القائمة:\nاكتبوا: قائمة",
         "para_menu": "🏥 الخدمات الطبية المساعدة\n\nماذا تريدون؟\n\n🔹 علاج طبيعي — اكتبوا: علاج طبيعي\n🔹 مختبر — اكتبوا: مختبر\n🔹 أشعة — اكتبوا: أشعة\n🔹 تمريض منزلي — اكتبوا: تمريض\n🔹 حقن — اكتبوا: حقن\n🔹 طب تقليدي — اكتبوا: طب تقليدي\n🔹 علاج وظيفي — اكتبوا: علاج وظيفي\n🔹 علاج النطق — اكتبوا: علاج النطق\n🔹 أطراف صناعية — اكتبوا: أطراف",
         "elderly_menu": "🏡 دور رعاية المسنين في شيراز\n\nلعرض القائمة الكاملة، اكتبوا: كل دور المسنين\n\n🚪 للخروج، اكتبوا: قائمة",
         "elderly_all_title": "🏡 دور رعاية المسنين في شيراز:",
+        "package_title": "💎 باكج شامل العلاج والإقامة\n━━━━━━━━━━━━━━━",
+        "package_pitch": "🎯 رسالة واحدة، ونجهز لكم كل شيء.\n\nبدون قلق، بدون تكاليف إضافية، بدون ارتباك.\nمن لحظة وصولكم شيراز إلى لحظة عودتكم بسلامة، نحن معكم.",
+        "package_value": "📦 ما يوجد في هذا الباكج:\n\n👨‍⚕️ زيارة طبيب متخصص\n🏨 إقامة في فندق\n🚗 مواصلات من المطار والمدينة\n🗣️ مترجم مرافق (فارسي/عربي/إنجليزي)\n🏛️ جولة سياحية في شيراز\n📋 ملف صحي شخصي\n💊 تذكير بالأدوية ومتابعة بعد العلاج\n🤝 مرافق خاص\n💙 دعم على مدار الساعة",
+        "package_cta": "🎁 كل هذا برسالة واحدة.\n\nللتنسيق واستلام السعر، أرسلوا اسمكم ورقم هاتفكم:\n(سنتصل بكم خلال أقل من ٢٤ ساعة)",
+        "package_ask_name": "👤 يرجى كتابة الاسم الكامل:",
+        "package_ask_phone": "📞 رقم الهاتف:",
+        "package_saved": "✅ تم تسجيل طلب الباكج\n\n📋 رقم المتابعة: {id}\n\nسيتصل فريقنا بكم خلال أقل من ٢٤ ساعة.\n\n💙 مع تمنياتنا بالشفاء",
+        "package_admin_new": "💎 طلب باكج جديد\n\n📋 الرقم: {id}\n👤 الاسم: {name}\n📞 الهاتف: {phone}\nChatID: {cid}\n\n⏳ بانتظار متابعتكم.",
     },
     "en": {
         "ref_your_code": "🔗 Your referral code: {code}\n\nEveryone you invite to Shiraz Medical, both get rewards 💙\n\nYour link:\n{link}",
@@ -354,12 +370,20 @@ MSG2 = {
         "med_none": "No reminders yet. Whenever you want, write: med",
         "food_title": "🍏 Nutrition & Interactions Guide\n━━━━━━━━━━━━━━━",
         "food_body": "🔴 Important interactions:\n\n• Antibiotics + dairy (2h gap)\n• Iron + tea/coffee (1h gap)\n• Warfarin + cabbage/spinach (caution)\n• Thyroid + empty stomach in morning\n• Painkillers + empty stomach (avoid)\n\n💧 Drink plenty of water\n🥗 Fresh fruits & vegetables\n🚫 Avoid self-medication\n\n⚠️ This is general info, not a substitute for a doctor.",
-        "menu_main": "📋 Shiraz Medical Menu\n\n💬 Write your request (e.g., heart doctor)\n\n🔹 file — view your file\n🔹 appointment — my appointments\n🔹 companion — add companion\n🔹 complaint — send feedback\n🔹 med — medication reminder\n🔹 rights — patient rights\n🔹 food — nutrition\n🔹 flower — hope message\n🔹 emergency — urgent help\n🔹 invite — my referral code\n🔹 goodnight — evening message\n\n🏥 Special services:\n🔹 paramedical — physiotherapy, lab\n🔹 elderly — Shiraz nursing homes\n\n🚪 If stuck anywhere, write: menu",
+        "menu_main": "📋 Shiraz Medical Menu\n\n💬 Write your request (e.g., heart doctor)\n\n🔹 file — view your file\n🔹 appointment — my appointments\n🔹 companion — add companion\n🔹 complaint — send feedback\n🔹 med — medication reminder\n🔹 rights — patient rights\n🔹 food — nutrition\n🔹 flower — hope message\n🔹 emergency — urgent help\n🔹 invite — my referral code\n🔹 goodnight — evening message\n\n🏥 Special services:\n🔹 package — complete treatment & stay\n🔹 paramedical — physiotherapy, lab\n🔹 elderly — Shiraz nursing homes\n\n🚪 If stuck anywhere, write: menu",
         "cmd_help": "To see menu, write: menu",
         "ai_unavailable": "🙏 I can't answer right now.\n\nPlease try again or use the menu:\nwrite: menu",
         "para_menu": "🏥 Paramedical Services\n\nWhat service do you need?\n\n🔹 Physiotherapy — write: physiotherapy\n🔹 Lab — write: lab\n🔹 Radiology — write: radiology\n🔹 Home nursing — write: nursing\n🔹 Injection — write: injection\n🔹 Traditional medicine — write: traditional\n🔹 Occupational therapy — write: occupational\n🔹 Speech therapy — write: speech\n🔹 Orthotics — write: orthotics",
         "elderly_menu": "🏡 Nursing Homes in Shiraz\n\nFor full list, write: all nursing homes\n\n🚪 To exit, write: menu",
         "elderly_all_title": "🏡 Nursing Homes in Shiraz:",
+        "package_title": "💎 Complete Treatment & Stay Package\n━━━━━━━━━━━━━━━",
+        "package_pitch": "🎯 One message, and we prepare everything.\n\nNo worries, no hidden fees, no confusion.\nFrom the moment you arrive in Shiraz until you return in good health, we're with you.",
+        "package_value": "📦 What's included:\n\n👨‍⚕️ Specialist doctor visit\n🏨 Hotel accommodation\n🚗 Airport & city transfer\n🗣️ Personal translator (Persian/Arabic/English)\n🏛️ Shiraz sightseeing tour\n📋 Personal health file\n💊 Medication reminders & post-treatment follow-up\n🤝 Dedicated companion\n💙 24/7 support",
+        "package_cta": "🎁 All of this with one message.\n\nFor coordination and pricing, send your name and phone number:\n(We'll call you within 24 hours)",
+        "package_ask_name": "👤 Please write your full name:",
+        "package_ask_phone": "📞 Phone number:",
+        "package_saved": "✅ Your package request is submitted\n\n📋 Tracking code: {id}\n\nOur team will call you within 24 hours.\n\n💙 Wishing you good health",
+        "package_admin_new": "💎 New Package Request\n\n📋 Code: {id}\n👤 Name: {name}\n📞 Phone: {phone}\nChatID: {cid}\n\n⏳ Awaiting your follow-up.",
     },
 }
 # ============ WORD LISTS ============
@@ -514,6 +538,7 @@ CMD_DELETE = {"حذف اطلاعات", "پاک کردن", "delete my data", "ا�
 CMD_PARA = {"پیراپزشکی", "پارامدیکال", "paramedical", "مساعد طبي"}
 CMD_ELDERLY = {"خانه سالمندان", "خانه‌ی سالمندان", "آسایشگاه", "سرای سالمندان", "nursing home", "elderly", "دار المسنين"}
 CMD_ELDERLY_ALL = {"همه خانه سالمندان", "کل خانه سالمندان", "all nursing homes", "كل دور المسنين"}
+CMD_PACKAGE = {"پکیج", "پکیج درمان", "پکیج گردشگری", "پکیج سلامت", "باكج", "باكج علاج", "package", "treatment package", "health package"}
 
 # ============ BASIC HELPERS ============
 def clean(text):
@@ -728,6 +753,7 @@ COMPANIONS_FILE = data_path("companions.json")
 COMPLAINTS_FILE = data_path("complaints.json")
 MEDS_FILE = data_path("meds.json")
 USERS_FILE = data_path("users.json")
+PACKAGES_FILE = data_path("packages.json")
 
 def _load_default(path, default):
     try:
@@ -818,7 +844,7 @@ def save_patients(data):
 def get_patient_by_chat(chat_id):
     data = load_patients()
     for p in data['patients']:
-        if p.get('chat_id') == str(chat_id):
+        if p.get('chat_id') == str(chat_id) and p.get('type', 'patient') == 'patient':
             return p
     return None
 
@@ -847,7 +873,7 @@ def next_patient_code():
 def create_or_get_patient(chat_id, name, phone, lang):
     data = load_patients()
     for p in data['patients']:
-        if p.get('chat_id') == str(chat_id):
+        if p.get('chat_id') == str(chat_id) and p.get('type', 'patient') == 'patient':
             if name and not p.get('name'):
                 p['name'] = name
             if phone and not p.get('phone'):
@@ -861,6 +887,7 @@ def create_or_get_patient(chat_id, name, phone, lang):
         "phone": phone or "",
         "code": code,
         "lang": lang,
+        "type": "patient",
         "appointments": [],
         "status": "active",
         "stages": {
@@ -881,7 +908,7 @@ def create_or_get_patient(chat_id, name, phone, lang):
 def update_patient_stage(chat_id, stage, value=True):
     data = load_patients()
     for p in data['patients']:
-        if p.get('chat_id') == str(chat_id):
+        if p.get('chat_id') == str(chat_id) and p.get('type', 'patient') == 'patient':
             if 'stages' not in p:
                 p['stages'] = {}
             p['stages'][stage] = value
@@ -892,7 +919,7 @@ def update_patient_stage(chat_id, stage, value=True):
 def add_appointment_to_patient(chat_id, apt_id):
     data = load_patients()
     for p in data['patients']:
-        if p.get('chat_id') == str(chat_id):
+        if p.get('chat_id') == str(chat_id) and p.get('type', 'patient') == 'patient':
             if 'appointments' not in p:
                 p['appointments'] = []
             if apt_id not in p['appointments']:
@@ -956,6 +983,32 @@ def delete_patient_data(chat_id):
     meds['meds'] = [m for m in meds['meds'] if m.get('chat_id') != cid]
     _save(MEDS_FILE, meds)
     return True
+
+# ============ PACKAGES ============
+def load_packages():
+    return _load_default(PACKAGES_FILE, {"next_id": 1001, "packages": []})
+
+def save_packages(data):
+    return _save(PACKAGES_FILE, data)
+
+def create_package(chat_id, name, phone, lang):
+    data = load_packages()
+    if "next_id" not in data:
+        data["next_id"] = 1001
+    pkg_id = "PKG-" + str(data['next_id'])
+    data['next_id'] += 1
+    pkg = {
+        "id": pkg_id,
+        "chat_id": str(chat_id),
+        "name": name,
+        "phone": phone,
+        "lang": lang,
+        "status": "pending",
+        "created_at": datetime.now().strftime("%Y/%m/%d %H:%M")
+    }
+    data['packages'].append(pkg)
+    save_packages(data)
+    return pkg
 
 # ============ REFERRALS ============
 def load_referrals():
@@ -1424,7 +1477,7 @@ def format_generic(item, lang):
     fnames = FIELD_NAMES.get(lang, {})
     lines = []
     seen = set()
-    skip_keys = ('id', 'status', 'lat', 'lng', 'created_at', 'updated_at')
+    skip_keys = ('id', 'status', 'lat', 'lng', 'created_at', 'updated_at', 'pkg_id')
     for k, v in item.items():
         if k in skip_keys:
             continue
@@ -1573,6 +1626,14 @@ def process_query(message, text, lang):
         user_state[cid] = "awaiting_delete_confirm"
         bot.reply_to(message, MSG[lang]["delete_ask"])
         return True
+    if is_simple_cmd(text, CMD_PACKAGE):
+        bot.reply_to(message, MSG2[lang]["package_title"])
+        bot.reply_to(message, MSG2[lang]["package_pitch"])
+        bot.reply_to(message, MSG2[lang]["package_value"])
+        user_state[cid] = "awaiting_pkg_name"
+        bot.reply_to(message, MSG2[lang]["package_cta"])
+        bot.reply_to(message, MSG2[lang]["package_ask_name"])
+        return True
     if is_simple_cmd(text, CMD_PARA):
         bot.reply_to(message, MSG2[lang]["para_menu"])
         return True
@@ -1654,6 +1715,8 @@ def admin_command(message):
     confirmed = [a for a in apt_data['appointments'] if a.get('status') == 'confirmed']
     complaints = load_complaints().get('complaints', [])
     new_complaints = [c for c in complaints if c.get('status') == 'new']
+    pkg_data = load_packages()
+    pending_pkgs = [p for p in pkg_data['packages'] if p.get('status') == 'pending']
     stats = get_user_stats()
     lines = ["📊 وضعیت ربات"]
     if meta:
@@ -1677,6 +1740,11 @@ def admin_command(message):
         for a in pending[-5:]:
             dn = a.get("doctor_name_fa", "")
             lines.append("• " + a['id'] + " — " + a.get('patient_name', '') + " — " + str(dn))
+    lines.append("")
+    lines.append("💎 پکیج‌های در انتظار: " + str(len(pending_pkgs)))
+    if pending_pkgs:
+        for p in pending_pkgs[-3:]:
+            lines.append("• " + p['id'] + " — " + p.get('name', '') + " — " + p.get('phone', ''))
     lines.append("")
     lines.append("📩 شکایت جدید: " + str(len(new_complaints)))
     lines.append("")
@@ -1859,11 +1927,46 @@ def handle(message):
     user_name = get_user_name(message)
 
     # ==== خروج فوری از هر state با کلمات منو/لغو/انصراف ====
-    ESCAPE_WORDS = {"منو", "لغو", "انصراف", "قائمة", "menu", "cancel", "help"}
+    ESCAPE_WORDS = {"منو", "لغو", "انصراف", "menu", "cancel"}
     if t in ESCAPE_WORDS:
         user_state[cid] = "active"
         user_temp.pop(cid, None)
         show_main_menu(message, lang)
+        return
+
+    if state == "awaiting_pkg_name":
+        if len(text.strip()) < 2:
+            bot.reply_to(message, MSG2[lang]["package_ask_name"])
+            return
+        if cid not in user_temp:
+            user_temp[cid] = {}
+        user_temp[cid]["pkg_name"] = text.strip()
+        user_state[cid] = "awaiting_pkg_phone"
+        bot.reply_to(message, MSG2[lang]["package_ask_phone"])
+        return
+
+    if state == "awaiting_pkg_phone":
+        phone = validate_phone(text)
+        if not phone:
+            bot.reply_to(message, MSG2[lang]["package_ask_phone"])
+            return
+        pkg_name = user_temp.get(cid, {}).get("pkg_name", "")
+        try:
+            pkg = create_package(cid, pkg_name, phone, lang)
+            bot.reply_to(message, MSG2[lang]["package_saved"].format(id=pkg['id']))
+            if ADMIN_CHAT_ID:
+                try:
+                    bot.send_message(ADMIN_CHAT_ID,
+                        MSG2["fa"]["package_admin_new"].format(
+                            id=pkg['id'], name=pkg_name, phone=phone, cid=cid))
+                except:
+                    pass
+        except Exception as e:
+            print("PKG_ERR: " + str(e))
+            bot.reply_to(message, MSG[lang]["apt_error"])
+        user_temp.pop(cid, None)
+        user_state[cid] = "active"
+        ask_more(message)
         return
 
     if state == "awaiting_apt_pick":
@@ -2152,5 +2255,5 @@ def handle(message):
 
 
 # ============ START ============
-print("ربات روشن شد... v34 (خروج از هر state با منو + کامل)")
+print("ربات روشن شد... v35 (پکیج Grand Slam + مسیریاب + پیراپزشکی + سالمندان)")
 bot.infinity_polling(timeout=30, long_polling_timeout=30)
