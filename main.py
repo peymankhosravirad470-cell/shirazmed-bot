@@ -4,8 +4,15 @@ import re
 import random
 import telebot
 import requests
+import threading
+import time as time_module
 from datetime import datetime, timedelta
 from urllib.parse import quote
+
+try:
+    import jdatetime
+except ImportError:
+    jdatetime = None
 
 # ============ CONFIG ============
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
@@ -16,6 +23,9 @@ AI_MODEL = "gpt-4o-mini"
 AVALAI_URL = "https://api.avalai.ir/v1/chat/completions"
 CHANNEL_LINK = "https://ble.ir/shiraz_medical"
 CHANNEL_DISCOUNT = 5
+TIMEZONE_OFFSET_HOURS = float(os.environ.get("TIMEZONE_OFFSET_HOURS", "3.5"))
+SNAPP_URL = "https://app.snapp.taxi/"
+TAP30_URL = "https://app.tap30.ir/"
 
 # ============ BOT INIT ============
 if BALE_BOT_TOKEN:
@@ -108,6 +118,11 @@ MSG = {
         "rate_thanks_low": "😔 متأسفیم که راضی نبودی.\n\nلطفاً به ما بگو چه چیزی باعث نارضایتی شد تا بهتر بشیم:",
         "rate_thanks_low_admin": "❌ عدم رضایت جدید\n\n📋 نوبت: {id}\n⭐ امتیاز: {stars}\n👤 بیمار: {name}\nChatID: {cid}\n\n💬 نظر:\n{text}",
         "rate_feedback_thanks": "🙏 ممنون که نظرت رو گفتی.\n\nما حتماً پیگیری می‌کنیم 💙",
+        "remind_apt_1d": "⏰ یادآوری نوبت\n\n📅 فردا ساعت {time}\n👨‍⚕️ {doctor}\n📍 {address}\n\nلطفاً ۱۵ دقیقه قبل حاضر باش. 💙",
+        "remind_apt_2h": "⏰ یادآوری نوبت\n\n🕐 ۲ ساعت دیگه\n👨‍⚕️ {doctor}\n⏰ ساعت {time}\n📍 {address}\n\nما منتظرتیم 🌷",
+        "remind_med": "💊 یادآوری دارو\n\nوقت مصرف {med} هست.\n\nسلامتت مهمه 💙",
+        "taxi_title": "🚕 درخواست تاکسی\n\nبرای رفتن به مقصد، یکی از اپ‌های زیر رو باز کن و مقصد رو توی اپ وارد کن:",
+        "hub_not_found": "❌ اطلاعات این پایانه موجود نیست.",
     },
     "ar": {
         "welcome": "🌟 رسالة واحدة، ونجهز كل شيء.\n\n👇 اختاروا من الأزرار:",
@@ -163,6 +178,11 @@ MSG = {
         "rate_thanks_low": "😔 أخبرونا بالسبب:",
         "rate_thanks_low_admin": "❌ عدم رضا\n\n{id} — {stars}⭐\n{name} — {cid}\n\n{text}",
         "rate_feedback_thanks": "🙏 شكراً 💙",
+        "remind_apt_1d": "⏰ تذكير بالموعد\n\n📅 غداً الساعة {time}\n👨‍⚕️ {doctor}\n📍 {address}\n\nيرجى الحضور قبل ١٥ دقيقة. 💙",
+        "remind_apt_2h": "⏰ تذكير بالموعد\n\n🕐 بعد ساعتين\n👨‍⚕️ {doctor}\n⏰ {time}\n📍 {address}\n\nنحن في انتظارك 🌷",
+        "remind_med": "💊 تذكير بالدواء\n\nموعد تناول {med}.\n\nصحتك تهمنا 💙",
+        "taxi_title": "🚕 طلب تاكسي\n\nافتح أحد التطبيقات التالية وأدخل الوجهة:",
+        "hub_not_found": "❌ معلومات هذه المحطة غير متوفرة.",
     },
     "en": {
         "welcome": "🌟 One message, we prepare everything.\n\n👇 Choose:",
@@ -218,6 +238,11 @@ MSG = {
         "rate_thanks_low": "😔 Tell us why:",
         "rate_thanks_low_admin": "❌ Dissatisfied\n\n{id} — {stars}⭐\n{name} — {cid}\n\n{text}",
         "rate_feedback_thanks": "🙏 Thanks 💙",
+        "remind_apt_1d": "⏰ Appointment reminder\n\n📅 Tomorrow at {time}\n👨‍⚕️ {doctor}\n📍 {address}\n\nPlease arrive 15 minutes early. 💙",
+        "remind_apt_2h": "⏰ Reminder\n\n🕐 In 2 hours\n👨‍⚕️ {doctor}\n⏰ {time}\n📍 {address}\n\nWe're waiting for you 🌷",
+        "remind_med": "💊 Medication reminder\n\nTime to take {med}.\n\nYour health matters 💙",
+        "taxi_title": "🚕 Request Taxi\n\nOpen one of the apps below and enter your destination:",
+        "hub_not_found": "❌ Hub information not available.",
     },
 }
 # ============ MSG2 ============
@@ -280,6 +305,7 @@ MSG2 = {
         "nonmed_list_title": "🏥 کدام خدمت؟\n\n👇 انتخاب کن:",
         "tourist_list_title": "🏛️ کدام بخش گردشگری؟\n\n👇 انتخاب کن:",
         "pkg_ask_title": "💎 پکیج کامل",
+        "hubs_title": "🚉 پایانه‌ها و فرودگاه‌های شیراز\n\n👇 کدوم رو می‌خوای ببینی؟",
     },
     "ar": {
         "ref_your_code": "🔗 {code}\n\n{link}",
@@ -339,6 +365,7 @@ MSG2 = {
         "nonmed_list_title": "🏥\n\n👇",
         "tourist_list_title": "🏛️\n\n👇",
         "pkg_ask_title": "💎",
+        "hubs_title": "🚉 المحطات والمطارات في شيراز\n\n👇 اختر:",
     },
     "en": {
         "ref_your_code": "🔗 {code}\n\n{link}",
@@ -398,6 +425,7 @@ MSG2 = {
         "nonmed_list_title": "🏥\n\n👇",
         "tourist_list_title": "🏛️\n\n👇",
         "pkg_ask_title": "💎",
+        "hubs_title": "🚉 Shiraz Transport Hubs\n\n👇 Choose:",
     },
 }
 
@@ -426,9 +454,47 @@ MSG_CH = {
     },
 }
 
+# ============ HUB LABELS (نام پایانه‌ها در منو) ============
+HUB_LABELS = {
+    "shiraz_airport": {
+        "fa": "✈️ فرودگاه شهید دستغیب",
+        "ar": "✈️ مطار الشهيد دستغيب",
+        "en": "✈️ Shahid Dastgheib Airport",
+    },
+    "shiraz_railway": {
+        "fa": "🚂 ایستگاه راه‌آهن شیراز",
+        "ar": "🚂 محطة قطار شيراز",
+        "en": "🚂 Shiraz Railway Station",
+    },
+    "karandish_terminal": {
+        "fa": "🚌 پایانه کاراندیش",
+        "ar": "🚌 محطة كارانديش",
+        "en": "🚌 Karandish Terminal",
+    },
+    "amirkabir_terminal": {
+        "fa": "🚌 پایانه امیرکبیر",
+        "ar": "🚌 محطة أمير كبير",
+        "en": "🚌 Amirkabir Terminal",
+    },
+}
+
+# ============ HUB FIELD DISPLAY ORDER ============
+HUB_FIELDS_ORDER = [
+    "official_name", "city", "full_address",
+    "iata_code", "icao_code",
+    "main_phone", "emergency_phone", "website", "email",
+    "latitude", "longitude", "distance_to_city_center",
+    "working_hours", "metro", "city_bus", "taxis",
+    "hotel_shuttle", "parking", "wheelchair_accessibility", "vip_lounge",
+    "terminals", "airlines", "facilities",
+    "nearby_hospitals", "nearby_hotels",
+    "short_description", "important_tips",
+]
+
 # ============ WORD LISTS ============
 YES_WORDS = {"بله", "بلی", "آره", "اره", "yes", "yeah", "y", "نعم", "ايوه", "أيوه", "ها", "آری", "اری"}
 NO_WORDS = {"نه", "نخیر", "خیر", "نه ممنون", "ندارم", "no", "nope", "n", "لا", "لا شكرا", "ليس"}
+
 # ============ SPECIALTY MAP ============
 SPECIALTY_MAP = {}
 
@@ -467,7 +533,7 @@ NON_MEDICAL_MAP = {
     "tourist_houses.json": ["خانه مسافر", "اقامتگاه بومگردی", "tourist house", "guest house", "بيت مسافر"],
     "leisure_city.json": ["جاذبه", "حافظیه", "سعدیه", "ارگ", "نصیرالملک", "شاهچراغ", "باغ ارم", "بازار وکیل", "موزه", "مسجد"],
     "leisure_outside.json": ["تخت جمشید", "پاسارگاد", "نقش رستم", "آبشار", "persepolis", "pasargad"],
-    "transport.json": ["حمل‌ونقل", "مترو", "تاکسی", "اتوبوس", "اسنپ", "تپسی", "فرودگاه", "transport", "metro", "taxi", "مواصلات", "مطار"],
+    "transport.json": ["حمل‌ونقل", "مترو", "اتوبوس", "فرودگاه", "transport", "metro", "مواصلات", "مطار"],
     "support.json": ["پشتیبانی", "هلال احمر", "شماره اضطراری", "support", "دعم", "مساعدة"],
     "complaints.json": ["شکایت", "شکایات", "complaint", "شكوى"],
     "patient_guide.json": ["راهنمای بیمار", "ویزای درمانی", "patient guide", "medical visa", "قبول مريض", "تأشيرة طبية"],
@@ -570,6 +636,8 @@ CMD_ELDERLY = {"خانه سالمندان", "خانه‌ی سالمندان", "�
 CMD_ELDERLY_ALL = {"همه خانه سالمندان", "کل خانه سالمندان", "all nursing homes", "كل دور المسنين"}
 CMD_PACKAGE = {"پکیج", "پکیج درمان", "پکیج گردشگری", "پکیج سلامت", "باكج", "باكج علاج", "package"}
 CMD_CHANNEL = {"عضویت در کانال", "عضویت کانال", "کانال", "channel", "join channel", "قناة", "انضمام"}
+CMD_TAXI = {"تاکسی", "اسنپ", "تپسی", "snapp", "tap30", "tap 30", "taxi", "تكسي", "اسناب"}
+CMD_HUBS = {"پایانه", "پایانه‌ها", "ترمینال", "فرودگاه", "راه‌آهن", "قطار", "اتوبوس", "hub", "hubs", "airport", "train", "bus", "terminal", "مطار", "قطار", "محطة", "محطات"}
 
 # ============ BASIC HELPERS ============
 def clean(text):
@@ -722,6 +790,36 @@ def format_date_full(offset_days=0, lang="fa"):
     miladi = today.strftime("%Y/%m/%d")
     return miladi
 
+# ============ LOCAL TIME + SHAMSI HELPERS ============
+def local_now():
+    return datetime.utcnow() + timedelta(hours=TIMEZONE_OFFSET_HOURS)
+
+def shamsi_to_miladi(jy, jm, jd):
+    if jdatetime is None:
+        return None
+    try:
+        g = jdatetime.date(jy, jm, jd).togregorian()
+        return datetime(g.year, g.month, g.day)
+    except:
+        return None
+
+def parse_apt_datetime(apt):
+    if not apt or not apt.get('date') or not apt.get('time'):
+        return None
+    try:
+        dparts = apt['date'].split('/')
+        tparts = apt['time'].split(':')
+        if len(dparts) != 3 or len(tparts) != 2:
+            return None
+        jy, jm, jd = int(dparts[0]), int(dparts[1]), int(dparts[2])
+        hh, mm = int(tparts[0]), int(tparts[1])
+        g = shamsi_to_miladi(jy, jm, jd)
+        if g is None:
+            return None
+        return datetime(g.year, g.month, g.day, hh, mm)
+    except:
+        return None
+
 # ============ INLINE KEYBOARD BUILDERS ============
 def main_menu_kb(lang):
     m = telebot.types.InlineKeyboardMarkup(row_width=2)
@@ -735,6 +833,10 @@ def main_menu_kb(lang):
         telebot.types.InlineKeyboardButton(text=b["btn_pkg"], callback_data="menu_pkg"),
     )
     m.add(
+        telebot.types.InlineKeyboardButton(text=b["btn_hubs"], callback_data="do_hubs"),
+        telebot.types.InlineKeyboardButton(text=b["btn_taxi"], callback_data="do_taxi"),
+    )
+    m.add(
         telebot.types.InlineKeyboardButton(text=b["btn_file"], callback_data="do_file"),
         telebot.types.InlineKeyboardButton(text=b["btn_apt"], callback_data="do_apt"),
     )
@@ -743,12 +845,20 @@ def main_menu_kb(lang):
         telebot.types.InlineKeyboardButton(text=b["btn_sos"], callback_data="do_sos"),
     )
     m.add(
+        telebot.types.InlineKeyboardButton(text=b["btn_channel"], callback_data="do_channel"),
+    )
+    m.add(
         telebot.types.InlineKeyboardButton(text=b["btn_invite"], callback_data="do_invite"),
         telebot.types.InlineKeyboardButton(text=b["btn_help"], callback_data="do_help"),
     )
-    m.add(
-        telebot.types.InlineKeyboardButton(text=b["btn_channel"], callback_data="do_channel"),
-    )
+    return m
+
+def hubs_kb(lang):
+    m = telebot.types.InlineKeyboardMarkup(row_width=1)
+    for hub_id, labels in HUB_LABELS.items():
+        label = labels.get(lang, labels.get("fa", hub_id))
+        m.add(telebot.types.InlineKeyboardButton(text=label, callback_data="hub_" + hub_id))
+    m.add(telebot.types.InlineKeyboardButton(text=MSG_BTN[lang]["btn_back"], callback_data="back_main"))
     return m
 
 def specialties_kb(lang):
@@ -847,17 +957,36 @@ def doctor_action_kb(lang, doc_id):
         telebot.types.InlineKeyboardButton(text=b["btn_book"], callback_data="book_" + doc_id),
         telebot.types.InlineKeyboardButton(text=b["btn_call"], callback_data="call_" + doc_id),
     )
+    m.add(
+        telebot.types.InlineKeyboardButton(text=b["btn_taxi"], callback_data="do_taxi"),
+    )
     m.add(telebot.types.InlineKeyboardButton(text=b["btn_back"], callback_data="back_main"))
+    return m
+
+def taxi_kb(lang):
+    m = telebot.types.InlineKeyboardMarkup(row_width=2)
+    b = MSG_BTN[lang]
+    m.add(
+        telebot.types.InlineKeyboardButton(text=b["btn_snapp"], url=SNAPP_URL),
+        telebot.types.InlineKeyboardButton(text=b["btn_tap30"], url=TAP30_URL),
+    )
+    m.add(telebot.types.InlineKeyboardButton(text=b["btn_back"], callback_data="back_main"))
+    return m
+
+def hub_action_kb(lang, hub_id):
+    m = telebot.types.InlineKeyboardMarkup(row_width=1)
+    m.add(telebot.types.InlineKeyboardButton(text=MSG_BTN[lang]["btn_back_hubs"], callback_data="do_hubs"))
+    m.add(telebot.types.InlineKeyboardButton(text=MSG_BTN[lang]["btn_back"], callback_data="back_main"))
     return m
 
 def rate_kb(lang, apt_id):
     m = telebot.types.InlineKeyboardMarkup(row_width=5)
     m.add(
-        telebot.types.InlineKeyboardButton(text="⭐", callback_data="rate_1_" + apt_id),
-        telebot.types.InlineKeyboardButton(text="⭐⭐", callback_data="rate_2_" + apt_id),
-        telebot.types.InlineKeyboardButton(text="⭐⭐⭐", callback_data="rate_3_" + apt_id),
-        telebot.types.InlineKeyboardButton(text="⭐⭐⭐⭐", callback_data="rate_4_" + apt_id),
-        telebot.types.InlineKeyboardButton(text="⭐⭐⭐⭐⭐", callback_data="rate_5_" + apt_id),
+        telebot.types.InlineKeyboardButton(text="1⭐", callback_data="rate_1_" + apt_id),
+        telebot.types.InlineKeyboardButton(text="2⭐", callback_data="rate_2_" + apt_id),
+        telebot.types.InlineKeyboardButton(text="3⭐", callback_data="rate_3_" + apt_id),
+        telebot.types.InlineKeyboardButton(text="4⭐", callback_data="rate_4_" + apt_id),
+        telebot.types.InlineKeyboardButton(text="5⭐", callback_data="rate_5_" + apt_id),
     )
     return m
 
@@ -891,6 +1020,11 @@ MSG_BTN = {
         "btn_invite": "🎁 دعوت دوستان",
         "btn_help": "🆘 حقوق بیمار",
         "btn_channel": "📢 عضویت در کانال",
+        "btn_taxi": "🚕 درخواست تاکسی",
+        "btn_snapp": "🚗 اسنپ",
+        "btn_tap30": "🚕 تپسی",
+        "btn_hubs": "🚉 پایانه‌ها و فرودگاه",
+        "btn_back_hubs": "🔙 بازگشت به لیست پایانه‌ها",
         "btn_back": "🔙 بازگشت",
         "btn_hospitals": "🏥 بیمارستان‌ها",
         "btn_hotels": "🏨 هتل‌ها",
@@ -927,6 +1061,11 @@ MSG_BTN = {
         "btn_invite": "🎁 دعوة",
         "btn_help": "🆘 الحقوق",
         "btn_channel": "📢 الانضمام إلى القناة",
+        "btn_taxi": "🚕 طلب تاكسي",
+        "btn_snapp": "🚗 سناب",
+        "btn_tap30": "🚕 تابسي",
+        "btn_hubs": "🚉 المحطات والمطارات",
+        "btn_back_hubs": "🔙 العودة إلى قائمة المحطات",
         "btn_back": "🔙 رجوع",
         "btn_hospitals": "🏥 المستشفيات",
         "btn_hotels": "🏨 الفنادق",
@@ -963,6 +1102,11 @@ MSG_BTN = {
         "btn_invite": "🎁 Invite",
         "btn_help": "🆘 Rights",
         "btn_channel": "📢 Join Channel",
+        "btn_taxi": "🚕 Request Taxi",
+        "btn_snapp": "🚗 Snapp",
+        "btn_tap30": "🚕 Tap30",
+        "btn_hubs": "🚉 Transport Hubs",
+        "btn_back_hubs": "🔙 Back to Hubs List",
         "btn_back": "🔙 Back",
         "btn_hospitals": "🏥 Hospitals",
         "btn_hotels": "🏨 Hotels",
@@ -1054,6 +1198,8 @@ def create_appointment(doctor, pname, pphone, chat_id, lang):
         "time": "",
         "status": "pending",
         "rating": 0,
+        "reminded_1d": False,
+        "reminded_2h": False,
         "created_at": datetime.now().strftime("%Y/%m/%d %H:%M")
     }
     data['appointments'].append(apt)
@@ -1079,6 +1225,8 @@ def confirm_appointment(apt_id, date_str, time_str):
             a['time'] = time_str
             a['status'] = 'confirmed'
             a['confirmed_at'] = datetime.now().strftime("%Y/%m/%d %H:%M")
+            a['reminded_1d'] = False
+            a['reminded_2h'] = False
             save_appointments(data)
             return a
     return None
@@ -1102,6 +1250,15 @@ def set_apt_rating(apt_id, stars):
             save_appointments(data)
             return a
     return None
+
+def mark_reminded(apt_id, which):
+    data = load_appointments()
+    for a in data['appointments']:
+        if a['id'] == apt_id:
+            a[which] = True
+            save_appointments(data)
+            return True
+    return False
 
 # ============ PATIENTS ============
 def load_patients():
@@ -1284,7 +1441,7 @@ def create_package(chat_id, name, phone, lang):
     save_packages(data)
     return pkg
 
-# ============ REFERRALS (با channel_reward) ============
+# ============ REFERRALS ============
 def load_referrals():
     return _load_default(REFERRALS_FILE, {"users": {}, "codes": {}})
 
@@ -1491,11 +1648,13 @@ def load_meds():
 def save_meds(data):
     return _save(MEDS_FILE, data)
 
-def create_med(chat_id, name, time_str):
+def create_med(chat_id, name, time_str, lang="fa"):
     data = load_meds()
     item = {
         "chat_id": str(chat_id), "name": name, "time": time_str,
-        "active": True, "created_at": datetime.now().strftime("%Y/%m/%d %H:%M")
+        "lang": lang,
+        "active": True, "last_reminded_date": "",
+        "created_at": datetime.now().strftime("%Y/%m/%d %H:%M")
     }
     data['meds'].append(item)
     save_meds(data)
@@ -1505,6 +1664,65 @@ def get_user_meds(chat_id):
     data = load_meds()
     return [m for m in data['meds'] if m['chat_id'] == str(chat_id) and m.get('active', True)]
 
+def mark_med_reminded(chat_id, med_name, date_str):
+    data = load_meds()
+    for m in data['meds']:
+        if m['chat_id'] == str(chat_id) and m['name'] == med_name and m.get('active', True):
+            m['last_reminded_date'] = date_str
+            save_meds(data)
+            return True
+    return False
+
+# ============ HUBS ============
+def load_hubs():
+    data = _load_default(data_path("transport_hubs.json"), {})
+    return data.get("shiraz_transport_hubs", [])
+
+def find_hub_field(hubs, hub_key, field_key, lang):
+    for f in hubs:
+        if f.get("key") == field_key:
+            hv = f.get(hub_key, {})
+            return hv.get("value_" + lang, "") or hv.get("value_fa", "")
+    return ""
+
+def format_hub(hub_key, lang):
+    hubs = load_hubs()
+    if not hubs:
+        return MSG[lang]["hub_not_found"]
+    lines = []
+    title = ""
+    for f in hubs:
+        if f.get("key") == "official_name":
+            hv = f.get(hub_key, {})
+            title = hv.get("value_" + lang, "") or hv.get("value_fa", "")
+            break
+    if title:
+        lines.append("📍 " + title)
+        lines.append("━━━━━━━━━━━━━━━")
+    for field_key in HUB_FIELDS_ORDER:
+        if field_key == "official_name":
+            continue
+        val = find_hub_field(hubs, hub_key, field_key, lang)
+        if not val or val == "—":
+            continue
+        f_label = ""
+        for f in hubs:
+            if f.get("key") == field_key:
+                f_label = f.get("field_" + lang, "") or f.get("field_fa", "")
+                break
+        if f_label:
+            lines.append("• " + f_label + ": " + val)
+    lat = ""
+    lng = ""
+    for f in hubs:
+        if f.get("key") == "latitude":
+            lat = f.get(hub_key, {}).get("value_fa", "")
+        if f.get("key") == "longitude":
+            lng = f.get(hub_key, {}).get("value_fa", "")
+    if lat and lng and lat != "—" and lng != "—":
+        lines.append("")
+        lines.append("🗺 مسیریاب: https://www.google.com/maps/dir/?api=1&destination=" + str(lat) + "," + str(lng))
+    return "\n".join(lines)
 # ============ HOPE ============
 def send_hope_flower(chat_id, lang):
     hope_key = random.choice(["hope_general_1", "hope_general_2", "hope_general_3", "hope_general_4"])
@@ -1787,6 +2005,97 @@ def set_doctor_status(doc_id, new_status):
             return True
     return False
 
+# ============ REMINDER WORKER ============
+def get_pending_reminders(now_local):
+    data = load_appointments()
+    one_day = []
+    two_hours = []
+    for a in data['appointments']:
+        if a.get('status') != 'confirmed':
+            continue
+        dt = parse_apt_datetime(a)
+        if dt is None:
+            continue
+        diff = dt - now_local
+        diff_min = diff.total_seconds() / 60.0
+        if not a.get('reminded_1d'):
+            if 23.5 * 60 <= diff_min <= 24.5 * 60:
+                one_day.append(a)
+        if not a.get('reminded_2h'):
+            if 1.5 * 60 <= diff_min <= 2.5 * 60:
+                two_hours.append(a)
+    return one_day, two_hours
+
+def get_pending_med_reminders(now_local):
+    data = load_meds()
+    result = []
+    today_str = now_local.strftime("%Y/%m/%d")
+    for m in data['meds']:
+        if not m.get('active', True):
+            continue
+        if m.get('last_reminded_date') == today_str:
+            continue
+        mt = m.get('time', '')
+        if not mt:
+            continue
+        try:
+            hh, mm = int(mt.split(':')[0]), int(mt.split(':')[1])
+        except:
+            continue
+        target_min = hh * 60 + mm
+        now_min = now_local.hour * 60 + now_local.minute
+        if 0 <= (target_min - now_min) <= 30:
+            result.append(m)
+    return result
+
+def _send_apt_reminder(apt, kind):
+    lang = apt.get('patient_lang', 'fa')
+    cid = apt.get('patient_chat_id', '')
+    if not cid:
+        return
+    dn = apt.get("doctor_name_" + lang) or apt.get("doctor_name_fa", "")
+    ad = apt.get("doctor_address_" + lang) or apt.get("doctor_address_fa", "")
+    try:
+        if kind == "1d":
+            txt = MSG[lang]["remind_apt_1d"].format(time=apt.get('time', ''), doctor=dn, address=ad)
+        else:
+            txt = MSG[lang]["remind_apt_2h"].format(time=apt.get('time', ''), doctor=dn, address=ad)
+        bot.send_message(cid, txt, reply_markup=back_kb(lang))
+    except Exception as e:
+        print("APT_REMIND_ERR: " + str(e))
+
+def _send_med_reminder(med, today_str):
+    cid = med.get('chat_id', '')
+    if not cid:
+        return
+    lang = med.get('lang', 'fa')
+    try:
+        bot.send_message(cid, MSG[lang]["remind_med"].format(med=med.get('name', '')))
+        mark_med_reminded(cid, med.get('name', ''), today_str)
+    except Exception as e:
+        print("MED_REMIND_ERR: " + str(e))
+
+def reminder_worker():
+    print("REMINDER_WORKER: started (loop every 15 min)")
+    time_module.sleep(30)
+    while True:
+        try:
+            now_local = local_now()
+            one_d, two_h = get_pending_reminders(now_local)
+            for apt in one_d:
+                _send_apt_reminder(apt, "1d")
+                mark_reminded(apt['id'], 'reminded_1d')
+            for apt in two_h:
+                _send_apt_reminder(apt, "2h")
+                mark_reminded(apt['id'], 'reminded_2h')
+            today_str = now_local.strftime("%Y/%m/%d")
+            meds_due = get_pending_med_reminders(now_local)
+            for m in meds_due:
+                _send_med_reminder(m, today_str)
+        except Exception as e:
+            print("REMINDER_LOOP_ERR: " + str(e))
+        time_module.sleep(15 * 60)
+
 # ============ STATE HELPERS ============
 def ask_more(message):
     cid = message.chat.id
@@ -1891,7 +2200,13 @@ def process_query(message, text, lang):
         if is_channel_joined(cid):
             reply_with_kb(message, MSG_CH[lang]["msg_channel_already"], back_kb(lang))
             return True
-        reply_with_kb(message, MSG_CH[lang]["msg_channel"] + "\n\n" + CHANNEL_LINK, channel_kb(lang))
+        reply_with_kb(message, MSG_CH[lang]["msg_channel"], channel_kb(lang))
+        return True
+    if is_simple_cmd(text, CMD_TAXI):
+        reply_with_kb(message, MSG[lang]["taxi_title"], taxi_kb(lang))
+        return True
+    if is_simple_cmd(text, CMD_HUBS):
+        reply_with_kb(message, MSG2[lang]["hubs_title"], hubs_kb(lang))
         return True
 
     doc = search_by_doctor_name(text)
@@ -1987,6 +2302,8 @@ def admin_command(message):
             lines.append("• " + p['id'] + " — " + p.get('name', '') + " — " + p.get('phone', ''))
     lines.append("")
     lines.append("📩 شکایت جدید: " + str(len(new_complaints)))
+    lines.append("")
+    lines.append("⏰ زمان سرور (local): " + local_now().strftime("%Y/%m/%d %H:%M"))
     bot.reply_to(message, "\n".join(lines))
 
 @bot.message_handler(commands=['confirm'])
@@ -2217,6 +2534,22 @@ def cb_handler(call):
                 send_with_kb(cid, MSG_CH[lang]["msg_channel_already"], back_kb(lang))
             return
 
+        # ---- تاکسی ----
+        if data == "do_taxi":
+            send_with_kb(cid, MSG[lang]["taxi_title"], taxi_kb(lang))
+            return
+
+        # ---- پایانه‌ها ----
+        if data == "do_hubs":
+            send_with_kb(cid, MSG2[lang]["hubs_title"], hubs_kb(lang))
+            return
+
+        if data.startswith("hub_"):
+            hub_id = data[4:]
+            txt = format_hub(hub_id, lang)
+            send_with_kb(cid, txt, hub_action_kb(lang, hub_id))
+            return
+
         # ---- بازگشت ----
         if data == "back_main":
             try:
@@ -2414,7 +2747,6 @@ def cb_handler(call):
 
     except Exception as e:
         print("CB_ERR: " + str(e))
-
 # ============ MAIN HANDLER ============
 @bot.message_handler(func=lambda m: True)
 def handle(message):
@@ -2677,7 +3009,7 @@ def handle(message):
             bot.reply_to(message, MSG2[lang]["med_ask_time"])
             return
         med_name = user_temp.get(cid, {}).get("med_name", "")
-        create_med(cid, med_name, tt)
+        create_med(cid, med_name, tt, lang)
         bot.reply_to(message, MSG2[lang]["med_saved"].format(name=med_name, time=tt))
         user_temp.pop(cid, None)
         user_state[cid] = "active"
@@ -2756,8 +3088,15 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["retry"])
     if new_state == old_state or not answered:
         ask_more(message)
-
-
 # ============ START ============
-print("ربات روشن شد... v39 (دکمه URL کانال + پاداش ۵٪)")
+print("ربات روشن شد... v42 (پایانه‌ها + تاکسی + یادآور + کانال)")
+if jdatetime is None:
+    print("⚠️ WARNING: jdatetime نصب نیست — یادآور نوبت کار نمی‌کنه!")
+print("⏰ TIMEZONE_OFFSET_HOURS = " + str(TIMEZONE_OFFSET_HOURS))
+try:
+    reminder_thread = threading.Thread(target=reminder_worker, daemon=True)
+    reminder_thread.start()
+    print("✅ REMINDER_THREAD started")
+except Exception as e:
+    print("❌ REMINDER_THREAD fail: " + str(e))
 bot.infinity_polling(timeout=30, long_polling_timeout=30)
