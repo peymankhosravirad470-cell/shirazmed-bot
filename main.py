@@ -14,6 +14,8 @@ BALE_BOT_TOKEN = os.environ.get("BALE_BOT_TOKEN", "")
 ADMIN_CHAT_ID = os.environ.get("ADMIN_CHAT_ID", "")
 AI_MODEL = "gpt-4o-mini"
 AVALAI_URL = "https://api.avalai.ir/v1/chat/completions"
+CHANNEL_LINK = "https://ble.ir/shiraz_medical"
+CHANNEL_DISCOUNT = 5
 
 # ============ BOT INIT ============
 if BALE_BOT_TOKEN:
@@ -398,10 +400,32 @@ MSG2 = {
         "pkg_ask_title": "💎",
     },
 }
+
+# ============ CHANNEL MESSAGES (جدید) ============
+MSG_CH = {
+    "fa": {
+        "btn_channel_ok": "✅ عضو شدم",
+        "msg_channel": "🎁 یه هدیه کوچیک برات داریم\n\nعضو کانال ما بشو → ۵٪ تخفیف\nروی همه سرویس‌ها (پزشک، هتل، ترانسفر)\n\nبعد از عضویت، برگرد و بزن [✅ عضو شدم]",
+        "msg_channel_done": "✅ خوش اومدی!\n\n۵٪ تخفیف روی اولین سرویست فعال شد.\n\nالان می‌تونی نوبت پزشک بگیری یا هتل رزرو کنی.\nاز /menu شروع کن 🚀",
+        "msg_channel_already": "😊 قبلاً عضو شدی و ۵٪ تخفیفت فعاله.\nبزن /menu و ازش استفاده کن.",
+    },
+    "ar": {
+        "btn_channel_ok": "✅ انضممت",
+        "msg_channel": "🎁 لدينا هدية صغيرة لك\n\nانضم إلى قناتنا → خصم ٥٪\nعلى جميع الخدمات (طبيب، فندق، نقل)\n\nبعد الانضمام، ارجع واضغط [✅ انضممت]",
+        "msg_channel_done": "✅ أهلاً بك!\n\nتم تفعيل خصم ٥٪ على خدمتك الأولى.\n\nيمكنك الآن حجز طبيب أو فندق.\nابدأ بـ /menu 🚀",
+        "msg_channel_already": "😊 أنت مشترك بالفعل وخصم ٥٪ مفعّل.\nاضغط /menu للاستفادة منه.",
+    },
+    "en": {
+        "btn_channel_ok": "✅ I joined",
+        "msg_channel": "🎁 A small gift for you\n\nJoin our channel → 5% OFF\non all services (doctor, hotel, transfer)\n\nAfter joining, come back and tap [✅ I joined]",
+        "msg_channel_done": "✅ Welcome aboard!\n\nYour 5% discount is now active.\n\nBook a doctor or hotel now.\nStart with /menu 🚀",
+        "msg_channel_already": "😊 You already joined and your 5% discount is active.\nTap /menu to use it.",
+    },
+}
+
 # ============ WORD LISTS ============
 YES_WORDS = {"بله", "بلی", "آره", "اره", "yes", "yeah", "y", "نعم", "ايوه", "أيوه", "ها", "آری", "اری"}
 NO_WORDS = {"نه", "نخیر", "خیر", "نه ممنون", "ندارم", "no", "nope", "n", "لا", "لا شكرا", "ليس"}
-
 # ============ SPECIALTY MAP ============
 SPECIALTY_MAP = {}
 
@@ -542,6 +566,7 @@ CMD_PARA = {"پیراپزشکی", "پارامدیکال", "paramedical", "مسا
 CMD_ELDERLY = {"خانه سالمندان", "خانه‌ی سالمندان", "آسایشگاه", "سرای سالمندان", "nursing home", "elderly", "دار المسنين"}
 CMD_ELDERLY_ALL = {"همه خانه سالمندان", "کل خانه سالمندان", "all nursing homes", "كل دور المسنين"}
 CMD_PACKAGE = {"پکیج", "پکیج درمان", "پکیج گردشگری", "پکیج سلامت", "باكج", "باكج علاج", "package"}
+CMD_CHANNEL = {"عضویت در کانال", "عضویت کانال", "کانال", "channel", "join channel", "قناة", "انضمام"}
 
 # ============ BASIC HELPERS ============
 def clean(text):
@@ -718,6 +743,9 @@ def main_menu_kb(lang):
         telebot.types.InlineKeyboardButton(text=b["btn_invite"], callback_data="do_invite"),
         telebot.types.InlineKeyboardButton(text=b["btn_help"], callback_data="do_help"),
     )
+    m.add(
+        telebot.types.InlineKeyboardButton(text=b["btn_channel"], callback_data="do_channel"),
+    )
     return m
 
 def specialties_kb(lang):
@@ -836,6 +864,13 @@ def back_kb(lang, cb="back_main"):
     m.add(telebot.types.InlineKeyboardButton(text=b["btn_back"], callback_data=cb))
     return m
 
+def channel_kb(lang):
+    m = telebot.types.InlineKeyboardMarkup(row_width=1)
+    b = MSG_CH[lang]
+    m.add(telebot.types.InlineKeyboardButton(text=b["btn_channel_ok"], callback_data="channel_confirm"))
+    m.add(telebot.types.InlineKeyboardButton(text=MSG_BTN[lang]["btn_back"], callback_data="back_main"))
+    return m
+
 # ============ MSG_BTN ============
 MSG_BTN = {
     "fa": {
@@ -851,6 +886,7 @@ MSG_BTN = {
         "btn_sos": "🚨 اضطراری",
         "btn_invite": "🎁 دعوت دوستان",
         "btn_help": "🆘 حقوق بیمار",
+        "btn_channel": "📢 عضویت در کانال",
         "btn_back": "🔙 بازگشت",
         "btn_hospitals": "🏥 بیمارستان‌ها",
         "btn_hotels": "🏨 هتل‌ها",
@@ -886,6 +922,7 @@ MSG_BTN = {
         "btn_sos": "🚨 طوارئ",
         "btn_invite": "🎁 دعوة",
         "btn_help": "🆘 الحقوق",
+        "btn_channel": "📢 الانضمام إلى القناة",
         "btn_back": "🔙 رجوع",
         "btn_hospitals": "🏥 المستشفيات",
         "btn_hotels": "🏨 الفنادق",
@@ -921,6 +958,7 @@ MSG_BTN = {
         "btn_sos": "🚨 Emergency",
         "btn_invite": "🎁 Invite",
         "btn_help": "🆘 Rights",
+        "btn_channel": "📢 Join Channel",
         "btn_back": "🔙 Back",
         "btn_hospitals": "🏥 Hospitals",
         "btn_hotels": "🏨 Hotels",
@@ -1242,7 +1280,7 @@ def create_package(chat_id, name, phone, lang):
     save_packages(data)
     return pkg
 
-# ============ REFERRALS ============
+# ============ REFERRALS (با channel_reward) ============
 def load_referrals():
     return _load_default(REFERRALS_FILE, {"users": {}, "codes": {}})
 
@@ -1328,6 +1366,26 @@ def try_apply_start_param(message, text, lang):
             pass
     return res
 
+# ============ CHANNEL REWARD (جدید - توی referrals.json ذخیره میشه) ============
+def is_channel_joined(chat_id):
+    data = load_referrals()
+    cid = str(chat_id)
+    u = data['users'].get(cid, {})
+    return u.get('channel_reward', False)
+
+def grant_channel_reward(chat_id):
+    data = load_referrals()
+    cid = str(chat_id)
+    if cid not in data['users']:
+        data['users'][cid] = {}
+    if data['users'][cid].get('channel_reward'):
+        return False
+    data['users'][cid]['channel_reward'] = True
+    data['users'][cid]['channel_discount'] = CHANNEL_DISCOUNT
+    data['users'][cid]['channel_joined_at'] = datetime.now().strftime("%Y/%m/%d %H:%M")
+    save_referrals(data)
+    return True
+
 # ============ COMPANIONS ============
 def load_companions():
     return _load_default(COMPANIONS_FILE, {"companions": {}})
@@ -1396,7 +1454,9 @@ def get_user_stats():
     starts = data.get('start_count', 0)
     apts = data.get('apt_count', 0)
     conv = round((apts / starts) * 100, 1) if starts > 0 else 0
-    return {"total": total, "dau": dau, "wau": wau, "mau": mau, "conv": conv}
+    ref_data = load_referrals()
+    channel_count = sum(1 for u in ref_data.get('users', {}).values() if u.get('channel_reward'))
+    return {"total": total, "dau": dau, "wau": wau, "mau": mau, "conv": conv, "channel": channel_count}
 
 # ============ COMPLAINTS ============
 def load_complaints():
@@ -1823,6 +1883,12 @@ def process_query(message, text, lang):
     if is_simple_cmd(text, CMD_ELDERLY):
         reply_with_kb(message, MSG2[lang]["elderly_list_title"], elderly_kb(lang))
         return True
+    if is_simple_cmd(text, CMD_CHANNEL):
+        if is_channel_joined(cid):
+            reply_with_kb(message, MSG_CH[lang]["msg_channel_already"], back_kb(lang))
+            return True
+        reply_with_kb(message, MSG_CH[lang]["msg_channel"] + "\n\n" + CHANNEL_LINK, channel_kb(lang))
+        return True
 
     doc = search_by_doctor_name(text)
     if doc:
@@ -1896,6 +1962,7 @@ def admin_command(message):
     lines.append("• ۳۰ روز: " + str(stats['mau']))
     lines.append("")
     lines.append("📈 نرخ تبدیل: " + str(stats['conv']) + "%")
+    lines.append("📢 عضو کانال: " + str(stats.get('channel', 0)))
     lines.append("")
     lines.append("📅 نوبت‌ها:")
     lines.append("• در انتظار: " + str(len(pending)))
@@ -2120,6 +2187,30 @@ def cb_handler(call):
                 satisfaction_counter["negative"] += 1
                 user_state[cid] = "awaiting_rate_feedback_" + apt_id
                 bot.send_message(cid, MSG[lang]["rate_thanks_low"])
+            return
+
+        # ---- عضویت در کانال (جدید) ----
+        if data == "do_channel":
+            if is_channel_joined(cid):
+                send_with_kb(cid, MSG_CH[lang]["msg_channel_already"], back_kb(lang))
+                return
+            send_with_kb(cid, MSG_CH[lang]["msg_channel"] + "\n\n" + CHANNEL_LINK, channel_kb(lang))
+            return
+
+        if data == "channel_confirm":
+            if is_channel_joined(cid):
+                send_with_kb(cid, MSG_CH[lang]["msg_channel_already"], back_kb(lang))
+                return
+            ok = grant_channel_reward(cid)
+            if ok:
+                send_with_kb(cid, MSG_CH[lang]["msg_channel_done"], back_kb(lang))
+                if ADMIN_CHAT_ID:
+                    try:
+                        bot.send_message(ADMIN_CHAT_ID, "📢 عضو جدید کانال: " + str(cid))
+                    except:
+                        pass
+            else:
+                send_with_kb(cid, MSG_CH[lang]["msg_channel_already"], back_kb(lang))
             return
 
         # ---- بازگشت ----
@@ -2664,5 +2755,5 @@ def handle(message):
 
 
 # ============ START ============
-print("ربات روشن شد... v37 (نظر ۵ ستاره + /done + Success Story + Inline درختی)")
+print("ربات روشن شد... v38 (عضویت در کانال + پاداش ۵٪)")
 bot.infinity_polling(timeout=30, long_polling_timeout=30)
