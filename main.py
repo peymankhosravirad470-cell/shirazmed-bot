@@ -25,7 +25,7 @@ else:
 
 LANG_NAMES = {"fa": "فارسی", "ar": "العربية", "en": "English"}
 
-SYSTEM_PROMPT = "شما دستیار گردشگری سلامت شیراز هستید. کوتاه و با همدلی جواب بده. هرگز تشخیص پزشکی نده، دارو تجویز نکن و قیمت دقیق نگو. فقط راهنمای اولیه‌ست، نه تشخیص."
+SYSTEM_PROMPT = "شما دستیار گردشگری سلامت شیراز هستید. کوتاه و با همدلی جواب بده. هرگز تشخیص پزشکی نده، دارو تجویز نکن و قیمت دقیق نگو."
 
 AI_DISCLAIMER = {
     "fa": "\n\n⚠️ این راهنمای اولیه‌ست، نه تشخیص پزشکی.",
@@ -57,9 +57,7 @@ MSG = {
         "welcome_text": "یا خواسته‌ت رو بنویس:\nمثلاً «دکتر قلب» یا «پکیج درمان»",
         "more": "سؤال دیگری دارید؟ (بله / نه)",
         "go": "بفرمایید، سؤالتان را بنویسید.",
-        "rate": "🙏 از خدمات ما راضی بودید؟ (بله / خیر)",
         "thanks": "🙏 سپاسگزاریم!\n\nاگر از خدمات ما راضی بودید، لطفاً ما را به دوستان و آشنایان خود معرفی کنید. 🌹",
-        "why": "متأسفیم. لطفاً بنویسید چه چیزی باعث نارضایتی شد.",
         "thanks_fb": "ممنون از نظرتان. 🙏",
         "retry": "متأسفم، الان نتوانستم جواب بدهم. دوباره تلاش کنید.",
         "text_only": "لطفاً سؤال خود را به صورت متن بنویسید.",
@@ -70,13 +68,16 @@ MSG = {
         "apt_phone": "📞 لطفاً شماره تماس خود را بنویسید (مثال: 09123456789):",
         "apt_submitted": "✅ درخواست نوبت شما ثبت شد!\n\n📋 کد پیگیری: {id}\n👨‍⚕️ پزشک: {doctor}\n\n⏳ ما با مطب تماس می‌گیریم و سریع‌ترین نوبت موجود رو براتون هماهنگ می‌کنیم.",
         "apt_cancelled": "❌ ثبت نوبت لغو شد.",
-        "apt_invalid": "لطفاً یکی از شماره‌های داده شده را بزنید.\n\n🚪 برای خروج از این مرحله، بنویسید: منو",
+        "apt_invalid": "لطفاً یکی از شماره‌های داده شده را بزنید.\n\n🚪 برای خروج: منو",
         "apt_error": "❌ متأسفانه در ثبت نوبت مشکلی پیش آمد.",
         "apt_my": "📋 نوبت‌های شما:",
         "apt_none": "شما هنوز هیچ نوبتی ثبت نکرده‌اید.",
         "apt_confirm_final": "آیا درخواست با این اطلاعات ثبت شود؟ (بله / نه)\n\n👤 نام: {name}\n📞 تلفن: {phone}\n👨‍⚕️ پزشک: {doctor}",
-        "apt_admin_new": "📥 درخواست نوبت جدید\n\n📋 کد: {id}\n👤 بیمار: {name}\n📞 تلفن: {phone}\n👨‍⚕️ پزشک: {doctor}\n📞 تلفن مطب: {dphone}\n\n⏳ در انتظار تأیید شما.\n/confirm {id} 1405/09/20 10:30",
+        "apt_admin_new": "📥 درخواست نوبت جدید\n\n📋 کد: {id}\n👤 بیمار: {name}\n📞 تلفن: {phone}\n👨‍⚕️ پزشک: {doctor}\n📞 تلفن مطب: {dphone}\n\n⏳ تأیید:\n/confirm {id} 1405/09/20 10:30\n✅ انجام ویزیت:\n/done {id}",
         "apt_patient_confirmed": "🎉 نوبت شما تأیید شد!\n\n📋 کد: {id}\n👨‍⚕️ پزشک: {doctor}\n📅 تاریخ: {date}\n⏰ ساعت: {time}\n📍 آدرس: {address}",
+        "apt_done_admin_ok": "✅ ویزیت {id} علامت خورد. نظرخواهی از بیمار ارسال شد.",
+        "apt_done_admin_bad": "❌ نوبت {id} پیدا نشد.",
+        "apt_done_patient": "🎊 امیدواریم ویزیت خوب پیش رفته باشه!\n\nلطفاً به ما بگو از خدمات چقدر راضی بودی:",
         "pt_created": "🎫 پرونده‌ی شما ساخته شد\n\n📋 کد پرونده: {code}\n\nهر وقت خواستی ببینی کجای کاریم، بنویس: پرونده",
         "pt_title": "🎫 پرونده‌ی سلامت شما\n━━━━━━━━━━━━━━━",
         "pt_code": "📋 کد پرونده: {code}",
@@ -94,115 +95,138 @@ MSG = {
         "pt_appointments": "\n📅 نوبت‌های شما:",
         "pt_apt_line_pending": "⏳ {id} — {doctor} — در انتظار تعیین تاریخ",
         "pt_apt_line_confirmed": "✅ {id} — {doctor} — {date} ساعت {time}",
+        "pt_apt_line_done": "🎊 {id} — {doctor} — انجام شده",
         "pt_not_found": "شما هنوز پرونده‌ای ندارید. با اولین نوبت، پرونده‌ی شما ساخته می‌شه 💙",
         "delete_ask": "⚠️ مطمئنی؟ برای تأیید بنویس: بله حذف کن",
         "delete_done": "✅ همه‌ی اطلاعات شما پاک شد.",
         "delete_cancel": "باشه، اطلاعاتت دست‌نخورده موند.",
+        "rate_thanks_5": "🌟 وای، ۵ ستاره! خیلی خوشحال شدیم 💙\n\nاگه دوستی داری که به پزشک نیاز داره، لطفاً ما رو بهش معرفی کن. پاداش داری 🎁",
+        "rate_thanks_4": "😊 ممنون از امتیاز ۴ ستاره!\n\nاگه دوستی داری که به پزشک نیاز داره، ما رو بهش معرفی کن 🎁",
+        "rate_thanks_3": "🙏 ممنون از نظرت.\n\nسعی می‌کنیم دفعه بعد بهتر باشیم 💙",
+        "rate_thanks_low": "😔 متأسفیم که راضی نبودی.\n\nلطفاً به ما بگو چه چیزی باعث نارضایتی شد تا بهتر بشیم:",
+        "rate_thanks_low_admin": "❌ عدم رضایت جدید\n\n📋 نوبت: {id}\n⭐ امتیاز: {stars}\n👤 بیمار: {name}\nChatID: {cid}\n\n💬 نظر:\n{text}",
+        "rate_feedback_thanks": "🙏 ممنون که نظرت رو گفتی.\n\nما حتماً پیگیری می‌کنیم 💙",
     },
     "ar": {
-        "welcome": "🌟 رسالة واحدة، ونجهز لكم كل شيء.\n\nمن الطبيب إلى الفندق، من المواصلات إلى المترجم — كل شيء في مكان واحد.\n\nبدون قلق، بدون تكاليف إضافية 💙\n\n👇 اختاروا من الأزرار:",
-        "welcome_text": "أو اكتبوا طلبكم:\nمثلاً «طبيب قلب» أو «باكج علاج»",
-        "more": "هل لديكم سؤال آخر؟ (نعم / لا)",
-        "go": "تفضلوا، اكتبوا سؤالكم.",
-        "rate": "🙏 هل أنتم راضون؟ (نعم / لا)",
-        "thanks": "🙏 شكراً لكم!\n\nيرجى تعريفنا لأصدقائكم. 🌹",
-        "why": "يرجى كتابة سبب عدم رضاكم.",
-        "thanks_fb": "شكراً لملاحظاتكم. 🙏",
-        "retry": "عذراً، لم أستطع الرد.",
-        "text_only": "يرجى كتابة سؤالكم نصاً.",
-        "apt_ask": "📅 لحجز موعد، اضغط ١.\n📞 للاتصال، اضغط ٢.",
-        "apt_pick_title": "👨‍⚕️ الأطباء:",
-        "apt_pick_footer": "\n📅 اكتب رقم الطبيب:",
-        "apt_name": "👤 الاسم الكامل:",
-        "apt_phone": "📞 رقم الهاتف:",
-        "apt_submitted": "✅ تم تسجيل الطلب!\n\n📋 الرقم: {id}\n👨‍⚕️ الطبيب: {doctor}\n\n⏳ سنتصل بالعيادة.",
-        "apt_cancelled": "❌ تم الإلغاء.",
-        "apt_invalid": "يرجى الضغط على أحد الأرقام.\n\n🚪 للخروج: قائمة",
-        "apt_error": "❌ حدثت مشكلة.",
+        "welcome": "🌟 رسالة واحدة، ونجهز كل شيء.\n\n👇 اختاروا من الأزرار:",
+        "welcome_text": "أو اكتبوا طلبكم",
+        "more": "سؤال آخر؟ (نعم / لا)",
+        "go": "اكتبوا سؤالكم.",
+        "thanks": "🙏 شكراً!",
+        "thanks_fb": "شكراً. 🙏",
+        "retry": "عذراً.",
+        "text_only": "اكتبوا نصاً.",
+        "apt_ask": "📅 اضغط ١.\n📞 اضغط ٢.",
+        "apt_pick_title": "👨‍⚕️:",
+        "apt_pick_footer": "📅 اكتب رقم:",
+        "apt_name": "👤 الاسم:",
+        "apt_phone": "📞 الهاتف:",
+        "apt_submitted": "✅ تم التسجيل!\n\n📋 {id}\n👨‍⚕️ {doctor}",
+        "apt_cancelled": "❌ إلغاء.",
+        "apt_invalid": "اكتبوا: قائمة",
+        "apt_error": "❌ خطأ.",
         "apt_my": "📋 مواعيدكم:",
-        "apt_none": "لم تسجلوا أي موعد بعد.",
-        "apt_confirm_final": "تأكيد؟ (نعم / لا)\n\n👤 {name}\n📞 {phone}\n👨‍⚕️ {doctor}",
-        "apt_admin_new": "📥 طلب موعد جديد\n\n📋 {id}\n👤 {name}\n📞 {phone}\n👨‍⚕️ {doctor}\n📞 هاتف العيادة: {dphone}\n\n/confirm {id} 1405/09/20 10:30",
-        "apt_patient_confirmed": "🎉 تم تأكيد موعدكم!\n\n📋 {id}\n👨‍⚕️ {doctor}\n📅 {date}\n⏰ {time}\n📍 {address}",
-        "pt_created": "🎫 تم إنشاء ملفكم\n\n📋 رقم الملف: {code}\n\nلمعرفة الحالة اكتبوا: ملف",
-        "pt_title": "🎫 ملفكم الصحي\n━━━━━━━━━━━━━━━",
-        "pt_code": "📋 رقم الملف: {code}",
-        "pt_name": "👤 الاسم: {name}",
-        "pt_progress": "\n🌟 رحلتكم نحو الشفاء:",
+        "apt_none": "لا مواعيد.",
+        "apt_confirm_final": "تأكيد؟\n👤 {name}\n📞 {phone}\n👨‍⚕️ {doctor}",
+        "apt_admin_new": "📥 طلب جديد\n\n📋 {id}\n👤 {name}\n📞 {phone}\n👨‍⚕️ {doctor}\n\n/confirm {id} 1405/09/20 10:30\n/done {id}",
+        "apt_patient_confirmed": "🎉 تم التأكيد!\n\n📋 {id}\n👨‍⚕️ {doctor}\n📅 {date}\n⏰ {time}\n📍 {address}",
+        "apt_done_admin_ok": "✅ تم / استبيان أرسل.",
+        "apt_done_admin_bad": "❌ غير موجود.",
+        "apt_done_patient": "🎊 كيف كانت الخدمة؟",
+        "pt_created": "🎫 الملف: {code}",
+        "pt_title": "🎫 ملفكم",
+        "pt_code": "📋 {code}",
+        "pt_name": "👤 {name}",
+        "pt_progress": "🌟:",
         "pt_stage_done": "✅ {stage}",
         "pt_stage_wait": "⏳ {stage}",
-        "pt_stages_request": "تم تسجيل طلبكم",
-        "pt_stages_doctor": "تم تحديد الطبيب",
-        "pt_stages_date": "تم تحديد موعدكم النهائي",
-        "pt_stages_accommodation": "تم تنسيق الإقامة",
-        "pt_stages_transport": "تم تنسيق المواصلات",
-        "pt_stages_treatment": "تم العلاج",
-        "pt_stages_followup": "متابعة الصحة",
-        "pt_appointments": "\n📅 مواعيدكم:",
-        "pt_apt_line_pending": "⏳ {id} — {doctor} — في انتظار التاريخ",
-        "pt_apt_line_confirmed": "✅ {id} — {doctor} — {date} الساعة {time}",
-        "pt_not_found": "ليس لديكم ملف بعد 💙",
-        "delete_ask": "⚠️ للتأكيد اكتبوا: نعم احذف",
-        "delete_done": "✅ تم حذف كل معلوماتكم.",
+        "pt_stages_request": "الطلب",
+        "pt_stages_doctor": "الطبيب",
+        "pt_stages_date": "التاريخ",
+        "pt_stages_accommodation": "الإقامة",
+        "pt_stages_transport": "المواصلات",
+        "pt_stages_treatment": "العلاج",
+        "pt_stages_followup": "المتابعة",
+        "pt_appointments": "📅:",
+        "pt_apt_line_pending": "⏳ {id} — {doctor}",
+        "pt_apt_line_confirmed": "✅ {id} — {doctor} — {date}",
+        "pt_apt_line_done": "🎊 {id} — {doctor}",
+        "pt_not_found": "لا ملف 💙",
+        "delete_ask": "⚠️ اكتبوا: نعم احذف",
+        "delete_done": "✅ تم الحذف.",
         "delete_cancel": "حسناً.",
+        "rate_thanks_5": "🌟 ٥ نجوم! شكراً 💙\n\nادعوا أصدقاءكم 🎁",
+        "rate_thanks_4": "😊 شكراً 🎁",
+        "rate_thanks_3": "🙏 شكراً 💙",
+        "rate_thanks_low": "😔 أخبرونا بالسبب:",
+        "rate_thanks_low_admin": "❌ عدم رضا\n\n{id} — {stars}⭐\n{name} — {cid}\n\n{text}",
+        "rate_feedback_thanks": "🙏 شكراً 💙",
     },
     "en": {
-        "welcome": "🌟 One message, and we prepare everything.\n\nFrom doctor to hotel, from transfer to translator — all in one place.\n\nNo worries, no hidden fees 💙\n\n👇 Choose from the buttons:",
-        "welcome_text": "Or write your request:\nE.g. \"heart doctor\" or \"treatment package\"",
+        "welcome": "🌟 One message, we prepare everything.\n\n👇 Choose:",
+        "welcome_text": "Or write your request",
         "more": "Any other question? (Yes / No)",
         "go": "Please go ahead.",
-        "rate": "🙏 Were you satisfied? (Yes / No)",
-        "thanks": "🙏 Thank you!\n\nPlease recommend us. 🌹",
-        "why": "Please tell us what went wrong.",
-        "thanks_fb": "Thank you for your feedback. 🙏",
-        "retry": "Sorry, I couldn't answer.",
-        "text_only": "Please write your question as text.",
-        "apt_ask": "📅 To book, press 1.\n📞 Direct call, press 2.",
-        "apt_pick_title": "👨‍⚕️ Doctors:",
-        "apt_pick_footer": "\n📅 Write the doctor number:",
+        "thanks": "🙏 Thank you!",
+        "thanks_fb": "Thanks. 🙏",
+        "retry": "Sorry.",
+        "text_only": "Write text only.",
+        "apt_ask": "📅 Press 1.\n📞 Press 2.",
+        "apt_pick_title": "👨‍⚕️:",
+        "apt_pick_footer": "📅 Write number:",
         "apt_name": "👤 Full name:",
-        "apt_phone": "📞 Phone number:",
-        "apt_submitted": "✅ Request submitted!\n\n📋 Code: {id}\n👨‍⚕️ Doctor: {doctor}\n\n⏳ We'll contact the clinic.",
+        "apt_phone": "📞 Phone:",
+        "apt_submitted": "✅ Submitted!\n\n📋 {id}\n👨‍⚕️ {doctor}",
         "apt_cancelled": "❌ Cancelled.",
-        "apt_invalid": "Please press one of the numbers.\n\n🚪 To exit: menu",
-        "apt_error": "❌ There was a problem.",
-        "apt_my": "📋 Your appointments:",
-        "apt_none": "No appointments yet.",
-        "apt_confirm_final": "Confirm? (Yes / No)\n\n👤 {name}\n📞 {phone}\n👨‍⚕️ {doctor}",
-        "apt_admin_new": "📥 New appointment\n\n📋 {id}\n👤 {name}\n📞 {phone}\n👨‍⚕️ {doctor}\n📞 Clinic: {dphone}\n\n/confirm {id} 1405/09/20 10:30",
+        "apt_invalid": "Write: menu",
+        "apt_error": "❌ Error.",
+        "apt_my": "📋 Appointments:",
+        "apt_none": "No appointments.",
+        "apt_confirm_final": "Confirm?\n👤 {name}\n📞 {phone}\n👨‍⚕️ {doctor}",
+        "apt_admin_new": "📥 New request\n\n📋 {id}\n👤 {name}\n📞 {phone}\n👨‍⚕️ {doctor}\n\n/confirm {id} 1405/09/20 10:30\n/done {id}",
         "apt_patient_confirmed": "🎉 Confirmed!\n\n📋 {id}\n👨‍⚕️ {doctor}\n📅 {date}\n⏰ {time}\n📍 {address}",
-        "pt_created": "🎫 Your file is ready\n\n📋 Code: {code}\n\nTo view, write: file",
-        "pt_title": "🎫 Your Health File\n━━━━━━━━━━━━━━━",
-        "pt_code": "📋 Code: {code}",
-        "pt_name": "👤 Name: {name}",
-        "pt_progress": "\n🌟 Your journey:",
+        "apt_done_admin_ok": "✅ Visit marked. Survey sent.",
+        "apt_done_admin_bad": "❌ Not found.",
+        "apt_done_patient": "🎊 How was your visit?",
+        "pt_created": "🎫 File: {code}",
+        "pt_title": "🎫 Your File",
+        "pt_code": "📋 {code}",
+        "pt_name": "👤 {name}",
+        "pt_progress": "🌟:",
         "pt_stage_done": "✅ {stage}",
         "pt_stage_wait": "⏳ {stage}",
-        "pt_stages_request": "Request received",
-        "pt_stages_doctor": "Doctor assigned",
-        "pt_stages_date": "Date confirmed",
-        "pt_stages_accommodation": "Accommodation arranged",
-        "pt_stages_transport": "Transport arranged",
-        "pt_stages_treatment": "Treatment completed",
+        "pt_stages_request": "Request",
+        "pt_stages_doctor": "Doctor",
+        "pt_stages_date": "Date",
+        "pt_stages_accommodation": "Accommodation",
+        "pt_stages_transport": "Transport",
+        "pt_stages_treatment": "Treatment",
         "pt_stages_followup": "Follow-up",
-        "pt_appointments": "\n📅 Appointments:",
-        "pt_apt_line_pending": "⏳ {id} — {doctor} — awaiting date",
-        "pt_apt_line_confirmed": "✅ {id} — {doctor} — {date} at {time}",
-        "pt_not_found": "No file yet 💙",
-        "delete_ask": "⚠️ To confirm, write: yes delete",
-        "delete_done": "✅ All data deleted.",
+        "pt_appointments": "📅:",
+        "pt_apt_line_pending": "⏳ {id} — {doctor}",
+        "pt_apt_line_confirmed": "✅ {id} — {doctor} — {date}",
+        "pt_apt_line_done": "🎊 {id} — {doctor}",
+        "pt_not_found": "No file 💙",
+        "delete_ask": "⚠️ Write: yes delete",
+        "delete_done": "✅ Deleted.",
         "delete_cancel": "Okay.",
+        "rate_thanks_5": "🌟 5 stars! Thanks 💙\n\nInvite friends 🎁",
+        "rate_thanks_4": "😊 Thanks 🎁",
+        "rate_thanks_3": "🙏 Thanks 💙",
+        "rate_thanks_low": "😔 Tell us why:",
+        "rate_thanks_low_admin": "❌ Dissatisfied\n\n{id} — {stars}⭐\n{name} — {cid}\n\n{text}",
+        "rate_feedback_thanks": "🙏 Thanks 💙",
     },
 }
 # ============ MSG2 ============
 MSG2 = {
     "fa": {
-        "ref_your_code": "🔗 کد معرف شما: {code}\n\nلینک اختصاصی:\n{link}",
+        "ref_your_code": "🔗 کد معرف شما: {code}\n\nلینک:\n{link}",
         "ref_your_stats": "👥 دعوت‌شده‌ها: {count}\n🎁 پاداش‌ها: {rewards}",
-        "ref_new_from": "🎉 یکی از دوستان شما با کد {code} پیوست!\n\nپاداش: ۱۰٪ تخفیف ویزیت بعدی 🌹",
-        "ref_welcome_new": "🎉 خوش آمدید!\n\nبا کد {code} وارد شدید.\n🎁 ۵٪ تخفیف اولین ویزیت",
-        "ref_invite_msg": "🌟 دوستت رو دعوت کن\n\nکد: {code}\n\nلینک:\n{link}\n\n🎁 تو: ۱۰٪ تخفیف\n🎁 دوستت: ۵٪ تخفیف",
-        "hope_night": "🌙 شب بخیر\n\nامیدواریم امروزتون آروم گذشته باشه.\n\n💊 یادتون نره داروهاتون رو مصرف کنید.\n🌷 ما کنارتونیم.",
+        "ref_new_from": "🎉 یکی با کد {code} پیوست!\n\nپاداش: ۱۰٪ تخفیف 🌹",
+        "ref_welcome_new": "🎉 خوش آمدید!\n\nبا کد {code}.\n🎁 ۵٪ تخفیف اولین ویزیت",
+        "ref_invite_msg": "🌟 دوستت رو دعوت کن\n\nکد: {code}\n\n{link}\n\n🎁 تو: ۱۰٪ تخفیف\n🎁 دوستت: ۵٪ تخفیف",
+        "hope_night": "🌙 شب بخیر\n\n💊 یادتون نره داروهاتون رو مصرف کنید.\n🌷 ما کنارتونیم.",
         "hope_stage_request": "🌟 اولین قدمت رو برداشتی!\n\nما کنارتیم تا مسیر درمانت راحت باشه.",
         "hope_stage_doctor": "👨‍⚕️ پزشک متخصص شما مشخص شد 🌷",
         "hope_stage_date": "🎉 تاریخ نوبتت نهایی شد!\n\nیه قدم دیگه به سلامتی نزدیک‌تر شدی 💙",
@@ -218,169 +242,160 @@ MSG2 = {
         "comp_ask_name": "👤 اسم همراهتون چیه؟",
         "comp_ask_phone": "📞 شماره‌ی همراهتون:",
         "comp_saved": "✅ همراه ثبت شد\n\n👤 {name}\n📞 {phone}",
-        "comp_skip": "باشه، هر وقت خواستید بنویسید: همراه",
-        "sos_menu": "🚨 وضعیت اضطراری\n\nلطفاً یکی از شماره‌ها رو بزنید:\n\n1️⃣ اورژانس ۱۱۵\n2️⃣ نزدیک‌ترین بیمارستان\n3️⃣ راهنمای کمک‌های اولیه\n4️⃣ اطلاع به همراه من\n5️⃣ انصراف",
-        "sos_115": "🚑 اورژانس: ۱۱۵\n\nلطفاً تماس بگیرید و آدرس دقیقتون رو بگید.",
-        "sos_first_aid": "🩺 کمک‌های اولیه\n\n🔹 درد قفسه سینه:\n- بشین و استراحت\n- قرص زیر زبانی اگه داری\n- فوراً ۱۱۵\n\n🔹 خونریزی:\n- فشار مستقیم\n- ۱۱۵\n\n🔹 تنگی نفس:\n- بشین صاف\n- لباس رو شل کن\n- ۱۱۵\n\n⚠️ این راهنما جایگزین پزشک نیست.",
-        "sos_no_companion": "❌ شما همراه ثبت نکردید. بنویسید: همراه",
-        "comp_voice_menu": "📩 صدای شما\n\nلطفاً انتخاب کنید:\n\n1️⃣ انتقاد از پزشک\n2️⃣ انتقاد از مرکز درمانی\n3️⃣ انتقاد از اقامت\n4️⃣ انتقاد از حمل‌ونقل\n5️⃣ شکایت کلی\n6️⃣ انصراف",
-        "comp_voice_text": "📝 لطفاً نظرتون رو بنویسید:\n\nمی‌تونید اسم بگید یا «ناشناس» بنویسید.",
+        "comp_skip": "باشه، بنویسید: همراه",
+        "sos_menu": "🚨 وضعیت اضطراری\n\n1️⃣ اورژانس ۱۱۵\n2️⃣ نزدیک‌ترین بیمارستان\n3️⃣ راهنمای کمک‌های اولیه\n4️⃣ اطلاع به همراه من\n5️⃣ انصراف",
+        "sos_115": "🚑 اورژانس: ۱۱۵\n\nلطفاً تماس بگیرید و آدرس دقیق بگید.",
+        "sos_first_aid": "🩺 کمک‌های اولیه\n\n🔹 درد قفسه سینه:\n- بشین و استراحت\n- قرص زیر زبانی\n- فوراً ۱۱۵\n\n🔹 خونریزی:\n- فشار مستقیم\n- ۱۱۵\n\n🔹 تنگی نفس:\n- بشین صاف\n- ۱۱۵\n\n⚠️ این راهنما جایگزین پزشک نیست.",
+        "sos_no_companion": "❌ همراه ثبت نکردی. بنویسید: همراه",
+        "comp_voice_menu": "📩 صدای شما\n\n1️⃣ انتقاد از پزشک\n2️⃣ انتقاد از مرکز درمانی\n3️⃣ انتقاد از اقامت\n4️⃣ انتقاد از حمل‌ونقل\n5️⃣ شکایت کلی\n6️⃣ انصراف",
+        "comp_voice_text": "📝 نظرتون رو بنویسید:\n\nمی‌تونید اسم بگید یا «ناشناس» بنویسید.",
         "comp_voice_saved": "✅ پیام شما ثبت شد\n\n📋 کد: {id}\n\nما پیگیری می‌کنیم 💙",
-        "comp_voice_skip": "باشه، هر وقت خواستید بنویسید: شکایت",
+        "comp_voice_skip": "باشه، بنویسید: شکایت",
         "comp_voice_admin": "📩 شکایت جدید\n\n📋 {id}\nدسته: {category}\nنام: {name}\nChatID: {cid}\n\n{text}",
         "rights_title": "⚖️ حقوق شما به عنوان بیمار\n━━━━━━━━━━━━━━━",
-        "rights_body": "1️⃣ دریافت اطلاعات کامل\n2️⃣ حق انتخاب پزشک\n3️⃣ محرمانه بودن اطلاعات\n4️⃣ رضایت آگاهانه\n5️⃣ دریافت نسخه\n6️⃣ حق شکایت\n7️⃣ احترام بدون تبعیض\n8️⃣ دسترسی به پرونده\n\n📞 در صورت نقض:\n- @ShirazMedBot\n- نظام پزشکی\n- وزارت بهداشت: 190",
+        "rights_body": "1️⃣ دریافت اطلاعات کامل\n2️⃣ حق انتخاب پزشک\n3️⃣ محرمانه بودن اطلاعات\n4️⃣ رضایت آگاهانه\n5️⃣ دریافت نسخه\n6️⃣ حق شکایت\n7️⃣ احترام بدون تبعیض\n8️⃣ دسترسی به پرونده\n\n📞 @ShirazMedBot\n- نظام پزشکی\n- وزارت بهداشت: 190",
         "med_menu": "⏰ یادآور دارو\n\n1️⃣ افزودن یادآور جدید\n2️⃣ مشاهده‌ی یادآورها\n3️⃣ انصراف",
         "med_ask_name": "💊 اسم دارو:",
-        "med_ask_time": "⏰ ساعت یادآوری؟ (مثال: 08:00)",
+        "med_ask_time": "⏰ ساعت؟ (مثال: 08:00)",
         "med_saved": "✅ یادآور ثبت شد\n\n💊 {name}\n⏰ {time}",
         "med_none": "هنوز یادآوری ثبت نکردی. بنویس: دارو",
         "food_title": "🍏 راهنمای تغذیه و تداخلات\n━━━━━━━━━━━━━━━",
         "food_body": "🔴 تداخل‌های مهم:\n\n• آنتی‌بیوتیک + لبنیات (۲ ساعت)\n• آهن + چای/قهوه (۱ ساعت)\n• وارفارین + کلم و اسفناج\n• تیروئید + صبح ناشتا\n• مسکن + معده خالی (ممنوع)\n\n💧 آب زیاد\n🥗 میوه و سبزیجات\n🚫 خوددرمانی نکن\n\n⚠️ راهنمای کلیه، نه جایگزین پزشک.",
         "menu_main": "📋 منوی شیراز مدیکال\n\n👇 یکی رو انتخاب کن:",
         "ai_unavailable": "🙏 الان نمی‌تونم پاسخ بدم.\n\nبنویسید: منو",
-        "para_menu": "🏥 خدمات پیراپزشکی\n\n👇 انتخاب کن:",
-        "elderly_menu": "🏡 خانه‌های سالمندان شیراز\n\n👇 انتخاب کن:",
+        "para_list_title": "🏥 خدمات پیراپزشکی\n\n👇 انتخاب کن:",
+        "elderly_list_title": "🏡 خانه‌های سالمندان شیراز",
         "elderly_all_title": "🏡 خانه‌های سالمندان شیراز:",
         "package_title": "💎 پکیج کامل درمان و اقامت\n━━━━━━━━━━━━━━━",
-        "package_pitch": "🎯 یه پیام بده، ما همه‌چیز رو آماده می‌کنیم.\n\nبدون دغدغه، بدون هزینه اضافه.\nاز لحظه‌ای که وارد شیراز می‌شی تا لحظه‌ای که با سلامتی برمی‌گردی، ما کنارتیم.",
+        "package_pitch": "🎯 یه پیام بده، همه‌چیز رو آماده می‌کنیم.\n\nاز لحظه‌ای که وارد شیراز می‌شی تا لحظه‌ای که با سلامتی برمی‌گردی، ما کنارتیم.",
         "package_value": "📦 چی توی این پکیج هست:\n\n👨‍⚕️ ویزیت پزشک متخصص\n🏨 اقامت در هتل\n🚗 ترانسفر فرودگاه و شهر\n🗣️ مترجم همراه\n🏛️ گشت گردشگری شیراز\n📋 پرونده‌ی سلامت شخصی\n💊 یادآور دارو و پیگیری\n🤝 همراه اختصاصی\n💙 پشتیبانی ۲۴ ساعته",
-        "package_cta": "🎁 همه‌ی این‌ها با یک پیام.\n\n👇 برای دریافت قیمت، یکی رو انتخاب کن:",
-        "package_ask_name": "👤 لطفاً نام و نام خانوادگی‌ات رو بنویس:",
+        "package_cta": "🎁 همه‌ی این‌ها با یک پیام.\n\n👇 برای دریافت قیمت:",
+        "package_ask_name": "👤 نام و نام خانوادگی:",
         "package_ask_phone": "📞 شماره تماس:",
         "package_saved": "✅ درخواست پکیج ثبت شد\n\n📋 کد: {id}\n\nتیم ما در کمتر از ۲۴ ساعت تماس می‌گیره.\n\n💙 با آرزوی سلامتی",
         "package_admin_new": "💎 درخواست پکیج جدید\n\n📋 {id}\n👤 {name}\n📞 {phone}\nChatID: {cid}",
         "docs_list_title": "👨‍⚕️ کدام تخصص؟\n\n👇 انتخاب کن:",
         "nonmed_list_title": "🏥 کدام خدمت؟\n\n👇 انتخاب کن:",
         "tourist_list_title": "🏛️ کدام بخش گردشگری؟\n\n👇 انتخاب کن:",
-        "para_list_title": "🏥 کدام خدمت پیراپزشکی؟\n\n👇 انتخاب کن:",
-        "elderly_list_title": "🏡 خانه سالمندان:",
         "pkg_ask_title": "💎 پکیج کامل",
-        "sos_alert_comp": "⚠️ پیام اضطراری\n\nبیمار {name} (کد: {code}) اضطراری داره.\n📞 {phone}",
     },
     "ar": {
-        "ref_your_code": "🔗 رمز الإحالة: {code}\n\n{link}",
-        "ref_your_stats": "👥 المدعوون: {count}\n🎁 المكافآت: {rewards}",
-        "ref_new_from": "🎉 انضم أحد أصدقائكم بكود {code}!\n\nمكافأة: خصم ١٠٪ 🌹",
-        "ref_welcome_new": "🎉 أهلاً!\n\nبكود {code}.\n🎁 خصم ٥٪",
-        "ref_invite_msg": "🌟 ادعوا أصدقاءكم\n\n{code}\n\n{link}\n\n🎁 أنتم: ١٠٪\n🎁 صديقكم: ٥٪",
-        "hope_night": "🌙 مساء الخير\n\n💊 لا تنسوا أدويتكم.\n🌷 نحن معكم.",
-        "hope_stage_request": "🌟 خطوتم الخطوة الأولى!",
-        "hope_stage_doctor": "👨‍⚕️ تم تحديد الطبيب 🌷",
-        "hope_stage_date": "🎉 تم تحديد الموعد! 💙",
-        "hope_stage_accommodation": "🏨 تم تنسيق الإقامة 🌷",
-        "hope_stage_transport": "🚗 المواصلات جاهزة 💙",
-        "hope_stage_treatment": "🌸 تم العلاج",
-        "hope_stage_followup": "🌷 ما زلنا معكم 💙",
-        "hope_general_1": "💙 «الصحة أعظم ثروة.»",
-        "hope_general_2": "🌷 «كل يوم فرصة.»",
-        "hope_general_3": "✨ «الأمل نصف الشفاء.»",
-        "hope_general_4": "🌸 «لستم وحدكم.»",
-        "comp_ask": "👥 هل لديكم مرافق؟ (نعم / لا)",
-        "comp_ask_name": "👤 اسم المرافق؟",
-        "comp_ask_phone": "📞 رقم المرافق:",
-        "comp_saved": "✅ تم التسجيل\n\n👤 {name}\n📞 {phone}",
-        "comp_skip": "متى أردتم اكتبوا: مرافق",
-        "sos_menu": "🚨 طارئة\n\n1️⃣ الإسعاف ١١٥\n2️⃣ أقرب مستشفى\n3️⃣ الإسعافات\n4️⃣ إبلاغ المرافق\n5️⃣ إلغاء",
+        "ref_your_code": "🔗 {code}\n\n{link}",
+        "ref_your_stats": "👥 {count}\n🎁 {rewards}",
+        "ref_new_from": "🎉 {code} 🌹",
+        "ref_welcome_new": "🎉 {code}\n🎁 ٥٪",
+        "ref_invite_msg": "🌟 {code}\n\n{link}\n\n🎁 ١٠٪\n🎁 ٥٪",
+        "hope_night": "🌙",
+        "hope_stage_request": "🌟",
+        "hope_stage_doctor": "👨‍⚕️",
+        "hope_stage_date": "🎉",
+        "hope_stage_accommodation": "🏨",
+        "hope_stage_transport": "🚗",
+        "hope_stage_treatment": "🌸",
+        "hope_stage_followup": "🌷",
+        "hope_general_1": "💙",
+        "hope_general_2": "🌷",
+        "hope_general_3": "✨",
+        "hope_general_4": "🌸",
+        "comp_ask": "👥 (نعم / لا)",
+        "comp_ask_name": "👤:",
+        "comp_ask_phone": "📞:",
+        "comp_saved": "✅ {name} — {phone}",
+        "comp_skip": "اكتبوا: مرافق",
+        "sos_menu": "🚨\n\n1️⃣ ١١٥\n2️⃣\n3️⃣\n4️⃣\n5️⃣ إلغاء",
         "sos_115": "🚑 ١١٥",
-        "sos_first_aid": "🩺 الإسعافات الأولية\n\n⚠️ ليست بديلاً عن الطبيب.",
+        "sos_first_aid": "🩺\n\n⚠️ ليس بديلاً عن الطبيب.",
         "sos_no_companion": "❌ اكتبوا: مرافق",
-        "comp_voice_menu": "📩 صوتكم\n\n1️⃣ الطبيب\n2️⃣ المركز\n3️⃣ الإقامة\n4️⃣ المواصلات\n5️⃣ شكوى\n6️⃣ إلغاء",
-        "comp_voice_text": "📝 اكتبوا رأيكم:",
-        "comp_voice_saved": "✅ تم التسجيل\n\n📋 {id}",
+        "comp_voice_menu": "📩\n\n1️⃣\n2️⃣\n3️⃣\n4️⃣\n5️⃣\n6️⃣",
+        "comp_voice_text": "📝:",
+        "comp_voice_saved": "✅ {id}",
         "comp_voice_skip": "اكتبوا: شكوى",
-        "comp_voice_admin": "📩 شكوى\n\n{id}\n{category}\n{name}\n{cid}\n\n{text}",
-        "rights_title": "⚖️ حقوقكم\n━━━━━━━━━━━━━━━",
-        "rights_body": "1️⃣ معلومات كاملة\n2️⃣ اختيار الطبيب\n3️⃣ سرية\n4️⃣ موافقة\n5️⃣ وصفة\n6️⃣ شكوى\n7️⃣ احترام\n8️⃣ ملف\n\n📞 @ShirazMedBot\n190",
-        "med_menu": "⏰ تذكير الدواء\n\n1️⃣ إضافة\n2️⃣ عرض\n3️⃣ إلغاء",
-        "med_ask_name": "💊 اسم الدواء:",
-        "med_ask_time": "⏰ الساعة؟",
+        "comp_voice_admin": "📩 {id}\n{category}\n{name}\n{cid}\n\n{text}",
+        "rights_title": "⚖️ حقوق المريض\n━━━━━━━━━━━━━━━",
+        "rights_body": "1️⃣\n2️⃣\n3️⃣\n4️⃣\n5️⃣\n6️⃣\n7️⃣\n8️⃣\n\n📞 @ShirazMedBot\n190",
+        "med_menu": "⏰\n\n1️⃣\n2️⃣\n3️⃣",
+        "med_ask_name": "💊:",
+        "med_ask_time": "⏰:",
         "med_saved": "✅ {name} — {time}",
         "med_none": "اكتبوا: دواء",
-        "food_title": "🍏 التغذية\n━━━━━━━━━━━━━━━",
-        "food_body": "🔴 تداخلات:\n\n• مضاد حيوي + ألبان\n• حديد + شاي\n• وارفارين + ملفوف\n• درقية + صباحاً\n• مسكن + معدة فارغة\n\n⚠️ ليس بديلاً عن الطبيب.",
-        "menu_main": "📋 القائمة\n\n👇 اختاروا:",
+        "food_title": "🍏\n━━━━━━━━━━━━━━━",
+        "food_body": "🔴\n\n⚠️",
+        "menu_main": "📋\n\n👇",
         "ai_unavailable": "🙏 اكتبوا: قائمة",
-        "para_menu": "🏥 خدمات مساعدة\n\n👇 اختاروا:",
-        "elderly_menu": "🏡 دور المسنين\n\n👇 اختاروا:",
-        "elderly_all_title": "🏡 دور المسنين في شيراز:",
-        "package_title": "💎 باكج شامل العلاج والإقامة\n━━━━━━━━━━━━━━━",
-        "package_pitch": "🎯 رسالة واحدة، نجهز كل شيء.\n\nبدون قلق، بدون تكاليف إضافية.",
-        "package_value": "📦 المحتوى:\n\n👨‍⚕️ طبيب متخصص\n🏨 فندق\n🚗 مواصلات\n🗣️ مترجم\n🏛️ جولة\n📋 ملف\n💊 متابعة\n🤝 مرافق\n💙 دعم ٢٤ ساعة",
-        "package_cta": "🎁 كل هذا برسالة.\n\n👇 اختاروا:",
-        "package_ask_name": "👤 الاسم الكامل:",
-        "package_ask_phone": "📞 الهاتف:",
-        "package_saved": "✅ تم التسجيل\n\n📋 {id}\n\nسنتصل قريباً.",
-        "package_admin_new": "💎 طلب باكج\n\n{id}\n{name}\n{phone}\n{cid}",
-        "docs_list_title": "👨‍⚕️ أي تخصص؟\n\n👇",
-        "nonmed_list_title": "🏥 أي خدمة؟\n\n👇",
-        "tourist_list_title": "🏛️ السياحة:\n\n👇",
-        "para_list_title": "🏥 خدمات مساعدة:\n\n👇",
-        "elderly_list_title": "🏡 دور المسنين:",
-        "pkg_ask_title": "💎 الباكج",
-        "sos_alert_comp": "⚠️ طارئ\n\n{name} (كود {code})\n📞 {phone}",
+        "para_list_title": "🏥\n\n👇",
+        "elderly_list_title": "🏡",
+        "elderly_all_title": "🏡:",
+        "package_title": "💎 الباكج\n━━━━━━━━━━━━━━━",
+        "package_pitch": "🎯",
+        "package_value": "📦",
+        "package_cta": "🎁\n\n👇",
+        "package_ask_name": "👤:",
+        "package_ask_phone": "📞:",
+        "package_saved": "✅ {id}",
+        "package_admin_new": "💎 {id}\n{name}\n{phone}\n{cid}",
+        "docs_list_title": "👨‍⚕️\n\n👇",
+        "nonmed_list_title": "🏥\n\n👇",
+        "tourist_list_title": "🏛️\n\n👇",
+        "pkg_ask_title": "💎",
     },
     "en": {
-        "ref_your_code": "🔗 Your code: {code}\n\n{link}",
-        "ref_your_stats": "👥 Invited: {count}\n🎁 Rewards: {rewards}",
-        "ref_new_from": "🎉 A friend joined with code {code}!\n\nReward: 10% off 🌹",
-        "ref_welcome_new": "🎉 Welcome!\n\nCode {code}.\n🎁 5% off",
-        "ref_invite_msg": "🌟 Invite friends\n\n{code}\n\n{link}\n\n🎁 You: 10%\n🎁 Friend: 5%",
-        "hope_night": "🌙 Good night\n\n💊 Take your meds.\n🌷 We're here.",
-        "hope_stage_request": "🌟 First step done!",
-        "hope_stage_doctor": "👨‍⚕️ Doctor assigned 🌷",
-        "hope_stage_date": "🎉 Date confirmed! 💙",
-        "hope_stage_accommodation": "🏨 Accommodation ready 🌷",
-        "hope_stage_transport": "🚗 Transport ready 💙",
-        "hope_stage_treatment": "🌸 Treatment completed",
-        "hope_stage_followup": "🌷 Still here for you 💙",
-        "hope_general_1": "💙 \"Health is the greatest wealth.\"",
-        "hope_general_2": "🌷 \"Every day is a chance.\"",
-        "hope_general_3": "✨ \"Hope is half the cure.\"",
-        "hope_general_4": "🌸 \"You are not alone.\"",
-        "comp_ask": "👥 Do you have a companion? (Yes / No)",
-        "comp_ask_name": "👤 Companion's name?",
-        "comp_ask_phone": "📞 Companion's phone:",
-        "comp_saved": "✅ Saved\n\n👤 {name}\n📞 {phone}",
+        "ref_your_code": "🔗 {code}\n\n{link}",
+        "ref_your_stats": "👥 {count}\n🎁 {rewards}",
+        "ref_new_from": "🎉 {code} 🌹",
+        "ref_welcome_new": "🎉 {code}\n🎁 5%",
+        "ref_invite_msg": "🌟 {code}\n\n{link}\n\n🎁 10%\n🎁 5%",
+        "hope_night": "🌙",
+        "hope_stage_request": "🌟",
+        "hope_stage_doctor": "👨‍⚕️",
+        "hope_stage_date": "🎉",
+        "hope_stage_accommodation": "🏨",
+        "hope_stage_transport": "🚗",
+        "hope_stage_treatment": "🌸",
+        "hope_stage_followup": "🌷",
+        "hope_general_1": "💙",
+        "hope_general_2": "🌷",
+        "hope_general_3": "✨",
+        "hope_general_4": "🌸",
+        "comp_ask": "👥 (Yes / No)",
+        "comp_ask_name": "👤:",
+        "comp_ask_phone": "📞:",
+        "comp_saved": "✅ {name} — {phone}",
         "comp_skip": "Write: companion",
-        "sos_menu": "🚨 Emergency\n\n1️⃣ 115\n2️⃣ Nearest hospital\n3️⃣ First aid\n4️⃣ Alert companion\n5️⃣ Cancel",
+        "sos_menu": "🚨\n\n1️⃣ 115\n2️⃣\n3️⃣\n4️⃣\n5️⃣ Cancel",
         "sos_115": "🚑 115",
-        "sos_first_aid": "🩺 First Aid\n\n⚠️ Not a substitute for a doctor.",
+        "sos_first_aid": "🩺\n\n⚠️",
         "sos_no_companion": "❌ Write: companion",
-        "comp_voice_menu": "📩 Your Voice\n\n1️⃣ Doctor\n2️⃣ Center\n3️⃣ Accommodation\n4️⃣ Transport\n5️⃣ General\n6️⃣ Cancel",
-        "comp_voice_text": "📝 Write your feedback:",
-        "comp_voice_saved": "✅ Recorded\n\n📋 {id}",
+        "comp_voice_menu": "📩\n\n1️⃣\n2️⃣\n3️⃣\n4️⃣\n5️⃣\n6️⃣",
+        "comp_voice_text": "📝:",
+        "comp_voice_saved": "✅ {id}",
         "comp_voice_skip": "Write: complaint",
-        "comp_voice_admin": "📩 Complaint\n\n{id}\n{category}\n{name}\n{cid}\n\n{text}",
+        "comp_voice_admin": "📩 {id}\n{category}\n{name}\n{cid}\n\n{text}",
         "rights_title": "⚖️ Patient Rights\n━━━━━━━━━━━━━━━",
-        "rights_body": "1️⃣ Full info\n2️⃣ Choose doctor\n3️⃣ Confidentiality\n4️⃣ Consent\n5️⃣ Prescriptions\n6️⃣ Complain\n7️⃣ Respect\n8️⃣ File access\n\n📞 @ShirazMedBot\n190",
-        "med_menu": "⏰ Med Reminder\n\n1️⃣ Add\n2️⃣ View\n3️⃣ Cancel",
-        "med_ask_name": "💊 Medication name:",
-        "med_ask_time": "⏰ Time? (e.g. 08:00)",
+        "rights_body": "1️⃣\n2️⃣\n3️⃣\n4️⃣\n5️⃣\n6️⃣\n7️⃣\n8️⃣\n\n📞 @ShirazMedBot\n190",
+        "med_menu": "⏰\n\n1️⃣\n2️⃣\n3️⃣",
+        "med_ask_name": "💊:",
+        "med_ask_time": "⏰:",
         "med_saved": "✅ {name} — {time}",
         "med_none": "Write: med",
-        "food_title": "🍏 Nutrition\n━━━━━━━━━━━━━━━",
-        "food_body": "🔴 Interactions:\n\n• Antibiotics + dairy\n• Iron + tea\n• Warfarin + cabbage\n• Thyroid + morning\n• Painkillers + empty\n\n⚠️ Not a substitute for a doctor.",
-        "menu_main": "📋 Menu\n\n👇 Choose:",
+        "food_title": "🍏\n━━━━━━━━━━━━━━━",
+        "food_body": "🔴\n\n⚠️",
+        "menu_main": "📋\n\n👇",
         "ai_unavailable": "🙏 Write: menu",
-        "para_menu": "🏥 Paramedical\n\n👇 Choose:",
-        "elderly_menu": "🏡 Nursing Homes\n\n👇 Choose:",
-        "elderly_all_title": "🏡 Nursing Homes in Shiraz:",
-        "package_title": "💎 Complete Treatment & Stay\n━━━━━━━━━━━━━━━",
-        "package_pitch": "🎯 One message, we prepare everything.\n\nNo worries, no hidden fees.",
-        "package_value": "📦 Includes:\n\n👨‍⚕️ Specialist\n🏨 Hotel\n🚗 Transfer\n🗣️ Translator\n🏛️ Tour\n📋 File\n💊 Follow-up\n🤝 Companion\n💙 24/7 support",
-        "package_cta": "🎁 All with one message.\n\n👇 Choose:",
-        "package_ask_name": "👤 Full name:",
-        "package_ask_phone": "📞 Phone:",
-        "package_saved": "✅ Submitted\n\n📋 {id}\n\nWe'll call soon.",
-        "package_admin_new": "💎 Package Request\n\n{id}\n{name}\n{phone}\n{cid}",
-        "docs_list_title": "👨‍⚕️ Which specialty?\n\n👇",
-        "nonmed_list_title": "🏥 Which service?\n\n👇",
-        "tourist_list_title": "🏛️ Tourism:\n\n👇",
-        "para_list_title": "🏥 Paramedical:\n\n👇",
-        "elderly_list_title": "🏡 Nursing Homes:",
-        "pkg_ask_title": "💎 Package",
-        "sos_alert_comp": "⚠️ Emergency\n\n{name} (code {code})\n📞 {phone}",
+        "para_list_title": "🏥\n\n👇",
+        "elderly_list_title": "🏡",
+        "elderly_all_title": "🏡:",
+        "package_title": "💎 Package\n━━━━━━━━━━━━━━━",
+        "package_pitch": "🎯",
+        "package_value": "📦",
+        "package_cta": "🎁\n\n👇",
+        "package_ask_name": "👤:",
+        "package_ask_phone": "📞:",
+        "package_saved": "✅ {id}",
+        "package_admin_new": "💎 {id}\n{name}\n{phone}\n{cid}",
+        "docs_list_title": "👨‍⚕️\n\n👇",
+        "nonmed_list_title": "🏥\n\n👇",
+        "tourist_list_title": "🏛️\n\n👇",
+        "pkg_ask_title": "💎",
     },
 }
 # ============ WORD LISTS ============
@@ -460,9 +475,6 @@ FIELD_NAMES = {
         "district": "منطقه", "amenities": "امکانات", "distance_to_hospitals": "فاصله تا بیمارستان",
         "has_translator": "مترجم", "languages_spoken": "زبان‌ها",
         "description": "توضیحات", "services": "خدمات", "type": "نوع",
-        "pharmacy_code": "کد داروخانه", "services_offered": "خدمات ارائه‌شده",
-        "is_24h": "شبانه‌روزی", "ipd_code": "کد IPD",
-        "ownership": "مالکیت", "specialties": "تخصص‌ها",
         "has_home_service": "خدمات در منزل", "capacity": "ظرفیت",
     },
     "ar": {
@@ -470,14 +482,11 @@ FIELD_NAMES = {
         "office_address": "عنوان العيادة", "working_hours": "ساعات العمل",
         "price_range_toman": "السعر", "price_range": "السعر",
         "patient_satisfaction_score": "التقييم", "rating": "التقييم",
-        "reviews_summary": "آراء الزوار", "surgeries_done_at": "المستشفيات",
+        "reviews_summary": "آراء", "surgeries_done_at": "المستشفيات",
         "category": "الفئة", "star_rating": "التصنيف", "quality_grade": "الجودة",
         "district": "المنطقة", "amenities": "المرافق", "distance_to_hospitals": "المسافة",
         "has_translator": "مترجم", "languages_spoken": "اللغات",
         "description": "الوصف", "services": "الخدمات", "type": "النوع",
-        "pharmacy_code": "رمز الصيدلية", "services_offered": "الخدمات",
-        "is_24h": "على مدار الساعة", "ipd_code": "IPD",
-        "ownership": "الملكية", "specialties": "التخصصات",
         "has_home_service": "خدمة منزلية", "capacity": "السعة",
     },
     "en": {
@@ -490,9 +499,6 @@ FIELD_NAMES = {
         "district": "District", "amenities": "Amenities", "distance_to_hospitals": "Distance",
         "has_translator": "Has Translator", "languages_spoken": "Languages",
         "description": "Description", "services": "Services", "type": "Type",
-        "pharmacy_code": "Pharmacy Code", "services_offered": "Services",
-        "is_24h": "24 Hours", "ipd_code": "IPD",
-        "ownership": "Ownership", "specialties": "Specialties",
         "has_home_service": "Home Service", "capacity": "Capacity",
     },
 }
@@ -507,13 +513,13 @@ CONTEXT_WORDS = ["بیمارستان", "hospital", "مستشفى", "شیراز",
 
 # ============ EMERGENCY ============
 EMERGENCY = {
-    "fa": ["درد شدید", "تب", "خونریزی", "استفراغ", "ضعف", "غش", "سکته", "تشنج", "خفگی", "حالم خوب نیست", "حالم بده"],
-    "ar": ["ألم شديد", "حمى", "نزيف", "قيء", "ضعف", "إغماء", "جلطة", "تشنج", "اختناق"],
-    "en": ["severe pain", "fever", "bleeding", "vomiting", "weakness", "fainting", "stroke", "seizure", "choking"]
+    "fa": ["درد شدید", "تب", "خونریزی", "استفراغ", "ضعف", "غش", "سکته", "تشنج", "خفگی"],
+    "ar": ["ألم شديد", "حمى", "نزيف", "قيء", "ضعف", "إغماء", "جلطة"],
+    "en": ["severe pain", "fever", "bleeding", "vomiting", "weakness", "fainting", "stroke"]
 }
 
 EMERGENCY_RESP = {
-    "fa": "🚨 فوراً به اورژانس مراجعه کن. تلفن: ۱۱۵",
+    "fa": "🚨 فوراً به اورژانس. تلفن: ۱۱۵",
     "ar": "🚨 توجه فوراً إلى الطوارئ. هاتف: ١١٥",
     "en": "🚨 Go to emergency. Phone: 115"
 }
@@ -591,16 +597,10 @@ def get_value(item, key, lang):
         return item[key + "_" + lang]
     if (key + "_fa") in item:
         return item[key + "_fa"]
-    if (key + "_en") in item:
-        return item[key + "_en"]
-    if (key + "_ar") in item:
-        return item[key + "_ar"]
     return None
 
 def get_price(item, lang):
-    p = item.get('price_range', '')
-    if not p:
-        p = item.get('price_range_toman', '')
+    p = item.get('price_range', '') or item.get('price_range_toman', '')
     if not p:
         return ""
     if isinstance(p, dict):
@@ -683,62 +683,18 @@ def validate_date_shamsi(s):
         jy = int(parts[0])
         jm = int(parts[1])
         jd = int(parts[2])
-        if jy < 1400 or jy > 1500:
-            return None
-        if jm < 1 or jm > 12:
-            return None
-        if jd < 1 or jd > 31:
+        if jy < 1400 or jy > 1500 or jm < 1 or jm > 12 or jd < 1 or jd > 31:
             return None
         return str(jy) + "/" + str(jm).zfill(2) + "/" + str(jd).zfill(2)
     except:
         return None
 
-# ============ DATE HELPERS ============
-def gregorian_to_shamsi(g_y, g_m, g_d):
-    gdm = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    jdm = [31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29]
-    gy = g_y - 1600
-    gm = g_m - 1
-    gd = g_d - 1
-    gdn = 365 * gy + (gy + 3) // 4 - (gy + 99) // 100 + (gy + 399) // 400
-    for i in range(gm):
-        gdn += gdm[i]
-    if gm > 1 and ((g_y % 4 == 0 and g_y % 100 != 0) or (g_y % 400 == 0)):
-        gdn += 1
-    gdn += gd
-    jdn = gdn - 79
-    jnp = jdn // 12053
-    jdn %= 12053
-    jy = 979 + 33 * jnp + 4 * (jdn // 1461)
-    jdn %= 1461
-    if jdn >= 366:
-        jy += (jdn - 1) // 365
-        jdn = (jdn - 1) % 365
-    i = 0
-    for i in range(11):
-        if jdn < jdm[i]:
-            break
-        jdn -= jdm[i]
-    return jy, i + 1, jdn + 1
-
 def format_date_full(offset_days=0, lang="fa"):
     today = datetime.now() + timedelta(days=offset_days)
     miladi = today.strftime("%Y/%m/%d")
-    try:
-        jy, jm, jd = gregorian_to_shamsi(today.year, today.month, today.day)
-        shamsi = str(jy) + "/" + str(jm).zfill(2) + "/" + str(jd).zfill(2)
-    except:
-        shamsi = "---"
-    if lang == "en":
-        return miladi + " (Shamsi: " + shamsi + ")"
-    if lang == "ar":
-        return miladi + " - " + shamsi
-    return shamsi + " - " + miladi
+    return miladi
 
 # ============ INLINE KEYBOARD BUILDERS ============
-def kb(lang):
-    return MSG_BTN[lang]
-
 def main_menu_kb(lang):
     m = telebot.types.InlineKeyboardMarkup(row_width=2)
     b = MSG_BTN[lang]
@@ -788,12 +744,7 @@ def specialties_kb(lang):
     ]
     btns = []
     for fa, fn, ar, en in items:
-        if lang == "fa":
-            label = fa
-        elif lang == "ar":
-            label = ar
-        else:
-            label = en
+        label = fa if lang == "fa" else (ar if lang == "ar" else en)
         btns.append(telebot.types.InlineKeyboardButton(text=label, callback_data="spec_" + fn))
     m.add(*btns)
     b = MSG_BTN[lang]
@@ -832,7 +783,7 @@ def para_kb(lang):
         (b["btn_radiology"], "رادیولوژی"),
         (b["btn_nursing"], "پرستاری"),
         (b["btn_injection"], "تزریق"),
-        (b["btn_trad_med"], "حطب سنتی"),
+        (b["btn_trad_med"], "طب سنتی"),
         (b["btn_occupational"], "کاردرمانی"),
         (b["btn_speech"], "گفتاردرمانی"),
         (b["btn_orthotics"], "پروتز"),
@@ -855,7 +806,6 @@ def package_kb(lang):
     m = telebot.types.InlineKeyboardMarkup(row_width=1)
     b = MSG_BTN[lang]
     m.add(telebot.types.InlineKeyboardButton(text=b["btn_pkg_order"], callback_data="pkg_order"))
-    m.add(telebot.types.InlineKeyboardButton(text=b["btn_pkg_call"], callback_data="pkg_call"))
     m.add(telebot.types.InlineKeyboardButton(text=b["btn_back"], callback_data="back_main"))
     return m
 
@@ -867,6 +817,17 @@ def doctor_action_kb(lang, doc_id):
         telebot.types.InlineKeyboardButton(text=b["btn_call"], callback_data="call_" + doc_id),
     )
     m.add(telebot.types.InlineKeyboardButton(text=b["btn_back"], callback_data="back_main"))
+    return m
+
+def rate_kb(lang, apt_id):
+    m = telebot.types.InlineKeyboardMarkup(row_width=5)
+    m.add(
+        telebot.types.InlineKeyboardButton(text="⭐", callback_data="rate_1_" + apt_id),
+        telebot.types.InlineKeyboardButton(text="⭐⭐", callback_data="rate_2_" + apt_id),
+        telebot.types.InlineKeyboardButton(text="⭐⭐⭐", callback_data="rate_3_" + apt_id),
+        telebot.types.InlineKeyboardButton(text="⭐⭐⭐⭐", callback_data="rate_4_" + apt_id),
+        telebot.types.InlineKeyboardButton(text="⭐⭐⭐⭐⭐", callback_data="rate_5_" + apt_id),
+    )
     return m
 
 def back_kb(lang, cb="back_main"):
@@ -909,7 +870,6 @@ MSG_BTN = {
         "btn_orthotics": "🦿 پروتز",
         "btn_elder_all": "🏡 همه خانه‌های سالمندان",
         "btn_pkg_order": "💎 سفارش پکیج",
-        "btn_pkg_call": "📞 تماس با ما",
         "btn_book": "📅 نوبت بگیر",
         "btn_call": "📞 تماس",
     },
@@ -918,7 +878,7 @@ MSG_BTN = {
         "btn_nonmed": "🏥 غير طبي",
         "btn_tourist": "🏛️ سياحة",
         "btn_para": "🏥 مساعد طبي",
-        "btn_elder": "🏡 دار المسنين",
+        "btn_elder": "🏡 المسنين",
         "btn_pkg": "💎 الباكج",
         "btn_file": "📋 الملف",
         "btn_apt": "📅 مواعيدي",
@@ -930,22 +890,21 @@ MSG_BTN = {
         "btn_hospitals": "🏥 المستشفيات",
         "btn_hotels": "🏨 الفنادق",
         "btn_motels": "🛏️ النزل",
-        "btn_houses": "🏠 بيوت المسافر",
+        "btn_houses": "🏠 بيوت",
         "btn_transport": "🚗 المواصلات",
-        "btn_city": "🏛️ معالم المدينة",
+        "btn_city": "🏛️ معالم",
         "btn_outside": "🏞️ خارج المدينة",
-        "btn_physio": "🦴 علاج طبيعي",
+        "btn_physio": "🦴 طبيعي",
         "btn_lab": "🔬 مختبر",
         "btn_radiology": "📷 أشعة",
         "btn_nursing": "👩‍⚕️ تمريض",
         "btn_injection": "💉 حقن",
-        "btn_trad_med": "🌿 طب تقليدي",
-        "btn_occupational": "🧩 علاج وظيفي",
-        "btn_speech": "🗣️ علاج النطق",
+        "btn_trad_med": "🌿 تقليدي",
+        "btn_occupational": "🧩 وظيفي",
+        "btn_speech": "🗣️ النطق",
         "btn_orthotics": "🦿 أطراف",
-        "btn_elder_all": "🏡 كل دور المسنين",
-        "btn_pkg_order": "💎 طلب الباكج",
-        "btn_pkg_call": "📞 اتصل بنا",
+        "btn_elder_all": "🏡 الكل",
+        "btn_pkg_order": "💎 طلب",
         "btn_book": "📅 احجز",
         "btn_call": "📞 اتصل",
     },
@@ -954,34 +913,33 @@ MSG_BTN = {
         "btn_nonmed": "🏥 Non-medical",
         "btn_tourist": "🏛️ Tourism",
         "btn_para": "🏥 Paramedical",
-        "btn_elder": "🏡 Nursing Homes",
-        "btn_pkg": "💎 Full Package",
+        "btn_elder": "🏡 Nursing",
+        "btn_pkg": "💎 Package",
         "btn_file": "📋 File",
         "btn_apt": "📅 Appointments",
-        "btn_med": "💊 Med Reminder",
+        "btn_med": "💊 Med",
         "btn_sos": "🚨 Emergency",
-        "btn_invite": "🎁 Invite Friends",
-        "btn_help": "🆘 Patient Rights",
+        "btn_invite": "🎁 Invite",
+        "btn_help": "🆘 Rights",
         "btn_back": "🔙 Back",
         "btn_hospitals": "🏥 Hospitals",
         "btn_hotels": "🏨 Hotels",
         "btn_motels": "🛏️ Motels",
         "btn_houses": "🏠 Guest Houses",
         "btn_transport": "🚗 Transport",
-        "btn_city": "🏛️ City Attractions",
-        "btn_outside": "🏞️ Outside City",
-        "btn_physio": "🦴 Physiotherapy",
+        "btn_city": "🏛️ City",
+        "btn_outside": "🏞️ Outside",
+        "btn_physio": "🦴 Physio",
         "btn_lab": "🔬 Lab",
         "btn_radiology": "📷 Radiology",
         "btn_nursing": "👩‍⚕️ Nursing",
         "btn_injection": "💉 Injection",
         "btn_trad_med": "🌿 Traditional",
         "btn_occupational": "🧩 Occupational",
-        "btn_speech": "🗣️ Speech Therapy",
+        "btn_speech": "🗣️ Speech",
         "btn_orthotics": "🦿 Orthotics",
-        "btn_elder_all": "🏡 All Nursing Homes",
-        "btn_pkg_order": "💎 Order Package",
-        "btn_pkg_call": "📞 Call Us",
+        "btn_elder_all": "🏡 All",
+        "btn_pkg_order": "💎 Order",
         "btn_book": "📅 Book",
         "btn_call": "📞 Call",
     },
@@ -1003,6 +961,7 @@ COMPLAINTS_FILE = data_path("complaints.json")
 MEDS_FILE = data_path("meds.json")
 USERS_FILE = data_path("users.json")
 PACKAGES_FILE = data_path("packages.json")
+RATINGS_FILE = data_path("ratings.json")
 
 def _load_default(path, default):
     try:
@@ -1045,8 +1004,6 @@ def create_appointment(doctor, pname, pphone, chat_id, lang):
         "doctor_address_fa": get_value(doctor, 'office_address', 'fa') or get_value(doctor, 'address', 'fa') or '',
         "doctor_address_ar": get_value(doctor, 'office_address', 'ar') or get_value(doctor, 'address', 'ar') or '',
         "doctor_address_en": get_value(doctor, 'office_address', 'en') or get_value(doctor, 'address', 'en') or '',
-        "doctor_lat": doctor.get('lat', ''),
-        "doctor_lng": doctor.get('lng', ''),
         "patient_name": pname,
         "patient_phone": pphone,
         "patient_chat_id": str(chat_id),
@@ -1054,6 +1011,7 @@ def create_appointment(doctor, pname, pphone, chat_id, lang):
         "date": "",
         "time": "",
         "status": "pending",
+        "rating": 0,
         "created_at": datetime.now().strftime("%Y/%m/%d %H:%M")
     }
     data['appointments'].append(apt)
@@ -1079,6 +1037,26 @@ def confirm_appointment(apt_id, date_str, time_str):
             a['time'] = time_str
             a['status'] = 'confirmed'
             a['confirmed_at'] = datetime.now().strftime("%Y/%m/%d %H:%M")
+            save_appointments(data)
+            return a
+    return None
+
+def mark_apt_done(apt_id):
+    data = load_appointments()
+    for a in data['appointments']:
+        if a['id'] == apt_id:
+            a['status'] = 'done'
+            a['done_at'] = datetime.now().strftime("%Y/%m/%d %H:%M")
+            save_appointments(data)
+            return a
+    return None
+
+def set_apt_rating(apt_id, stars):
+    data = load_appointments()
+    for a in data['appointments']:
+        if a['id'] == apt_id:
+            a['rating'] = stars
+            a['rated_at'] = datetime.now().strftime("%Y/%m/%d %H:%M")
             save_appointments(data)
             return a
     return None
@@ -1140,13 +1118,8 @@ def create_or_get_patient(chat_id, name, phone, lang):
         "appointments": [],
         "status": "active",
         "stages": {
-            "request": True,
-            "doctor": False,
-            "date": False,
-            "accommodation": False,
-            "transport": False,
-            "treatment": False,
-            "followup": False
+            "request": True, "doctor": False, "date": False,
+            "accommodation": False, "transport": False, "treatment": False, "followup": False
         },
         "created_at": datetime.now().strftime("%Y/%m/%d %H:%M")
     }
@@ -1201,7 +1174,10 @@ def format_patient_file(patient, lang):
             if not apt:
                 continue
             dn = apt.get("doctor_name_" + lang) or apt.get("doctor_name_fa", "")
-            if apt.get('status') == 'confirmed' and apt.get('date'):
+            st = apt.get('status', 'pending')
+            if st == 'done':
+                lines.append(m["pt_apt_line_done"].format(id=apt['id'], doctor=dn))
+            elif st == 'confirmed' and apt.get('date'):
                 lines.append(m["pt_apt_line_confirmed"].format(
                     id=apt['id'], doctor=dn, date=apt['date'], time=apt.get('time', '')))
             else:
@@ -1230,6 +1206,20 @@ def delete_patient_data(chat_id):
     _save(MEDS_FILE, meds)
     return True
 
+# ============ RATINGS ============
+def save_rating(apt_id, chat_id, stars, feedback=""):
+    data = _load_default(RATINGS_FILE, {"ratings": []})
+    item = {
+        "apt_id": apt_id,
+        "chat_id": str(chat_id),
+        "stars": stars,
+        "feedback": feedback,
+        "created_at": datetime.now().strftime("%Y/%m/%d %H:%M")
+    }
+    data['ratings'].append(item)
+    _save(RATINGS_FILE, data)
+    return item
+
 # ============ PACKAGES ============
 def load_packages():
     return _load_default(PACKAGES_FILE, {"next_id": 1001, "packages": []})
@@ -1244,12 +1234,8 @@ def create_package(chat_id, name, phone, lang):
     pkg_id = "PKG-" + str(data['next_id'])
     data['next_id'] += 1
     pkg = {
-        "id": pkg_id,
-        "chat_id": str(chat_id),
-        "name": name,
-        "phone": phone,
-        "lang": lang,
-        "status": "pending",
+        "id": pkg_id, "chat_id": str(chat_id), "name": name, "phone": phone,
+        "lang": lang, "status": "pending",
         "created_at": datetime.now().strftime("%Y/%m/%d %H:%M")
     }
     data['packages'].append(pkg)
@@ -1445,8 +1431,7 @@ def create_med(chat_id, name, time_str):
     data = load_meds()
     item = {
         "chat_id": str(chat_id), "name": name, "time": time_str,
-        "active": True, "last_sent_date": "",
-        "created_at": datetime.now().strftime("%Y/%m/%d %H:%M")
+        "active": True, "created_at": datetime.now().strftime("%Y/%m/%d %H:%M")
     }
     data['meds'].append(item)
     save_meds(data)
@@ -1516,7 +1501,7 @@ def get_ai(text, lang):
 def search_by_doctor_name(text):
     low = text.lower()
     st = low
-    for w in ["دکتر", "doctor", "دكتور", "دكتورة", "طبيب", "طبیب", "dr"]:
+    for w in ["دکتر", "doctor", "دكتور", "طبيب", "dr"]:
         st = st.replace(w, "")
     st = st.strip()
     if not st or len(st) < 3:
@@ -1773,7 +1758,10 @@ def process_query(message, text, lang):
         lines = [MSG[lang]["apt_my"]]
         for a in apts[-5:]:
             dn = a.get("doctor_name_" + lang) or a.get("doctor_name_fa", "")
-            if a.get('status') == 'confirmed' and a.get('date'):
+            st = a.get('status', 'pending')
+            if st == 'done':
+                lines.append(MSG[lang]["pt_apt_line_done"].format(id=a['id'], doctor=dn))
+            elif st == 'confirmed' and a.get('date'):
                 lines.append(MSG[lang]["pt_apt_line_confirmed"].format(
                     id=a['id'], doctor=dn, date=a['date'], time=a.get('time', '')))
             else:
@@ -1887,6 +1875,11 @@ def admin_command(message):
     apt_data = load_appointments()
     pending = [a for a in apt_data['appointments'] if a.get('status') == 'pending']
     confirmed = [a for a in apt_data['appointments'] if a.get('status') == 'confirmed']
+    done = [a for a in apt_data['appointments'] if a.get('status') == 'done']
+    rated = [a for a in apt_data['appointments'] if a.get('rating', 0) > 0]
+    avg_rating = 0
+    if rated:
+        avg_rating = round(sum(a['rating'] for a in rated) / len(rated), 1)
     complaints = load_complaints().get('complaints', [])
     new_complaints = [c for c in complaints if c.get('status') == 'new']
     pkg_data = load_packages()
@@ -1907,10 +1900,15 @@ def admin_command(message):
     lines.append("📅 نوبت‌ها:")
     lines.append("• در انتظار: " + str(len(pending)))
     lines.append("• تأیید شده: " + str(len(confirmed)))
+    lines.append("• انجام شده: " + str(len(done)))
     if pending:
         for a in pending[-5:]:
             dn = a.get("doctor_name_fa", "")
             lines.append("• " + a['id'] + " — " + a.get('patient_name', '') + " — " + str(dn))
+    lines.append("")
+    lines.append("⭐ نظرسنجی:")
+    lines.append("• تعداد نظر: " + str(len(rated)))
+    lines.append("• میانگین: " + str(avg_rating) + "/5")
     lines.append("")
     lines.append("💎 پکیج‌های در انتظار: " + str(len(pending_pkgs)))
     if pending_pkgs:
@@ -1918,10 +1916,6 @@ def admin_command(message):
             lines.append("• " + p['id'] + " — " + p.get('name', '') + " — " + p.get('phone', ''))
     lines.append("")
     lines.append("📩 شکایت جدید: " + str(len(new_complaints)))
-    lines.append("")
-    lines.append("📈 نظرسنجی:")
-    lines.append("• رضایت: " + str(satisfaction_counter['positive']))
-    lines.append("• عدم رضایت: " + str(satisfaction_counter['negative']))
     bot.reply_to(message, "\n".join(lines))
 
 @bot.message_handler(commands=['confirm'])
@@ -1956,6 +1950,30 @@ def confirm_command(message):
         except:
             pass
 
+@bot.message_handler(commands=['done'])
+def done_command(message):
+    if str(message.chat.id) != str(ADMIN_CHAT_ID):
+        return
+    parts = message.text.strip().split()
+    if len(parts) != 2:
+        bot.reply_to(message, "فرمت: /done APT-1001")
+        return
+    apt_id = parts[1].upper()
+    apt = mark_apt_done(apt_id)
+    if not apt:
+        bot.reply_to(message, MSG["fa"]["apt_done_admin_bad"].format(id=apt_id))
+        return
+    bot.reply_to(message, MSG["fa"]["apt_done_admin_ok"].format(id=apt_id))
+    patient_cid = apt.get('patient_chat_id', '')
+    p_lang = apt.get('patient_lang', 'fa')
+    update_patient_stage(patient_cid, 'treatment', True)
+    if patient_cid:
+        try:
+            bot.send_message(patient_cid, MSG[p_lang]["apt_done_patient"],
+                reply_markup=rate_kb(p_lang, apt_id))
+        except:
+            pass
+
 @bot.message_handler(commands=['pt'])
 def pt_command(message):
     if str(message.chat.id) != str(ADMIN_CHAT_ID):
@@ -1979,8 +1997,7 @@ def deactivate_command(message):
     if len(parts) != 2:
         bot.reply_to(message, "فرمت: /deactivate doc_001")
         return
-    doc_id = parts[1]
-    if set_doctor_status(doc_id, 'inactive'):
+    if set_doctor_status(parts[1], 'inactive'):
         bot.reply_to(message, "✅ غیرفعال شد.")
     else:
         bot.reply_to(message, "❌ پیدا نشد.")
@@ -1993,8 +2010,7 @@ def activate_command(message):
     if len(parts) != 2:
         bot.reply_to(message, "فرمت: /activate doc_001")
         return
-    doc_id = parts[1]
-    if set_doctor_status(doc_id, 'active'):
+    if set_doctor_status(parts[1], 'active'):
         bot.reply_to(message, "✅ فعال شد.")
     else:
         bot.reply_to(message, "❌ پیدا نشد.")
@@ -2031,7 +2047,10 @@ def myapt_command(message):
     lines = [MSG[lang]["apt_my"]]
     for a in apts[-5:]:
         dn = a.get("doctor_name_" + lang) or a.get("doctor_name_fa", "")
-        if a.get('status') == 'confirmed' and a.get('date'):
+        st = a.get('status', 'pending')
+        if st == 'done':
+            lines.append(MSG[lang]["pt_apt_line_done"].format(id=a['id'], doctor=dn))
+        elif st == 'confirmed' and a.get('date'):
             lines.append(MSG[lang]["pt_apt_line_confirmed"].format(
                 id=a['id'], doctor=dn, date=a['date'], time=a.get('time', '')))
         else:
@@ -2053,15 +2072,7 @@ def mycode_command(message):
     link = build_referral_link(code)
     bot.reply_to(message, MSG2[lang]["ref_your_code"].format(code=code, link=link))
 
-@bot.message_handler(commands=['myrewards'])
-def myrewards_command(message):
-    cid = message.chat.id
-    lang = user_lang.get(cid, "fa")
-    st = get_referral_stats(cid)
-    rewards_str = ", ".join(st['rewards']) if st['rewards'] else "—"
-    bot.reply_to(message, MSG2[lang]["ref_your_stats"].format(count=st['count'], rewards=rewards_str))
-
-# ============ MEDIA TYPES ============
+# ============ MEDIA ============
 @bot.message_handler(content_types=['photo', 'voice', 'audio', 'document', 'video', 'sticker'])
 def other_types(message):
     cid = message.chat.id
@@ -2071,7 +2082,7 @@ def other_types(message):
         user_state[cid] = "choose_lang"
         bot.reply_to(message, START_MSG)
 
-# ============ CALLBACK HANDLER (Inline Keyboard) ============
+# ============ CALLBACK HANDLER ============
 @bot.callback_query_handler(func=lambda call: True)
 def cb_handler(call):
     try:
@@ -2085,11 +2096,36 @@ def cb_handler(call):
         except:
             pass
 
-        # ---- Back to main menu ----
+        # ---- ستاره‌دهی ----
+        if data.startswith("rate_"):
+            parts = data.split("_")
+            stars = int(parts[1])
+            apt_id = parts[2]
+            set_apt_rating(apt_id, stars)
+            save_rating(apt_id, cid, stars, "")
+            satisfaction_counter["count"] += 1
+            if stars >= 4:
+                satisfaction_counter["positive"] += 1
+                update_patient_stage(cid, 'followup', True)
+                code = get_or_create_referral_code(cid)
+                link = build_referral_link(code)
+                if stars == 5:
+                    bot.send_message(cid, MSG[lang]["rate_thanks_5"])
+                else:
+                    bot.send_message(cid, MSG[lang]["rate_thanks_4"])
+                bot.send_message(cid, MSG2[lang]["ref_invite_msg"].format(code=code, link=link))
+            elif stars == 3:
+                bot.send_message(cid, MSG[lang]["rate_thanks_3"])
+            else:
+                satisfaction_counter["negative"] += 1
+                user_state[cid] = "awaiting_rate_feedback_" + apt_id
+                bot.send_message(cid, MSG[lang]["rate_thanks_low"])
+            return
+
+        # ---- بازگشت ----
         if data == "back_main":
             try:
-                bot.edit_message_text(
-                    chat_id=cid, message_id=call.message.message_id,
+                bot.edit_message_text(chat_id=cid, message_id=call.message.message_id,
                     text=MSG2[lang]["menu_main"], reply_markup=main_menu_kb(lang))
             except:
                 show_main_menu(call.message, lang)
@@ -2098,11 +2134,10 @@ def cb_handler(call):
         # ---- منوی پزشکی ----
         if data == "menu_docs":
             try:
-                bot.edit_message_text(
-                    chat_id=cid, message_id=call.message.message_id,
+                bot.edit_message_text(chat_id=cid, message_id=call.message.message_id,
                     text=MSG2[lang]["docs_list_title"], reply_markup=specialties_kb(lang))
             except:
-                bot.send_message(cid, MSG2[lang]["docs_list_title"], reply_markup=specialties_kb(lang))
+                send_with_kb(cid, MSG2[lang]["docs_list_title"], specialties_kb(lang))
             return
 
         # ---- تخصص ----
@@ -2110,11 +2145,11 @@ def cb_handler(call):
             fn = data[5:] + ".json"
             docs = load_json("data/doctors/" + fn)
             if not docs:
-                bot.send_message(cid, "❌ اطلاعاتی یافت نشد.")
+                send_with_kb(cid, "❌ اطلاعاتی یافت نشد.")
                 return
             docs = [d for d in docs if d.get('status', 'active') != 'inactive']
             if not docs:
-                bot.send_message(cid, "❌ پزشکی در این تخصص یافت نشد.")
+                send_with_kb(cid, "❌ پزشکی نیست.")
                 return
             def sc(x):
                 r = x.get('ratings', {})
@@ -2127,95 +2162,85 @@ def cb_handler(call):
                 pass
             for d in docs[:3]:
                 did = d.get('id', '')
-                bot.send_message(cid, format_doctor(d, lang), reply_markup=doctor_action_kb(lang, did))
+                send_with_kb(cid, format_doctor(d, lang), doctor_action_kb(lang, did))
             return
 
         # ---- منوی غیرپزشکی ----
         if data == "menu_nonmed":
             try:
-                bot.edit_message_text(
-                    chat_id=cid, message_id=call.message.message_id,
+                bot.edit_message_text(chat_id=cid, message_id=call.message.message_id,
                     text=MSG2[lang]["nonmed_list_title"], reply_markup=nonmed_kb(lang))
             except:
-                bot.send_message(cid, MSG2[lang]["nonmed_list_title"], reply_markup=nonmed_kb(lang))
+                send_with_kb(cid, MSG2[lang]["nonmed_list_title"], nonmed_kb(lang))
             return
 
-        # ---- زیرمنو غیرپزشکی ----
         if data.startswith("non_"):
             fn = data[4:] + ".json"
             items = load_json("data/" + fn)
             if not items:
-                bot.send_message(cid, "❌ اطلاعاتی یافت نشد.")
+                send_with_kb(cid, "❌ اطلاعاتی یافت نشد.")
                 return
             for item in items[:5]:
-                bot.send_message(cid, format_generic(item, lang), reply_markup=back_kb(lang))
+                send_with_kb(cid, format_generic(item, lang), back_kb(lang))
             return
 
         # ---- گردشگری ----
         if data == "menu_tourist":
             try:
-                bot.edit_message_text(
-                    chat_id=cid, message_id=call.message.message_id,
+                bot.edit_message_text(chat_id=cid, message_id=call.message.message_id,
                     text=MSG2[lang]["tourist_list_title"], reply_markup=tourist_kb(lang))
             except:
-                bot.send_message(cid, MSG2[lang]["tourist_list_title"], reply_markup=tourist_kb(lang))
+                send_with_kb(cid, MSG2[lang]["tourist_list_title"], tourist_kb(lang))
             return
 
         # ---- پیراپزشکی ----
         if data == "menu_para":
             try:
-                bot.edit_message_text(
-                    chat_id=cid, message_id=call.message.message_id,
+                bot.edit_message_text(chat_id=cid, message_id=call.message.message_id,
                     text=MSG2[lang]["para_list_title"], reply_markup=para_kb(lang))
             except:
-                bot.send_message(cid, MSG2[lang]["para_list_title"], reply_markup=para_kb(lang))
+                send_with_kb(cid, MSG2[lang]["para_list_title"], para_kb(lang))
             return
 
         if data == "para_search":
-            bot.send_message(cid, MSG2[lang]["para_list_title"], reply_markup=para_kb(lang))
+            send_with_kb(cid, MSG2[lang]["para_list_title"], para_kb(lang))
             return
 
         # ---- سالمندان ----
         if data == "menu_elder":
             try:
-                bot.edit_message_text(
-                    chat_id=cid, message_id=call.message.message_id,
+                bot.edit_message_text(chat_id=cid, message_id=call.message.message_id,
                     text=MSG2[lang]["elderly_list_title"], reply_markup=elderly_kb(lang))
             except:
-                bot.send_message(cid, MSG2[lang]["elderly_list_title"], reply_markup=elderly_kb(lang))
+                send_with_kb(cid, MSG2[lang]["elderly_list_title"], elderly_kb(lang))
             return
 
         if data == "elder_all":
             data_e = load_json("data/elderly_homes.json")
             if data_e:
-                bot.send_message(cid, MSG2[lang]["elderly_all_title"])
+                send_with_kb(cid, MSG2[lang]["elderly_all_title"])
                 for item in data_e[:10]:
-                    bot.send_message(cid, format_generic(item, lang), reply_markup=back_kb(lang))
+                    send_with_kb(cid, format_generic(item, lang), back_kb(lang))
             return
 
         # ---- پکیج ----
         if data == "menu_pkg":
             try:
-                bot.edit_message_text(
-                    chat_id=cid, message_id=call.message.message_id,
+                bot.edit_message_text(chat_id=cid, message_id=call.message.message_id,
                     text=MSG2[lang]["package_title"], reply_markup=package_kb(lang))
             except:
-                bot.send_message(cid, MSG2[lang]["package_title"], reply_markup=package_kb(lang))
+                send_with_kb(cid, MSG2[lang]["package_title"], package_kb(lang))
             return
 
         if data == "pkg_order":
-            bot.send_message(cid, MSG2[lang]["package_pitch"])
-            bot.send_message(cid, MSG2[lang]["package_value"])
-            bot.send_message(cid, MSG2[lang]["package_cta"])
+            send_with_kb(cid, MSG2[lang]["package_pitch"])
+            send_with_kb(cid, MSG2[lang]["package_value"])
+            send_with_kb(cid, MSG2[lang]["package_cta"])
             user_state[cid] = "awaiting_pkg_name"
-            bot.send_message(cid, MSG2[lang]["package_ask_name"])
+            send_with_kb(cid, MSG2[lang]["package_ask_name"])
             return
 
-        if data == "pkg_call":
-            bot.send_message(cid, "📞 برای تماس با ما:\n@ShirazMedBot", reply_markup=back_kb(lang))
-            return
-
-        # ---- پزشک: نوبت یا تماس ----
+        # ---- نوبت پزشک ----
         if data.startswith("book_"):
             doc_id = data[5:]
             doc = None
@@ -2228,11 +2253,11 @@ def cb_handler(call):
                 if doc:
                     break
             if not doc:
-                bot.send_message(cid, "❌ پزشک پیدا نشد.")
+                send_with_kb(cid, "❌ پزشک پیدا نشد.")
                 return
             user_temp[cid] = {"doctor": doc}
             user_state[cid] = "awaiting_apt_name"
-            bot.send_message(cid, MSG[lang]["apt_name"])
+            send_with_kb(cid, MSG[lang]["apt_name"])
             return
 
         if data.startswith("call_"):
@@ -2247,52 +2272,49 @@ def cb_handler(call):
                 if doc:
                     break
             if not doc:
-                bot.send_message(cid, "❌ پزشک پیدا نشد.")
+                send_with_kb(cid, "❌ پزشک پیدا نشد.")
                 return
-            phone = doc.get('phone', '')
-            bot.send_message(cid, "📞 تلفن مطب:\n" + str(phone), reply_markup=back_kb(lang))
+            send_with_kb(cid, "📞 تلفن:\n" + str(doc.get('phone', '')), back_kb(lang))
             return
 
         # ---- منوی سریع ----
         if data == "do_file":
             p = get_patient_by_chat(cid)
-            bot.send_message(cid, format_patient_file(p, lang), reply_markup=back_kb(lang))
+            send_with_kb(cid, format_patient_file(p, lang), back_kb(lang))
             return
-
         if data == "do_apt":
             apts = get_patient_appointments(cid)
             if not apts:
-                bot.send_message(cid, MSG[lang]["apt_none"], reply_markup=back_kb(lang))
+                send_with_kb(cid, MSG[lang]["apt_none"], back_kb(lang))
                 return
             lines = [MSG[lang]["apt_my"]]
             for a in apts[-5:]:
                 dn = a.get("doctor_name_" + lang) or a.get("doctor_name_fa", "")
-                if a.get('status') == 'confirmed' and a.get('date'):
+                st = a.get('status', 'pending')
+                if st == 'done':
+                    lines.append(MSG[lang]["pt_apt_line_done"].format(id=a['id'], doctor=dn))
+                elif st == 'confirmed' and a.get('date'):
                     lines.append(MSG[lang]["pt_apt_line_confirmed"].format(
                         id=a['id'], doctor=dn, date=a['date'], time=a.get('time', '')))
                 else:
                     lines.append(MSG[lang]["pt_apt_line_pending"].format(id=a['id'], doctor=dn))
-            bot.send_message(cid, "\n\n".join(lines), reply_markup=back_kb(lang))
+            send_with_kb(cid, "\n\n".join(lines), back_kb(lang))
             return
-
         if data == "do_med":
             user_state[cid] = "awaiting_med_menu"
-            bot.send_message(cid, MSG2[lang]["med_menu"])
+            send_with_kb(cid, MSG2[lang]["med_menu"])
             return
-
         if data == "do_sos":
             user_state[cid] = "awaiting_sos_choice"
-            bot.send_message(cid, MSG2[lang]["sos_menu"])
+            send_with_kb(cid, MSG2[lang]["sos_menu"])
             return
-
         if data == "do_invite":
             code = get_or_create_referral_code(cid)
             link = build_referral_link(code)
-            bot.send_message(cid, MSG2[lang]["ref_invite_msg"].format(code=code, link=link), reply_markup=back_kb(lang))
+            send_with_kb(cid, MSG2[lang]["ref_invite_msg"].format(code=code, link=link), back_kb(lang))
             return
-
         if data == "do_help":
-            bot.send_message(cid, MSG2[lang]["rights_title"] + "\n\n" + MSG2[lang]["rights_body"], reply_markup=back_kb(lang))
+            send_with_kb(cid, MSG2[lang]["rights_title"] + "\n\n" + MSG2[lang]["rights_body"], back_kb(lang))
             return
 
     except Exception as e:
@@ -2327,7 +2349,7 @@ def handle(message):
     t = clean(text)
     user_name = get_user_name(message)
 
-    # ---- خروج با کلمات escape ----
+    # ---- خروج ----
     ESCAPE_WORDS = {"منو", "لغو", "انصراف", "menu", "cancel"}
     if t in ESCAPE_WORDS:
         user_state[cid] = "active"
@@ -2335,7 +2357,21 @@ def handle(message):
         show_main_menu(message, lang)
         return
 
-    # ---- پکیج: نام ----
+    # ---- بازخورد منفی ----
+    if state and state.startswith("awaiting_rate_feedback_"):
+        apt_id = state.replace("awaiting_rate_feedback_", "")
+        apt = find_appointment(apt_id)
+        pname = apt.get('patient_name', '') if apt else ''
+        try:
+            bot.send_message(ADMIN_CHAT_ID, MSG["fa"]["rate_thanks_low_admin"].format(
+                id=apt_id, stars=apt.get('rating', 0), name=pname, cid=cid, text=text))
+        except:
+            pass
+        reply_with_kb(message, MSG[lang]["rate_feedback_thanks"], back_kb(lang))
+        user_state[cid] = "active"
+        return
+
+    # ---- پکیج ----
     if state == "awaiting_pkg_name":
         if len(text.strip()) < 2:
             bot.reply_to(message, MSG2[lang]["package_ask_name"])
@@ -2347,7 +2383,6 @@ def handle(message):
         bot.reply_to(message, MSG2[lang]["package_ask_phone"])
         return
 
-    # ---- پکیج: تلفن ----
     if state == "awaiting_pkg_phone":
         phone = validate_phone(text)
         if not phone:
@@ -2359,9 +2394,8 @@ def handle(message):
             bot.reply_to(message, MSG2[lang]["package_saved"].format(id=pkg['id']))
             if ADMIN_CHAT_ID:
                 try:
-                    bot.send_message(ADMIN_CHAT_ID,
-                        MSG2["fa"]["package_admin_new"].format(
-                            id=pkg['id'], name=pkg_name, phone=phone, cid=cid))
+                    bot.send_message(ADMIN_CHAT_ID, MSG2["fa"]["package_admin_new"].format(
+                        id=pkg['id'], name=pkg_name, phone=phone, cid=cid))
                 except:
                     pass
         except Exception as e:
@@ -2372,7 +2406,7 @@ def handle(message):
         ask_more(message)
         return
 
-    # ---- اسم بیمار ----
+    # ---- نوبت ----
     if state == "awaiting_apt_name":
         if len(text.strip()) < 2:
             bot.reply_to(message, MSG[lang]["apt_name"])
@@ -2384,7 +2418,6 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["apt_phone"])
         return
 
-    # ---- تلفن بیمار ----
     if state == "awaiting_apt_phone":
         phone = validate_phone(text)
         if not phone:
@@ -2398,7 +2431,6 @@ def handle(message):
             name=user_temp[cid].get("name", ""), phone=phone, doctor=dn))
         return
 
-    # ---- تأیید نهایی ----
     if state == "awaiting_apt_confirm":
         if t in YES_WORDS:
             doc = user_temp.get(cid, {}).get("doctor", {})
@@ -2417,9 +2449,8 @@ def handle(message):
                 if ADMIN_CHAT_ID:
                     try:
                         dphone = doc.get("phone", "")
-                        bot.send_message(ADMIN_CHAT_ID,
-                            MSG["fa"]["apt_admin_new"].format(
-                                id=apt['id'], name=pname, phone=pphone, doctor=dn, dphone=dphone))
+                        bot.send_message(ADMIN_CHAT_ID, MSG["fa"]["apt_admin_new"].format(
+                            id=apt['id'], name=pname, phone=pphone, doctor=dn, dphone=dphone))
                     except:
                         pass
             except Exception as e:
@@ -2521,7 +2552,7 @@ def handle(message):
             if not meds:
                 bot.reply_to(message, MSG2[lang]["med_none"])
             else:
-                lines = ["⏰ یادآورهای شما:"]
+                lines = ["⏰:"]
                 for m in meds:
                     lines.append("💊 " + m['name'] + " — " + m['time'])
                 bot.reply_to(message, "\n".join(lines))
@@ -2566,14 +2597,11 @@ def handle(message):
             return
         if t in ("2", "۲"):
             data = load_json("data/hospitals.json")
-            lines = []
             for h in data[:3]:
                 n = get_value(h, 'name', lang) or ''
                 a = get_value(h, 'address', lang) or ''
                 p = get_value(h, 'phone', lang) or h.get('phone', '')
-                lines.append("🏥 " + str(n) + "\n📍 " + str(a) + "\n📞 " + str(p))
-            if lines:
-                bot.reply_to(message, "\n\n".join(lines))
+                bot.reply_to(message, "🏥 " + str(n) + "\n📍 " + str(a) + "\n📞 " + str(p))
             user_state[cid] = "active"
             return
         if t in ("3", "۳"):
@@ -2585,7 +2613,7 @@ def handle(message):
             if not comp:
                 bot.reply_to(message, MSG2[lang]["sos_no_companion"])
             else:
-                bot.reply_to(message, "✅ همراه: " + str(comp.get('name', '')) + "\n📞 " + str(comp.get('phone', '')))
+                bot.reply_to(message, "✅ " + str(comp.get('name', '')) + " — " + str(comp.get('phone', '')))
             user_state[cid] = "active"
             return
         if t in ("5", "۵"):
@@ -2595,7 +2623,7 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["apt_invalid"])
         return
 
-    # ---- حذف داده ----
+    # ---- حذف ----
     if state == "awaiting_delete_confirm":
         if t in ("بله حذف کن", "نعم احذف", "yes delete"):
             delete_patient_data(cid)
@@ -2615,42 +2643,7 @@ def handle(message):
             user_state[cid] = "active"
             bot.reply_to(message, MSG[lang]["go"])
             return
-        if t in NO_WORDS:
-            user_state[cid] = "awaiting_rating"
-            bot.reply_to(message, MSG[lang]["rate"])
-            return
         user_state[cid] = "active"
-
-    # ---- نظرسنجی ----
-    if state == "awaiting_rating":
-        if t in YES_WORDS:
-            user_state[cid] = "active"
-            satisfaction_counter["count"] += 1
-            satisfaction_counter["positive"] += 1
-            code = get_or_create_referral_code(cid)
-            link = build_referral_link(code)
-            bot.reply_to(message, MSG[lang]["thanks"])
-            bot.reply_to(message, MSG2[lang]["ref_invite_msg"].format(code=code, link=link))
-            return
-        if t in NO_WORDS:
-            user_state[cid] = "awaiting_feedback"
-            bot.reply_to(message, MSG[lang]["why"])
-            return
-        user_state[cid] = "active"
-
-    if state == "awaiting_feedback":
-        user_state[cid] = "active"
-        bot.reply_to(message, MSG[lang]["thanks_fb"])
-        satisfaction_counter["count"] += 1
-        satisfaction_counter["negative"] += 1
-        if ADMIN_CHAT_ID:
-            try:
-                bot.send_message(ADMIN_CHAT_ID,
-                    "❌ عدم رضایت\n" + LANG_NAMES.get(lang, lang) +
-                    "\nنام: " + user_name + "\nChatID: " + str(cid) + "\n" + text)
-            except:
-                pass
-        return
 
     # ---- اضطراری ----
     if is_emergency(text):
@@ -2671,5 +2664,5 @@ def handle(message):
 
 
 # ============ START ============
-print("ربات روشن شد... v36 (Inline Keyboard درختی + همه‌چیز کامل)")
+print("ربات روشن شد... v37 (نظر ۵ ستاره + /done + Success Story + Inline درختی)")
 bot.infinity_polling(timeout=30, long_polling_timeout=30)
