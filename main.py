@@ -401,21 +401,24 @@ MSG2 = {
     },
 }
 
-# ============ CHANNEL MESSAGES (جدید) ============
+# ============ CHANNEL MESSAGES ============
 MSG_CH = {
     "fa": {
+        "btn_channel_go": "🔗 رفتن به کانال",
         "btn_channel_ok": "✅ عضو شدم",
         "msg_channel": "🎁 یه هدیه کوچیک برات داریم\n\nعضو کانال ما بشو → ۵٪ تخفیف\nروی همه سرویس‌ها (پزشک، هتل، ترانسفر)\n\nبعد از عضویت، برگرد و بزن [✅ عضو شدم]",
         "msg_channel_done": "✅ خوش اومدی!\n\n۵٪ تخفیف روی اولین سرویست فعال شد.\n\nالان می‌تونی نوبت پزشک بگیری یا هتل رزرو کنی.\nاز /menu شروع کن 🚀",
         "msg_channel_already": "😊 قبلاً عضو شدی و ۵٪ تخفیفت فعاله.\nبزن /menu و ازش استفاده کن.",
     },
     "ar": {
+        "btn_channel_go": "🔗 الذهاب للقناة",
         "btn_channel_ok": "✅ انضممت",
         "msg_channel": "🎁 لدينا هدية صغيرة لك\n\nانضم إلى قناتنا → خصم ٥٪\nعلى جميع الخدمات (طبيب، فندق، نقل)\n\nبعد الانضمام، ارجع واضغط [✅ انضممت]",
         "msg_channel_done": "✅ أهلاً بك!\n\nتم تفعيل خصم ٥٪ على خدمتك الأولى.\n\nيمكنك الآن حجز طبيب أو فندق.\nابدأ بـ /menu 🚀",
         "msg_channel_already": "😊 أنت مشترك بالفعل وخصم ٥٪ مفعّل.\nاضغط /menu للاستفادة منه.",
     },
     "en": {
+        "btn_channel_go": "🔗 Go to Channel",
         "btn_channel_ok": "✅ I joined",
         "msg_channel": "🎁 A small gift for you\n\nJoin our channel → 5% OFF\non all services (doctor, hotel, transfer)\n\nAfter joining, come back and tap [✅ I joined]",
         "msg_channel_done": "✅ Welcome aboard!\n\nYour 5% discount is now active.\n\nBook a doctor or hotel now.\nStart with /menu 🚀",
@@ -867,6 +870,7 @@ def back_kb(lang, cb="back_main"):
 def channel_kb(lang):
     m = telebot.types.InlineKeyboardMarkup(row_width=1)
     b = MSG_CH[lang]
+    m.add(telebot.types.InlineKeyboardButton(text=b["btn_channel_go"], url=CHANNEL_LINK))
     m.add(telebot.types.InlineKeyboardButton(text=b["btn_channel_ok"], callback_data="channel_confirm"))
     m.add(telebot.types.InlineKeyboardButton(text=MSG_BTN[lang]["btn_back"], callback_data="back_main"))
     return m
@@ -1366,7 +1370,7 @@ def try_apply_start_param(message, text, lang):
             pass
     return res
 
-# ============ CHANNEL REWARD (جدید - توی referrals.json ذخیره میشه) ============
+# ============ CHANNEL REWARD ============
 def is_channel_joined(chat_id):
     data = load_referrals()
     cid = str(chat_id)
@@ -2189,12 +2193,12 @@ def cb_handler(call):
                 bot.send_message(cid, MSG[lang]["rate_thanks_low"])
             return
 
-        # ---- عضویت در کانال (جدید) ----
+        # ---- عضویت در کانال ----
         if data == "do_channel":
             if is_channel_joined(cid):
                 send_with_kb(cid, MSG_CH[lang]["msg_channel_already"], back_kb(lang))
                 return
-            send_with_kb(cid, MSG_CH[lang]["msg_channel"] + "\n\n" + CHANNEL_LINK, channel_kb(lang))
+            send_with_kb(cid, MSG_CH[lang]["msg_channel"], channel_kb(lang))
             return
 
         if data == "channel_confirm":
@@ -2755,5 +2759,5 @@ def handle(message):
 
 
 # ============ START ============
-print("ربات روشن شد... v38 (عضویت در کانال + پاداش ۵٪)")
+print("ربات روشن شد... v39 (دکمه URL کانال + پاداش ۵٪)")
 bot.infinity_polling(timeout=30, long_polling_timeout=30)
