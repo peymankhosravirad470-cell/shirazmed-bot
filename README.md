@@ -1,1 +1,1 @@
-# shirazmed-bot
+# shirazmedical-bot
