@@ -4,7 +4,7 @@
   "port": 8080,
   "disks": [
     {
-      "name": "data",
+      "name": "shirazmedical",
       "mountTo": "/app/data"
     }
   ]
