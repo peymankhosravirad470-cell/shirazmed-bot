@@ -1,0 +1,602 @@
+{
+  "shiraz_transport_hubs": [
+    {
+      "key": "official_name",
+      "field_fa": "نام رسمی",
+      "field_en": "Official Name",
+      "field_ar": "الاسم الرسمي",
+      "shiraz_airport": {
+        "value_fa": "فرودگاه بین‌المللی شهید دستغیب شیراز",
+        "value_en": "Shiraz Shahid Dastgheib International Airport",
+        "value_ar": "مطار الشهيد دستغيب الدولي في شيراز"
+      },
+      "shiraz_railway": {
+        "value_fa": "ایستگاه راه‌آهن شیراز",
+        "value_en": "Shiraz Railway Station",
+        "value_ar": "محطة قطار شيراز"
+      },
+      "karandish_terminal": {
+        "value_fa": "پایانه مسافربری کاراندیش شیراز",
+        "value_en": "Karandish Passenger Terminal of Shiraz",
+        "value_ar": "محطة ركاب كارانديش في شيراز"
+      },
+      "amirkabir_terminal": {
+        "value_fa": "پایانه مسافربری امیرکبیر شیراز",
+        "value_en": "Amirkabir Passenger Terminal of Shiraz",
+        "value_ar": "محطة ركاب أمير كبير في شيراز"
+      }
+    },
+    {
+      "key": "city",
+      "field_fa": "شهر",
+      "field_en": "City",
+      "field_ar": "المدينة",
+      "shiraz_airport": {
+        "value_fa": "شیراز",
+        "value_en": "Shiraz",
+        "value_ar": "شيراز"
+      },
+      "shiraz_railway": {
+        "value_fa": "شیراز",
+        "value_en": "Shiraz",
+        "value_ar": "شيراز"
+      },
+      "karandish_terminal": {
+        "value_fa": "شیراز",
+        "value_en": "Shiraz",
+        "value_ar": "شيراز"
+      },
+      "amirkabir_terminal": {
+        "value_fa": "شیراز",
+        "value_en": "Shiraz",
+        "value_ar": "شيراز"
+      }
+    },
+    {
+      "key": "full_address",
+      "field_fa": "آدرس کامل",
+      "field_en": "Full Address",
+      "field_ar": "العنوان الكامل",
+      "shiraz_airport": {
+        "value_fa": "شیراز، میدان الله، بلوار مدرس، فرودگاه بین‌المللی شهید دستغیب",
+        "value_en": "Shiraz, Allah Square, Modarres Blvd, Shahid Dastgheib International Airport",
+        "value_ar": "شيراز، ساحل الله، شارع مدرس، مطار الشهيد دستغيب الدولي"
+      },
+      "shiraz_railway": {
+        "value_fa": "شیراز، بزرگراه شیراز-سپیدان، ابتدای بلوار آیت‌الله علوی (ورودی شهر جدید صدرا)",
+        "value_en": "Shiraz, Shiraz-Sepidan Highway, beginning of Ayatollah Alavi Blvd (Sadra New Town entrance)",
+        "value_ar": "شيراز، طريق شيراز-سپيدان السريع، بداية شارع آية الله علوي (مدخل مدينة صدرا الجديدة)"
+      },
+      "karandish_terminal": {
+        "value_fa": "شیراز، بلوار سلمان فارسی (خیابان ساحلی شرقی)، پایانه کاراندیش",
+        "value_en": "Shiraz, Salman Farsi Blvd (East Saheli St), Karandish Terminal",
+        "value_ar": "شيراز، شارع سلمان فارسي (شارع الساحلي الشرقي)، محطة كارانديش"
+      },
+      "amirkabir_terminal": {
+        "value_fa": "شیراز، بلوار امیرکبیر، بین کوچه ۵۳ و خیابان توانیر",
+        "value_en": "Shiraz, Amirkabir Blvd, between Alley 53 and Tavanir St",
+        "value_ar": "شيراز، شارع أمير كبير، بين الأزقة 53 وشارع توانير"
+      }
+    },
+    {
+      "key": "iata_code",
+      "field_fa": "کد یاتا (IATA)",
+      "field_en": "IATA Code",
+      "field_ar": "رمز إياتا",
+      "shiraz_airport": {"value_fa": "SYZ", "value_en": "SYZ", "value_ar": "SYZ"},
+      "shiraz_railway": {"value_fa": "—", "value_en": "—", "value_ar": "—"},
+      "karandish_terminal": {"value_fa": "—", "value_en": "—", "value_ar": "—"},
+      "amirkabir_terminal": {"value_fa": "—", "value_en": "—", "value_ar": "—"}
+    },
+    {
+      "key": "icao_code",
+      "field_fa": "کد ایکائو (ICAO)",
+      "field_en": "ICAO Code",
+      "field_ar": "رمز إيكاو",
+      "shiraz_airport": {"value_fa": "OISS", "value_en": "OISS", "value_ar": "OISS"},
+      "shiraz_railway": {"value_fa": "—", "value_en": "—", "value_ar": "—"},
+      "karandish_terminal": {"value_fa": "—", "value_en": "—", "value_ar": "—"},
+      "amirkabir_terminal": {"value_fa": "—", "value_en": "—", "value_ar": "—"}
+    },
+    {
+      "key": "main_phone",
+      "field_fa": "تلفن اصلی",
+      "field_en": "Main Phone",
+      "field_ar": "الهاتف الرئيسي",
+      "shiraz_airport": {
+        "value_fa": "07137115000",
+        "value_en": "+98 71 3711 5000",
+        "value_ar": "+98 71 3711 5000"
+      },
+      "shiraz_railway": {
+        "value_fa": "07136200321",
+        "value_en": "+98 71 3620 0321",
+        "value_ar": "+98 71 3620 0321"
+      },
+      "karandish_terminal": {
+        "value_fa": "07137327650",
+        "value_en": "+98 71 3732 7650",
+        "value_ar": "+98 71 3732 7650"
+      },
+      "amirkabir_terminal": {
+        "value_fa": "07138202587",
+        "value_en": "+98 71 3820 2587",
+        "value_ar": "+98 71 3820 2587"
+      }
+    },
+    {
+      "key": "emergency_phone",
+      "field_fa": "تلفن اضطراری",
+      "field_en": "Emergency Phone",
+      "field_ar": "هاتف الطوارئ",
+      "shiraz_airport": {
+        "value_fa": "اطلاعات پرواز: 199 / اورژانس فرودگاه: 115",
+        "value_en": "Flight Info: 199 / Airport Emergency: 115",
+        "value_ar": "معلومات الرحلات: 199 / طوارئ المطار: 115"
+      },
+      "shiraz_railway": {
+        "value_fa": "سامانه پاسخگویی مرکزی راه آهن: 0215149",
+        "value_en": "Central Railway Response System: 0215149",
+        "value_ar": "نظام الاستجابة المركزي للسكك الحديدية: 0215149"
+      },
+      "karandish_terminal": {
+        "value_fa": "اورژانس: 115 / پلیس: ۱۱۰",
+        "value_en": "Emergency: 115 / Police: 110",
+        "value_ar": "الطوارئ: 115 / الشرطة: 110"
+      },
+      "amirkabir_terminal": {
+        "value_fa": "اورژانس: 115 / پلیس: ۱۱۰",
+        "value_en": "Emergency: 115 / Police: 110",
+        "value_ar": "الطوارئ: 115 / الشرطة: 110"
+      }
+    },
+    {
+      "key": "website",
+      "field_fa": "وب‌سایت",
+      "field_en": "Website",
+      "field_ar": "الموقع الإلكتروني",
+      "shiraz_airport": {"value_fa": "shiraz.airport.ir", "value_en": "shiraz.airport.ir", "value_ar": "shiraz.airport.ir"},
+      "shiraz_railway": {"value_fa": "fars.rai.ir", "value_en": "fars.rai.ir", "value_ar": "fars.rai.ir"},
+      "karandish_terminal": {"value_fa": "—", "value_en": "—", "value_ar": "—"},
+      "amirkabir_terminal": {"value_fa": "—", "value_en": "—", "value_ar": "—"}
+    },
+    {
+      "key": "email",
+      "field_fa": "ایمیل",
+      "field_en": "Email",
+      "field_ar": "البريد الإلكتروني",
+      "shiraz_airport": {"value_fa": "syz-info@shiraz.airport.ir", "value_en": "syz-info@shiraz.airport.ir", "value_ar": "syz-info@shiraz.airport.ir"},
+      "shiraz_railway": {"value_fa": "fars@rai.ir", "value_en": "fars@rai.ir", "value_ar": "fars@rai.ir"},
+      "karandish_terminal": {"value_fa": "—", "value_en": "—", "value_ar": "—"},
+      "amirkabir_terminal": {"value_fa": "—", "value_en": "—", "value_ar": "—"}
+    },
+    {
+      "key": "latitude",
+      "field_fa": "عرض جغرافیایی (lat)",
+      "field_en": "Latitude",
+      "field_ar": "خط العرض",
+      "shiraz_airport": {"value_fa": "29.5392", "value_en": "29.5392", "value_ar": "29.5392"},
+      "shiraz_railway": {"value_fa": "29.7421", "value_en": "29.7421", "value_ar": "29.7421"},
+      "karandish_terminal": {"value_fa": "29.6225", "value_en": "29.6225", "value_ar": "29.6225"},
+      "amirkabir_terminal": {"value_fa": "29.5980", "value_en": "29.5980", "value_ar": "29.5980"}
+    },
+    {
+      "key": "longitude",
+      "field_fa": "طول جغرافیایی (lng)",
+      "field_en": "Longitude",
+      "field_ar": "خط الطول",
+      "shiraz_airport": {"value_fa": "52.5896", "value_en": "52.5896", "value_ar": "52.5896"},
+      "shiraz_railway": {"value_fa": "52.4182", "value_en": "52.4182", "value_ar": "52.4182"},
+      "karandish_terminal": {"value_fa": "52.5510", "value_en": "52.5510", "value_ar": "52.5510"},
+      "amirkabir_terminal": {"value_fa": "52.5023", "value_en": "52.5023", "value_ar": "52.5023"}
+    },
+    {
+      "key": "distance_to_city_center",
+      "field_fa": "فاصله تا مرکز شهر (km)",
+      "field_en": "Distance to City Center (km)",
+      "field_ar": "المسافة إلى مركز المدينة (كم)",
+      "shiraz_airport": {
+        "value_fa": "حدود ۱۰ تا ۱۲ کیلومتر (جنوب شرق)",
+        "value_en": "About 10 to 12 km (Southeast)",
+        "value_ar": "حوالي 10 إلى 12 كم (الجنوب الشرقي)"
+      },
+      "shiraz_railway": {
+        "value_fa": "حدود ۲۰ تا ۲۵ کیلومتر (غرب/شمال غرب)",
+        "value_en": "About 20 to 25 km (West/Northwest)",
+        "value_ar": "حوالي 20 إلى 25 كم (الغرب/الشمال الغربي)"
+      },
+      "karandish_terminal": {
+        "value_fa": "حدود ۳ تا ۴ کیلومتر (شمال شرق - نزدیک مرکز)",
+        "value_en": "About 3 to 4 km (Northeast - Near center)",
+        "value_ar": "حوالي 3 إلى 4 كم (الشمال الشرقي - قريبة من المركز)"
+      },
+      "amirkabir_terminal": {
+        "value_fa": "حدود ۷ کیلومتر (جنوب غرب)",
+        "value_en": "About 7 km (Southwest)",
+        "value_ar": "حوالي 7 كم (الجنوب الغربي)"
+      }
+    },
+    {
+      "key": "working_hours",
+      "field_fa": "ساعت کاری",
+      "field_en": "Working Hours",
+      "field_ar": "ساعات العمل",
+      "shiraz_airport": {
+        "value_fa": "به صورت شبانه‌روزی (۲۴ ساعته)",
+        "value_en": "24 hours / Round-the-clock",
+        "value_ar": "على مدار الساعة (24 ساعة)"
+      },
+      "shiraz_railway": {
+        "value_fa": "ساعات اداری و همزمان با زمان حرکت/ورودی قطارها",
+        "value_en": "Office hours and coinciding with train arrival/departure times",
+        "value_ar": "ساعات العمل الإدارية وتتزامن مع أوقات وصول/مغادرة القطارات"
+      },
+      "karandish_terminal": {
+        "value_fa": "شبانه‌روزی (فعال در تمام ساعات روز)",
+        "value_en": "24 hours / Active all day",
+        "value_ar": "على مدار الساعة (نشطة طوال اليوم)"
+      },
+      "amirkabir_terminal": {
+        "value_fa": "شبانه‌روزی (فعال در تمام ساعات روز)",
+        "value_en": "24 hours / Active all day",
+        "value_ar": "على مدار الساعة (نشطة طوال اليوم)"
+      }
+    },
+    {
+      "key": "metro",
+      "field_fa": "مترو",
+      "field_en": "Metro",
+      "field_ar": "المترو",
+      "shiraz_airport": {
+        "metro": "yes",
+        "value_fa": "دارای ایستگاه مترو اختصاصی (خط ۱ - ایستگاه فرودگاه شهید دستغیب)",
+        "value_en": "Has a dedicated metro station (Line 1 - Shahid Dastgheib Airport Station)",
+        "value_ar": "تحتوي على محطة مترو مخصصة (الخط 1 - محطة مطار الشهيد دستغيب)"
+      },
+      "shiraz_railway": {
+        "metro": "no",
+        "value_fa": "دسترسی مستقیم با مترو ندارد (نیاز به تاکسی یا اتوبوس خطی)",
+        "value_en": "No direct metro access (Requires taxi or line bus)",
+        "value_ar": "لا توجد إمكانية وصول مباشر للمترو (يتطلب سيارة أجرة أو حافلة)"
+      },
+      "karandish_terminal": {
+        "metro": "near",
+        "value_fa": "نزدیک به ایستگاه مترو ولیعصر (خط ۱) با فاصله کوتاه تاکسی",
+        "value_en": "Near Valiasr Metro Station (Line 1) with a short taxi ride",
+        "value_ar": "قريبة من محطة مترو ولي عصر (الخط 1) مع مسافة قصيرة بالسيارة"
+      },
+      "amirkabir_terminal": {
+        "metro": "no",
+        "value_fa": "دسترسی مستقیم با مترو ندارد (توسط خطوط اتوبوس و تاکسی)",
+        "value_en": "No direct metro access (Served by buses and taxis)",
+        "value_ar": "لا توجد وصول مباشر للمترو (تخدمها الحافلات وسيارات الأجرة)"
+      }
+    },
+    {
+      "key": "city_bus",
+      "field_fa": "اتوبوس شهری",
+      "field_en": "City Bus",
+      "field_ar": "حافلات المدينة",
+      "shiraz_airport": {
+        "value_fa": "دارای خطوط اتوبوسرانی شهری به سمت میدان احسان و نمازی",
+        "value_en": "Has city bus lines toward Ehsan Square and Namazi",
+        "value_ar": "تتوفر خطوط حافلات حضرية باتجاه ساحة إحسان ونمازي"
+      },
+      "shiraz_railway": {
+        "value_fa": "دارای خطوط محدود اتوبوسرانی حومه",
+        "value_en": "Has limited suburban bus lines",
+        "value_ar": "تتوفر خطوط حافلات ضواحي محدودة"
+      },
+      "karandish_terminal": {
+        "value_fa": "دارای پایانه اتوبوس واحد شهری با پوشش کامل به تمامی نقاط شهر",
+        "value_en": "Has a city bus terminal with full coverage to all parts of the city",
+        "value_ar": "تحتوي على محطة حافلات حضرية بتغطية كاملة لجميع مناطق المدينة"
+      },
+      "amirkabir_terminal": {
+        "value_fa": "دارای خطوط اتوبوسرانی شهری جهت انتقال مسافران به مرکز شهر",
+        "value_en": "Has city bus lines to transfer passengers to the city center",
+        "value_ar": "تتوفر خطوط حافلات حضرية لنقل الركاب إلى مركز المدينة"
+      }
+    },
+    {
+      "key": "taxis",
+      "field_fa": "تاکسی‌ها",
+      "field_en": "Taxis",
+      "field_ar": "سيارات الأجرة",
+      "shiraz_airport": {
+        "value_fa": "تاکسی‌های ویژه فرودگاه (خطی و آنلاین)",
+        "value_en": "Special airport taxis (line and online ride-hailing)",
+        "value_ar": "سيارات أجرة خاصة بالمطار (خطية وعبر الإنترنت)"
+      },
+      "shiraz_railway": {
+        "value_fa": "تاکسی‌های خطی و ویژه ایستگاه راه‌آهن",
+        "value_en": "Line and special station taxis",
+        "value_ar": "سيارات أجرة خطية وخاصة بالمحطة"
+      },
+      "karandish_terminal": {
+        "value_fa": "تاکسی‌های خطی درون‌شهری و تاکسی‌های ویژه پایانه",
+        "value_en": "Inner-city line taxis and terminal-specific taxis",
+        "value_ar": "سيارات أجرة خطية داخل المدينة وسيارات أجرة خاصة بالمحطة"
+      },
+      "amirkabir_terminal": {
+        "value_fa": "تاکسی‌های خطی و تلفنی ویژه پایانه",
+        "value_en": "Line and telephone taxis specific to the terminal",
+        "value_ar": "سيارات أجرة خطية وهاتفية خاصة بالمحطة"
+      }
+    },
+    {
+      "key": "hotel_shuttle",
+      "field_fa": "شاتل هتل",
+      "field_en": "Hotel Shuttle",
+      "field_ar": "نقل الفندق",
+      "shiraz_airport": {
+        "value_fa": "توسط برخی هتل‌های لوکس شیراز به صورت هماهنگ‌شده ارائه می‌شود",
+        "value_en": "Provided by some luxury Shiraz hotels upon coordination",
+        "value_ar": "توفرها بعض فنادق شيراز الفاخرة بالتنسيق المسبق"
+      },
+      "shiraz_railway": {
+        "value_fa": "معمولاً ندارد (نیازمند هماهنگی مسافر با هتل)",
+        "value_en": "Usually not available (requires passenger coordination with hotel)",
+        "value_ar": "عادة غير متوفرة (تتطلب تنسيق المسافر مع الفندق)"
+      },
+      "karandish_terminal": {
+        "value_fa": "ندارد",
+        "value_en": "Not available",
+        "value_ar": "غير متوفر"
+      },
+      "amirkabir_terminal": {
+        "value_fa": "ندارد",
+        "value_en": "Not available",
+        "value_ar": "غير متوفر"
+      }
+    },
+    {
+      "key": "parking",
+      "field_fa": "پارکینگ",
+      "field_en": "Parking",
+      "field_ar": "موقف السيارات",
+      "shiraz_airport": {
+        "value_fa": "دارای پارکینگ طبقاتی و فضای باز مجهز و شبانه‌روزی",
+        "value_en": "Equipped multi-story and open-air parking active 24/7",
+        "value_ar": "مواقف سيارات متعددة الطوابق ومكشوفة مجهزة على مدار الساعة"
+      },
+      "shiraz_railway": {
+        "value_fa": "دارای پارکینگ روباز مسقف و اختصاصی ایستگاه",
+        "value_en": "Has a covered and open dedicated station parking lot",
+        "value_ar": "تحتوي على موقف سيارات مغطى ومكشوف مخصص للمحطة"
+      },
+      "karandish_terminal": {
+        "value_fa": "دارای پارکینگ عمومی مسقف و روباز",
+        "value_en": "Has covered and open public parking",
+        "value_ar": "تحتوي على مواقف عامة مغطاة ومكشوفة"
+      },
+      "amirkabir_terminal": {
+        "value_fa": "دارای پارکینگ اختصاصی پایانه",
+        "value_en": "Has dedicated terminal parking",
+        "value_ar": "تحتوي على موقف مخصص للمحطة"
+      }
+    },
+    {
+      "key": "wheelchair_accessibility",
+      "field_fa": "دسترسی ویلچر",
+      "field_en": "Wheelchair Accessibility",
+      "field_ar": "إمكانية الوصول للكراسي المتحركة",
+      "shiraz_airport": {
+        "value_fa": "دارای رمپ، آسانسور و خدمات تشریفات برای توان‌یابان",
+        "value_en": "Equipped with ramps, elevators, and assistance services for individuals with disabilities",
+        "value_ar": "مزودة بمنحدرات، مصاعد، وخدمات مساعدة لذوي الاحتياجات الخاصة"
+      },
+      "shiraz_railway": {
+        "value_fa": "دارای رمپ ورود و خدمات ویلچر در صورت درخواست از ایستگاه",
+        "value_en": "Has entrance ramps and wheelchair services upon request from the station",
+        "value_ar": "تحتوي على منحدرات دخول وخدمات الكراسي المتحركة عند الطلب من المحطة"
+      },
+      "karandish_terminal": {
+        "value_fa": "مناسب‌سازی نسبی رمپ‌ها و ورود بدون پله",
+        "value_en": "Partially adapted ramps and step-free entrance",
+        "value_ar": "منحدرات مجهزة جزئياً ومدخل خالي من الدرج"
+      },
+      "amirkabir_terminal": {
+        "value_fa": "دارای رمپ ورودی سالن انتظار",
+        "value_en": "Has an entrance ramp for the waiting hall",
+        "value_ar": "تحتوي على منحدر لمدخل صالة الانتظار"
+      }
+    },
+    {
+      "key": "vip_lounge",
+      "field_fa": "سالن VIP",
+      "field_en": "VIP Lounge",
+      "field_ar": "صالة كبار الشخصيات",
+      "shiraz_airport": {
+        "value_fa": "دارای سالن تشریفات اختصاصی (CIP/VIP)",
+        "value_en": "Has dedicated CIP/VIP lounges",
+        "value_ar": "تتوفر صالات تشريفات خاصة (CIP/VIP)"
+      },
+      "shiraz_railway": {
+        "value_fa": "دارای سالن انتظار ویژه مسافران قطارهای پنج‌ستاره",
+        "value_en": "Has a special waiting lounge for 5-star train passengers",
+        "value_ar": "تحتوي على صالة انتظار خاصة لركاب القطارات ذات الخمس نجوم"
+      },
+      "karandish_terminal": {
+        "value_fa": "ندارد (دارای سالن انتظار عمومی مجهز)",
+        "value_en": "Not available (has an equipped general waiting hall)",
+        "value_ar": "غير متوفر (تحتوي على صالة انتظار عامة مجهزة)"
+      },
+      "amirkabir_terminal": {
+        "value_fa": "ندارد (دارای سالن انتظار عمومی)",
+        "value_en": "Not available (has a general waiting hall)",
+        "value_ar": "غير متوفر (تحتوي على صالة انتظار عامة)"
+      }
+    },
+    {
+      "key": "terminals",
+      "field_fa": "ترمینال‌ها",
+      "field_en": "Terminals",
+      "field_ar": "المحطات (الترمينات)",
+      "shiraz_airport": {
+        "value_fa": "ترمینال پروازهای داخلی و ترمینال پروازهای خارجی",
+        "value_en": "Domestic flights terminal and international flights terminal",
+        "value_ar": "محطة الرحلات الداخلية ومحطة الرحلات الدولية"
+      },
+      "shiraz_railway": {
+        "value_fa": "ساختمان مرکزی مسافربری راه‌آهن",
+        "value_en": "Main railway passenger building",
+        "value_ar": "مبنى ركاب السكك الحديدية الرئيسي"
+      },
+      "karandish_terminal": {
+        "value_fa": "ترمینال اصلی سفرهای برون‌شهری به سمت شهرهای مرکزی، شمال، شرق و غرب کشور",
+        "value_en": "Main terminal for intercity trips toward central, northern, eastern, and western cities",
+        "value_ar": "المحطة الرئيسية للرحلات بين المدن باتجاه المدن الوسطى والشمالية والشرقية والغربية"
+      },
+      "amirkabir_terminal": {
+        "value_fa": "پایانه ویژه سفرهای برون‌شهری عمدتاً به سمت شهرهای جنوبی و استان‌های همجوار",
+        "value_en": "Terminal for intercity trips mainly toward southern cities and adjacent provinces",
+        "value_ar": "محطة للرحلات بين المدن، خاصة باتجاه المدن الجنوبية والمحافظات المجاورة"
+      }
+    },
+    {
+      "key": "airlines",
+      "field_fa": "ایرلاین‌ها",
+      "field_en": "Airlines",
+      "field_ar": "خطوط الطيران",
+      "shiraz_airport": {
+        "value_fa": "هواپیمایی ماهان، ایران‌ایر، آسمان، زاگرس، کیش‌ایر، قشم‌ایر، معراج و سایر ایرلاین‌های داخلی و خارجی",
+        "value_en": "Mahan Air, Iran Air, Aseman, Zagros, Kish Air, Qeshm Air, Meraj, and other domestic and foreign airlines",
+        "value_ar": "طيران ماهان، إيران إير، آسمان، زاگرس، كيش إير، قشم إير، معراج وخطوط طيران أخرى محلية ودولية"
+      },
+      "shiraz_railway": {"value_fa": "—", "value_en": "—", "value_ar": "—"},
+      "karandish_terminal": {"value_fa": "—", "value_en": "—", "value_ar": "—"},
+      "amirkabir_terminal": {"value_fa": "—", "value_en": "—", "value_ar": "—"}
+    },
+    {
+      "key": "facilities",
+      "field_fa": "امکانات",
+      "field_en": "Facilities",
+      "field_ar": "المرافق",
+      "shiraz_airport": {
+        "value_fa": "دستگاه‌های خودپرداز، غرفه‌های سوغات، رستوران، کافی‌شاپ، بسته‌بندی بار، اتاق مادر و کودک",
+        "value_en": "ATMs, souvenir shops, restaurant, coffee shop, luggage wrapping, mother and child room",
+        "value_ar": "أجهزة الصراف الآلي، محلات الهدايا التذكارية، مطعم، مقهى، تغليف الأمتعة، غرفة الأم والطفل"
+      },
+      "shiraz_railway": {
+        "value_fa": "باجه‌های بلیط‌فروشی، نمازخانه، غرفه مواد غذایی، سرویس بهداشتی، اتاق انتظار",
+        "value_en": "Ticket counters, prayer room, food kiosk, restrooms, waiting room",
+        "value_ar": "شباك التذاكر، مصلى، أكشاك الأغذية، دورات المياه، غرفة الانتظار"
+      },
+      "karandish_terminal": {
+        "value_fa": "غرفه‌های فروش بلیط تعاونی‌ها، غرفه‌های مواد غذایی، استراحتگاه رانندگان، نمازخانه، سرویس بهداشتی",
+        "value_en": "Cooperative ticket booths, food kiosks, driver resting area, prayer room, restrooms",
+        "value_ar": "أكواخ بيع التذاكر، أكشاك الأغذية، استراحة السائقين، مصلى، دورات المياه"
+      },
+      "amirkabir_terminal": {
+        "value_fa": "باجه‌های فروش بلیط اتوبوس، غرفه‌های تنقلات، نمازخانه، سرویس بهداشتی",
+        "value_en": "Bus ticket counters, snack kiosks, prayer room, restrooms",
+        "value_ar": "شبابيك تذاكر الحافلات، أكشاك الوجبات الخفيفة، مصلى، دورات المياه"
+      }
+    },
+    {
+      "key": "nearby_hospitals",
+      "field_fa": "بیمارستان‌های نزدیک",
+      "field_en": "Nearby Hospitals",
+      "field_ar": "المستشفيات القريبة",
+      "shiraz_airport": {
+        "value_fa": "بیمارستان حضرت زینب (س)، بیمارستان مادر و کودک شوشتری",
+        "value_en": "Hazrat Zeinab Hospital, Shoushtari Mother and Child Hospital",
+        "value_ar": "مستشفى حضرت زينب، مستشفى شوشتري للأم والطفل"
+      },
+      "shiraz_railway": {
+        "value_fa": "بیمارستان‌های شهر جدید صدرا و بیمارستان‌های شمال غرب شیراز",
+        "value_en": "Sadra New Town hospitals and northwest Shiraz hospitals",
+        "value_ar": "مستشفيات مدينة صدرا الجديدة ومستشفيات شمال غرب شيراز"
+      },
+      "karandish_terminal": {
+        "value_fa": "بیمارستان شهید دستغیب، بیمارستان مسلمین",
+        "value_en": "Shahid Dastgheib Hospital, Moslemine Hospital",
+        "value_ar": "مستشفى الشهيد دستغيب، مستشفى المسلمين"
+      },
+      "amirkabir_terminal": {
+        "value_fa": "بیمارستان‌های بلوار چمران و بعثت (با دسترسی بزرگراهی)",
+        "value_en": "Chamran Blvd and Besat Hospitals (via highway access)",
+        "value_ar": "مستشفيات شارع چمران وبسعت (عبر الطرق السريعة)"
+      }
+    },
+    {
+      "key": "nearby_hotels",
+      "field_fa": "هتل‌های نزدیک",
+      "field_en": "Nearby Hotels",
+      "field_ar": "الفنادق القريبة",
+      "shiraz_airport": {
+        "value_fa": "هتل پرسپولیس، هتل هما، هتل چمران (با فاصله میان‌شهری)",
+        "value_en": "Persepolis Hotel, Homa Hotel, Chamran Hotel (city distance)",
+        "value_ar": "فندق برسيبوليس، فندق هما، فندق چمران (مسافة داخل المدينة)"
+      },
+      "shiraz_railway": {
+        "value_fa": "هتل‌های شهر جدید صدرا یا هتل‌های مرکز شهر شیراز",
+        "value_en": "Sadra New Town hotels or central Shiraz hotels",
+        "value_ar": "فنادق مدينة صدرا الجديدة أو فنادق وسط شيراز"
+      },
+      "karandish_terminal": {
+        "value_fa": "هتل ارگ، هتل پارسیان شیراز، هتل کریم‌خان",
+        "value_en": "Arg Hotel, Parsian Shiraz Hotel, Karim Khan Hotel",
+        "value_ar": "فندق ارگ، فندق پارسيان شيراز، فندق كريم خان"
+      },
+      "amirkabir_terminal": {
+        "value_fa": "هتل‌های بلوار مدرس و مرکز شهر شیراز",
+        "value_en": "Modarres Blvd hotels and central Shiraz hotels",
+        "value_ar": "فنادق شارع مدرس ووسط شيراز"
+      }
+    },
+    {
+      "key": "short_description",
+      "field_fa": "توضیح کوتاه",
+      "field_en": "Short Description",
+      "field_ar": "وصف قصير",
+      "shiraz_airport": {
+        "value_fa": "اصلی‌ترین مرز هوایی استان فارس و جنوب ایران با پروازهای داخلی و خارجی متعدد.",
+        "value_en": "The main air border of Fars province and southern Iran with numerous domestic and international flights.",
+        "value_ar": "الحدود الجوية الرئيسية لمحافظة فارس وجنوب إيران مع العديد من الرحلات الداخلية والدولية."
+      },
+      "shiraz_railway": {
+        "value_fa": "ایستگاه اصلی قطار شیراز واقع در شمال غرب شهر، متصل‌کننده شیراز به تهران و سایر کلان‌شهرها.",
+        "value_en": "The main Shiraz railway station located in the northwest of the city, connecting Shiraz to Tehran and other metropolises.",
+        "value_ar": "محطة قطار شيراز الرئيسية الواقعة في شمال غرب المدينة، وتربط شيراز بطهران والمدن الكبرى الأخرى."
+      },
+      "karandish_terminal": {
+        "value_fa": "بزرگترین و مهم‌ترین پایانه اتوبوسرانی شیراز با بیشترین حجم سفرهای بین‌شهری کشور.",
+        "value_en": "The largest and most important bus terminal in Shiraz with the highest volume of intercity trips.",
+        "value_ar": "أكبر وأهم محطة حافلات في شيراز مع أكبر حجم من الرحلات بين المدن في البلاد."
+      },
+      "amirkabir_terminal": {
+        "value_fa": "پایانه مسافربری جنوب شیراز مناسب برای سفرهای جاده‌ای به مقصدهای جنوب و جنوب غرب کشور.",
+        "value_en": "Shiraz southern passenger terminal suitable for road trips to southern and southwestern destinations.",
+        "value_ar": "محطة ركاب جنوب شيراز المناسبة للرحلات البرية إلى الوجهات الجنوبية والجنوبية الغربية."
+      }
+    },
+    {
+      "key": "important_tips",
+      "field_fa": "نکات مهم",
+      "field_en": "Important Tips",
+      "field_ar": "نصائح مهمة",
+      "shiraz_airport": {
+        "value_fa": "توصیه می‌شود برای پروازهای داخلی ۱.۵ ساعت و برای خارجی ۳ ساعت پیش از پرواز در فرودگاه حضور داشته باشید.",
+        "value_en": "It is recommended to be at the airport 1.5 hours before domestic flights and 3 hours before international flights.",
+        "value_ar": "يُوصى بالتواجد في المطار قبل 1.5 ساعة للرحلات الداخلية و3 ساعات قبل الرحلات الدولية."
+      },
+      "shiraz_railway": {
+        "value_fa": "به دلیل فاصله نسبی ایستگاه راه‌آهن از مرکز شهر، پیش از حرکت قطار حتماً زمان کافی برای تردد در نظر بگیرید.",
+        "value_en": "Due to the relative distance of the railway station from the city center, allow enough travel time before train departure.",
+        "value_ar": "نظرًا للمسافة النسبية لمحطة القطار عن مركز المدينة، تأكد من تخصيص وقت كافٍ للوصول قبل موعد الرحلة."
+      },
+      "karandish_terminal": {
+        "value_fa": "در ایام پیک سفر بلیت خود را از پیش تهیه کنید و به ترافیک اطراف بلوار ساحلی توجه داشته باشید.",
+        "value_en": "Purchase your tickets in advance during peak travel seasons and mind the traffic around Saheli Blvd.",
+        "value_ar": "قم بشراء تذاكرك مقدماً خلال مواسم الذروة وانتبه لحركة المرور حول شارع الساحلي."
+      },
+      "amirkabir_terminal": {
+        "value_fa": "پیش از حرکت از وضعیت اتوبوس‌ها و شرکت‌های تعاونی مستقر در پایانه مطلع شوید.",
+        "value_en": "Check the status of buses and cooperative companies located in the terminal before departure.",
+        "value_ar": "تحقق من حالة الحافلات والشركات التعاونية المتواجدة في المحطة قبل المغادرة."
+      }
+    }
+  ]
+}
