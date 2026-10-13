@@ -14,7 +14,6 @@ try:
 except ImportError:
     jdatetime = None
 
-# ============ CONFIG ============
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "")
 AVALAI_API_KEY = os.environ.get("AVALAI_API_KEY", "")
 BALE_BOT_TOKEN = os.environ.get("BALE_BOT_TOKEN", "")
@@ -26,8 +25,12 @@ CHANNEL_DISCOUNT = 5
 TIMEZONE_OFFSET_HOURS = float(os.environ.get("TIMEZONE_OFFSET_HOURS", "3.5"))
 SNAPP_URL = "https://app.snapp.taxi/"
 TAP30_URL = "https://app.tap30.ir/"
+AVALAI_STT_URL = "https://api.avalai.ir/v1/audio/transcriptions"
+STT_MODEL = "whisper-1"
+MAX_VOICE_SECONDS = 60
+GOOGLE_TRANSLATE_URL = "https://translate.google.com/"
+DEEPSEEK_URL = "https://chat.deepseek.com/"
 
-# ============ BOT INIT ============
 if BALE_BOT_TOKEN:
     telebot.apihelper.API_URL = "https://tapi.bale.ai/bot{0}/{1}"
     telebot.apihelper.FILE_URL = "https://tapi.bale.ai/file/bot{0}/{1}"
@@ -56,13 +59,11 @@ START_MSG = """🌟 سلام و خوش آمدید! از اینکه شیراز م
 
 DIGITS = str.maketrans("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩", "01234567890123456789")
 
-# ============ STATE ============
 user_state = {}
 user_lang = {}
 user_temp = {}
 satisfaction_counter = {"count": 0, "positive": 0, "negative": 0}
 
-# ============ MSG ============
 MSG = {
     "fa": {
         "welcome": "🌟 یه پیام بدی، همه‌چیز رو آماده می‌کنیم.\n\nاز پزشک تا هتل، از ترانسفر تا مترجم، از نوبت تا گشت گردشگری — همه‌چیز یکجا.\n\nبدون دغدغه، بدون هزینه اضافه 💙\n\n👇 از دکمه‌های زیر انتخاب کن:",
@@ -90,6 +91,7 @@ MSG = {
         "apt_done_admin_ok": "✅ ویزیت {id} علامت خورد. نظرخواهی از بیمار ارسال شد.",
         "apt_done_admin_bad": "❌ نوبت {id} پیدا نشد.",
         "apt_done_patient": "🎊 امیدواریم ویزیت خوب پیش رفته باشه!\n\nلطفاً به ما بگو از خدمات چقدر راضی بودی:",
+    },
         "pt_created": "🎫 پرونده‌ی شما ساخته شد\n\n📋 کد پرونده: {code}\n\nهر وقت خواستی ببینی کجای کاریم، بنویس: پرونده",
         "pt_title": "🎫 پرونده‌ی سلامت شما\n━━━━━━━━━━━━━━━",
         "pt_code": "📋 کد پرونده: {code}",
@@ -123,6 +125,52 @@ MSG = {
         "remind_med": "💊 یادآوری دارو\n\nوقت مصرف {med} هست.\n\nسلامتت مهمه 💙",
         "taxi_title": "🚕 درخواست تاکسی\n\nبرای رفتن به مقصد، یکی از اپ‌های زیر رو باز کن و مقصد رو توی اپ وارد کن:",
         "hub_not_found": "❌ اطلاعات این پایانه موجود نیست.",
+        "insurance_title": "🏥 بیمه‌های تحت پوشش\n\n👇 بیمه‌ات رو انتخاب کن:",
+        "insurance_not_found": "❌ اطلاعات این بیمه موجود نیست.",
+        "translator_title": "🗣️ مترجم همراه\n\nزبان مبدأ و مقصد رو انتخاب کن:",
+        "translator_processing": "⏳ در حال ترجمه...",
+        "translator_result": "📝 متن اصلی:\n{original}\n\n🌍 ترجمه:\n{translated}",
+        "translator_error": "❌ متأسفانه ترجمه انجام نشد.\n\nدوباره تلاش کن.",
+        "translator_too_long": "❌ ویس بیشتر از ۱ دقیقه‌ست.\n\nلطفاً کوتاه‌تر بفرست.",
+        "translator_active": "✅ مترجم فعال شد\n\nویس بفرست (حداکثر ۱ دقیقه).\n\nبرای خروج: منو",
+        "translator_listen": "🔊 شنیدن در گوگل ترنسلیت",
+        "charter_title": "📜 منشور اخلاقی شیراز مدیکال",
+        "charter_body": """ما در شیراز مدیکال، خود را متعهد می‌دانیم به:
+
+۱. احترام و کرامت انسانی
+با هر بیمار، فارغ از ملیت، زبان، مذهب یا توانایی مالی، با احترام کامل رفتار می‌کنیم.
+
+۲. شفافیت کامل قیمت
+هیچ هزینه‌ای پنهان نمی‌ماند. قبل از هر خدمت، قیمت دقیق و شفاف اعلام می‌شود.
+
+۳. محرمانگی اطلاعات
+اطلاعات پزشکی و شخصی شما نزد ما امانت است و بدون اجازه‌ی شما با هیچ کس به اشتراک گذاشته نمی‌شود.
+
+۴. انتخاب آزاد پزشک
+شما حق دارید پزشک، بیمارستان و مرکز درمانی خود را آزادانه انتخاب کنید.
+
+۵. رضایت آگاهانه
+قبل از هر اقدام درمانی، تمام جوانب، خطرات و مزایا برای شما توضیح داده می‌شود.
+
+۶. پیگیری و مسئولیت‌پذیری
+ما تا پایان مسیر درمان، حتی بعد از بازگشت به کشورتان، همراه شما هستیم.
+
+۷. عدم تبعیض
+هیچ بیماری به دلیل ملیت، جنسیت، مذهب یا ناتوانی از خدمات ما محروم نمی‌شود.
+
+۸. صداقت پزشکی
+هیچ خدمت غیرضروری به شما تحمیل نمی‌شود. فقط آنچه برای سلامت شما لازم است ارائه می‌شود.
+
+۹. حق اعتراض
+شما همیشه حق دارید شکایت کنید، نظر بدهید و پاسخ بگیرید.
+
+۱۰. حفظ کرامت انسانی
+بدن، حریم خصوصی و اعتقادات شما همیشه محترم شمرده می‌شود.
+
+━━━━━━━━━━━━━━━
+💙 شیراز مدیکال
+سلامت شما، تعهد ما""",
+        "deepseek_title": "🤖 دستیار هوشمند DeepSeek\n\nهر سؤالی داری بپرس: پزشکی، ترجمه، مشاوره، هر چیزی.\n\nرایگان و بدون محدودیت 🚀",
     },
     "ar": {
         "welcome": "🌟 رسالة واحدة، ونجهز كل شيء.\n\n👇 اختاروا من الأزرار:",
@@ -183,6 +231,52 @@ MSG = {
         "remind_med": "💊 تذكير بالدواء\n\nموعد تناول {med}.\n\nصحتك تهمنا 💙",
         "taxi_title": "🚕 طلب تاكسي\n\nافتح أحد التطبيقات التالية وأدخل الوجهة:",
         "hub_not_found": "❌ معلومات هذه المحطة غير متوفرة.",
+        "insurance_title": "🏥 التأمينات المدعومة\n\n👇 اختر تأمينك:",
+        "insurance_not_found": "❌ معلومات هذا التأمين غير متوفرة.",
+        "translator_title": "🗣️ المترجم المرافق\n\nاختر اللغة المصدر والهدف:",
+        "translator_processing": "⏳ جاري الترجمة...",
+        "translator_result": "📝 النص الأصلي:\n{original}\n\n🌍 الترجمة:\n{translated}",
+        "translator_error": "❌ فشلت الترجمة.\n\nحاول مرة أخرى.",
+        "translator_too_long": "❌ الرسالة أطول من دقيقة.\n\nأرسل مقطعاً أقصر.",
+        "translator_active": "✅ تم تفعيل المترجم\n\nأرسل رسالة صوتية (حتى دقيقة).\n\nللخروج: القائمة",
+        "translator_listen": "🔊 الاستماع في ترجمة جوجل",
+        "charter_title": "📜 ميثاق شيراز ميديكال الأخلاقي",
+        "charter_body": """نحن في شيراز ميديكال، نلتزم بـ:
+
+١. احترام الكرامة الإنسانية
+نتعامل مع كل مريض باحترام كامل، بغض النظر عن الجنسية أو اللغة أو الدين أو القدرة المالية.
+
+٢. الشفافية الكاملة في الأسعار
+لا توجد تكاليف خفية. تُعلن الأسعار الدقيقة بوضوح قبل كل خدمة.
+
+٣. سرية المعلومات
+معلوماتك الطبية والشخصية أمانة لدينا، ولا تُشارك مع أي شخص دون إذنك.
+
+٤. حرية اختيار الطبيب
+يحق لك اختيار طبيبك ومستشفاك ومركزك العلاجي بحرية.
+
+٥. الموافقة المستنيرة
+قبل كل إجراء علاجي، تُشرح لك جميع الجوانب والمخاطر والفوائد.
+
+٦. المتابعة والمسؤولية
+نرافقك حتى نهاية رحلة العلاج، حتى بعد عودتك إلى بلدك.
+
+٧. عدم التمييز
+لا يُحرم أي مريض من خدماتنا بسبب الجنسية أو الجنس أو الدين أو الإعاقة.
+
+٨. الصدق الطبي
+لا تُفرض عليك أي خدمة غير ضرورية. يُقدم فقط ما يلزم لصحتك.
+
+٩. حق الاعتراض
+يحق لك دائماً تقديم شكوى وإبداء رأيك والحصول على رد.
+
+١٠. الحفاظ على الكرامة الإنسانية
+يُحترم جسدك وخصوصيتك ومعتقداتك دائماً.
+
+━━━━━━━━━━━━━━━
+💙 شيراز ميديكال
+صحتك، التزامنا""",
+        "deepseek_title": "🤖 مساعد DeepSeek الذكي\n\nاسأل أي شيء: طب، ترجمة، استشارة، أي شيء.\n\nمجاني وبدون قيود 🚀",
     },
     "en": {
         "welcome": "🌟 One message, we prepare everything.\n\n👇 Choose:",
@@ -243,9 +337,55 @@ MSG = {
         "remind_med": "💊 Medication reminder\n\nTime to take {med}.\n\nYour health matters 💙",
         "taxi_title": "🚕 Request Taxi\n\nOpen one of the apps below and enter your destination:",
         "hub_not_found": "❌ Hub information not available.",
+        "insurance_title": "🏥 Supported Insurances\n\n👇 Choose your insurance:",
+        "insurance_not_found": "❌ Insurance information not available.",
+        "translator_title": "🗣️ Companion Translator\n\nChoose source and target languages:",
+        "translator_processing": "⏳ Translating...",
+        "translator_result": "📝 Original:\n{original}\n\n🌍 Translation:\n{translated}",
+        "translator_error": "❌ Translation failed.\n\nTry again.",
+        "translator_too_long": "❌ Voice longer than 1 minute.\n\nSend a shorter one.",
+        "translator_active": "✅ Translator active\n\nSend a voice message (max 1 minute).\n\nTo exit: menu",
+        "translator_listen": "🔊 Listen on Google Translate",
+        "charter_title": "📜 Shiraz Medical Ethical Charter",
+        "charter_body": """At Shiraz Medical, we are committed to:
+
+1. Respect for Human Dignity
+We treat every patient with full respect, regardless of nationality, language, religion, or financial ability.
+
+2. Full Price Transparency
+No hidden costs. The exact price is clearly announced before every service.
+
+3. Confidentiality
+Your medical and personal information is a trust with us and will not be shared with anyone without your consent.
+
+4. Freedom to Choose Your Doctor
+You have the right to freely choose your doctor, hospital, and medical center.
+
+5. Informed Consent
+Before any medical procedure, all aspects, risks, and benefits are explained to you.
+
+6. Follow-up and Responsibility
+We stay with you until the end of your treatment journey, even after you return home.
+
+7. Non-Discrimination
+No patient is denied our services due to nationality, gender, religion, or disability.
+
+8. Medical Honesty
+No unnecessary service is imposed on you. Only what is needed for your health is offered.
+
+9. Right to Complain
+You always have the right to complain, give feedback, and receive a response.
+
+10. Preservation of Human Dignity
+Your body, privacy, and beliefs are always respected.
+
+━━━━━━━━━━━━━━━
+💙 Shiraz Medical
+Your Health, Our Commitment""",
+        "deepseek_title": "🤖 DeepSeek Smart Assistant\n\nAsk anything: medical, translation, consultation, anything.\n\nFree and unlimited 🚀",
     },
 }
-# ============ MSG2 ============
+
 MSG2 = {
     "fa": {
         "ref_your_code": "🔗 کد معرف شما: {code}\n\nلینک:\n{link}",
@@ -429,7 +569,6 @@ MSG2 = {
     },
 }
 
-# ============ CHANNEL MESSAGES ============
 MSG_CH = {
     "fa": {
         "btn_channel_go": "🔗 رفتن به کانال",
@@ -453,49 +592,215 @@ MSG_CH = {
         "msg_channel_already": "😊 You already joined and your 5% discount is active.\nTap /menu to use it.",
     },
 }
-
-# ============ HUB LABELS (نام پایانه‌ها در منو) ============
 HUB_LABELS = {
-    "shiraz_airport": {
-        "fa": "✈️ فرودگاه شهید دستغیب",
-        "ar": "✈️ مطار الشهيد دستغيب",
-        "en": "✈️ Shahid Dastgheib Airport",
-    },
-    "shiraz_railway": {
-        "fa": "🚂 ایستگاه راه‌آهن شیراز",
-        "ar": "🚂 محطة قطار شيراز",
-        "en": "🚂 Shiraz Railway Station",
-    },
-    "karandish_terminal": {
-        "fa": "🚌 پایانه کاراندیش",
-        "ar": "🚌 محطة كارانديش",
-        "en": "🚌 Karandish Terminal",
-    },
-    "amirkabir_terminal": {
-        "fa": "🚌 پایانه امیرکبیر",
-        "ar": "🚌 محطة أمير كبير",
-        "en": "🚌 Amirkabir Terminal",
-    },
+    "shiraz_airport": {"fa": "✈️ فرودگاه شهید دستغیب", "ar": "✈️ مطار الشهيد دستغيب", "en": "✈️ Shahid Dastgheib Airport"},
+    "shiraz_railway": {"fa": "🚂 ایستگاه راه‌آهن شیراز", "ar": "🚂 محطة قطار شيراز", "en": "🚂 Shiraz Railway Station"},
+    "karandish_terminal": {"fa": "🚌 پایانه کاراندیش", "ar": "🚌 محطة كارانديش", "en": "🚌 Karandish Terminal"},
+    "amirkabir_terminal": {"fa": "🚌 پایانه امیرکبیر", "ar": "🚌 محطة أمير كبير", "en": "🚌 Amirkabir Terminal"},
 }
 
-# ============ HUB FIELD DISPLAY ORDER ============
 HUB_FIELDS_ORDER = [
-    "official_name", "city", "full_address",
-    "iata_code", "icao_code",
+    "official_name", "city", "full_address", "iata_code", "icao_code",
     "main_phone", "emergency_phone", "website", "email",
     "latitude", "longitude", "distance_to_city_center",
     "working_hours", "metro", "city_bus", "taxis",
     "hotel_shuttle", "parking", "wheelchair_accessibility", "vip_lounge",
     "terminals", "airlines", "facilities",
-    "nearby_hospitals", "nearby_hotels",
-    "short_description", "important_tips",
+    "nearby_hospitals", "nearby_hotels", "short_description", "important_tips",
 ]
 
-# ============ WORD LISTS ============
+INSURANCE_FIELDS_ORDER = [
+    "type",
+    "coverage_gp_visit", "coverage_specialist", "coverage_subspecialist",
+    "coverage_hospitalization", "coverage_surgery",
+    "coverage_medication_opd", "coverage_medication_ipd",
+    "coverage_lab", "coverage_radiology", "coverage_mri_ct", "coverage_sonography",
+    "coverage_physiotherapy", "coverage_occupational", "coverage_speech",
+    "coverage_dentistry_restorative", "coverage_dentistry_cosmetic",
+    "coverage_vision", "coverage_natural_birth", "coverage_csection",
+    "coverage_dialysis", "coverage_chemotherapy", "coverage_radiotherapy",
+    "coverage_psychiatry", "coverage_ambulance",
+    "annual_cap", "per_admission_cap",
+    "deductible_visit", "deductible_hospital", "deductible_medication",
+    "annual_medication_cap",
+    "waiting_period", "special_diseases", "exclusions", "age_limit",
+    "foreign_patient_coverage", "installment_payment",
+    "required_documents", "usage_summary",
+    "contracted_centers", "claim_processing_time", "complaint_process",
+    "main_phone", "support_phone_24h", "website", "mobile_app", "email",
+    "shiraz_offices",
+    "total_insured", "population_coverage_pct",
+    "total_contracted_centers", "total_contracted_doctors",
+]
+
+INSURANCE_FIELD_LABELS = {
+    "fa": {
+        "type": "نوع بیمه",
+        "coverage_gp_visit": "ویزیت پزشک عمومی",
+        "coverage_specialist": "ویزیت پزشک متخصص",
+        "coverage_subspecialist": "ویزیت فوق تخصص",
+        "coverage_hospitalization": "بستری در بیمارستان",
+        "coverage_surgery": "جراحی",
+        "coverage_medication_opd": "دارو سرپایی",
+        "coverage_medication_ipd": "دارو بستری",
+        "coverage_lab": "آزمایشگاه",
+        "coverage_radiology": "رادیولوژی",
+        "coverage_mri_ct": "ام‌آر‌آی و سی‌تی‌اسکن",
+        "coverage_sonography": "سونوگرافی",
+        "coverage_physiotherapy": "فیزیوتراپی",
+        "coverage_occupational": "کاردرمانی",
+        "coverage_speech": "گفتاردرمانی",
+        "coverage_dentistry_restorative": "دندانپزشکی ترمیمی",
+        "coverage_dentistry_cosmetic": "دندانپزشکی زیبایی",
+        "coverage_vision": "عینک و بینایی",
+        "coverage_natural_birth": "زایمان طبیعی",
+        "coverage_csection": "سزارین",
+        "coverage_dialysis": "دیالیز",
+        "coverage_chemotherapy": "شیمی‌درمانی",
+        "coverage_radiotherapy": "پرتودرمانی",
+        "coverage_psychiatry": "روان‌پزشکی",
+        "coverage_ambulance": "آمبولانس",
+        "annual_cap": "سقف سالانه",
+        "per_admission_cap": "سقف هر بستری",
+        "deductible_visit": "فرانشیز ویزیت",
+        "deductible_hospital": "فرانشیز بستری",
+        "deductible_medication": "فرانشیز دارو",
+        "annual_medication_cap": "سقف دارو در سال",
+        "waiting_period": "دوره انتظار",
+        "special_diseases": "بیماری‌های خاص تحت پوشش",
+        "exclusions": "بیماری‌های خارج از پوشش",
+        "age_limit": "سن مجاز پوشش",
+        "foreign_patient_coverage": "پوشش بیمار خارجی",
+        "installment_payment": "امکان پرداخت قسطی",
+        "required_documents": "مدارک لازم",
+        "usage_summary": "نحوه استفاده",
+        "contracted_centers": "مراکز طرف قرارداد",
+        "claim_processing_time": "زمان رسیدگی به مطالبات",
+        "complaint_process": "نحوه شکایت",
+        "main_phone": "تلفن اصلی",
+        "support_phone_24h": "پشتیبانی شبانه‌روزی",
+        "website": "وب‌سایت",
+        "mobile_app": "اپلیکیشن موبایل",
+        "email": "ایمیل",
+        "shiraz_offices": "دفاتر شیراز",
+        "total_insured": "تعداد کل بیمه‌شده",
+        "population_coverage_pct": "درصد جمعیت",
+        "total_contracted_centers": "تعداد مراکز طرف قرارداد",
+        "total_contracted_doctors": "تعداد پزشکان طرف قرارداد",
+    },
+    "ar": {
+        "type": "نوع التأمين",
+        "coverage_gp_visit": "زيارة طبيب عام",
+        "coverage_specialist": "زيارة طبيب متخصص",
+        "coverage_subspecialist": "زيارة طبيب أخصائي",
+        "coverage_hospitalization": "الاستشفاء",
+        "coverage_surgery": "الجراحة",
+        "coverage_medication_opd": "أدوية العيادات الخارجية",
+        "coverage_medication_ipd": "أدوية الاستشفاء",
+        "coverage_lab": "المختبر",
+        "coverage_radiology": "الأشعة",
+        "coverage_mri_ct": "الرنين والأشعة المقطعية",
+        "coverage_sonography": "التصوير بالموجات فوق الصوتية",
+        "coverage_physiotherapy": "العلاج الطبيعي",
+        "coverage_occupational": "العلاج الوظيفي",
+        "coverage_speech": "علاج النطق",
+        "coverage_dentistry_restorative": "طب الأسنان الترميمي",
+        "coverage_dentistry_cosmetic": "تجميل الأسنان",
+        "coverage_vision": "النظارات والبصر",
+        "coverage_natural_birth": "الولادة الطبيعية",
+        "coverage_csection": "العملية القيصرية",
+        "coverage_dialysis": "غسيل الكلى",
+        "coverage_chemotherapy": "العلاج الكيميائي",
+        "coverage_radiotherapy": "العلاج الإشعاعي",
+        "coverage_psychiatry": "الطب النفسي",
+        "coverage_ambulance": "سيارة الإسعاف",
+        "annual_cap": "السقف السنوي",
+        "per_admission_cap": "سقف كل إدخال",
+        "deductible_visit": "نسبة التحمل للزيارة",
+        "deductible_hospital": "نسبة التحمل للاستشفاء",
+        "deductible_medication": "نسبة التحمل للأدوية",
+        "annual_medication_cap": "سقف الأدوية السنوي",
+        "waiting_period": "فترة الانتظار",
+        "special_diseases": "الأمراض الخاصة المشمولة",
+        "exclusions": "الأمراض غير المشمولة",
+        "age_limit": "حد السن للتغطية",
+        "foreign_patient_coverage": "تغطية المريض الأجنبي",
+        "installment_payment": "الدفع بالتقسيط",
+        "required_documents": "المستندات المطلوبة",
+        "usage_summary": "ملخص الاستخدام",
+        "contracted_centers": "المراكز المتعاقدة",
+        "claim_processing_time": "وقت معالجة المطالبات",
+        "complaint_process": "طريقة تقديم الشكوى",
+        "main_phone": "الهاتف الرئيسي",
+        "support_phone_24h": "دعم 24 ساعة",
+        "website": "الموقع الإلكتروني",
+        "mobile_app": "تطبيق الجوال",
+        "email": "البريد الإلكتروني",
+        "shiraz_offices": "مكاتب شيراز",
+        "total_insured": "إجمالي المؤمن عليهم",
+        "population_coverage_pct": "نسبة تغطية السكان",
+        "total_contracted_centers": "عدد المراكز المتعاقدة",
+        "total_contracted_doctors": "عدد الأطباء المتعاقدين",
+    },
+    "en": {
+        "type": "Insurance Type",
+        "coverage_gp_visit": "GP Visit",
+        "coverage_specialist": "Specialist Visit",
+        "coverage_subspecialist": "Sub-specialist Visit",
+        "coverage_hospitalization": "Hospitalization",
+        "coverage_surgery": "Surgery",
+        "coverage_medication_opd": "Outpatient Medication",
+        "coverage_medication_ipd": "Inpatient Medication",
+        "coverage_lab": "Laboratory",
+        "coverage_radiology": "Radiology",
+        "coverage_mri_ct": "MRI & CT",
+        "coverage_sonography": "Sonography",
+        "coverage_physiotherapy": "Physiotherapy",
+        "coverage_occupational": "Occupational Therapy",
+        "coverage_speech": "Speech Therapy",
+        "coverage_dentistry_restorative": "Restorative Dentistry",
+        "coverage_dentistry_cosmetic": "Cosmetic Dentistry",
+        "coverage_vision": "Vision Care",
+        "coverage_natural_birth": "Natural Birth",
+        "coverage_csection": "C-Section",
+        "coverage_dialysis": "Dialysis",
+        "coverage_chemotherapy": "Chemotherapy",
+        "coverage_radiotherapy": "Radiotherapy",
+        "coverage_psychiatry": "Psychiatry",
+        "coverage_ambulance": "Ambulance",
+        "annual_cap": "Annual Cap",
+        "per_admission_cap": "Per-admission Cap",
+        "deductible_visit": "Visit Deductible",
+        "deductible_hospital": "Hospital Deductible",
+        "deductible_medication": "Medication Deductible",
+        "annual_medication_cap": "Annual Medication Cap",
+        "waiting_period": "Waiting Period",
+        "special_diseases": "Special Diseases Covered",
+        "exclusions": "Exclusions",
+        "age_limit": "Age Limit",
+        "foreign_patient_coverage": "Foreign Patient Coverage",
+        "installment_payment": "Installment Payment",
+        "required_documents": "Required Documents",
+        "usage_summary": "How to Use",
+        "contracted_centers": "Contracted Centers",
+        "claim_processing_time": "Claim Processing Time",
+        "complaint_process": "Complaint Process",
+        "main_phone": "Main Phone",
+        "support_phone_24h": "24/7 Support",
+        "website": "Website",
+        "mobile_app": "Mobile App",
+        "email": "Email",
+        "shiraz_offices": "Shiraz Offices",
+        "total_insured": "Total Insured",
+        "population_coverage_pct": "Population Coverage (%)",
+        "total_contracted_centers": "Total Contracted Centers",
+        "total_contracted_doctors": "Total Contracted Doctors",
+    },
+}
+
 YES_WORDS = {"بله", "بلی", "آره", "اره", "yes", "yeah", "y", "نعم", "ايوه", "أيوه", "ها", "آری", "اری"}
 NO_WORDS = {"نه", "نخیر", "خیر", "نه ممنون", "ندارم", "no", "nope", "n", "لا", "لا شكرا", "ليس"}
 
-# ============ SPECIALTY MAP ============
 SPECIALTY_MAP = {}
 
 def add_specialty(filename, *words):
@@ -525,7 +830,6 @@ add_specialty("hematology_oncology.json", "خون", "آنکولوژی", "سرط�
 add_specialty("endocrinology.json", "غدد", "تیروئید", "دیابت", "endocrinology", "غدة", "سكري", "درقية")
 add_specialty("neurosurgery.json", "مغز و اعصاب", "نوروسرجری", "neurosurgery", "دماغ", "أعصاب", "صرع", "ms")
 
-# ============ NON MEDICAL MAP ============
 NON_MEDICAL_MAP = {
     "hospitals.json": ["بیمارستان", "hospital", "مستشفى", "کلینیک", "clinic"],
     "hotels.json": ["هتل", "hotel", "فندق", "فنادق", "اقامتگاه"],
@@ -556,7 +860,6 @@ NON_MEDICAL_MAP = {
     ],
 }
 
-# ============ FIELD_NAMES ============
 FIELD_NAMES = {
     "fa": {
         "name": "نام", "address": "آدرس", "phone": "تلفن", "specialty": "تخصص",
@@ -604,7 +907,6 @@ PRICE_MAP = {
 
 CONTEXT_WORDS = ["بیمارستان", "hospital", "مستشفى", "شیراز", "shiraz", "شيراز", "doctor", "دکتر", "طبيب", "dr"]
 
-# ============ EMERGENCY ============
 EMERGENCY = {
     "fa": ["درد شدید", "تب", "خونریزی", "استفراغ", "ضعف", "غش", "سکته", "تشنج", "خفگی"],
     "ar": ["ألم شديد", "حمى", "نزيف", "قيء", "ضعف", "إغماء", "جلطة"],
@@ -617,7 +919,6 @@ EMERGENCY_RESP = {
     "en": "🚨 Go to emergency. Phone: 115"
 }
 
-# ============ SIMPLE COMMANDS ============
 CMD_FILE = {"پرونده", "پرونده من", "ملف", "ملفي", "file", "my file"}
 CMD_APT = {"نوبت", "نوبت‌ها", "نوبت‌هام", "موعد", "مواعيد", "appointment", "appointments"}
 CMD_COMPANION = {"همراه", "همراهم", "مرافق", "companion"}
@@ -637,9 +938,11 @@ CMD_ELDERLY_ALL = {"همه خانه سالمندان", "کل خانه سالمن
 CMD_PACKAGE = {"پکیج", "پکیج درمان", "پکیج گردشگری", "پکیج سلامت", "باكج", "باكج علاج", "package"}
 CMD_CHANNEL = {"عضویت در کانال", "عضویت کانال", "کانال", "channel", "join channel", "قناة", "انضمام"}
 CMD_TAXI = {"تاکسی", "اسنپ", "تپسی", "snapp", "tap30", "tap 30", "taxi", "تكسي", "اسناب"}
-CMD_HUBS = {"پایانه", "پایانه‌ها", "ترمینال", "فرودگاه", "راه‌آهن", "قطار", "اتوبوس", "hub", "hubs", "airport", "train", "bus", "terminal", "مطار", "قطار", "محطة", "محطات"}
-
-# ============ BASIC HELPERS ============
+CMD_HUBS = {"پایانه", "پایانه‌ها", "ترمینال", "فرودگاه", "راه‌آهن", "قطار", "اتوبوس", "hub", "hubs", "airport", "train", "bus", "terminal", "مطار", "محطة", "محطات"}
+CMD_INSURANCE = {"بیمه", "بیمه‌ها", "بیمه من", "insurance", "تأمين", "تامين", "بیمه درمانی"}
+CMD_TRANSLATOR = {"مترجم", "ترجمه", "مترجم همراه", "translator", "translate", "المترجم", "ترجمة"}
+CMD_CHARTER = {"منشور", "منشور اخلاقی", "اخلاق", "charter", "ethics", "ميثاق", "أخلاق"}
+CMD_DEEPSEEK = {"دیپ سیک", "دیپ‌سیک", "هوش مصنوعی", "deepseek", "deep seek", "ai", "ذكاء اصطناعي"}
 def clean(text):
     return text.translate(DIGITS).strip().lower().strip(" .!؟?،,")
 
@@ -790,7 +1093,6 @@ def format_date_full(offset_days=0, lang="fa"):
     miladi = today.strftime("%Y/%m/%d")
     return miladi
 
-# ============ LOCAL TIME + SHAMSI HELPERS ============
 def local_now():
     return datetime.utcnow() + timedelta(hours=TIMEZONE_OFFSET_HOURS)
 
@@ -820,7 +1122,6 @@ def parse_apt_datetime(apt):
     except:
         return None
 
-# ============ INLINE KEYBOARD BUILDERS ============
 def main_menu_kb(lang):
     m = telebot.types.InlineKeyboardMarkup(row_width=2)
     b = MSG_BTN[lang]
@@ -835,6 +1136,14 @@ def main_menu_kb(lang):
     m.add(
         telebot.types.InlineKeyboardButton(text=b["btn_hubs"], callback_data="do_hubs"),
         telebot.types.InlineKeyboardButton(text=b["btn_taxi"], callback_data="do_taxi"),
+    )
+    m.add(
+        telebot.types.InlineKeyboardButton(text=b["btn_insurance"], callback_data="do_insurance"),
+        telebot.types.InlineKeyboardButton(text=b["btn_translator"], callback_data="do_translator"),
+    )
+    m.add(
+        telebot.types.InlineKeyboardButton(text=b["btn_charter"], callback_data="do_charter"),
+        telebot.types.InlineKeyboardButton(text=b["btn_deepseek"], callback_data="do_deepseek"),
     )
     m.add(
         telebot.types.InlineKeyboardButton(text=b["btn_file"], callback_data="do_file"),
@@ -859,6 +1168,66 @@ def hubs_kb(lang):
         label = labels.get(lang, labels.get("fa", hub_id))
         m.add(telebot.types.InlineKeyboardButton(text=label, callback_data="hub_" + hub_id))
     m.add(telebot.types.InlineKeyboardButton(text=MSG_BTN[lang]["btn_back"], callback_data="back_main"))
+    return m
+
+def insurance_kb(lang, page=0):
+    all_ins = load_all_insurances()
+    if not all_ins:
+        return back_kb(lang)
+    per_page = 10
+    total = len(all_ins)
+    start = page * per_page
+    end = min(start + per_page, total)
+    m = telebot.types.InlineKeyboardMarkup(row_width=1)
+    for ins in all_ins[start:end]:
+        name = ins.get("name_" + lang, "") or ins.get("name_fa", "") or ins.get("id", "")
+        ins_id = ins.get("id", "")
+        if name and ins_id:
+            m.add(telebot.types.InlineKeyboardButton(
+                text="🏥 " + name,
+                callback_data="ins_" + ins_id
+            ))
+    nav = []
+    if page > 0:
+        nav.append(telebot.types.InlineKeyboardButton(text="◀️ قبلی", callback_data="ins_page_" + str(page - 1)))
+    if end < total:
+        nav.append(telebot.types.InlineKeyboardButton(text="بعدی ▶️", callback_data="ins_page_" + str(page + 1)))
+    if nav:
+        m.add(*nav)
+    m.add(telebot.types.InlineKeyboardButton(text=MSG_BTN[lang]["btn_back"], callback_data="back_main"))
+    return m
+
+def insurance_action_kb(lang):
+    m = telebot.types.InlineKeyboardMarkup(row_width=1)
+    m.add(telebot.types.InlineKeyboardButton(text=MSG_BTN[lang]["btn_back_insurance"], callback_data="do_insurance"))
+    m.add(telebot.types.InlineKeyboardButton(text=MSG_BTN[lang]["btn_back"], callback_data="back_main"))
+    return m
+
+def translator_lang_kb(lang):
+    m = telebot.types.InlineKeyboardMarkup(row_width=1)
+    b = MSG_BTN[lang]
+    m.add(
+        telebot.types.InlineKeyboardButton(text=b["btn_tr_fa_ar"], callback_data="tr_fa_ar"),
+        telebot.types.InlineKeyboardButton(text=b["btn_tr_ar_fa"], callback_data="tr_ar_fa"),
+        telebot.types.InlineKeyboardButton(text=b["btn_tr_fa_en"], callback_data="tr_fa_en"),
+        telebot.types.InlineKeyboardButton(text=b["btn_tr_en_fa"], callback_data="tr_en_fa"),
+    )
+    m.add(telebot.types.InlineKeyboardButton(text=b["btn_back"], callback_data="back_main"))
+    return m
+
+def translator_result_kb(lang, translated_text, target_lang_code):
+    m = telebot.types.InlineKeyboardMarkup(row_width=1)
+    encoded = quote(translated_text[:400])
+    url = "https://translate.google.com/?sl=auto&tl=" + target_lang_code + "&text=" + encoded + "&op=translate"
+    m.add(telebot.types.InlineKeyboardButton(text=MSG[lang]["translator_listen"], url=url))
+    m.add(telebot.types.InlineKeyboardButton(text=MSG_BTN[lang]["btn_back"], callback_data="back_main"))
+    return m
+
+def deepseek_kb(lang):
+    m = telebot.types.InlineKeyboardMarkup(row_width=1)
+    b = MSG_BTN[lang]
+    m.add(telebot.types.InlineKeyboardButton(text=b["btn_deepseek_go"], url=DEEPSEEK_URL))
+    m.add(telebot.types.InlineKeyboardButton(text=b["btn_back"], callback_data="back_main"))
     return m
 
 def specialties_kb(lang):
@@ -1003,8 +1372,6 @@ def channel_kb(lang):
     m.add(telebot.types.InlineKeyboardButton(text=b["btn_channel_ok"], callback_data="channel_confirm"))
     m.add(telebot.types.InlineKeyboardButton(text=MSG_BTN[lang]["btn_back"], callback_data="back_main"))
     return m
-
-# ============ MSG_BTN ============
 MSG_BTN = {
     "fa": {
         "btn_docs": "👨‍⚕️ پزشکی",
@@ -1024,7 +1391,17 @@ MSG_BTN = {
         "btn_snapp": "🚗 اسنپ",
         "btn_tap30": "🚕 تپسی",
         "btn_hubs": "🚉 پایانه‌ها و فرودگاه",
+        "btn_insurance": "🏥 بیمه‌های تحت پوشش",
+        "btn_back_insurance": "🔙 بازگشت به لیست بیمه‌ها",
         "btn_back_hubs": "🔙 بازگشت به لیست پایانه‌ها",
+        "btn_translator": "🗣️ مترجم همراه",
+        "btn_tr_fa_ar": "🇮🇷 فارسی → 🇸🇦 عربی",
+        "btn_tr_ar_fa": "🇸🇦 عربی → 🇮🇷 فارسی",
+        "btn_tr_fa_en": "🇮🇷 فارسی → 🇬🇧 انگلیسی",
+        "btn_tr_en_fa": "🇬🇧 انگلیسی → 🇮🇷 فارسی",
+        "btn_charter": "📜 منشور اخلاقی",
+        "btn_deepseek": "🤖 هوش مصنوعی DeepSeek",
+        "btn_deepseek_go": "🚀 رفتن به DeepSeek",
         "btn_back": "🔙 بازگشت",
         "btn_hospitals": "🏥 بیمارستان‌ها",
         "btn_hotels": "🏨 هتل‌ها",
@@ -1065,7 +1442,17 @@ MSG_BTN = {
         "btn_snapp": "🚗 سناب",
         "btn_tap30": "🚕 تابسي",
         "btn_hubs": "🚉 المحطات والمطارات",
+        "btn_insurance": "🏥 التأمينات المدعومة",
+        "btn_back_insurance": "🔙 العودة إلى قائمة التأمينات",
         "btn_back_hubs": "🔙 العودة إلى قائمة المحطات",
+        "btn_translator": "🗣️ المترجم المرافق",
+        "btn_tr_fa_ar": "🇮🇷 الفارسية → 🇸🇦 العربية",
+        "btn_tr_ar_fa": "🇸🇦 العربية → 🇮🇷 الفارسية",
+        "btn_tr_fa_en": "🇮🇷 الفارسية → 🇬🇧 الإنجليزية",
+        "btn_tr_en_fa": "🇬🇧 الإنجليزية → 🇮🇷 الفارسية",
+        "btn_charter": "📜 الميثاق الأخلاقي",
+        "btn_deepseek": "🤖 الذكاء الاصطناعي DeepSeek",
+        "btn_deepseek_go": "🚀 الذهاب إلى DeepSeek",
         "btn_back": "🔙 رجوع",
         "btn_hospitals": "🏥 المستشفيات",
         "btn_hotels": "🏨 الفنادق",
@@ -1106,7 +1493,17 @@ MSG_BTN = {
         "btn_snapp": "🚗 Snapp",
         "btn_tap30": "🚕 Tap30",
         "btn_hubs": "🚉 Transport Hubs",
+        "btn_insurance": "🏥 Supported Insurances",
+        "btn_back_insurance": "🔙 Back to Insurances List",
         "btn_back_hubs": "🔙 Back to Hubs List",
+        "btn_translator": "🗣️ Translator",
+        "btn_tr_fa_ar": "🇮🇷 Persian → 🇸🇦 Arabic",
+        "btn_tr_ar_fa": "🇸🇦 Arabic → 🇮🇷 Persian",
+        "btn_tr_fa_en": "🇮🇷 Persian → 🇬🇧 English",
+        "btn_tr_en_fa": "🇬🇧 English → 🇮🇷 Persian",
+        "btn_charter": "📜 Ethical Charter",
+        "btn_deepseek": "🤖 DeepSeek AI",
+        "btn_deepseek_go": "🚀 Go to DeepSeek",
         "btn_back": "🔙 Back",
         "btn_hospitals": "🏥 Hospitals",
         "btn_hotels": "🏨 Hotels",
@@ -1130,7 +1527,6 @@ MSG_BTN = {
         "btn_call": "📞 Call",
     },
 }
-# ============ DATA FILES ============
 DATA_DIR = "/app/data"
 DATA_DIR_FALLBACK = "data"
 
@@ -1167,7 +1563,6 @@ def _save(path, data):
     except:
         return False
 
-# ============ APPOINTMENTS ============
 def load_appointments():
     return _load_default(APPOINTMENTS_FILE, {"next_id": 1001, "appointments": []})
 
@@ -1260,7 +1655,6 @@ def mark_reminded(apt_id, which):
             return True
     return False
 
-# ============ PATIENTS ============
 def load_patients():
     return _load_default(PATIENTS_FILE, {"patients": []})
 
@@ -1404,8 +1798,6 @@ def delete_patient_data(chat_id):
     meds['meds'] = [m for m in meds['meds'] if m.get('chat_id') != cid]
     _save(MEDS_FILE, meds)
     return True
-
-# ============ RATINGS ============
 def save_rating(apt_id, chat_id, stars, feedback=""):
     data = _load_default(RATINGS_FILE, {"ratings": []})
     item = {
@@ -1419,7 +1811,6 @@ def save_rating(apt_id, chat_id, stars, feedback=""):
     _save(RATINGS_FILE, data)
     return item
 
-# ============ PACKAGES ============
 def load_packages():
     return _load_default(PACKAGES_FILE, {"next_id": 1001, "packages": []})
 
@@ -1441,7 +1832,6 @@ def create_package(chat_id, name, phone, lang):
     save_packages(data)
     return pkg
 
-# ============ REFERRALS ============
 def load_referrals():
     return _load_default(REFERRALS_FILE, {"users": {}, "codes": {}})
 
@@ -1527,7 +1917,6 @@ def try_apply_start_param(message, text, lang):
             pass
     return res
 
-# ============ CHANNEL REWARD ============
 def is_channel_joined(chat_id):
     data = load_referrals()
     cid = str(chat_id)
@@ -1547,7 +1936,6 @@ def grant_channel_reward(chat_id):
     save_referrals(data)
     return True
 
-# ============ COMPANIONS ============
 def load_companions():
     return _load_default(COMPANIONS_FILE, {"companions": {}})
 
@@ -1564,7 +1952,6 @@ def get_companion(chat_id):
     data = load_companions()
     return data['companions'].get(str(chat_id))
 
-# ============ USERS ============
 def load_users():
     return _load_default(USERS_FILE, {"users": {}, "start_count": 0, "apt_count": 0})
 
@@ -1618,8 +2005,6 @@ def get_user_stats():
     ref_data = load_referrals()
     channel_count = sum(1 for u in ref_data.get('users', {}).values() if u.get('channel_reward'))
     return {"total": total, "dau": dau, "wau": wau, "mau": mau, "conv": conv, "channel": channel_count}
-
-# ============ COMPLAINTS ============
 def load_complaints():
     return _load_default(COMPLAINTS_FILE, {"next_id": 1001, "complaints": []})
 
@@ -1641,7 +2026,6 @@ def create_complaint(chat_id, category, name, text):
     save_complaints(data)
     return item
 
-# ============ MEDS ============
 def load_meds():
     return _load_default(MEDS_FILE, {"meds": []})
 
@@ -1673,7 +2057,6 @@ def mark_med_reminded(chat_id, med_name, date_str):
             return True
     return False
 
-# ============ HUBS (اصلاح‌شده) ============
 def load_hubs():
     data = _load_default("data/transport_hubs.json", {})
     return data.get("shiraz_transport_hubs", [])
@@ -1723,7 +2106,79 @@ def format_hub(hub_key, lang):
         lines.append("")
         lines.append("🗺 مسیریاب: https://www.google.com/maps/dir/?api=1&destination=" + str(lat) + "," + str(lng))
     return "\n".join(lines)
-# ============ HOPE ============
+
+def load_all_insurances():
+    all_ins = []
+    for fn in ("data/ins_p1.json", "data/ins_p2.json", "data/ins_p3.json", "data/ins_p4.json"):
+        data = _load_default(fn, {})
+        items = data.get("insurances", [])
+        if items:
+            all_ins.extend(items)
+    return all_ins
+
+def find_insurance_by_id(ins_id):
+    for ins in load_all_insurances():
+        if ins.get("id") == ins_id:
+            return ins
+    return None
+
+def format_insurance(ins, lang):
+    if not ins:
+        return MSG[lang]["insurance_not_found"]
+    name = ins.get("name_" + lang, "") or ins.get("name_fa", "") or ins.get("id", "")
+    fields = ins.get("fields", {})
+    labels = INSURANCE_FIELD_LABELS.get(lang, {})
+    lines = ["🏥 " + name]
+    lines.append("━━━━━━━━━━━━━━━")
+    for key in INSURANCE_FIELDS_ORDER:
+        f = fields.get(key)
+        if not f:
+            continue
+        val = f.get("value_" + lang, "") or f.get("value_fa", "")
+        if not val or val == "—":
+            continue
+        label = labels.get(key, key)
+        lines.append("• " + label + ": " + val)
+    return "\n".join(lines)
+
+def voice_to_text(file_url):
+    try:
+        r = requests.get(file_url, timeout=30)
+        if r.status_code != 200:
+            return None
+        audio_data = r.content
+        files = {"file": ("voice.ogg", audio_data, "audio/ogg")}
+        headers = {"Authorization": "Bearer " + AVALAI_API_KEY}
+        data = {"model": STT_MODEL}
+        resp = requests.post(AVALAI_STT_URL, headers=headers, files=files, data=data, timeout=60)
+        if resp.status_code != 200:
+            print("STT_ERR_CODE: " + str(resp.status_code))
+            return None
+        result = resp.json()
+        text = result.get("text", "").strip()
+        return text if text else None
+    except Exception as e:
+        print("STT_ERR: " + str(e))
+        return None
+
+def translate_text(text, source_lang, target_lang):
+    if not AVALAI_API_KEY:
+        return None
+    lang_names = {"fa": "فارسی", "ar": "العربية", "en": "English"}
+    prompt = "Translate the following text from " + lang_names.get(source_lang, source_lang) + " to " + lang_names.get(target_lang, target_lang) + ". Output only the translation, nothing else. Text: " + text
+    try:
+        r = requests.post(AVALAI_URL,
+            headers={"Authorization": "Bearer " + AVALAI_API_KEY, "Content-Type": "application/json"},
+            json={"model": AI_MODEL, "messages": [{"role": "user", "content": prompt}]},
+            timeout=30)
+        if r.status_code != 200:
+            return None
+        result = r.json()['choices'][0]['message']['content']
+        return result.strip() if result else None
+    except Exception as e:
+        print("TR_ERR: " + str(e))
+        return None
+
 def send_hope_flower(chat_id, lang):
     hope_key = random.choice(["hope_general_1", "hope_general_2", "hope_general_3", "hope_general_4"])
     msg = MSG2[lang].get(hope_key, "")
@@ -1741,7 +2196,6 @@ def send_hope_for_stage(chat_id, lang, stage):
         except:
             pass
 
-# ============ SEND HELPERS ============
 def send_with_kb(chat_id, text, kb=None):
     try:
         if kb:
@@ -1760,7 +2214,6 @@ def reply_with_kb(message, text, kb=None):
     except Exception as e:
         print("REPLY_ERR: " + str(e))
 
-# ============ AI ============
 def get_ai(text, lang):
     prompt = SYSTEM_PROMPT + " پاسخ را به زبان " + LANG_NAMES[lang] + " بنویس."
     if not AVALAI_API_KEY:
@@ -1779,7 +2232,6 @@ def get_ai(text, lang):
     except:
         return None
 
-# ============ SEARCH ============
 def search_by_doctor_name(text):
     low = text.lower()
     st = low
@@ -1865,8 +2317,6 @@ def is_best_request(text):
     if "بهترین" in low or "best" in words or "أفضل" in low:
         return True
     return False
-
-# ============ FORMATTERS ============
 def format_doctor(doc, lang):
     n = get_value(doc, 'name', lang) or ''
     s = get_value(doc, 'specialty', lang) or ''
@@ -1986,7 +2436,6 @@ def format_generic(item, lang):
         lines.append("مسیریاب: https://www.google.com/maps/search/?api=1&query=" + quote(str(addr)))
     return "\n".join(lines)
 
-# ============ ADMIN SET DOCTOR STATUS ============
 def set_doctor_status(doc_id, new_status):
     for fn in set(SPECIALTY_MAP.values()):
         path = "data/doctors/" + fn
@@ -2005,7 +2454,6 @@ def set_doctor_status(doc_id, new_status):
             return True
     return False
 
-# ============ REMINDER WORKER ============
 def get_pending_reminders(now_local):
     data = load_appointments()
     one_day = []
@@ -2096,7 +2544,6 @@ def reminder_worker():
             print("REMINDER_LOOP_ERR: " + str(e))
         time_module.sleep(15 * 60)
 
-# ============ STATE HELPERS ============
 def ask_more(message):
     cid = message.chat.id
     user_state[cid] = "awaiting_more"
@@ -2112,7 +2559,6 @@ def get_meta_info():
 def show_main_menu(message, lang):
     reply_with_kb(message, MSG2[lang]["menu_main"], main_menu_kb(lang))
 
-# ============ QUERY PROCESSOR ============
 def process_query(message, text, lang):
     cid = message.chat.id
 
@@ -2208,6 +2654,19 @@ def process_query(message, text, lang):
     if is_simple_cmd(text, CMD_HUBS):
         reply_with_kb(message, MSG2[lang]["hubs_title"], hubs_kb(lang))
         return True
+    if is_simple_cmd(text, CMD_INSURANCE):
+        reply_with_kb(message, MSG[lang]["insurance_title"], insurance_kb(lang, 0))
+        return True
+    if is_simple_cmd(text, CMD_TRANSLATOR):
+        reply_with_kb(message, MSG[lang]["translator_title"], translator_lang_kb(lang))
+        return True
+    if is_simple_cmd(text, CMD_CHARTER):
+        txt = MSG[lang]["charter_title"] + "\n\n" + MSG[lang]["charter_body"]
+        reply_with_kb(message, txt, back_kb(lang))
+        return True
+    if is_simple_cmd(text, CMD_DEEPSEEK):
+        reply_with_kb(message, MSG[lang]["deepseek_title"], deepseek_kb(lang))
+        return True
 
     doc = search_by_doctor_name(text)
     if doc:
@@ -2247,7 +2706,6 @@ def process_query(message, text, lang):
         return True
     reply_with_kb(message, MSG2[lang]["ai_unavailable"], back_kb(lang))
     return True
-# ============ ADMIN COMMANDS ============
 @bot.message_handler(commands=['id'])
 def id_command(message):
     bot.reply_to(message, str(message.chat.id))
@@ -2403,7 +2861,6 @@ def activate_command(message):
     else:
         bot.reply_to(message, "❌ پیدا نشد.")
 
-# ============ USER COMMANDS ============
 @bot.message_handler(commands=['lang'])
 def lang_command(message):
     user_state[message.chat.id] = "choose_lang"
@@ -2460,8 +2917,45 @@ def mycode_command(message):
     link = build_referral_link(code)
     bot.reply_to(message, MSG2[lang]["ref_your_code"].format(code=code, link=link))
 
-# ============ MEDIA ============
-@bot.message_handler(content_types=['photo', 'voice', 'audio', 'document', 'video', 'sticker'])
+@bot.message_handler(content_types=['voice'])
+def voice_handler(message):
+    cid = message.chat.id
+    lang = user_lang.get(cid, "fa")
+    state = user_state.get(cid)
+    if state != "awaiting_voice_translate":
+        if cid in user_lang:
+            bot.reply_to(message, MSG[lang]["text_only"])
+        else:
+            user_state[cid] = "choose_lang"
+            bot.reply_to(message, START_MSG)
+        return
+    try:
+        duration = message.voice.duration or 0
+        if duration > MAX_VOICE_SECONDS:
+            bot.reply_to(message, MSG[lang]["translator_too_long"])
+            return
+        bot.reply_to(message, MSG[lang]["translator_processing"])
+        file_id = message.voice.file_id
+        file_info = bot.get_file(file_id)
+        file_url = "https://tapi.bale.ai/file/bot" + BALE_BOT_TOKEN + "/" + file_info.file_path
+        text = voice_to_text(file_url)
+        if not text:
+            bot.reply_to(message, MSG[lang]["translator_error"], reply_markup=back_kb(lang))
+            return
+        tr = user_temp.get(cid, {})
+        source = tr.get("tr_source", "fa")
+        target = tr.get("tr_target", "ar")
+        translated = translate_text(text, source, target)
+        if not translated:
+            bot.reply_to(message, MSG[lang]["translator_error"], reply_markup=back_kb(lang))
+            return
+        result_msg = MSG[lang]["translator_result"].format(original=text, translated=translated)
+        bot.reply_to(message, result_msg, reply_markup=translator_result_kb(lang, translated, target))
+    except Exception as e:
+        print("VOICE_ERR: " + str(e))
+        bot.reply_to(message, MSG[lang]["translator_error"], reply_markup=back_kb(lang))
+
+@bot.message_handler(content_types=['photo', 'audio', 'document', 'video', 'sticker'])
 def other_types(message):
     cid = message.chat.id
     if cid in user_lang:
@@ -2469,22 +2963,18 @@ def other_types(message):
     else:
         user_state[cid] = "choose_lang"
         bot.reply_to(message, START_MSG)
-
-# ============ CALLBACK HANDLER ============
 @bot.callback_query_handler(func=lambda call: True)
 def cb_handler(call):
     try:
         cid = call.message.chat.id
         lang = user_lang.get(cid, "fa")
         data = call.data
-        b = MSG_BTN[lang]
 
         try:
             bot.answer_callback_query(call.id)
         except:
             pass
 
-        # ---- ستاره‌دهی ----
         if data.startswith("rate_"):
             parts = data.split("_")
             stars = int(parts[1])
@@ -2510,7 +3000,6 @@ def cb_handler(call):
                 bot.send_message(cid, MSG[lang]["rate_thanks_low"])
             return
 
-        # ---- عضویت در کانال ----
         if data == "do_channel":
             if is_channel_joined(cid):
                 send_with_kb(cid, MSG_CH[lang]["msg_channel_already"], back_kb(lang))
@@ -2534,12 +3023,10 @@ def cb_handler(call):
                 send_with_kb(cid, MSG_CH[lang]["msg_channel_already"], back_kb(lang))
             return
 
-        # ---- تاکسی ----
         if data == "do_taxi":
             send_with_kb(cid, MSG[lang]["taxi_title"], taxi_kb(lang))
             return
 
-        # ---- پایانه‌ها ----
         if data == "do_hubs":
             send_with_kb(cid, MSG2[lang]["hubs_title"], hubs_kb(lang))
             return
@@ -2550,7 +3037,58 @@ def cb_handler(call):
             send_with_kb(cid, txt, hub_action_kb(lang, hub_id))
             return
 
-        # ---- بازگشت ----
+        if data == "do_insurance":
+            send_with_kb(cid, MSG[lang]["insurance_title"], insurance_kb(lang, 0))
+            return
+
+        if data.startswith("ins_page_"):
+            try:
+                page = int(data.replace("ins_page_", ""))
+            except:
+                page = 0
+            try:
+                bot.edit_message_text(
+                    chat_id=cid,
+                    message_id=call.message.message_id,
+                    text=MSG[lang]["insurance_title"],
+                    reply_markup=insurance_kb(lang, page)
+                )
+            except:
+                send_with_kb(cid, MSG[lang]["insurance_title"], insurance_kb(lang, page))
+            return
+
+        if data.startswith("ins_"):
+            ins_id = data[4:]
+            ins = find_insurance_by_id(ins_id)
+            if not ins:
+                send_with_kb(cid, MSG[lang]["insurance_not_found"], back_kb(lang))
+                return
+            txt = format_insurance(ins, lang)
+            send_with_kb(cid, txt, insurance_action_kb(lang))
+            return
+
+        if data == "do_translator":
+            send_with_kb(cid, MSG[lang]["translator_title"], translator_lang_kb(lang))
+            return
+
+        if data in ("tr_fa_ar", "tr_ar_fa", "tr_fa_en", "tr_en_fa"):
+            parts = data.split("_")
+            source = parts[1]
+            target = parts[2]
+            user_temp[cid] = {"tr_source": source, "tr_target": target}
+            user_state[cid] = "awaiting_voice_translate"
+            send_with_kb(cid, MSG[lang]["translator_active"], back_kb(lang))
+            return
+
+        if data == "do_charter":
+            txt = MSG[lang]["charter_title"] + "\n\n" + MSG[lang]["charter_body"]
+            send_with_kb(cid, txt, back_kb(lang))
+            return
+
+        if data == "do_deepseek":
+            send_with_kb(cid, MSG[lang]["deepseek_title"], deepseek_kb(lang))
+            return
+
         if data == "back_main":
             try:
                 bot.edit_message_text(chat_id=cid, message_id=call.message.message_id,
@@ -2559,7 +3097,6 @@ def cb_handler(call):
                 show_main_menu(call.message, lang)
             return
 
-        # ---- منوی پزشکی ----
         if data == "menu_docs":
             try:
                 bot.edit_message_text(chat_id=cid, message_id=call.message.message_id,
@@ -2568,7 +3105,6 @@ def cb_handler(call):
                 send_with_kb(cid, MSG2[lang]["docs_list_title"], specialties_kb(lang))
             return
 
-        # ---- تخصص ----
         if data.startswith("spec_"):
             fn = data[5:] + ".json"
             docs = load_json("data/doctors/" + fn)
@@ -2593,7 +3129,6 @@ def cb_handler(call):
                 send_with_kb(cid, format_doctor(d, lang), doctor_action_kb(lang, did))
             return
 
-        # ---- منوی غیرپزشکی ----
         if data == "menu_nonmed":
             try:
                 bot.edit_message_text(chat_id=cid, message_id=call.message.message_id,
@@ -2612,7 +3147,6 @@ def cb_handler(call):
                 send_with_kb(cid, format_generic(item, lang), back_kb(lang))
             return
 
-        # ---- گردشگری ----
         if data == "menu_tourist":
             try:
                 bot.edit_message_text(chat_id=cid, message_id=call.message.message_id,
@@ -2621,7 +3155,6 @@ def cb_handler(call):
                 send_with_kb(cid, MSG2[lang]["tourist_list_title"], tourist_kb(lang))
             return
 
-        # ---- پیراپزشکی ----
         if data == "menu_para":
             try:
                 bot.edit_message_text(chat_id=cid, message_id=call.message.message_id,
@@ -2634,7 +3167,6 @@ def cb_handler(call):
             send_with_kb(cid, MSG2[lang]["para_list_title"], para_kb(lang))
             return
 
-        # ---- سالمندان ----
         if data == "menu_elder":
             try:
                 bot.edit_message_text(chat_id=cid, message_id=call.message.message_id,
@@ -2651,7 +3183,6 @@ def cb_handler(call):
                     send_with_kb(cid, format_generic(item, lang), back_kb(lang))
             return
 
-        # ---- پکیج ----
         if data == "menu_pkg":
             try:
                 bot.edit_message_text(chat_id=cid, message_id=call.message.message_id,
@@ -2668,7 +3199,6 @@ def cb_handler(call):
             send_with_kb(cid, MSG2[lang]["package_ask_name"])
             return
 
-        # ---- نوبت پزشک ----
         if data.startswith("book_"):
             doc_id = data[5:]
             doc = None
@@ -2705,7 +3235,6 @@ def cb_handler(call):
             send_with_kb(cid, "📞 تلفن:\n" + str(doc.get('phone', '')), back_kb(lang))
             return
 
-        # ---- منوی سریع ----
         if data == "do_file":
             p = get_patient_by_chat(cid)
             send_with_kb(cid, format_patient_file(p, lang), back_kb(lang))
@@ -2747,14 +3276,12 @@ def cb_handler(call):
 
     except Exception as e:
         print("CB_ERR: " + str(e))
-# ============ MAIN HANDLER ============
 @bot.message_handler(func=lambda m: True)
 def handle(message):
     cid = message.chat.id
     text = message.text or ""
     state = user_state.get(cid)
 
-    # ---- انتخاب زبان ----
     if state is None or state == "choose_lang":
         lang = pick_language(text)
         if lang is None:
@@ -2776,7 +3303,6 @@ def handle(message):
     t = clean(text)
     user_name = get_user_name(message)
 
-    # ---- خروج ----
     ESCAPE_WORDS = {"منو", "لغو", "انصراف", "menu", "cancel"}
     if t in ESCAPE_WORDS:
         user_state[cid] = "active"
@@ -2784,7 +3310,6 @@ def handle(message):
         show_main_menu(message, lang)
         return
 
-    # ---- بازخورد منفی ----
     if state and state.startswith("awaiting_rate_feedback_"):
         apt_id = state.replace("awaiting_rate_feedback_", "")
         apt = find_appointment(apt_id)
@@ -2798,7 +3323,10 @@ def handle(message):
         user_state[cid] = "active"
         return
 
-    # ---- پکیج ----
+    if state == "awaiting_voice_translate":
+        bot.reply_to(message, MSG[lang]["translator_active"])
+        return
+
     if state == "awaiting_pkg_name":
         if len(text.strip()) < 2:
             bot.reply_to(message, MSG2[lang]["package_ask_name"])
@@ -2833,7 +3361,6 @@ def handle(message):
         ask_more(message)
         return
 
-    # ---- نوبت ----
     if state == "awaiting_apt_name":
         if len(text.strip()) < 2:
             bot.reply_to(message, MSG[lang]["apt_name"])
@@ -2895,7 +3422,6 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["apt_invalid"])
         return
 
-    # ---- همراه ----
     if state == "awaiting_comp_ask":
         if t in YES_WORDS:
             user_state[cid] = "awaiting_comp_name"
@@ -2932,7 +3458,6 @@ def handle(message):
         ask_more(message)
         return
 
-    # ---- شکایت ----
     if state == "awaiting_complaint_menu":
         cat_map = {"1": "doctor", "2": "center", "3": "accommodation", "4": "transport", "5": "general",
                    "۱": "doctor", "۲": "center", "۳": "accommodation", "۴": "transport", "۵": "general"}
@@ -2968,7 +3493,6 @@ def handle(message):
         ask_more(message)
         return
 
-    # ---- دارو ----
     if state == "awaiting_med_menu":
         if t in ("1", "۱"):
             user_state[cid] = "awaiting_med_name"
@@ -3016,7 +3540,6 @@ def handle(message):
         ask_more(message)
         return
 
-    # ---- SOS ----
     if state == "awaiting_sos_choice":
         if t in ("1", "۱"):
             bot.reply_to(message, MSG2[lang]["sos_115"])
@@ -3050,7 +3573,6 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["apt_invalid"])
         return
 
-    # ---- حذف ----
     if state == "awaiting_delete_confirm":
         if t in ("بله حذف کن", "نعم احذف", "yes delete"):
             delete_patient_data(cid)
@@ -3064,7 +3586,6 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["delete_ask"])
         return
 
-    # ---- سؤال دیگر ----
     if state == "awaiting_more":
         if t in YES_WORDS:
             user_state[cid] = "active"
@@ -3072,13 +3593,11 @@ def handle(message):
             return
         user_state[cid] = "active"
 
-    # ---- اضطراری ----
     if is_emergency(text):
         bot.reply_to(message, EMERGENCY_RESP[lang])
         ask_more(message)
         return
 
-    # ---- پردازش عادی ----
     old_state = user_state.get(cid)
     answered = process_query(message, text, lang)
     new_state = user_state.get(cid)
@@ -3088,8 +3607,9 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["retry"])
     if new_state == old_state or not answered:
         ask_more(message)
-# ============ START ============
-print("ربات روشن شد... v42 (پایانه‌ها + تاکسی + یادآور + کانال)")
+
+
+print("ربات روشن شد... v45 (بیمه + مترجم + منشور + DeepSeek + پایانه‌ها + تاکسی + یادآور + کانال)")
 if jdatetime is None:
     print("⚠️ WARNING: jdatetime نصب نیست — یادآور نوبت کار نمی‌کنه!")
 print("⏰ TIMEZONE_OFFSET_HOURS = " + str(TIMEZONE_OFFSET_HOURS))
