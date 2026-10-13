@@ -3613,7 +3613,7 @@ def handle(message):
     if new_state == old_state or not answered:
         ask_more(message)
 
-print("ربات روشن شد... v46 (بیمه + مترجم + منشور + DeepSeek + پایانه‌ها + تاکسی + یادآور + کانال)")
+print("ربات روشن شد... v45 (بیمه + مترجم + منشور + DeepSeek + پایانه‌ها + تاکسی + یادآور + کانال)")
 if jdatetime is None:
     print("⚠️ WARNING: jdatetime نصب نیست — یادآور نوبت کار نمی‌کنه!")
 print("⏰ TIMEZONE_OFFSET_HOURS = " + str(TIMEZONE_OFFSET_HOURS))
