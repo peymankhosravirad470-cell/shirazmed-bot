@@ -1673,9 +1673,9 @@ def mark_med_reminded(chat_id, med_name, date_str):
             return True
     return False
 
-# ============ HUBS ============
+# ============ HUBS (اصلاح‌شده) ============
 def load_hubs():
-    data = _load_default(data_path("transport_hubs.json"), {})
+    data = _load_default("data/transport_hubs.json", {})
     return data.get("shiraz_transport_hubs", [])
 
 def find_hub_field(hubs, hub_key, field_key, lang):
