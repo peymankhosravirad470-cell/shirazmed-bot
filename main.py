@@ -173,7 +173,7 @@ MSG = {
         "deepseek_title": "🤖 دستیار هوشمند DeepSeek\n\nهر سؤالی داری بپرس: پزشکی، ترجمه، مشاوره، هر چیزی.\n\nرایگان و بدون محدودیت 🚀",
     },
     "ar": {
-           "welcome": "🌟 رسالة واحدة، ونجهز كل شيء.\n\n👇 اختاروا من الأزرار:",
+         "welcome": "🌟 رسالة واحدة، ونجهز كل شيء.\n\n👇 اختاروا من الأزرار:",
         "welcome_text": "أو اكتبوا طلبكم",
         "more": "سؤال آخر؟ (نعم / لا)",
         "go": "اكتبوا سؤالكم.",
@@ -279,7 +279,7 @@ MSG = {
         "deepseek_title": "🤖 مساعد DeepSeek الذكي\n\nاسأل أي شيء: طب، ترجمة، استشارة، أي شيء.\n\nمجاني وبدون قيود 🚀",
     },
     "en": {
-           "welcome": "🌟 One message, we prepare everything.\n\n👇 Choose:",
+         "welcome": "🌟 One message, we prepare everything.\n\n👇 Choose:",
         "welcome_text": "Or write your request",
         "more": "Any other question? (Yes / No)",
         "go": "Please go ahead.",
