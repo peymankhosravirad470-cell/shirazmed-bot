@@ -3619,4 +3619,9 @@ try:
     print("✅ REMINDER_THREAD started")
 except Exception as e:
     print("❌ REMINDER_THREAD fail: " + str(e))
+try:
+    from news_test import run_news_test
+    run_news_test()
+except Exception as e:
+    print("NEWS_TEST_LOAD_ERR: " + str(e))
 bot.infinity_polling(timeout=30, long_polling_timeout=30)
