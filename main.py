@@ -63,7 +63,6 @@ user_state = {}
 user_lang = {}
 user_temp = {}
 satisfaction_counter = {"count": 0, "positive": 0, "negative": 0}
-
 MSG = {
     "fa": {
         "welcome": "🌟 یه پیام بدی، همه‌چیز رو آماده می‌کنیم.\n\nاز پزشک تا هتل، از ترانسفر تا مترجم، از نوبت تا گشت گردشگری — همه‌چیز یکجا.\n\nبدون دغدغه، بدون هزینه اضافه 💙\n\n👇 از دکمه‌های زیر انتخاب کن:",
@@ -91,7 +90,6 @@ MSG = {
         "apt_done_admin_ok": "✅ ویزیت {id} علامت خورد. نظرخواهی از بیمار ارسال شد.",
         "apt_done_admin_bad": "❌ نوبت {id} پیدا نشد.",
         "apt_done_patient": "🎊 امیدواریم ویزیت خوب پیش رفته باشه!\n\nلطفاً به ما بگو از خدمات چقدر راضی بودی:",
-    },
         "pt_created": "🎫 پرونده‌ی شما ساخته شد\n\n📋 کد پرونده: {code}\n\nهر وقت خواستی ببینی کجای کاریم، بنویس: پرونده",
         "pt_title": "🎫 پرونده‌ی سلامت شما\n━━━━━━━━━━━━━━━",
         "pt_code": "📋 کد پرونده: {code}",
@@ -172,8 +170,8 @@ MSG = {
 سلامت شما، تعهد ما""",
         "deepseek_title": "🤖 دستیار هوشمند DeepSeek\n\nهر سؤالی داری بپرس: پزشکی، ترجمه، مشاوره، هر چیزی.\n\nرایگان و بدون محدودیت 🚀",
     },
-   "ar": {
-         "welcome": "🌟 رسالة واحدة، ونجهز كل شيء.\n\n👇 اختاروا من الأزرار:",
+    "ar": {
+        "welcome": "🌟 رسالة واحدة، ونجهز كل شيء.\n\n👇 اختاروا من الأزرار:",
         "welcome_text": "أو اكتبوا طلبكم",
         "more": "سؤال آخر؟ (نعم / لا)",
         "go": "اكتبوا سؤالكم.",
@@ -279,7 +277,7 @@ MSG = {
         "deepseek_title": "🤖 مساعد DeepSeek الذكي\n\nاسأل أي شيء: طب، ترجمة، استشارة، أي شيء.\n\nمجاني وبدون قيود 🚀",
     },
     "en": {
-         "welcome": "🌟 One message, we prepare everything.\n\n👇 Choose:",
+        "welcome": "🌟 One message, we prepare everything.\n\n👇 Choose:",
         "welcome_text": "Or write your request",
         "more": "Any other question? (Yes / No)",
         "go": "Please go ahead.",
@@ -415,7 +413,7 @@ MSG2 = {
         "sos_first_aid": "🩺 کمک‌های اولیه\n\n🔹 درد قفسه سینه:\n- بشین و استراحت\n- قرص زیر زبانی\n- فوراً ۱۱۵\n\n🔹 خونریزی:\n- فشار مستقیم\n- ۱۱۵\n\n🔹 تنگی نفس:\n- بشین صاف\n- ۱۱۵\n\n⚠️ این راهنما جایگزین پزشک نیست.",
         "sos_no_companion": "❌ همراه ثبت نکردی. بنویسید: همراه",
         "comp_voice_menu": "📩 صدای شما\n\n1️⃣ انتقاد از پزشک\n2️⃣ انتقاد از مرکز درمانی\n3️⃣ انتقاد از اقامت\n4️⃣ انتقاد از حمل‌ونقل\n5️⃣ شکایت کلی\n6️⃣ انصراف",
-        "comp_voice_text": "📝 نظرتون رو بنویسید:\n\nمی‌تونید اسم بگید یا «ناشناس» بنویسید.",
+        "comp_voice_text
         "comp_voice_saved": "✅ پیام شما ثبت شد\n\n📋 کد: {id}\n\nما پیگیری می‌کنیم 💙",
         "comp_voice_skip": "باشه، بنویسید: شکایت",
         "comp_voice_admin": "📩 شکایت جدید\n\n📋 {id}\nدسته: {category}\nنام: {name}\nChatID: {cid}\n\n{text}",
@@ -943,6 +941,7 @@ CMD_INSURANCE = {"بیمه", "بیمه‌ها", "بیمه من", "insurance", "�
 CMD_TRANSLATOR = {"مترجم", "ترجمه", "مترجم همراه", "translator", "translate", "المترجم", "ترجمة"}
 CMD_CHARTER = {"منشور", "منشور اخلاقی", "اخلاق", "charter", "ethics", "ميثاق", "أخلاق"}
 CMD_DEEPSEEK = {"دیپ سیک", "دیپ‌سیک", "هوش مصنوعی", "deepseek", "deep seek", "ai", "ذكاء اصطناعي"}
+
 def clean(text):
     return text.translate(DIGITS).strip().lower().strip(" .!؟?،,")
 
@@ -1121,7 +1120,6 @@ def parse_apt_datetime(apt):
         return datetime(g.year, g.month, g.day, hh, mm)
     except:
         return None
-
 def main_menu_kb(lang):
     m = telebot.types.InlineKeyboardMarkup(row_width=2)
     b = MSG_BTN[lang]
@@ -1372,6 +1370,7 @@ def channel_kb(lang):
     m.add(telebot.types.InlineKeyboardButton(text=b["btn_channel_ok"], callback_data="channel_confirm"))
     m.add(telebot.types.InlineKeyboardButton(text=MSG_BTN[lang]["btn_back"], callback_data="back_main"))
     return m
+
 MSG_BTN = {
     "fa": {
         "btn_docs": "👨‍⚕️ پزشکی",
@@ -1527,6 +1526,7 @@ MSG_BTN = {
         "btn_call": "📞 Call",
     },
 }
+
 DATA_DIR = "/app/data"
 DATA_DIR_FALLBACK = "data"
 
@@ -1798,6 +1798,7 @@ def delete_patient_data(chat_id):
     meds['meds'] = [m for m in meds['meds'] if m.get('chat_id') != cid]
     _save(MEDS_FILE, meds)
     return True
+
 def save_rating(apt_id, chat_id, stars, feedback=""):
     data = _load_default(RATINGS_FILE, {"ratings": []})
     item = {
@@ -2005,6 +2006,7 @@ def get_user_stats():
     ref_data = load_referrals()
     channel_count = sum(1 for u in ref_data.get('users', {}).values() if u.get('channel_reward'))
     return {"total": total, "dau": dau, "wau": wau, "mau": mau, "conv": conv, "channel": channel_count}
+
 def load_complaints():
     return _load_default(COMPLAINTS_FILE, {"next_id": 1001, "complaints": []})
 
@@ -2140,7 +2142,6 @@ def format_insurance(ins, lang):
         label = labels.get(key, key)
         lines.append("• " + label + ": " + val)
     return "\n".join(lines)
-
 def voice_to_text(file_url):
     try:
         r = requests.get(file_url, timeout=30)
@@ -2317,6 +2318,7 @@ def is_best_request(text):
     if "بهترین" in low or "best" in words or "أفضل" in low:
         return True
     return False
+
 def format_doctor(doc, lang):
     n = get_value(doc, 'name', lang) or ''
     s = get_value(doc, 'specialty', lang) or ''
@@ -2706,6 +2708,7 @@ def process_query(message, text, lang):
         return True
     reply_with_kb(message, MSG2[lang]["ai_unavailable"], back_kb(lang))
     return True
+
 @bot.message_handler(commands=['id'])
 def id_command(message):
     bot.reply_to(message, str(message.chat.id))
@@ -2963,6 +2966,7 @@ def other_types(message):
     else:
         user_state[cid] = "choose_lang"
         bot.reply_to(message, START_MSG)
+
 @bot.callback_query_handler(func=lambda call: True)
 def cb_handler(call):
     try:
@@ -3276,6 +3280,7 @@ def cb_handler(call):
 
     except Exception as e:
         print("CB_ERR: " + str(e))
+
 @bot.message_handler(func=lambda m: True)
 def handle(message):
     cid = message.chat.id
@@ -3607,7 +3612,6 @@ def handle(message):
         bot.reply_to(message, MSG[lang]["retry"])
     if new_state == old_state or not answered:
         ask_more(message)
-
 
 print("ربات روشن شد... v45 (بیمه + مترجم + منشور + DeepSeek + پایانه‌ها + تاکسی + یادآور + کانال)")
 if jdatetime is None:
