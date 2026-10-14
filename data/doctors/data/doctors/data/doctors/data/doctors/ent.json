@@ -1,0 +1,4773 @@
+[
+  {
+    "id": "ent_002",
+    "name_fa": "دکتر پروانه مرزبان",
+    "name_ar": "الدكتورة پروانه مرزبان",
+    "name_en": "Dr. Parvaneh Marzban",
+    "gender": "female",
+    "sub_specialty_fa": "سینوس و اندوسکوپی",
+    "sub_specialty_ar": "الجيوب الأنفية والمنظار",
+    "sub_specialty_en": "Sinus and Endoscopy",
+    "medical_council_id": "48950",
+    "rating": 4.8,
+    "reviews_count": 290,
+    "satisfaction_pct": 96,
+    "total_bookings": 1180,
+    "services_fa": [
+      "جراحی آندوسکوپی سینوس (FESS)",
+      "درمان تخصصی پولیپ بینی",
+      "جراحی‌های کم‌تهاجمی سینوس"
+    ],
+    "services_ar": [
+      "جراحة منظار الجيوب الأنفية (FESS)",
+      "العلاج المتخصص لحميات الأنف",
+      "جراحات الجيوب الأنفية طفيفة التوغل"
+    ],
+    "services_en": [
+      "Functional Endoscopic Sinus Surgery (FESS)",
+      "Specialized Nasal Polyp Treatment",
+      "Minimally Invasive Sinus Surgeries"
+    ],
+    "about_fa": "فوق تخصص جراحی‌های آندوسکوپی بینی و سینوس در شیراز، متخصص درمان بیماری‌های مزمن سینوسی.",
+    "about_ar": "أخصائية دقيقة في جراحات منظار الأنف والجيوب الأنفية في شيراز، متخصصة في علاج أمراض الجيوب الأنفية المزمنة.",
+    "about_en": "Sub-specialist in nasal and sinus endoscopic surgeries in Shiraz, specialized in treating chronic sinus diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب فوق تخصصی سینوس دکتر مرزبان",
+    "office_name_ar": "عيادة الجيوب الأنفية فائقة التخصص للدكتورة مرزبان",
+    "office_name_en": "Dr. Marzban Super-specialty Sinus Clinic",
+    "office_address_fa": "شیراز، خیابان زند، روبه‌روی بیمارستان شهید فقیهی، ساختمان پارس",
+    "office_address_ar": "شیراز، شارع زند، مقابل مستشفي شهید فقیهی، مبنى پارس",
+    "office_address_en": "Shiraz, Zand St., Opposite Shahid Faghihi Hospital, Pars Building",
+    "phone": "07132338822",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_003",
+    "name_fa": "دکتر علیرضا برومند",
+    "name_ar": "الدكتور علیرضا برومند",
+    "name_en": "Dr. Alireza Boroumand",
+    "gender": "male",
+    "sub_specialty_fa": "سر و گردن (تومورها)",
+    "sub_specialty_ar": "الرأس والرقبة (الأورام)",
+    "sub_specialty_en": "Head and Neck (Tumors)",
+    "medical_council_id": "45680",
+    "rating": 4.9,
+    "reviews_count": 310,
+    "satisfaction_pct": 97,
+    "total_bookings": 1260,
+    "services_fa": [
+      "جراحی تومورهای غدد بزاقی و تیروئید",
+      "جراحی سرطان‌های حنجره و گلو",
+      "جراحی توده‌های سر و گردن"
+    ],
+    "services_ar": [
+      "جراحة أورام الغدد اللعابية والغدة الدرقية",
+      "جراحة سرطانات الحنجرة والبلعوم",
+      "جراحة كتل الرأس والرقبة"
+    ],
+    "services_en": [
+      "Salivary Gland and Thyroid Tumor Surgery",
+      "Laryngeal and Throat Cancer Surgery",
+      "Head and Neck Mass Surgery"
+    ],
+    "about_fa": "فوق تخصص جراحی‌های سر و گردن و انکولوژی ENT، استاد دانشگاه علوم پزشکی شیراز.",
+    "about_ar": "أخصائي دقيق في جراحات الرأس والرقبة وأورام الأنف والأذن والحنجرة، أستاذ في جامعة شيراز للعلوم الطبية.",
+    "about_en": "Sub-specialist in head and neck surgery and ENT oncology, professor at Shiraz University of Medical Sciences.",
+    "office_id": "off_01",
+    "office_name_fa": "کلینیک جراحی سر و گردن دکتر برومند",
+    "office_name_ar": "عيادة جراحة الرأس والرقبة للدكتور برومند",
+    "office_name_en": "Dr. Boroumand Head and Neck Surgery Clinic",
+    "office_address_fa": "شیراز، خیابان ستارخان، نبش کوچه ۱۸، ساختمان خلیج فارس",
+    "office_address_ar": "شیراز، شارع ستارخان، تقاطع الأزقة 18، مبنى خليج فارس",
+    "office_address_en": "Shiraz, Sattarkhan St., Corner of Alley 18, Persian Gulf Building",
+    "phone": "07136282211",
+    "working_days_fa": [
+      "شنبه",
+      "یکشنبه",
+      "سه‌شنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الأحد",
+      "الثلاثاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Sunday",
+      "Tuesday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:30"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_004",
+    "name_fa": "دکتر مهناز صبوحی",
+    "name_ar": "الدكتورة مهناز صبوحی",
+    "name_en": "Dr. Mahnaz Sabouhi",
+    "gender": "female",
+    "sub_specialty_fa": "حنجره و صوت",
+    "sub_specialty_ar": "الحنجرة والصوت",
+    "sub_specialty_en": "Larynx and Voice",
+    "medical_council_id": "51260",
+    "rating": 4.7,
+    "reviews_count": 220,
+    "satisfaction_pct": 94,
+    "total_bookings": 930,
+    "services_fa": [
+      "جراحی میکروسکوپی حنجره و تارهای صوتی",
+      "درمان اختلالات صدا و گرفتگی حنجره",
+      "بررسی و درمان رفلاکس حنجره"
+    ],
+    "services_ar": [
+      "جراحة مجهرية للحنجرة والأحبال الصوتية",
+      "علاج اضطرابات الصوت وبححة الحنجرة",
+      "فحص وعلاج ارتجاع الحنجرة"
+    ],
+    "services_en": [
+      "Microscopic Laryngeal and Vocal Cord Surgery",
+      "Treatment of Voice Disorders and Hoarseness",
+      "Evaluation and Treatment of Laryngopharyngeal Reflux"
+    ],
+    "about_fa": "فوق تخصص حنجره و اختلالات صوت (لارینگولوژیست)، متخصص درمان مشکلات تنفسی و صوتی.",
+    "about_ar": "أخصائية دقيقة في الحنجرة واضطرابات الصوت (أخصائية حنجرة)، متخصصة في علاج مشاكل التنفس والصوت.",
+    "about_en": "Sub-specialist in larynx and voice disorders (laryngologist), specialized in treating respiratory and vocal issues.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب تخصصی حنجره و صوت دکتر صبوحی",
+    "office_name_ar": "عيادة الحنجرة والصوت المتخصصة للدكتورة صبوحی",
+    "office_name_en": "Dr. Sabouhi Larynx and Voice Specialty Clinic",
+    "office_address_fa": "شیراز، خیابان اردیبهشت غربی، ساختمان پزشکان رازی",
+    "office_address_ar": "شیراز، شارع اردیبهشت غربی، مبنى الأطباء رازي",
+    "office_address_en": "Shiraz, West Ordibehesht St., Razi Doctors Building",
+    "phone": "07132314455",
+    "working_days_fa": [
+      "دوشنبه",
+      "چهارشنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الاثنين",
+      "الأربعاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Monday",
+      "Wednesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_005",
+    "name_fa": "دکتر مسعود نمازی",
+    "name_ar": "الدكتور مسعود نمازی",
+    "name_en": "Dr. Masoud Namazi",
+    "gender": "male",
+    "sub_specialty_fa": "گوش و شنوایی",
+    "sub_specialty_ar": "الأذن والسمع",
+    "sub_specialty_en": "Ear and Hearing",
+    "medical_council_id": "46940",
+    "rating": 4.8,
+    "reviews_count": 270,
+    "satisfaction_pct": 96,
+    "total_bookings": 1080,
+    "services_fa": [
+      "جراحی ترمیمی پرده گوش (تیمپانوپلاستی)",
+      "جراحی استخوانچه‌های گوش (ماستوئیدکتومی)",
+      "درمان سرگیجه و وزوز گوش"
+    ],
+    "services_ar": [
+      "جراحة ترقيع طبلة الأذن (رأب الطبلة)",
+      "جراحة عظيمات الأذن (استئصال الخشاء)",
+      "علاج الدوار وطنين الأذن"
+    ],
+    "services_en": [
+      "Tympanoplasty (Eardrum Repair Surgery)",
+      "Ossicular Chain Surgery (Mastoidectomy)",
+      "Treatment of Vertigo and Tinnitus"
+    ],
+    "about_fa": "فوق تخصص گوش و جراحی‌های شنوایی (اتولوژی)، متخصص جراحی‌های پیشرفته کاشت حلزون و بیماری‌های گوش.",
+    "about_ar": "أخصائي دقيق في الأذن وجراحات السمع (طب الأذن)، متخصص في الجراحات المتقدمة لزراعة القوقعة وأمراض الأذن.",
+    "about_en": "Sub-specialist in ear and hearing surgeries (otologist), specialized in advanced cochlear implant surgeries and ear diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "کلینیک تخصصی گوش و شنوایی نمازی",
+    "office_name_ar": "عيادة الأذن والسمع المتخصصة نمازی",
+    "office_name_en": "Namazi Ear and Hearing Specialty Clinic",
+    "office_address_fa": "شیراز، معالی‌آباد، نبش خیابان پزشکان، مجتمع پارمیدا",
+    "office_address_ar": "شیراز، معالي آباد، تقاطع شارع الأطباء، مجمع پارمیدا",
+    "office_address_en": "Shiraz, Ma'ali Abad, Corner of Pezeshkan St., Parmida Complex",
+    "phone": "07136341144",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:00"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_006",
+    "name_fa": "دکتر فریبا سجادی",
+    "name_ar": "الدكتورة فریبا سجادی",
+    "name_en": "Dr. Fariba Sajjadi",
+    "gender": "female",
+    "sub_specialty_fa": "اطفال ENT",
+    "sub_specialty_ar": "أنف وأذن وحنجرة أطفال",
+    "sub_specialty_en": "Pediatric ENT",
+    "medical_council_id": "53440",
+    "rating": 4.8,
+    "reviews_count": 240,
+    "satisfaction_pct": 95,
+    "total_bookings": 990,
+    "services_fa": [
+      "جراحی لوزه سوم و لوزه کام در کودکان",
+      "گذاشتن لوله تهویه گوش (تیوب گوش)",
+      "درمان عفونت‌های مکرر گوش و سینوس اطفال"
+    ],
+    "services_ar": [
+      "جراحة اللحمية واللوزتين للأطفال",
+      "وضع أنابيب تهوية الأذن",
+      "علاج التهابات الأذن والجيوب الأنفية المتكررة للأطفال"
+    ],
+    "services_en": [
+      "Adenoidectomy and Tonsillectomy in Children",
+      "Ear Tube Placement (Tympanostomy Tubes)",
+      "Treatment of Recurrent Ear and Sinus Infections in Children"
+    ],
+    "about_fa": "متخصص گوش، حلق و بینی، فوق تخصص اختلالات گوش و حلق و بینی کودکان (پزشک اطفال ENT).",
+    "about_ar": "أخصائية الأنف والأذن والحنجرة، أخصائية دقيقة في اضطرابات الأنف والأذن والحنجرة للأطفال.",
+    "about_en": "Specialist in Otorhinolaryngology, sub-specialist in pediatric ENT disorders.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب گوش و حلق و بینی کودکان سجادی",
+    "office_name_ar": "عيادة الأنف والأذن والحنجرة للأطفال سجادی",
+    "office_name_en": "Sajjadi Pediatric ENT Clinic",
+    "office_address_fa": "شیراز، فرهنگ‌شهر، بین کوچه ۲۶ و ۲۸، ساختمان سارا",
+    "office_address_ar": "شیراز، فرهنگ‌شهر، بين الزقاق 26 و 28، مبنى سارا",
+    "office_address_en": "Shiraz, Farhangshahr, Between Alley 26 and 28, Sara Building",
+    "phone": "07136318833",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "15:00",
+      "end": "19:00"
+    },
+    "consultation_fee": 350000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی",
+      "خدمات درمانی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي",
+      "الخدمات العلاجية"
+    ],
+    "insurance_accepted_en": [
+      "Social Security",
+      "Medical Services"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_007",
+    "name_fa": "دکتر کامران باقری",
+    "name_ar": "الدكتور کامران باقری",
+    "name_en": "Dr. Kamran Bagheri",
+    "gender": "male",
+    "sub_specialty_fa": "جراحی پلاستیک صورت",
+    "sub_specialty_ar": "جراحة تجميل الوجه",
+    "sub_specialty_en": "Facial Plastic Surgery",
+    "medical_council_id": "50150",
+    "rating": 4.9,
+    "reviews_count": 330,
+    "satisfaction_pct": 98,
+    "total_bookings": 1340,
+    "services_fa": [
+      "رینوپلاستی اولیه و ترمیمی",
+      "جراحی زیبایی گوش (اتوپلاستی)",
+      "تزریق چربی و ژل صورت"
+    ],
+    "services_ar": [
+      "تجميل الأنف الأولي والترميمي",
+      "جراحة تجميل الأذن (رأب الأذن)",
+      "حقن الدهون والجل في الوجه"
+    ],
+    "services_en": [
+      "Primary and Revision Rhinoplasty",
+      "Otoplasty (Ear Cosmetic Surgery)",
+      "Facial Fat and Filler Injection"
+    ],
+    "about_fa": "فوق تخصص جراحی پلاستیک صورت و رینوپلاستی در شیراز، با تبحر بالا در اصلاح تناسبات چهره.",
+    "about_ar": "أخصائي دقيق في جراحة تجميل الوجه وتجميل الأنف في شيراز، مع مهارة عالية في تصحيح تناسبات الوجه.",
+    "about_en": "Sub-specialist in facial plastic surgery and rhinoplasty in Shiraz, highly skilled in facial proportion correction.",
+    "office_id": "off_01",
+    "office_name_fa": "کلینیک جراحی پلاستیک صورت باقری",
+    "office_name_ar": "عيادة جراحة تجميل الوجه باقری",
+    "office_name_en": "Bagheri Facial Plastic Surgery Clinic",
+    "office_address_fa": "شیراز، خیابان زند، بین بیست متری و صورتگر، ساختمان نگین",
+    "office_address_ar": "شیراز، شارع زند، بين بيست متري و صورتگر، مبنى نگين",
+    "office_address_en": "Shiraz, Zand St., Between Bist Metri and Sooratgar, Negin Building",
+    "phone": "07132351133",
+    "working_days_fa": [
+      "شنبه",
+      "یکشنبه",
+      "سه‌شنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الأحد",
+      "الثلاثاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Sunday",
+      "Tuesday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:30"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [],
+    "insurance_accepted_ar": [],
+    "insurance_accepted_en": [],
+    "status": "active"
+  },
+  {
+    "id": "ent_008",
+    "name_fa": "دکتر سارا پاک‌نیت",
+    "name_ar": "الدكتورة سارا پاک‌نیت",
+    "name_en": "Dr. Sara Pakniat",
+    "gender": "female",
+    "sub_specialty_fa": "ENT عمومی",
+    "sub_specialty_ar": "أنف وأذن وحنجرة عام",
+    "sub_specialty_en": "General ENT",
+    "medical_council_id": "54240",
+    "rating": 4.6,
+    "reviews_count": 180,
+    "satisfaction_pct": 91,
+    "total_bookings": 770,
+    "services_fa": [
+      "درمان سینوزیت حاد و مزمن",
+      "شستشوی گوش",
+      "درمان سرگیجه و آلرژی‌های بینی"
+    ],
+    "services_ar": [
+      "علاج التهاب الجيوب الأنفية الحاد والمزمن",
+      "غسل الأذن",
+      "علاج الدوار وحساسية الأنف"
+    ],
+    "services_en": [
+      "Treatment of Acute and Chronic Sinusitis",
+      "Ear Irrigation",
+      "Treatment of Vertigo and Nasal Allergies"
+    ],
+    "about_fa": "متخصص گوش، حلق و بینی عمومی، ارائه‌دهنده خدمات درمانی شایع‌ترین بیماری‌های گوش و حلق و بینی.",
+    "about_ar": "أخصائية الأنف والأذن والحنجرة العامة، مقدمة الخدمات العلاجية لأمراض الأنف والأذن والحنجرة الأكثر شيوعاً.",
+    "about_en": "General ENT specialist, provider of treatment services for common ear, nose, and throat diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب دکتر پاک‌نیت",
+    "office_name_ar": "عيادة الدكتورة پاک‌نیت",
+    "office_name_en": "Dr. Pakniat Clinic",
+    "office_address_fa": "شیراز، خیابان قصردشت، سه‌راه عفیف‌آباد، ساختمان مهر",
+    "office_address_ar": "شیراز، شارع قصر الدشت، تقاطع عفيف آباد، مبنى مهر",
+    "office_address_en": "Shiraz, Ghasrdasht St., Afif Abad Junction, Mehr Building",
+    "phone": "07136278833",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "17:00",
+      "end": "20:30"
+    },
+    "consultation_fee": 280000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی",
+      "خدمات درمانی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي",
+      "الخدمات العلاجية"
+    ],
+    "insurance_accepted_en": [
+      "Social Security",
+      "Medical Services"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_009",
+    "name_fa": "دکتر احمدرضا جلالی",
+    "name_ar": "الدكتور احمدرضا جلالی",
+    "name_en": "Dr. Ahmadreza Jalali",
+    "gender": "male",
+    "sub_specialty_fa": "جراحی بینی (رینوپلاستی)",
+    "sub_specialty_ar": "جراحة تجميل الأنف (رينوبلاستي)",
+    "sub_specialty_en": "Nose Surgery (Rhinoplasty)",
+    "medical_council_id": "51930",
+    "rating": 4.8,
+    "reviews_count": 260,
+    "satisfaction_pct": 96,
+    "total_bookings": 1050,
+    "services_fa": [
+      "جراحی زیبایی بینی گوشتی و استخوانی",
+      "جراحی پولیپ و انحراف بینی",
+      "ترمیم جراحی‌های قبلی"
+    ],
+    "services_ar": [
+      "جراحة تجميل الأنف اللحمي والعظمي",
+      "جراحة لحمية وانحراف الأنف",
+      "ترميم الجراحات السابقة"
+    ],
+    "services_en": [
+      "Fleshy and Bony Rhinoplasty",
+      "Nasal Polyp and Deviation Surgery",
+      "Revision Rhinoplasty"
+    ],
+    "about_fa": "متخصص گوش، حلق و بینی و جراح پلاستیک بینی، متخصص در رینوپلاستی‌های طبیعی و فانتزی.",
+    "about_ar": "أخصائي الأنف والأذن والحنجرة وجراح تجميل الأنف، متخصص في عمليات تجميل الأنف الطبيعية والفانتزي.",
+    "about_en": "ENT specialist and rhinoplasty surgeon, specialized in natural and fancy rhinoplasty.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب جراحی بینی دکتر جلالی",
+    "office_name_ar": "عيادة جراحة الأنف للدكتور جلالی",
+    "office_name_en": "Dr. Jalali Nose Surgery Clinic",
+    "office_address_fa": "شیراز، خیابان ملاصدرا، کوچه ۴، ساختمان آراد",
+    "office_address_ar": "شیراز، شارع ملاصدرا، الزقاق 4، مبنى آراد",
+    "office_address_en": "Shiraz, Mollasadra St., Alley 4, Arad Building",
+    "phone": "07136473344",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [],
+    "insurance_accepted_ar": [],
+    "insurance_accepted_en": [],
+    "status": "active"
+  },
+  {
+    "id": "ent_010",
+    "name_fa": "دکتر زهرا رحیمی",
+    "name_ar": "الدكتورة زهرا رحیمی",
+    "name_en": "Dr. Zahra Rahimi",
+    "gender": "female",
+    "sub_specialty_fa": "سینوس و اندوسکوپی",
+    "sub_specialty_ar": "الجيوب الأنفية والمنظار",
+    "sub_specialty_en": "Sinus and Endoscopy",
+    "medical_council_id": "55150",
+    "rating": 4.7,
+    "reviews_count": 210,
+    "satisfaction_pct": 93,
+    "total_bookings": 880,
+    "services_fa": [
+      "جراحی آندوسکوپی سینوس",
+      "درمان پولیپ بینی با لیزر",
+      "جراحی تومورهای خوش‌خیم بینی"
+    ],
+    "services_ar": [
+      "جراحة منظار الجيوب الأنفية",
+      "علاج لحمية الأنف بالليزر",
+      "جراحة أورام الأنف الحميدة"
+    ],
+    "services_en": [
+      "Endoscopic Sinus Surgery",
+      "Laser Nasal Polyp Treatment",
+      "Benign Nasal Tumor Surgery"
+    ],
+    "about_fa": "فوق تخصص جراحی‌های آندوسکوپی سینوس و قاعده جمجمه، متخصص بیماری‌های مزمن بینی.",
+    "about_ar": "أخصائية دقيقة في جراحات منظار الجيوب الأنفية وقاعدة الجمجمة، متخصصة في أمراض الأنف المزمنة.",
+    "about_en": "Sub-specialist in endoscopic sinus and skull base surgery, specialized in chronic nasal diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب سینوس دکتر رحیمی",
+    "office_name_ar": "عيادة الجيوب الأنفية للدكتورة رحیمی",
+    "office_name_en": "Dr. Rahimi Sinus Clinic",
+    "office_address_fa": "شیراز، خیابان قدوسی غربی، ساختمان هرمس",
+    "office_address_ar": "شیراز، شارع قدوسی غربی، مبنى هرمس",
+    "office_address_en": "Shiraz, West Qodsati St., Hermes Building",
+    "phone": "07138435555",
+    "working_days_fa": [
+      "شنبه",
+      "یکشنبه",
+      "سه‌شنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الأحد",
+      "الثلاثاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Sunday",
+      "Tuesday"
+    ],
+    "working_hours": {
+      "start": "16:30",
+      "end": "20:30"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_011",
+    "name_fa": "دکتر بهنام صانعی",
+    "name_ar": "الدكتور بهنام صانعی",
+    "name_en": "Dr. Behnam Sanei",
+    "gender": "male",
+    "sub_specialty_fa": "سر و گردن (تومورها)",
+    "sub_specialty_ar": "الرأس والرقبة (الأورام)",
+    "sub_specialty_en": "Head and Neck (Tumors)",
+    "medical_council_id": "52920",
+    "rating": 4.8,
+    "reviews_count": 200,
+    "satisfaction_pct": 95,
+    "total_bookings": 840,
+    "services_fa": [
+      "جراحی غدد تیروئید و پاراتیروئید",
+      "جراحی غدد بزاقی پاروتید و زیرفکی",
+      "جراحی تومورهای سر و گردن"
+    ],
+    "services_ar": [
+      "جراحة الغدة الدرقية وجار الدرقية",
+      "جراحة الغدد اللعابية النكفية وتحت الفك السفلي",
+      "جراحة أورام الرأس والرقبة"
+    ],
+    "services_en": [
+      "Thyroid and Parathyroid Gland Surgery",
+      "Parotid and Submandibular Salivary Gland Surgery",
+      "Head and Neck Tumor Surgery"
+    ],
+    "about_fa": "فوق تخصص جراحی‌های سر و گردن، ارائه‌دهنده خدمات تخصصی جراحی غدد و توده‌های گردنی در شیراز.",
+    "about_ar": "أخصائي دقيق في جراحات الرأس والرقبة، يقدم الخدمات المتخصصة لجراحة الغدد والكتل الرقبية في شيراز.",
+    "about_en": "Sub-specialist in head and neck surgery, provider of specialized glandular and neck mass surgery services in Shiraz.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب جراحی سر و گردن صانعی",
+    "office_name_ar": "عيادة جراحة الرأس والرقبة صانعی",
+    "office_name_en": "Sanei Head and Neck Surgery Clinic",
+    "office_address_fa": "شیراز، خیابان زند، حدفاصل بیست متری و صورتگر، ساختمان کیمیا",
+    "office_address_ar": "شیراز، شارع زند، بين بيست متري و صورتگر، مبنى كيميا",
+    "office_address_en": "Shiraz, Zand St., Between Bist Metri and Sooratgar, Kimia Building",
+    "phone": "07132354499",
+    "working_days_fa": [
+      "دوشنبه",
+      "چهارشنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الاثنين",
+      "الأربعاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Monday",
+      "Wednesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:00"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_012",
+    "name_fa": "دکتر مریم امینی",
+    "name_ar": "الدكتورة مریم امینی",
+    "name_en": "Dr. Maryam Amini",
+    "gender": "female",
+    "sub_specialty_fa": "جراحی پلاستیک صورت",
+    "sub_specialty_ar": "جراحة تجميل الوجه",
+    "sub_specialty_en": "Facial Plastic Surgery",
+    "medical_council_id": "56440",
+    "rating": 4.9,
+    "reviews_count": 290,
+    "satisfaction_pct": 97,
+    "total_bookings": 1120,
+    "services_fa": [
+      "جراحی زیبایی بینی و صورت",
+      "لیفت صورت و گردن",
+      "جراحی زیبایی پلک (بلفاروپلاستی)"
+    ],
+    "services_ar": [
+      "جراحة تجميل الأنف والوجه",
+      "شد الوجه والرقبة",
+      "جراحة تجميل الجفن (رأب الجفن)"
+    ],
+    "services_en": [
+      "Nose and Facial Cosmetic Surgery",
+      "Facelift and Necklift",
+      "Blepharoplasty (Eyelid Surgery)"
+    ],
+    "about_fa": "فوق تخصص جراحی پلاستیک صورت و رینوپلاستی، متعهد به ارائه زیباترین و طبیعی‌ترین نتایج جراحی.",
+    "about_ar": "أخصائية دقيقة في جراحة تجميل الوجه وتجميل الأنف، ملتزمة بتقديم أجمل وأطبيعي النتائج الجراحية.",
+    "about_en": "Sub-specialist in facial plastic surgery and rhinoplasty, committed to providing the most beautiful and natural surgical results.",
+    "office_id": "off_01",
+    "office_name_fa": "کلینیک پلاستیک صورت امینی",
+    "office_name_ar": "عيادة تجميل الوجه امینی",
+    "office_name_en": "Amini Facial Plastic Clinic",
+    "office_address_fa": "شیراز، معالی‌آباد، نبش خیابان پزشکان، مجتمع آفتاب کوچک",
+    "office_address_ar": "شیراز، معالي آباد، تقاطع شارع الأطباء، مجمع آفتاب کوچک",
+    "office_address_en": "Shiraz, Ma'ali Abad, Corner of Pezeshkan St., Aftab Kuchak Complex",
+    "phone": "07136342277",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [],
+    "insurance_accepted_ar": [],
+    "insurance_accepted_en": [],
+    "status": "active"
+  },
+  {
+    "id": "ent_013",
+    "name_fa": "دکتر کوروش کاظمی",
+    "name_ar": "الدكتور کوروش کاظمی",
+    "name_en": "Dr. Kourosh Kazemi",
+    "gender": "male",
+    "sub_specialty_fa": "گوش و شنوایی",
+    "sub_specialty_ar": "الأذن والسمع",
+    "sub_specialty_en": "Ear and Hearing",
+    "medical_council_id": "53150",
+    "rating": 4.7,
+    "reviews_count": 190,
+    "satisfaction_pct": 92,
+    "total_bookings": 800,
+    "services_fa": [
+      "جراحی پرده گوش",
+      "درمان تخصصی سرگیجه و منییر",
+      "جراحی استخوانچه‌های گوش میانی"
+    ],
+    "services_ar": [
+      "جراحة طبلة الأذن",
+      "علاج متقدم للدوار ومرض منيير",
+      "جراحة عظيمات الأذن الوسطى"
+    ],
+    "services_en": [
+      "Eardrum Surgery",
+      "Specialized Treatment for Vertigo and Meniere's Disease",
+      "Middle Ear Ossicle Surgery"
+    ],
+    "about_fa": "فوق تخصص گوش و جراحی‌های شنوایی (اتولوژی)، متخصص در درمان بیماری‌های سیستم تعادلی و شنوایی.",
+    "about_ar": "أخصائي دقيق في الأذن وجراحات السمع (طب الأذن)، متخصص في علاج أمراض الجهاز التوازني والسمعي.",
+    "about_en": "Sub-specialist in ear and hearing surgeries (otologist), specialized in treating balance and hearing system diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب گوش و شنوایی کاظمی",
+    "office_name_ar": "عيادة الأذن والسمع کاظمی",
+    "office_name_en": "Kazemi Ear and Hearing Clinic",
+    "office_address_fa": "شیراز، خیابان قصردشت، سه‌راه عفیف‌آباد، ساختمان مهر",
+    "office_address_ar": "شیراز، شارع قصر الدشت، تقاطع عفيف آباد، مبنى مهر",
+    "office_address_en": "Shiraz, Ghasrdasht St., Afif Abad Junction, Mehr Building",
+    "phone": "07136279944",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "16:30",
+      "end": "20:30"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_014",
+    "name_fa": "دکتر رویا دانشمندی",
+    "name_ar": "الدكتورة رویا دانشمندی",
+    "name_en": "Dr. Roya Daneshmandi",
+    "gender": "female",
+    "sub_specialty_fa": "اطفال ENT",
+    "sub_specialty_ar": "أنف وأذن وحنجرة أطفال",
+    "sub_specialty_en": "Pediatric ENT",
+    "medical_council_id": "58150",
+    "rating": 4.6,
+    "reviews_count": 150,
+    "satisfaction_pct": 90,
+    "total_bookings": 660,
+    "services_fa": [
+      "جراحی لوزه اطفال",
+      "درمان عفونت گوش کودکان",
+      "بررسی مشکلات تنفسی در خواب اطفال"
+    ],
+    "services_ar": [
+      "جراحة لوزتين الأطفال",
+      "علاج التهابات أذن الأطفال",
+      "فحص مشاكل التنفس أثناء النوم للأطفال"
+    ],
+    "services_en": [
+      "Pediatric Tonsillectomy",
+      "Treatment of Children's Ear Infections",
+      "Evaluation of Pediatric Sleep Breathing Disorders"
+    ],
+    "about_fa": "متخصص گوش، حلق و بینی، متخصص در جراحی‌ها و درمان‌های ENT اطفال در شیراز.",
+    "about_ar": "أخصائية الأنف والأذن والحنجرة، متخصصة في جراحات وعلاجات الأنف والأذن والحنجرة للأطفال في شيراز.",
+    "about_en": "Specialist in Otorhinolaryngology, specialized in pediatric ENT surgeries and treatments in Shiraz.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب گوش و حلق و بینی کودکان دانشمندی",
+    "office_name_ar": "عيادة الأنف والأذن والحنجرة للأطفال دانشمندی",
+    "office_name_en": "Daneshmandi Pediatric ENT Clinic",
+    "office_address_fa": "شیراز، خیابان ستارخان، نبش کوچه ۱۰، ساختمان آفتاب",
+    "office_address_ar": "شیراز، شارع ستارخان، تقاطع الزقاق 10، مبنى آفتاب",
+    "office_address_en": "Shiraz, Sattarkhan St., Corner of Alley 10, Aftab Building",
+    "phone": "07136263355",
+    "working_days_fa": [
+      "شنبه",
+      "یکشنبه",
+      "سه‌شنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الأحد",
+      "الثلاثاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Sunday",
+      "Tuesday"
+    ],
+    "working_hours": {
+      "start": "17:00",
+      "end": "20:30"
+    },
+    "consultation_fee": 320000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی",
+      "خدمات درمانی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي",
+      "الخدمات العلاجية"
+    ],
+    "insurance_accepted_en": [
+      "Social Security",
+      "Medical Services"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_015",
+    "name_fa": "دکتر شهرام رفیعی",
+    "name_ar": "الدكتور شهرام رفیعی",
+    "name_en": "Dr. Shahram Rafiei",
+    "gender": "male",
+    "sub_specialty_fa": "جراحی بینی (رینوپلاستی)",
+    "sub_specialty_ar": "جراحة تجميل الأنف (رينوبلاستي)",
+    "sub_specialty_en": "Nose Surgery (Rhinoplasty)",
+    "medical_council_id": "51440",
+    "rating": 4.9,
+    "reviews_count": 310,
+    "satisfaction_pct": 98,
+    "total_bookings": 1250,
+    "services_fa": [
+      "جراحی زیبایی بینی",
+      "اصلاح انحراف و پولیپ بینی",
+      "جراحی ترمیمی بینی‌های آسیب‌دیده"
+    ],
+    "services_ar": [
+      "جراحة تجميل الأنف",
+      "تصحيح انحراف ولحمية الأنف",
+      "جراحة ترميم الأنف المتضرر"
+    ],
+    "services_en": [
+      "Rhinoplasty",
+      "Correction of Nasal Deviation and Polyps",
+      "Reconstructive Surgery for Damaged Noses"
+    ],
+    "about_fa": "فوق تخصص جراحی پلاستیک صورت و رینوپلاستی، با تبحر بالا در جراحی‌های زیبایی و عملکردی بینی.",
+    "about_ar": "أخصائي دقيق في جراحة تجميل الوجه وتجميل الأنف، مع مهارة عالية في جراحات التجميل والوظائف للأنف.",
+    "about_en": "Sub-specialist in facial plastic surgery and rhinoplasty, highly skilled in aesthetic and functional nasal surgeries.",
+    "office_id": "off_01",
+    "office_name_fa": "کلینیک جراحی بینی دکتر رفیعی",
+    "office_name_ar": "عيادة جراحة الأنف للدكتور رفیعی",
+    "office_name_en": "Dr. Rafiei Nose Surgery Clinic",
+    "office_address_fa": "شیراز، خیابان زند، روبروی هتل پارس، ساختمان پارس",
+    "office_address_ar": "شیراز، شارع زند، مقابل فندق پارس، مبنى پارس",
+    "office_address_en": "Shiraz, Zand St., Opposite Pars Hotel, Pars Building",
+    "phone": "07132334466",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:00"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [],
+    "insurance_accepted_ar": [],
+    "insurance_accepted_en": [],
+    "status": "active"
+  },
+  {
+    "id": "ent_016",
+    "name_fa": "دکتر مرجان صابری",
+    "name_ar": "الدكتورة مرجان صابری",
+    "name_en": "Dr. Marjan Saberi",
+    "gender": "female",
+    "sub_specialty_fa": "حنجره و صوت",
+    "sub_specialty_ar": "الحنجرة والصوت",
+    "sub_specialty_en": "Larynx and Voice",
+    "medical_council_id": "56940",
+    "rating": 4.8,
+    "reviews_count": 240,
+    "satisfaction_pct": 95,
+    "total_bookings": 990,
+    "services_fa": [
+      "جراحی میکروسکوپی ضایعات تارهای صوتی",
+      "درمان تخصصی گرفتگی صدا",
+      "استroboscopy حنجره"
+    ],
+    "services_ar": [
+      "جراحة مجهرية لآفات الأحبال الصوتية",
+      "علاج متخصص لبححة الصوت",
+      "تنظير الحنجرة الوميضي (Stroboscopy)"
+    ],
+    "services_en": [
+      "Microscopic Surgery of Vocal Cord Lesions",
+      "Specialized Treatment for Hoarseness",
+      "Laryngeal Stroboscopy"
+    ],
+    "about_fa": "فوق تخصص حنجره و اختلالات صوت، ارائه‌دهنده خدمات تخصصی تشخیصی و جراحی حنجره در شیراز.",
+    "about_ar": "أخصائية دقيقة في الحنجرة واضطرابات الصوت، تقدم خدمات التشخيص والجراحة المتخصصة للحنجرة في شيراز.",
+    "about_en": "Sub-specialist in larynx and voice disorders, provider of specialized diagnostic and surgical services for the larynx in Shiraz.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب حنجره و صوت صابری",
+    "office_name_ar": "عيادة الحنجرة والصوت صابری",
+    "office_name_en": "Saberi Larynx and Voice Clinic",
+    "office_address_fa": "شیراز، خیابان قصردشت، روبروی بیمارستان فرهمندفر، ساختمان اکسیر",
+    "office_address_ar": "شیراز، شارع قصر الدشت، مقابل مستشفي فرهمندفر، مبنى إكسير",
+    "office_address_en": "Shiraz, Ghasrdasht St., Opposite Farahmandfar Hospital, الاكسير Building",
+    "phone": "07136287722",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  }
+]
+[
+  {
+    "id": "ent_017",
+    "name_fa": "دکتر آرش مقصودی",
+    "name_ar": "الدكتور آرش مقصودی",
+    "name_en": "Dr. Arash Maghsoudi",
+    "gender": "male",
+    "sub_specialty_fa": "سینوس و اندوسکوپی",
+    "sub_specialty_ar": "الجيوب الأنفية والمنظار",
+    "sub_specialty_en": "Sinus and Endoscopy",
+    "medical_council_id": "53130",
+    "rating": 4.7,
+    "reviews_count": 195,
+    "satisfaction_pct": 93,
+    "total_bookings": 820,
+    "services_fa": [
+      "جراحی آندوسکوپی پیشرفته سینوس",
+      "درمان سینوزیت مزمن",
+      "جراحی پولیپ‌های بینی"
+    ],
+    "services_ar": [
+      "جراحة منظار الجيوب الأنفية المتقدمة",
+      "علاج التهاب الجيوب الأنفية المزمن",
+      "جراحة لحميات الأنف"
+    ],
+    "services_en": [
+      "Advanced Endoscopic Sinus Surgery",
+      "Treatment of Chronic Sinusitis",
+      "Nasal Polyp Surgery"
+    ],
+    "about_fa": "فوق تخصص جراحی‌های آندوسکوپی بینی و سینوس، متخصص درمان بیماری‌های تنفسی فوقانی.",
+    "about_ar": "أخصائي دقيق في جراحات منظار الأنف والجيوب الأنفية، متخصص في علاج أمراض الجهاز التنفسي العلوي.",
+    "about_en": "Sub-specialist in nasal and sinus endoscopic surgeries, specialized in treating upper respiratory tract diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب سینوس مقصودی",
+    "office_name_ar": "عيادة الجيوب الأنفية مقصودی",
+    "office_name_en": "Maghsoudi Sinus Clinic",
+    "office_address_fa": "شیراز، فرهنگ‌شهر، بین کوچه ۲۶ و ۲۸، ساختمان سارا",
+    "office_address_ar": "شیراز، فرهنگ‌شهر، بين الزقاق 26 و 28، مبنى سارا",
+    "office_address_en": "Shiraz, Farhangshahr, Between Alley 26 and 28, Sara Building",
+    "phone": "07136318844",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "16:30",
+      "end": "20:30"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_018",
+    "name_fa": "دکتر الهام شریفی",
+    "name_ar": "الدكتورة الهام شریفی",
+    "name_en": "Dr. Elham Sharifi",
+    "gender": "female",
+    "sub_specialty_fa": "ENT عمومی",
+    "sub_specialty_ar": "أنف وأذن وحنجرة عام",
+    "sub_specialty_en": "General ENT",
+    "medical_council_id": "59150",
+    "rating": 4.8,
+    "reviews_count": 215,
+    "satisfaction_pct": 95,
+    "total_bookings": 880,
+    "services_fa": [
+      "درمان عفونت‌های گوش و حلق",
+      "جراحی لوزه",
+      "درمان سرگیجه و وزوز گوش"
+    ],
+    "services_ar": [
+      "علاج التهابات الأذن والبلعوم",
+      "جراحة اللوزتين",
+      "علاج الدوار وطنين الأذن"
+    ],
+    "services_en": [
+      "Treatment of Ear and Throat Infections",
+      "Tonsillectomy",
+      "Treatment of Vertigo and Tinnitus"
+    ],
+    "about_fa": "متخصص گوش، حلق و بینی عمومی، با تجربه در درمان بیماری‌های ساختاری و عفونی ENT.",
+    "about_ar": "أخصائية الأنف والأذن والحنجرة العامة، ذات خبرة في علاج الأمراض الهيكلية والالتهابية للأنف والأذن والحنجرة.",
+    "about_en": "General ENT specialist, experienced in treating structural and infectious ENT diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب دکتر شریفی",
+    "office_name_ar": "عيادة الدكتورة شریفی",
+    "office_name_en": "Dr. Sharifi Clinic",
+    "office_address_fa": "شیراز، خیابان زند، بین بیست متری و صورتگر، ساختمان آریا",
+    "office_address_ar": "شیراز، شارع زند، بين بيست متري و صورتگر، مبنى آریا",
+    "office_address_en": "Shiraz, Zand St., Between Bist Metri and Sooratgar, Aria Building",
+    "phone": "07132315588",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:00"
+    },
+    "consultation_fee": 300000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی",
+      "خدمات درمانی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي",
+      "الخدمات العلاجية"
+    ],
+    "insurance_accepted_en": [
+      "Social Security",
+      "Medical Services"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_019",
+    "name_fa": "دکتر رامین صبوری",
+    "name_ar": "الدكتور رامین صبوری",
+    "name_en": "Dr. Ramin Sabouri",
+    "gender": "male",
+    "sub_specialty_fa": "جراحی پلاستیک صورت",
+    "sub_specialty_ar": "جراحة تجميل الوجه",
+    "sub_specialty_en": "Facial Plastic Surgery",
+    "medical_council_id": "52440",
+    "rating": 4.9,
+    "reviews_count": 270,
+    "satisfaction_pct": 97,
+    "total_bookings": 1030,
+    "services_fa": [
+      "رینوپلاستی تخصصی",
+      "پروتز گونه و چانه",
+      "جراحی زیبایی گوش"
+    ],
+    "services_ar": [
+      "تجميل الأنف المتخصص",
+      "زرع الخدين والذقن",
+      "جراحة تجميل الأذن"
+    ],
+    "services_en": [
+      "Specialized Rhinoplasty",
+      "Cheek and Chin Implants",
+      "Ear Cosmetic Surgery"
+    ],
+    "about_fa": "فوق تخصص جراحی پلاستیک صورت، ارائه‌دهنده خدمات تخصصی زیبایی بینی و صورت در شیراز.",
+    "about_ar": "أخصائي دقيق في جراحة تجميل الوجه، يقدم الخدمات المتخصصة لتجميل الأنف والوجه في شيراز.",
+    "about_en": "Sub-specialist in facial plastic surgery, provider of specialized nose and facial aesthetic services in Shiraz.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب پلاستیک صورت صبوری",
+    "office_name_ar": "عيادة تجميل الوجه صبوری",
+    "office_name_en": "Sabouri Facial Plastic Clinic",
+    "office_address_fa": "شیراز، خیابان قدوسی غربی، ساختمان سلامت",
+    "office_address_ar": "شیراز، شارع قدوسی غربی، مبنى سلامت",
+    "office_address_en": "Shiraz, West Qodsati St., Salami Building",
+    "phone": "07138421144",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [],
+    "insurance_accepted_ar": [],
+    "insurance_accepted_en": [],
+    "status": "active"
+  },
+  {
+    "id": "ent_020",
+    "name_fa": "دکتر پریناز نیک‌نام",
+    "name_ar": "الدكتورة پریناز نیک‌نام",
+    "name_en": "Dr. Parinaz Niknam",
+    "gender": "female",
+    "sub_specialty_fa": "اطفال ENT",
+    "sub_specialty_ar": "أنف وأذن وحنجرة أطفال",
+    "sub_specialty_en": "Pediatric ENT",
+    "medical_council_id": "60440",
+    "rating": 4.8,
+    "reviews_count": 230,
+    "satisfaction_pct": 95,
+    "total_bookings": 950,
+    "services_fa": [
+      "جراحی لوزه کودکان",
+      "درمان عفونت گوش میانی اطفال",
+      "بررسی مشکلات شنوایی نوزادان"
+    ],
+    "services_ar": [
+      "جراحة لوزتين الأطفال",
+      "علاج التهاب الأذن الوسطى للأطفال",
+      "فحص مشاكل السمع لدى المواليد"
+    ],
+    "services_en": [
+      "Pediatric Tonsillectomy",
+      "Treatment of Children's Middle Ear Infections",
+      "Evaluation of Newborn Hearing Issues"
+    ],
+    "about_fa": "متخصص گوش، حلق و بینی، فوق تخصص اختلالات ENT اطفال با سابقه درخشان در شیراز.",
+    "about_ar": "أخصائية الأنف والأذن والحنجرة، أخصائية دقيقة في اضطرابات الأنف والأذن والحنجرة للأطفال ذات سجل لامع في شيراز.",
+    "about_en": "Specialist in Otorhinolaryngology, sub-specialist in pediatric ENT disorders with a brilliant record in Shiraz.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب گوش و حلق و بینی کودکان نیک‌نام",
+    "office_name_ar": "عيادة الأنف والأذن والحنجرة للأطفال نیک‌نام",
+    "office_name_en": "Niknam Pediatric ENT Clinic",
+    "office_address_fa": "شیراز، معالی‌آباد، نبش خیابان پزشکان، مجتمع پارمیدا",
+    "office_address_ar": "شیراز، معالي آباد، تقاطع شارع الأطباء، مجمع پارمیدا",
+    "office_address_en": "Shiraz, Ma'ali Abad, Corner of Pezeshkan St., Parmida Complex",
+    "phone": "07136341155",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:00"
+    },
+    "consultation_fee": 350000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی",
+      "خدمات درمانی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي",
+      "الخدمات العلاجية"
+    ],
+    "insurance_accepted_en": [
+      "Social Security",
+      "Medical Services"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_021",
+    "name_fa": "دکتر بهنام صفاپور",
+    "name_ar": "الدكتور بهنام صفاپور",
+    "name_en": "Dr. Behnam Safapour",
+    "gender": "male",
+    "sub_specialty_fa": "گوش و شنوایی",
+    "sub_specialty_ar": "الأذن والسمع",
+    "sub_specialty_en": "Ear and Hearing",
+    "medical_council_id": "54240",
+    "rating": 4.6,
+    "reviews_count": 145,
+    "satisfaction_pct": 90,
+    "total_bookings": 620,
+    "services_fa": [
+      "جراحی ترمیمی پرده گوش",
+      "درمان سرگیجه و اختلال تعادل",
+      "تست‌های تخصصی شنوایی‌سنجی"
+    ],
+    "services_ar": [
+      "جراحة ترقيع طبلة الأذن",
+      "علاج الدوار واضطراب التوازن",
+      "اختبارات قياس السمع المتخصصة"
+    ],
+    "services_en": [
+      "Eardrum Repair Surgery",
+      "Treatment of Vertigo and Balance Disorders",
+      "Specialized Audiometry Tests"
+    ],
+    "about_fa": "فوق تخصص گوش و جراحی‌های شنوایی (اتولوژی)، متخصص درمان بیماری‌های ساختاری گوش.",
+    "about_ar": "أخصائي دقيق في الأذن وجراحات السمع (طب الأذن)، متخصص في علاج الأمراض الهيكلية للأذن.",
+    "about_en": "Sub-specialist in ear and hearing surgeries (otologist), specialized in treating structural ear diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب گوش و شنوایی صفاپور",
+    "office_name_ar": "عيادة الأذن والسمع صفاپور",
+    "office_name_en": "Safapour Ear and Hearing Clinic",
+    "office_address_fa": "شیراز، خیابان زند، روبه‌روی بیمارستان شهید فقیهی، ساختمان پارس",
+    "office_address_ar": "شیراز، شارع زند، مقابل مستشفي شهید فقیهی، مبنى پارس",
+    "office_address_en": "Shiraz, Zand St., Opposite Shahid Faghihi Hospital, Pars Building",
+    "phone": "07132338888",
+    "working_days_fa": [
+      "شنبه",
+      "یکشنبه",
+      "سه‌شنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الأحد",
+      "الثلاثاء",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Sunday",
+      "Tuesday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "17:00",
+      "end": "20:30"
+    },
+    "consultation_fee": 350000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_022",
+    "name_fa": "دکتر ساناز محبی",
+    "name_ar": "الدكتورة ساناز محبی",
+    "name_en": "Dr. Sanaz Mohebbi",
+    "gender": "female",
+    "sub_specialty_fa": "سر و گردن (تومورها)",
+    "sub_specialty_ar": "الرأس والرقبة (الأورام)",
+    "sub_specialty_en": "Head and Neck (Tumors)",
+    "medical_council_id": "61260",
+    "rating": 4.9,
+    "reviews_count": 280,
+    "satisfaction_pct": 98,
+    "total_bookings": 1100,
+    "services_fa": [
+      "جراحی تیروئید و غدد بزاقی",
+      "جراحی تومورهای سر و گردن",
+      "نمونه‌برداری از توده‌های گردنی"
+    ],
+    "services_ar": [
+      "جراحة الغدة الدرقية والغدد اللعابية",
+      "جراحة أورام الرأس والرقبة",
+      "أخذ عينات من كتل الرقبة"
+    ],
+    "services_en": [
+      "Thyroid and Salivary Gland Surgery",
+      "Head and Neck Tumor Surgery",
+      "Neck Mass Biopsy"
+    ],
+    "about_fa": "فوق تخصص جراحی‌های سر و گردن، ارائه‌دهنده خدمات پیشرفته جراحی تومورها و غدد.",
+    "about_ar": "أخصائية دقيقة في جراحات الرأس والرقبة، تقدم الخدمات المتقدمة لجراحة الأورام والغدد.",
+    "about_en": "Sub-specialist in head and neck surgery, provider of advanced tumor and gland surgery services.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب سر و گردن محبی",
+    "office_name_ar": "عيادة الرأس والرقبة محبی",
+    "office_name_en": "Mohebbi Head and Neck Clinic",
+    "office_address_fa": "شیراز، خیابان اردیبهشت غربی، ساختمان پزشکان رازی",
+    "office_address_ar": "شیراز، شارع اردیبهشت غربی، مبنى الأطباء رازي",
+    "office_address_en": "Shiraz, West Ordibehesht St., Razi Doctors Building",
+    "phone": "07132314499",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_023",
+    "name_fa": "دکتر کامران کشاورز",
+    "name_ar": "الدكتور کامران کشاورز",
+    "name_en": "Dr. Kamran Keshavarz",
+    "gender": "male",
+    "sub_specialty_fa": "جراحی بینی (رینوپلاستی)",
+    "sub_specialty_ar": "جراحة تجميل الأنف (رينوبلاستي)",
+    "sub_specialty_en": "Nose Surgery (Rhinoplasty)",
+    "medical_council_id": "53940",
+    "rating": 4.8,
+    "reviews_count": 255,
+    "satisfaction_pct": 96,
+    "total_bookings": 990,
+    "services_fa": [
+      "جراحی زیبایی بینی",
+      "سپتوپلاستی (درمان انحراف بینی)",
+      "جراحی پولیپ"
+    ],
+    "services_ar": [
+      "جراحة تجميل الأنف",
+      "رأب الحاجز الأنفي (علاج انحراف الأنف)",
+      "جراحة لحمية الأنف"
+    ],
+    "services_en": [
+      "Rhinoplasty",
+      "Septoplasty (Nasal Deviation Treatment)",
+      "Nasal Polyp Surgery"
+    ],
+    "about_fa": "متخصص گوش، حلق و بینی و جراح پلاستیک بینی، متخصص در فرم‌دهی و اصلاح ساختار بینی.",
+    "about_ar": "أخصائي الأنف والأذن والحنجرة وجراح تجميل الأنف، متخصص في تشكيل وتصحيح هيكل الأنف.",
+    "about_en": "ENT specialist and nasal plastic surgeon, specialized in shaping and correcting nasal structure.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب رینوپلاستی کشاورز",
+    "office_name_ar": "عيادة رينوبلاستي کشاورز",
+    "office_name_en": "Keshavarz Rhinoplasty Clinic",
+    "office_address_fa": "شیراز، معالی‌آباد، نبش خیابان پزشکان، مجتمع پارمیدا",
+    "office_address_ar": "شیراز، معالي آباد، تقاطع شارع الأطباء، مجمع پارمیدا",
+    "office_address_en": "Shiraz, Ma'ali Abad, Corner of Pezeshkan St., Parmida Complex",
+    "phone": "07136341188",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:00"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [],
+    "insurance_accepted_ar": [],
+    "insurance_accepted_en": [],
+    "status": "active"
+  },
+  {
+    "id": "ent_024",
+    "name_fa": "دکتر رکسانا باقری‌نیا",
+    "name_ar": "الدكتورة رکسانا باقری‌نیا",
+    "name_en": "Dr. Roxana Bagherinia",
+    "gender": "female",
+    "sub_specialty_fa": "سینوس و اندوسکوپی",
+    "sub_specialty_ar": "الجيوب الأنفية والمنظار",
+    "sub_specialty_en": "Sinus and Endoscopy",
+    "medical_council_id": "58150",
+    "rating": 4.7,
+    "reviews_count": 200,
+    "satisfaction_pct": 93,
+    "total_bookings": 850,
+    "services_fa": [
+      "جراحی آندوسکوپی سینوس",
+      "درمان تخصصی سینوزیت مزمن",
+      "پولیپکتومی بینی"
+    ],
+    "services_ar": [
+      "جراحة منظار الجيوب الأنفية",
+      "علاج متخصص للتهاب الجيوب الأنفية المزمن",
+      "استئصال لحمية الأنف"
+    ],
+    "services_en": [
+      "Endoscopic Sinus Surgery",
+      "Specialized Treatment of Chronic Sinusitis",
+      "Nasal Polypectomy"
+    ],
+    "about_fa": "فوق تخصص جراحی‌های آندوسکوپی بینی و سینوس، متخصص درمان بیماری‌های مخاطی سینوسی.",
+    "about_ar": "أخصائية دقيقة في جراحات منظار الأنف والجيوب الأنفية، متخصصة في علاج أمراض الغشاء المخاطي للجيوب الأنفية.",
+    "about_en": "Sub-specialist in nasal and sinus endoscopic surgeries, specialized in treating sinus mucosal diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب سینوس باقری‌نیا",
+    "office_name_ar": "عيادة الجيوب الأنفية باقری‌نیا",
+    "office_name_en": "Bagherinia Sinus Clinic",
+    "office_address_fa": "شیراز، خیابان زند, بین بیست متری و صورتگر, ساختمان نگین",
+    "office_address_ar": "شیراز، شارع زند، بين بيست متري و صورتگر، مبنى نگين",
+    "office_address_en": "Shiraz, Zand St., Between Bist Metri and Sooratgar, Negin Building",
+    "phone": "07132351177",
+    "working_days_fa": [
+      "شنبه",
+      "یکشنبه",
+      "سه‌شنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الأحد",
+      "الثلاثاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Sunday",
+      "Tuesday"
+    ],
+    "working_hours": {
+      "start": "16:30",
+      "end": "20:30"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_025",
+    "name_fa": "دکتر بهنام صفا",
+    "name_ar": "الدكتور بهنام صفا",
+    "name_en": "Dr. Behnam Safa",
+    "gender": "male",
+    "sub_specialty_fa": "ENT عمومی",
+    "sub_specialty_ar": "أنف وأذن وحنجرة عام",
+    "sub_specialty_en": "General ENT",
+    "medical_council_id": "53910",
+    "rating": 4.5,
+    "reviews_count": 120,
+    "satisfaction_pct": 88,
+    "total_bookings": 520,
+    "services_fa": [
+      "شستشوی گوش",
+      "درمان عفونت‌های گلو و بینی",
+      "معاینه تخصصی ENT"
+    ],
+    "services_ar": [
+      "غسل الأذن",
+      "علاج التهابات الحلق والأنف",
+      "فحص متخصص في الأنف والأذن والحنجرة"
+    ],
+    "services_en": [
+      "Ear Irrigation",
+      "Treatment of Throat and Nose Infections",
+      "Specialized ENT Examination"
+    ],
+    "about_fa": "متخصص گوش، حلق و بینی عمومی، ارائه‌دهنده خدمات درمانی شایع گوش و حلق و بینی.",
+    "about_ar": "أخصائي الأنف والأذن والحنجرة العامة، مقدم الخدمات العلاجية الشائعة للأنف والأذن والحنجرة.",
+    "about_en": "General ENT specialist, provider of common ear, nose, and throat treatment services.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب دکتر صفا",
+    "office_name_ar": "عيادة الدكتور صفا",
+    "office_name_en": "Dr. Safa Clinic",
+    "office_address_fa": "شیراز، خیابان پوستچی، مجتمع خلیج فارس",
+    "office_address_ar": "شیراز، شارع پوستچی، مجمع خليج فارس",
+    "office_address_en": "Shiraz, Poostchi St., Persian Gulf Complex",
+    "phone": "07132303355",
+    "working_days_fa": [
+      "شنبه",
+      "یکشنبه",
+      "دوشنبه",
+      "سه‌شنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الأحد",
+      "الاثنين",
+      "الثلاثاء",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "17:00",
+      "end": "20:30"
+    },
+    "consultation_fee": 280000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی",
+      "خدمات درمانی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي",
+      "الخدمات العلاجية"
+    ],
+    "insurance_accepted_en": [
+      "Social Security",
+      "Medical Services"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_026",
+    "name_fa": "دکتر مرجان باقری",
+    "name_ar": "الدكتورة مرجان باقری",
+    "name_en": "Dr. Marjan Bagheri",
+    "gender": "female",
+    "sub_specialty_fa": "حنجره و صوت",
+    "sub_specialty_ar": "الحنجرة والصوت",
+    "sub_specialty_en": "Larynx and Voice",
+    "medical_council_id": "62150",
+    "rating": 4.8,
+    "reviews_count": 210,
+    "satisfaction_pct": 95,
+    "total_bookings": 890,
+    "services_fa": [
+      "جراحی حنجره",
+      "درمان اختلالات صوت و گفتار",
+      "بررسی رفلاکس حنجره"
+    ],
+    "services_ar": [
+      "جراحة الحنجرة",
+      "علاج اضطرابات الصوت والنطق",
+      "فحص ارتجاع الحنجرة"
+    ],
+    "services_en": [
+      "Laryngeal Surgery",
+      "Treatment of Voice and Speech Disorders",
+      "Evaluation of Laryngeal Reflux"
+    ],
+    "about_fa": "فوق تخصص حنجره و صوت، ارائه‌دهنده خدمات تخصصی تشخیصی و درمانی مشکلات صوتی.",
+    "about_ar": "أخصائية دقيقة في الحنجرة والصوت، تقدم الخدمات المتخصصة التشخيصية والعلاجية لمشاكل الصوت.",
+    "about_en": "Sub-specialist in larynx and voice, provider of specialized diagnostic and therapeutic services for vocal problems.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب حنجره و صوت باقری",
+    "office_name_ar": "عيادة الحنجرة والصوت باقری",
+    "office_name_en": "Bagheri Larynx and Voice Clinic",
+    "office_address_fa": "شیراز، معالی‌آباد، نبش خیابان پزشکان، مجتمع تخصصی",
+    "office_address_ar": "شیراز، معالي آباد، تقاطع شارع الأطباء، المجمع التخصصي",
+    "office_address_en": "Shiraz, Ma'ali Abad, Corner of Pezeshkan St., Specialty Complex",
+    "phone": "07136357722",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_027",
+    "name_fa": "دکتر داریوش نمازی",
+    "name_ar": "الدكتور داریوش نمازی",
+    "name_en": "Dr. Dariush Namazi",
+    "gender": "male",
+    "sub_specialty_fa": "جراحی پلاستیک صورت",
+    "sub_specialty_ar": "جراحة تجميل الوجه",
+    "sub_specialty_en": "Facial Plastic Surgery",
+    "medical_council_id": "52150",
+    "rating": 4.9,
+    "reviews_count": 285,
+    "satisfaction_pct": 98,
+    "total_bookings": 1130,
+    "services_fa": [
+      "رینوپلاستی اولیه و ترمیمی",
+      "جراحی زیبایی گوش",
+      "لیفت صورت"
+    ],
+    "services_ar": [
+      "تجميل الأنف الأولي والترميمي",
+      "جراحة تجميل الأذن",
+      "شد الوجه"
+    ],
+    "services_en": [
+      "Primary and Revision Rhinoplasty",
+      "Ear Cosmetic Surgery",
+      "Facelift"
+    ],
+    "about_fa": "فوق تخصص جراحی پلاستیک صورت، با سابقه درخشان در جراحی‌های زیبایی بینی و صورت.",
+    "about_ar": "أخصائي دقيق في جراحة تجميل الوجه، مع سجل لامع في عمليات تجميل الأنف والوجه.",
+    "about_en": "Sub-specialist in facial plastic surgery, with a brilliant background in nose and facial aesthetic surgeries.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب پلاستیک صورت نمازی",
+    "office_name_ar": "عيادة تجميل الوجه نمازی",
+    "office_name_en": "Namazi Facial Plastic Clinic",
+    "office_address_fa": "شیراز، خیابان زند، حدفاصل بیست متری و صورتگر، ساختمان شیراز",
+    "office_address_ar": "شیراز، شارع زند، بين بيست متري و صورتگر، مبنى شيراز",
+    "office_address_en": "Shiraz, Zand St., Between Bist Metri and Sooratgar, Shiraz Building",
+    "phone": "07132334422",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:00"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [],
+    "insurance_accepted_ar": [],
+    "insurance_accepted_en": [],
+    "status": "active"
+  },
+  {
+    "id": "ent_028",
+    "name_fa": "دکتر الهام کریمی",
+    "name_ar": "الدكتورة الهام کریمی",
+    "name_en": "Dr. Elham Karimi",
+    "gender": "female",
+    "sub_specialty_fa": "گوش و شنوایی",
+    "sub_specialty_ar": "الأذن والسمع",
+    "sub_specialty_en": "Ear and Hearing",
+    "medical_council_id": "60150",
+    "rating": 4.7,
+    "reviews_count": 190,
+    "satisfaction_pct": 93,
+    "total_bookings": 790,
+    "services_fa": [
+      "جراحی گوش میانی",
+      "درمان سرگیجه و وزوز گوش",
+      "تیمپانوپلاستی"
+    ],
+    "services_ar": [
+      "جراحة الأذن الوسطى",
+      "علاج الدوار وطنين الأذن",
+      "رأب الطبلة"
+    ],
+    "services_en": [
+      "Middle Ear Surgery",
+      "Treatment of Vertigo and Tinnitus",
+      "Tympanoplasty"
+    ],
+    "about_fa": "فوق تخصص گوش و جراحی‌های شنوایی (اتولوژی)، متخصص در درمان بیماری‌های گوش و تعادل.",
+    "about_ar": "أخصائية دقيقة في الأذن وجراحات السمع (طب الأذن)، متخصصة في علاج أمراض الأذن والتوازن.",
+    "about_en": "Sub-specialist in ear and hearing surgeries (otologist), specialized in treating ear and balance diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب گوش و شنوایی کریمی",
+    "office_name_ar": "عيادة الأذن والسمع کریمی",
+    "office_name_en": "Karimi Ear and Hearing Clinic",
+    "office_address_fa": "شیراز، فرهنگ‌شهر، بین کوچه ۲۶ و ۲۸، ساختمان سارا",
+    "office_address_ar": "شیراز، فرهنگ‌شهر، بين الزقاق 26 و 28، مبنى سارا",
+    "office_address_en": "Shiraz, Farhangshahr, Between Alley 26 and 28, Sara Building",
+    "phone": "07136318866",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "16:30",
+      "end": "20:30"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_029",
+    "name_fa": "دکتر علیرضا شکیبا",
+    "name_ar": "الدكتور علیرضا شکیبا",
+    "name_en": "Dr. Alireza Shakiba",
+    "gender": "male",
+    "sub_specialty_fa": "سینوس و اندوسکوپی",
+    "sub_specialty_ar": "الجيوب الأنفية والمنظار",
+    "sub_specialty_en": "Sinus and Endoscopy",
+    "medical_council_id": "54150",
+    "rating": 4.8,
+    "reviews_count": 210,
+    "satisfaction_pct": 95,
+    "total_bookings": 880,
+    "services_fa": [
+      "جراحی آندوسکوپی سینوس",
+      "درمان پولیپ بینی",
+      "جراحی انحراف بینی"
+    ],
+    "services_ar": [
+      "جراحة منظار الجيوب الأنفية",
+      "علاج لحمية الأنف",
+      "جراحة انحراف الأنف"
+    ],
+    "services_en": [
+      "Endoscopic Sinus Surgery",
+      "Nasal Polyp Treatment",
+      "Nasal Deviation Surgery"
+    ],
+    "about_fa": "فوق تخصص جراحی‌های آندوسکوپی بینی و سینوس، متخصص در جراحی‌های کم‌تهاجمی راه هوایی.",
+    "about_ar": "أخصائي دقيق في جراحات منظار الأنف والجيوب الأنفية، متخصص في الجراحات طفيفة التوغل للمسالك الهوائية.",
+    "about_en": "Sub-specialist in nasal and sinus endoscopic surgeries, specialized in minimally invasive airway surgeries.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب سینوس شکیبا",
+    "office_name_ar": "عيادة الجيوب الأنفية شکیبا",
+    "office_name_en": "Shakiba Sinus Clinic",
+    "office_address_fa": "شیراز، خیابان اردیبهشت غربی، ساختمان امیران",
+    "office_address_ar": "شیراز، شارع اردیبهشت غربی، مبنى أميران",
+    "office_address_en": "Shiraz, West Ordibehesht St., Amiran Building",
+    "phone": "07132314433",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_030",
+    "name_fa": "دکتر معصومه شفیعی",
+    "name_ar": "الدكتورة معصومه شفیعی",
+    "name_en": "Dr. Masoumeh Shafiei",
+    "gender": "female",
+    "sub_specialty_fa": "اطفال ENT",
+    "sub_specialty_ar": "أنف وأذن وحنجرة أطفال",
+    "sub_specialty_en": "Pediatric ENT",
+    "medical_council_id": "63150",
+    "rating": 4.9,
+    "reviews_count": 260,
+    "satisfaction_pct": 97,
+    "total_bookings": 1020,
+    "services_fa": [
+      "جراحی لوزه و آدنوئید در کودکان",
+      "درمان عفونت‌های گوش اطفال",
+      "بررسی مشکلات تنفسی اطفال"
+    ],
+    "services_ar": [
+      "جراحة اللوزتين واللحمية لدى الأطفال",
+      "علاج التهابات الأذن للأطفال",
+      "فحص مشاكل التنفس لدى الأطفال"
+    ],
+    "services_en": [
+      "Tonsillectomy and Adenoidectomy in Children",
+      "Treatment of Pediatric Ear Infections",
+      "Evaluation of Pediatric Breathing Issues"
+    ],
+    "about_fa": "متخصص گوش، حلق و بینی، فوق تخصص اختلالات ENT اطفال با روش‌های درمانی پیشرفته.",
+    "about_ar": "أخصائية الأنف والأذن والحنجرة، أخصائية دقيقة في اضطرابات الأنف والأذن والحنجرة للأطفال باستخدام طرق علاجية متقدمة.",
+    "about_en": "Specialist in Otorhinolaryngology, sub-specialist in pediatric ENT disorders using advanced treatment methods.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب گوش و حلق و بینی کودکان شفیعی",
+    "office_name_ar": "عيادة الأنف والأذن والحنجرة للأطفال شفیعی",
+    "office_name_en": "Shafiei Pediatric ENT Clinic",
+    "office_address_fa": "شیراز، معالی‌آباد، نبش خیابان پزشکان، مجتمع تخصصی",
+    "office_address_ar": "شیراز، معالي آباد، تقاطع شارع الأطباء، المجمع التخصصي",
+    "office_address_en": "Shiraz, Ma'ali Abad, Corner of Pezeshkan St., Specialty Complex",
+    "phone": "07136357755",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:00"
+    },
+    "consultation_fee": 350000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی",
+      "خدمات درمانی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي",
+      "الخدمات العلاجية"
+    ],
+    "insurance_accepted_en": [
+      "Social Security",
+      "Medical Services"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_031",
+    "name_fa": "دکتر کیومرث زارع",
+    "name_ar": "الدكتور کیومرث زارع",
+    "name_en": "Dr. Kiumars Zare",
+    "gender": "male",
+    "sub_specialty_fa": "سر و گردن (تومورها)",
+    "sub_specialty_ar": "الرأس والرقبة (الأورام)",
+    "sub_specialty_en": "Head and Neck (Tumors)",
+    "medical_council_id": "56150",
+    "rating": 4.8,
+    "reviews_count": 205,
+    "satisfaction_pct": 95,
+    "total_bookings": 840,
+    "services_fa": [
+      "جراحی تیروئید و پاراتیروئید",
+      "جراحی غدد بزاقی",
+      "درمان تومورهای سر و گردن"
+    ],
+    "services_ar": [
+      "جراحة الغدة الدرقية وجار الدرقية",
+      "جراحة الغدد اللعابية",
+      "علاج أورام الرأس والرقبة"
+    ],
+    "services_en": [
+      "Thyroid and Parathyroid Surgery",
+      "Salivary Gland Surgery",
+      "Head and Neck Tumor Treatment"
+    ],
+    "about_fa": "فوق تخصص جراحی‌های سر و گردن، متخصص در جراحی‌های انکولوژیک سر و گردن در شیراز.",
+    "about_ar": "أخصائي دقيق في جراحات الرأس والرقبة، متخصص في جراحات أورام الرأس والرقبة في شيراز.",
+    "about_en": "Sub-specialist in head and neck surgery, specialized in head and neck oncological surgeries in Shiraz.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب سر و گردن زارع",
+    "office_name_ar": "عيادة الرأس والرقبة زارع",
+    "office_name_en": "Zare Head and Neck Clinic",
+    "office_address_fa": "شیراز، خیابان قصردشت، نبش کوچه ۵۲، ساختمان قائم",
+    "office_address_ar": "شیراز، شارع قصر الدشت، تقاطع الزقاق 52، مبنى قائم",
+    "office_address_en": "Shiraz, Ghasrdasht St., Corner of Alley 52, Ghaem Building",
+    "phone": "07136273355",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "16:30",
+      "end": "20:30"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_032",
+    "name_fa": "دکتر فریبا عباسی",
+    "name_ar": "الدكتورة فریبا عباسی",
+    "name_en": "Dr. Fariba Abbasi",
+    "gender": "female",
+    "sub_specialty_fa": "جراحی پلاستیک صورت",
+    "sub_specialty_ar": "جراحة تجميل الوجه",
+    "sub_specialty_en": "Facial Plastic Surgery",
+    "medical_council_id": "64240",
+    "rating": 4.8,
+    "reviews_count": 220,
+    "satisfaction_pct": 96,
+    "total_bookings": 910,
+    "services_fa": [
+      "رینوپلاستی زیبایی",
+      "جراحی زیبایی پلک",
+      "تزریق فیلر و بوتاکس صورت"
+    ],
+    "services_ar": [
+      "تجميل الأنف التجميلي",
+      "جراحة تجميل الجفن",
+      "حقن الفيلر والبوت็อกس للوجه"
+    ],
+    "services_en": [
+      "Cosmetic Rhinoplasty",
+      "Eyelid Cosmetic Surgery",
+      "Facial Filler and Botox Injection"
+    ],
+    "about_fa": "فوق تخصص جراحی پلاستیک صورت، ارائه‌دهنده خدمات تخصصی زیبایی بینی و جوان‌سازی صورت.",
+    "about_ar": "أخصائية دقيقة في جراحة تجميل الوجه، تقدم الخدمات المتخصصة لتجميل الأنف وتجديد شباب الوجه.",
+    "about_en": "Sub-specialist in facial plastic surgery, provider of specialized nose aesthetic and facial rejuvenation services.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب پلاستیک صورت عباسی",
+    "office_name_ar": "عيادة تجميل الوجه عباسی",
+    "office_name_en": "Abbasi Facial Plastic Clinic",
+    "office_address_fa": "شیراز، خیابان معدل غربی، مجتمع پزشکی شفا",
+    "office_address_ar": "شیراز، شارع معدل غربی، المجمع الطبي شفا",
+    "office_address_en": "Shiraz, West Moadele St., Shafa Medical Complex",
+    "phone": "07132304499",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [],
+    "insurance_accepted_ar": [],
+    "insurance_accepted_en": [],
+    "status": "active"
+  },
+  {
+    "id": "ent_033",
+    "name_fa": "دکتر حسین باقری",
+    "name_ar": "الدكتور حسین باقری",
+    "name_en": "Dr. Hossein Bagheri",
+    "gender": "male",
+    "sub_specialty_fa": "ENT عمومی",
+    "sub_specialty_ar": "أنف وأذن وحنجرة عام",
+    "sub_specialty_en": "General ENT",
+    "medical_council_id": "55130",
+    "rating": 4.5,
+    "reviews_count": 130,
+    "satisfaction_pct": 89,
+    "total_bookings": 550,
+    "services_fa": [
+      "معاینه و درمان بیماری‌های گوش و حلق",
+      "شستشوی گوش",
+      "درمان سینوزیت"
+    ],
+    "services_ar": [
+      "فحص وعلاج أمراض الأذن والبلعوم",
+      "غسل الأذن",
+      "علاج التهاب الجيوب الأنفية"
+    ],
+    "services_en": [
+      "Examination and Treatment of Ear and Throat Diseases",
+      "Ear Irrigation",
+      "Treatment of Sinusitis"
+    ],
+    "about_fa": "متخصص گوش، حلق و بینی عمومی، ارائه‌دهنده خدمات تخصصی درمانی بیماری‌های ENT.",
+    "about_ar": "أخصائي الأنف والأذن والحنجرة العامة، مقدم الخدمات العلاجية المتخصصة لأمراض الأنف والأذن والحنجرة.",
+    "about_en": "General ENT specialist, provider of specialized treatment services for ENT diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب دکتر باقری",
+    "office_name_ar": "عيادة الدكتور باقری",
+    "office_name_en": "Dr. Bagheri Clinic",
+    "office_address_fa": "شیراز، خیابان زند، روبه‌روی هتل پارس، ساختمان سینا",
+    "office_address_ar": "شیراز، شارع زند، مقابل فندق پارس، مبنى سينا",
+    "office_address_en": "Shiraz, Zand St., Opposite Pars Hotel, Sina Building",
+    "phone": "07132328811",
+    "working_days_fa": [
+      "شنبه",
+      "یکشنبه",
+      "دوشنبه",
+      "سه‌شنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الأحد",
+      "الاثنين",
+      "الثلاثاء",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "17:00",
+      "end": "20:30"
+    },
+    "consultation_fee": 280000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی",
+      "خدمات درمانی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي",
+      "الخدمات العلاجية"
+    ],
+    "insurance_accepted_en": [
+      "Social Security",
+      "Medical Services"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_034",
+    "name_fa": "دکتر طاهره امینی",
+    "name_ar": "الدكتورة طاهره امینی",
+    "name_en": "Dr. Tahereh Amini",
+    "gender": "female",
+    "sub_specialty_fa": "جراحی بینی (رینوپلاستی)",
+    "sub_specialty_ar": "جراحة تجميل الأنف (رينوبلاستي)",
+    "sub_specialty_en": "Nose Surgery (Rhinoplasty)",
+    "medical_council_id": "61220",
+    "rating": 4.9,
+    "reviews_count": 300,
+    "satisfaction_pct": 98,
+    "total_bookings": 1190,
+    "services_fa": [
+      "جراحی زیبایی بینی",
+      "سپتوپلاستی و درمان انحراف بینی",
+      "جراحی ترمیمی بینی"
+    ],
+    "services_ar": [
+      "جراحة تجميل الأنف",
+      "رأب الحاجز الأنفي وعلاج انحراف الأنف",
+      "جراحة ترميم الأنف"
+    ],
+    "services_en": [
+      "Rhinoplasty",
+      "Septoplasty and Nasal Deviation Treatment",
+      "Revision Rhinoplasty"
+    ],
+    "about_fa": "فوق تخصص جراحی پلاستیک صورت و رینوپلاستی، متخصص در جراحی‌های زیبایی بینی با تکنیک‌های مدرن.",
+    "about_ar": "أخصائية دقيقة في جراحة تجميل الوجه وتجميل الأنف، متخصصة في عمليات تجميل الأنف التقنيات الحديثة.",
+    "about_en": "Sub-specialist in facial plastic surgery and rhinoplasty, specialized in aesthetic nose surgeries with modern techniques.",
+    "office_id": "off_01",
+    "office_name_fa": "کلینیک زیبایی بینی امینی",
+    "office_name_ar": "عيادة تجميل الأنف امینی",
+    "office_name_en": "Amini Rhinoplasty Clinic",
+    "office_address_fa": "شیراز، خیابان قصردشت، چهارراه عفیف‌آباد، ساختمان نوین",
+    "office_address_ar": "شیراز، شارع قصر الدشت، تقاطع عفيف آباد، مبنى نوين",
+    "office_address_en": "Shiraz, Ghasrdasht St., Afif Abad Crossroads, Novin Building",
+    "phone": "07136275533",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:00"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [],
+    "insurance_accepted_ar": [],
+    "insurance_accepted_en": [],
+    "status": "active"
+  },
+  {
+    "id": "ent_035",
+    "name_fa": "دکتر محمدرضا صفا",
+    "name_ar": "الدكتور محمدرضا صفا",
+    "name_en": "Dr. Mohammadreza Safa",
+    "gender": "male",
+    "sub_specialty_fa": "سینوس و اندوسکوپی",
+    "sub_specialty_ar": "الجيوب الأنفية والمنظار",
+    "sub_specialty_en": "Sinus and Endoscopy",
+    "medical_council_id": "57150",
+    "rating": 4.8,
+    "reviews_count": 225,
+    "satisfaction_pct": 95,
+    "total_bookings": 910,
+    "services_fa": [
+      "جراحی آندوسکوپی سینوس",
+      "درمان سینوزیت مزمن",
+      "جراحی پولیپ بینی"
+    ],
+    "services_ar": [
+      "جراحة منظار الجيوب الأنفية",
+      "علاج التهاب الجيوب الأنفية المزمن",
+      "جراحة لحمية الأنف"
+    ],
+    "services_en": [
+      "Endoscopic Sinus Surgery",
+      "Treatment of Chronic Sinusitis",
+      "Nasal Polyp Surgery"
+    ],
+    "about_fa": "فوق تخصص جراحی‌های آندوسکوپی بینی و سینوس، متخصص در جراحی‌های پیشرفته راه هوایی.",
+    "about_ar": "أخصائي دقيق في جراحات منظار الأنف والجيوب الأنفية، متخصص في الجراحات المتقدمة للمسالك الهوائية.",
+    "about_en": "Sub-specialist in nasal and sinus endoscopic surgeries, specialized in advanced airway surgeries.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب سینوس صفا",
+    "office_name_ar": "عيادة الجيوب الأنفية صفا",
+    "office_name_en": "Safa Sinus Clinic",
+    "office_address_fa": "شیراز، خیابان پوستچی، مجتمع خلیج فارس",
+    "office_address_ar": "شیراز، شارع پوستچی، مجمع خليج فارس",
+    "office_address_en": "Shiraz, Poostchi St., Persian Gulf Complex",
+    "phone": "07132303333",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_036",
+    "name_fa": "دکتر الهه صابر",
+    "name_ar": "الدكتورة الهه صابر",
+    "name_en": "Dr. Elaheh Saber",
+    "gender": "female",
+    "sub_specialty_fa": "حنجره و صوت",
+    "sub_specialty_ar": "الحنجرة والصوت",
+    "sub_specialty_en": "Larynx and Voice",
+    "medical_council_id": "62440",
+    "rating": 4.7,
+    "reviews_count": 185,
+    "satisfaction_pct": 93,
+    "total_bookings": 760,
+    "services_fa": [
+      "جراحی میکروسکوپی تارهای صوتی",
+      "درمان اختلالات صوت",
+      "بررسی مشکلات حنجره"
+    ],
+    "services_ar": [
+      "جراحة مجهرية للأحبال الصوتية",
+      "علاج اضطرابات الصوت",
+      "فحص مشاكل الحنجرة"
+    ],
+    "services_en": [
+      "Microscopic Vocal Cord Surgery",
+      "Treatment of Voice Disorders",
+      "Evaluation of Laryngeal Problems"
+    ],
+    "about_fa": "فوق تخصص حنجره و صوت، ارائه‌دهنده خدمات تخصصی درمانی و جراحی حنجره در شیراز.",
+    "about_ar": "أخصائية دقيقة في الحنجرة والصوت، تقدم الخدمات العلاجية والجراحية المتخصصة للحنجرة في شيراز.",
+    "about_en": "Sub-specialist in larynx and voice, provider of specialized therapeutic and surgical services for the larynx in Shiraz.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب حنجره و صوت صابر",
+    "office_name_ar": "عيادة الحنجرة والصوت صابر",
+    "office_name_en": "Saber Larynx and Voice Clinic",
+    "office_address_fa": "شیراز، معالی‌آباد، نبش خیابان پزشکان، مجتمع آفتاب کوچک",
+    "office_address_ar": "شیراز، معالي آباد، تقاطع شارع الأطباء، مجمع آفتاب کوچک",
+    "office_address_en": "Shiraz, Ma'ali Abad, Corner of Pezeshkan St., Aftab Kuchak Complex",
+    "phone": "07136342255",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "16:30",
+      "end": "20:30"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  }
+]
+[
+  {
+    "id": "ent_037",
+    "name_fa": "دکتر فاطمه زارع",
+    "name_ar": "الدكتورة فاطمه زارع",
+    "name_en": "Dr. Fatemeh Zare",
+    "gender": "female",
+    "sub_specialty_fa": "گوش و شنوایی",
+    "sub_specialty_ar": "الأذن والسمع",
+    "sub_specialty_en": "Ear and Hearing",
+    "medical_council_id": "64150",
+    "rating": 4.8,
+    "reviews_count": 210,
+    "satisfaction_pct": 95,
+    "total_bookings": 880,
+    "services_fa": [
+      "جراحی ترمیمی گوش",
+      "درمان سرگیجه و وزوز گوش",
+      "تیمپانوپلاستی"
+    ],
+    "services_ar": [
+      "جراحة ترميم الأذن",
+      "علاج الدوار وطنين الأذن",
+      "رأب الطبلة"
+    ],
+    "services_en": [
+      "Reconstructive Ear Surgery",
+      "Treatment of Vertigo and Tinnitus",
+      "Tympanoplasty"
+    ],
+    "about_fa": "فوق تخصص گوش و جراحی‌های شنوایی (اتولوژی)، متخصص درمان بیماری‌های ساختاری گوش و تعادل.",
+    "about_ar": "أخصائية دقيقة في الأذن وجراحات السمع (طب الأذن)، متخصصة في علاج الأمراض الهيكلية للأذن والتوازن.",
+    "about_en": "Sub-specialist in ear and hearing surgeries (otologist), specialized in treating structural ear and balance diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب گوش و شنوایی زارع",
+    "office_name_ar": "عيادة الأذن والسمع زارع",
+    "office_name_en": "Zare Ear and Hearing Clinic",
+    "office_address_fa": "شیراز، خیابان ملاصدرا، کوچه ۴، ساختمان دنا",
+    "office_address_ar": "شیراز، شارع ملاصدرا، الزقاق 4، مبنى دنا",
+    "office_address_en": "Shiraz, Mollasadra St., Alley 4, Dena Building",
+    "phone": "07136473388",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_038",
+    "name_fa": "دکتر علی اصغر شمس",
+    "name_ar": "الدكتور علی اصغر شمس",
+    "name_en": "Dr. Ali Asghar Shams",
+    "gender": "male",
+    "sub_specialty_fa": "سر و گردن (تومورها)",
+    "sub_specialty_ar": "الرأس والرقبة (الأورام)",
+    "sub_specialty_en": "Head and Neck (Tumors)",
+    "medical_council_id": "58150",
+    "rating": 4.9,
+    "reviews_count": 270,
+    "satisfaction_pct": 97,
+    "total_bookings": 1050,
+    "services_fa": [
+      "جراحی تیروئید و غدد بزاقی",
+      "جراحی تومورهای سر و گردن",
+      "نمونه‌برداری غدد لنفاوی"
+    ],
+    "services_ar": [
+      "جراحة الغدة الدرقية والغدد اللعابية",
+      "جراحة أورام الرأس والرقبة",
+      "خزعة الغدد الليمفاوية"
+    ],
+    "services_en": [
+      "Thyroid and Salivary Gland Surgery",
+      "Head and Neck Tumor Surgery",
+      "Lymph Node Biopsy"
+    ],
+    "about_fa": "فوق تخصص جراحی‌های سر و گردن، ارائه‌دهنده خدمات تخصصی جراحی تومورها و غدد گردن.",
+    "about_ar": "أخصائي دقيق في جراحات الرأس والرقبة، يقدم الخدمات المتخصصة لجراحة الأورام وغدد الرقبة.",
+    "about_en": "Sub-specialist in head and neck surgery, provider of specialized tumor and neck gland surgery services.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب سر و گردن شمس",
+    "office_name_ar": "عيادة الرأس والرقبة شمس",
+    "office_name_en": "Shams Head and Neck Clinic",
+    "office_address_fa": "شیراز، خیابان اردیبهشت شرقی، ساختمان مهر",
+    "office_address_ar": "شیراز، شارع اردیبهشت شرقی، مبنى مهر",
+    "office_address_en": "Shiraz, East Ordibehesht St., Mehr Building",
+    "phone": "07132312233",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:00"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_039",
+    "name_fa": "دکتر سامان کاظمی",
+    "name_ar": "الدكتور سامان کاظمی",
+    "name_en": "Dr. Saman Kazemi",
+    "gender": "male",
+    "sub_specialty_fa": "جراحی پلاستیک صورت",
+    "sub_specialty_ar": "جراحة تجميل الوجه",
+    "sub_specialty_en": "Facial Plastic Surgery",
+    "medical_council_id": "56950",
+    "rating": 4.8,
+    "reviews_count": 230,
+    "satisfaction_pct": 96,
+    "total_bookings": 940,
+    "services_fa": [
+      "رینوپلاستی اولیه و ترمیمی",
+      "جراحی زیبایی گوش",
+      "لیفت پیشانی و ابرو"
+    ],
+    "services_ar": [
+      "تجميل الأنف الأولي والترميمي",
+      "جراحة تجميل الأذن",
+      "شد الجبهة والحاجب"
+    ],
+    "services_en": [
+      "Primary and Revision Rhinoplasty",
+      "Ear Cosmetic Surgery",
+      "Forehead and Brow Lift"
+    ],
+    "about_fa": "فوق تخصص جراحی پلاستیک صورت، متخصص در اصلاح زیبایی و فرم‌دهی اجزای صورت.",
+    "about_ar": "أخصائي دقيق في جراحة تجميل الوجه، متخصص في تصحيح التجميل وتشكيل ملامح الوجه.",
+    "about_en": "Sub-specialist in facial plastic surgery, specialized in aesthetic correction and shaping of facial features.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب پلاستیک صورت کاظمی",
+    "office_name_ar": "عيادة تجميل الوجه کاظمی",
+    "office_name_en": "Kazemi Facial Plastic Clinic",
+    "office_address_fa": "شیراز، خیابان قصردشت، چهارراه عفیف‌آباد، مجتمع نوین",
+    "office_address_ar": "شیراز، شارع قصر الدشت، تقاطع عفيف آباد، مجمع نوين",
+    "office_address_en": "Shiraz, Ghasrdasht St., Afif Abad Crossroads, Novin Complex",
+    "phone": "07136272244",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "16:30",
+      "end": "20:30"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [],
+    "insurance_accepted_ar": [],
+    "insurance_accepted_en": [],
+    "status": "active"
+  },
+  {
+    "id": "ent_040",
+    "name_fa": "دکتر پروانه صنعتی",
+    "name_ar": "الدكتورة پروانه صنعتی",
+    "name_en": "Dr. Parvaneh Sanati",
+    "gender": "female",
+    "sub_specialty_fa": "اطفال ENT",
+    "sub_specialty_ar": "أنف وأذن وحنجرة أطفال",
+    "sub_specialty_en": "Pediatric ENT",
+    "medical_council_id": "62150",
+    "rating": 4.9,
+    "reviews_count": 280,
+    "satisfaction_pct": 98,
+    "total_bookings": 1080,
+    "services_fa": [
+      "جراحی لوزه کودکان",
+      "درمان عفونت‌های گوش اطفال",
+      "بررسی مشکلات تنفسی خواب در کودکان"
+    ],
+    "services_ar": [
+      "جراحة لوزتين الأطفال",
+      "علاج التهابات أذن الأطفال",
+      "فحص اضطرابات التنفس أثناء النوم لدى الأطفال"
+    ],
+    "services_en": [
+      "Pediatric Tonsillectomy",
+      "Treatment of Children's Ear Infections",
+      "Evaluation of Pediatric Sleep Disordered Breathing"
+    ],
+    "about_fa": "متخصص گوش، حلق و بینی، فوق تخصص اختلالات ENT اطفال با سابقه درخشان در شیراز.",
+    "about_ar": "أخصائية الأنف والأذن والحنجرة، أخصائية دقيقة في اضطرابات الأنف والأذن والحنجرة للأطفال ذات سجل لامع في شيراز.",
+    "about_en": "Specialist in Otorhinolaryngology, sub-specialist in pediatric ENT disorders with a brilliant record in Shiraz.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب گوش و حلق و بینی کودکان صنعتی",
+    "office_name_ar": "عيادة الأنف والأذن والحنجرة للأطفال صنعتی",
+    "office_name_en": "Sanati Pediatric ENT Clinic",
+    "office_address_fa": "شیراز، خیابان زند، روبه‌روی هتل پارس، ساختمان پارس",
+    "office_address_ar": "شیراز، شارع زند، مقابل فندق پارس، مبنى پارس",
+    "office_address_en": "Shiraz, Zand St., Opposite Pars Hotel, Pars Building",
+    "phone": "07132334477",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "15:00",
+      "end": "19:00"
+    },
+    "consultation_fee": 350000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی",
+      "خدمات درمانی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي",
+      "الخدمات العلاجية"
+    ],
+    "insurance_accepted_en": [
+      "Social Security",
+      "Medical Services"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_041",
+    "name_fa": "دکتر بابک صفاری",
+    "name_ar": "الدكتور بابک صفاری",
+    "name_en": "Dr. Babak Saffari",
+    "gender": "male",
+    "sub_specialty_fa": "جراحی بینی (رینوپلاستی)",
+    "sub_specialty_ar": "جراحة تجميل الأنف (رينوبلاستي)",
+    "sub_specialty_en": "Nose Surgery (Rhinoplasty)",
+    "medical_council_id": "58150",
+    "rating": 4.7,
+    "reviews_count": 195,
+    "satisfaction_pct": 93,
+    "total_bookings": 810,
+    "services_fa": [
+      "جراحی زیبایی بینی",
+      "سپتوپلاستی",
+      "جراحی پولیپ"
+    ],
+    "services_ar": [
+      "جراحة تجميل الأنف",
+      "رأب الحاجز الأنفي",
+      "جراحة لحمية الأنف"
+    ],
+    "services_en": [
+      "Rhinoplasty",
+      "Septoplasty",
+      "Nasal Polyp Surgery"
+    ],
+    "about_fa": "متخصص گوش، حلق و بینی و جراح پلاستیک بینی، ارائه‌دهنده خدمات تخصصی رینوپلاستی.",
+    "about_ar": "أخصائي الأنف والأذن والحنجرة وجراح تجميل الأنف، يقدم خدمات متخصصة لتجميل الأنف.",
+    "about_en": "ENT specialist and nasal plastic surgeon, provider of specialized rhinoplasty services.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب جراحی بینی صفاری",
+    "office_name_ar": "عيادة جراحة الأنف صفاری",
+    "office_name_en": "Saffari Nose Surgery Clinic",
+    "office_address_fa": "شیراز، معالی‌آباد، نبش خیابان پزشکان، مجتمع تخصصی",
+    "office_address_ar": "شیراز، معالي آباد، تقاطع شارع الأطباء، المجمع التخصصي",
+    "office_address_en": "Shiraz, Ma'ali Abad, Corner of Pezeshkan St., Specialty Complex",
+    "phone": "07136357788",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:00"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [],
+    "insurance_accepted_ar": [],
+    "insurance_accepted_en": [],
+    "status": "active"
+  },
+  {
+    "id": "ent_042",
+    "name_fa": "دکتر مژگان باقری",
+    "name_ar": "الدكتورة مژگان باقری",
+    "name_en": "Dr. Mojgan Bagheri",
+    "gender": "female",
+    "sub_specialty_fa": "سینوس و اندوسکوپی",
+    "sub_specialty_ar": "الجيوب الأنفية والمنظار",
+    "sub_specialty_en": "Sinus and Endoscopy",
+    "medical_council_id": "63440",
+    "rating": 4.8,
+    "reviews_count": 220,
+    "satisfaction_pct": 95,
+    "total_bookings": 910,
+    "services_fa": [
+      "جراحی آندوسکوپی سینوس",
+      "درمان سینوزیت",
+      "پولیپکتومی"
+    ],
+    "services_ar": [
+      "جراحة منظار الجيوب الأنفية",
+      "علاج التهاب الجيوب الأنفية",
+      "استئصال لحمية الأنف"
+    ],
+    "services_en": [
+      "Endoscopic Sinus Surgery",
+      "Treatment of Sinusitis",
+      "Polypectomy"
+    ],
+    "about_fa": "فوق تخصص جراحی‌های آندوسکوپی بینی و سینوس، متخصص در درمان بیماری‌های سینوسی.",
+    "about_ar": "أخصائية دقيقة في جراحات منظار الأنف والجيوب الأنفية، متخصصة في علاج أمراض الجيوب الأنفية.",
+    "about_en": "Sub-specialist in nasal and sinus endoscopic surgeries, specialized in treating sinus diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب سینوس باقری",
+    "office_name_ar": "عيادة الجيوب الأنفية باقری",
+    "office_name_en": "Bagheri Sinus Clinic",
+    "office_address_fa": "شیراز، بلوار قدوسی غربی، بین خیابان محلاتی و باهنر، ساختمان سلامت",
+    "office_address_ar": "شیراز، جادة قدوسی غربی، بين شارع محلاتي وبا هنر، مبنى سلامت",
+    "office_address_en": "Shiraz, West Qodsati Blvd., Between Mahallati St. and Bahonar, Salami Building",
+    "phone": "07138421155",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_043",
+    "name_fa": "دکتر آرش عزیزی",
+    "name_ar": "الدكتور آرش عزیزی",
+    "name_en": "Dr. Arash Azizi",
+    "gender": "male",
+    "sub_specialty_fa": "گوش و شنوایی",
+    "sub_specialty_ar": "الأذن والسمع",
+    "sub_specialty_en": "Ear and Hearing",
+    "medical_council_id": "57130",
+    "rating": 4.7,
+    "reviews_count": 185,
+    "satisfaction_pct": 93,
+    "total_bookings": 780,
+    "services_fa": [
+      "جراحی پرده گوش",
+      "درمان سرگیجه",
+      "تیمپانوپلاستی"
+    ],
+    "services_ar": [
+      "جراحة طبلة الأذن",
+      "علاج الدوار",
+      "رأب الطبلة"
+    ],
+    "services_en": [
+      "Eardrum Surgery",
+      "Treatment of Vertigo",
+      "Tympanoplasty"
+    ],
+    "about_fa": "فوق تخصص گوش و جراحی‌های شنوایی (اتولوژی)، متخصص در درمان بیماری‌های گوش و تعادل.",
+    "about_ar": "أخصائي دقيق في الأذن وجراحات السمع (طب الأذن)، متخصص في علاج أمراض الأذن والتوازن.",
+    "about_en": "Sub-specialist in ear and hearing surgeries (otologist), specialized in treating ear and balance diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب گوش و شنوایی عزیزی",
+    "office_name_ar": "عيادة الأذن والسمع عزیزی",
+    "office_name_en": "Azizi Ear and Hearing Clinic",
+    "office_address_fa": "شیراز، خیابان ستارخان (زرگری)، نبش کوچه ۵، ساختمان نگین",
+    "office_address_ar": "شیراز، شارع ستارخان (زرگري)، تقاطع الزقاق 5، مبنى نگين",
+    "office_address_en": "Shiraz, Sattarkhan St. (Zargari), Corner of Alley 5, Negin Building",
+    "phone": "07136284466",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "16:30",
+      "end": "20:30"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_044",
+    "name_fa": "دکتر ناهید هاشمی",
+    "name_ar": "الدكتورة ناهید هاشمی",
+    "name_en": "Dr. Nahid Hashemi",
+    "gender": "female",
+    "sub_specialty_fa": "حنجره و صوت",
+    "sub_specialty_ar": "الحنجرة والصوت",
+    "sub_specialty_en": "Larynx and Voice",
+    "medical_council_id": "65150",
+    "rating": 4.9,
+    "reviews_count": 260,
+    "satisfaction_pct": 97,
+    "total_bookings": 1020,
+    "services_fa": [
+      "جراحی میکروسکوپی حنجره",
+      "درمان تخصصی گرفتگی صدا",
+      "استroboscopy"
+    ],
+    "services_ar": [
+      "جراحة مجهرية للحنجرة",
+      "علاج متخصص لبححة الصوت",
+      "تنظير الحنجرة الوميضي (Stroboscopy)"
+    ],
+    "services_en": [
+      "Microscopic Laryngeal Surgery",
+      "Specialized Treatment for Hoarseness",
+      "Stroboscopy"
+    ],
+    "about_fa": "فوق تخصص حنجره و صوت، ارائه‌دهنده خدمات تخصصی درمانی و جراحی تارهای صوتی در شیراز.",
+    "about_ar": "أخصائية دقيقة في الحنجرة والصوت، تقدم الخدمات العلاجية والجراحية المتخصصة للأحبال الصوتية في شيراز.",
+    "about_en": "Sub-specialist in larynx and voice, provider of specialized therapeutic and surgical services for vocal cords in Shiraz.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب حنجره و صوت هاشمی",
+    "office_name_ar": "عيادة الحنجرة والصوت هاشمی",
+    "office_name_en": "Hashemi Larynx and Voice Clinic",
+    "office_address_fa": "شیراز، خیابان زند، روبه‌روی هتل پارس، ساختمان سینا",
+    "office_address_ar": "شیراز، شارع زند، مقابل فندق پارس، مبنى سينا",
+    "office_address_en": "Shiraz, Zand St., Opposite Pars Hotel, Sina Building",
+    "phone": "07132328866",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_045",
+    "name_fa": "دکتر شهرام منصوری",
+    "name_ar": "الدكتور شهرام منصوری",
+    "name_en": "Dr. Shahram Mansouri",
+    "gender": "male",
+    "sub_specialty_fa": "سر و گردن (تومورها)",
+    "sub_specialty_ar": "الرأس والرقبة (الأورام)",
+    "sub_specialty_en": "Head and Neck (Tumors)",
+    "medical_council_id": "55240",
+    "rating": 4.8,
+    "reviews_count": 200,
+    "satisfaction_pct": 95,
+    "total_bookings": 830,
+    "services_fa": [
+      "جراحی تیروئید",
+      "جراحی تومورهای سر و گردن",
+      "نمونه‌برداری غدد بزاقی"
+    ],
+    "services_ar": [
+      "جراحة الغدة الدرقية",
+      "جراحة أورام الرأس والرقبة",
+      "خزعة الغدد اللعابية"
+    ],
+    "services_en": [
+      "Thyroid Surgery",
+      "Head and Neck Tumor Surgery",
+      "Salivary Gland Biopsy"
+    ],
+    "about_fa": "فوق تخصص جراحی‌های سر و گردن، متخصص در جراحی تومورها و بیماری‌های غدد گردن.",
+    "about_ar": "أخصائي دقيق في جراحات الرأس والرقبة، متخصص في جراحة الأورام وأمراض غدد الرقبة.",
+    "about_en": "Sub-specialist in head and neck surgery, specialized in tumor surgery and neck gland diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب سر و گردن منصوری",
+    "office_name_ar": "عيادة الرأس والرقبة منصوری",
+    "office_name_en": "Mansouri Head and Neck Clinic",
+    "office_address_fa": "شیراز، بلوار رحمت، روبه‌روی آستانه، مجتمع پرتو",
+    "office_address_ar": "شیراز، جادة رحمت، مقابل آستانه، مجمع پرتو",
+    "office_address_en": "Shiraz, Rahmat Blvd., Opposite Astaneh, Parto Complex",
+    "phone": "07138339911",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:00"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_046",
+    "name_fa": "دکتر شهلا حبیبی",
+    "name_ar": "الدكتورة شهلا حبیبی",
+    "name_en": "Dr. Shahla Habibi",
+    "gender": "female",
+    "sub_specialty_fa": "جراحی پلاستیک صورت",
+    "sub_specialty_ar": "جراحة تجميل الوجه",
+    "sub_specialty_en": "Facial Plastic Surgery",
+    "medical_council_id": "57940",
+    "rating": 4.7,
+    "reviews_count": 185,
+    "satisfaction_pct": 93,
+    "total_bookings": 780,
+    "services_fa": [
+      "رینوپلاستی",
+      "جراحی زیبایی گوش",
+      "لیفت صورت"
+    ],
+    "services_ar": [
+      "تجميل الأنف",
+      "جراحة تجميل الأذن",
+      "شد الوجه"
+    ],
+    "services_en": [
+      "Rhinoplasty",
+      "Ear Cosmetic Surgery",
+      "Facelift"
+    ],
+    "about_fa": "فوق تخصص جراحی پلاستیک صورت، ارائه‌دهنده خدمات تخصصی زیبایی بینی و جوان‌سازی صورت.",
+    "about_ar": "أخصائية دقيقة في جراحة تجميل الوجه، تقدم الخدمات المتخصصة لتجميل الأنف وتجديد شباب الوجه.",
+    "about_en": "Sub-specialist in facial plastic surgery, provider of specialized nose aesthetic and facial rejuvenation services.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب پلاستیک صورت حبیبی",
+    "office_name_ar": "عيادة تجميل الوجه حبیبی",
+    "office_name_en": "Habibi Facial Plastic Clinic",
+    "office_address_fa": "شیراز، خیابان قصردشت، سه‌راه عفیف‌آباد، ساختمان مهر",
+    "office_address_ar": "شیراز، شارع قصر الدشت، تقاطع عفيف آباد، مبنى مهر",
+    "office_address_en": "Shiraz, Ghasrdasht St., Afif Abad Junction, Mehr Building",
+    "phone": "07136278833",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "16:30",
+      "end": "20:30"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [],
+    "insurance_accepted_ar": [],
+    "insurance_accepted_en": [],
+    "status": "active"
+  },
+  {
+    "id": "ent_047",
+    "name_fa": "دکتر حمیدرضا سلطانی",
+    "name_ar": "الدكتور حمیدرضا سلطانی",
+    "name_en": "Dr. Hamidreza Soltani",
+    "gender": "male",
+    "sub_specialty_fa": "ENT عمومی",
+    "sub_specialty_ar": "أنف وأذن وحنجرة عام",
+    "sub_specialty_en": "General ENT",
+    "medical_council_id": "52440",
+    "rating": 4.6,
+    "reviews_count": 140,
+    "satisfaction_pct": 91,
+    "total_bookings": 600,
+    "services_fa": [
+      "درمان سینوزیت",
+      "شستشوی گوش",
+      "درمان عفونت‌های تنفسی فوقانی"
+    ],
+    "services_ar": [
+      "علاج التهاب الجيوب الأنفية",
+      "غسل الأذن",
+      "علاج التهابات الجهاز التنفسي العلوي"
+    ],
+    "services_en": [
+      "Treatment of Sinusitis",
+      "Ear Irrigation",
+      "Treatment of Upper Respiratory Infections"
+    ],
+    "about_fa": "متخصص گوش، حلق و بینی عمومی، با سابقه ارائه‌ خدمات درمانی استاندارد در شیراز.",
+    "about_ar": "أخصائي الأنف والأذن والحنجرة العامة، ذو سابقه في تقديم الخدمات العلاجية القياسية في شيراز.",
+    "about_en": "General ENT specialist, with a history of providing standard treatment services in Shiraz.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب دکتر سلطانی",
+    "office_name_ar": "عيادة الدكتور سلطانی",
+    "office_name_en": "Dr. Soltani Clinic",
+    "office_address_fa": "شیراز، خیابان زند، روبه‌روی هتل پارس، ساختمان سینا",
+    "office_address_ar": "شیراز، شارع زند، مقابل فندق پارس، مبنى سينا",
+    "office_address_en": "Shiraz, Zand St., Opposite Pars Hotel, Sina Building",
+    "phone": "07132328866",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "17:00",
+      "end": "20:30"
+    },
+    "consultation_fee": 280000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی",
+      "خدمات درمانی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي",
+      "الخدمات العلاجية"
+    ],
+    "insurance_accepted_en": [
+      "Social Security",
+      "Medical Services"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_048",
+    "name_fa": "دکتر مریم سجادیان",
+    "name_ar": "الدكتورة مریم سجادیان",
+    "name_en": "Dr. Maryam Sajjadian",
+    "gender": "female",
+    "sub_specialty_fa": "سینوس و اندوسکوپی",
+    "sub_specialty_ar": "الجيوب الأنفية والمنظار",
+    "sub_specialty_en": "Sinus and Endoscopy",
+    "medical_council_id": "63240",
+    "rating": 4.9,
+    "reviews_count": 270,
+    "satisfaction_pct": 97,
+    "total_bookings": 1090,
+    "services_fa": [
+      "جراحی آندوسکوپی سینوس",
+      "درمان پولیپ بینی",
+      "جراحی انحراف تیغه بینی"
+    ],
+    "services_ar": [
+      "جراحة منظار الجيوب الأنفية",
+      "علاج لحمية الأنف",
+      "جراحة انحراف الحاجز الأنفي"
+    ],
+    "services_en": [
+      "Endoscopic Sinus Surgery",
+      "Nasal Polyp Treatment",
+      "Nasal Septal Deviation Surgery"
+    ],
+    "about_fa": "فوق تخصص جراحی‌های آندوسکوپی بینی و سینوس، متخصص در درمان بیماری‌های سینوسی.",
+    "about_ar": "أخصائية دقيقة في جراحات منظار الأنف والجيوب الأنفية، متخصصة في علاج أمراض الجيوب الأنفية.",
+    "about_en": "Sub-specialist in nasal and sinus endoscopic surgeries, specialized in treating sinus diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب سینوس سجادیان",
+    "office_name_ar": "عيادة الجيوب الأنفية سجادیان",
+    "office_name_en": "Sajjadian Sinus Clinic",
+    "office_address_fa": "شیراز، معالی‌آباد، نبش خیابان پزشکان، مجتمع پارمیدا",
+    "office_address_ar": "شیراز، معالي آباد، تقاطع شارع الأطباء، مجمع پارمیدا",
+    "office_address_en": "Shiraz, Ma'ali Abad, Corner of Pezeshkan St., Parmida Complex",
+    "phone": "07136341188",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_049",
+    "name_fa": "دکتر حمید بصیری",
+    "name_ar": "الدكتور حمید بصیری",
+    "name_en": "Dr. Hamid Basiri",
+    "gender": "male",
+    "sub_specialty_fa": "جراحی بینی (رینوپلاستی)",
+    "sub_specialty_ar": "جراحة تجميل الأنف (رينوبلاستي)",
+    "sub_specialty_en": "Nose Surgery (Rhinoplasty)",
+    "medical_council_id": "58940",
+    "rating": 4.8,
+    "reviews_count": 210,
+    "satisfaction_pct": 95,
+    "total_bookings": 880,
+    "services_fa": [
+      "جراحی زیبایی بینی",
+      "سپتوپلاستی",
+      "جراحی پولیپ و سینوس"
+    ],
+    "services_ar": [
+      "جراحة تجميل الأنف",
+      "رأب الحاجز الأنفي",
+      "جراحة لحمية والجيوب الأنفية"
+    ],
+    "services_en": [
+      "Rhinoplasty",
+      "Septoplasty",
+      "Nasal Polyp and Sinus Surgery"
+    ],
+    "about_fa": "متخصص گوش، حلق و بینی و جراح پلاستیک بینی، ارائه‌دهنده خدمات تخصصی رینوپلاستی.",
+    "about_ar": "أخصائي الأنف والأذن والحنجرة وجراح تجميل الأنف، يقدم خدمات متخصصة لتجميل الأنف.",
+    "about_en": "ENT specialist and nasal plastic surgeon, provider of specialized rhinoplasty services.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب جراحی بینی بصیری",
+    "office_name_ar": "عيادة جراحة الأنف بصیری",
+    "office_name_en": "Basiri Nose Surgery Clinic",
+    "office_address_fa": "شیراز، خیابان قصردشت، روبروی بیمارستان فرهمندفر، ساختمان اکسیر",
+    "office_address_ar": "شیراز، شارع قصر الدشت، مقابل مستشفي فرهمندفر، مبنى إكسير",
+    "office_address_en": "Shiraz, Ghasrdasht St., Opposite Farahmandfar Hospital, الاكسير Building",
+    "phone": "07136287744",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:00"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [],
+    "insurance_accepted_ar": [],
+    "insurance_accepted_en": [],
+    "status": "active"
+  },
+  {
+    "id": "ent_050",
+    "name_fa": "دکتر لیلا کشاورز",
+    "name_ar": "الدكتورة لیلا کشاورز",
+    "name_en": "Dr. Leila Keshavarz",
+    "gender": "female",
+    "sub_specialty_fa": "اطفال ENT",
+    "sub_specialty_ar": "أنف وأذن وحنجرة أطفال",
+    "sub_specialty_en": "Pediatric ENT",
+    "medical_council_id": "64240",
+    "rating": 4.8,
+    "reviews_count": 210,
+    "satisfaction_pct": 96,
+    "total_bookings": 880,
+    "services_fa": [
+      "جراحی لوزه و آدنوئید کودکان",
+      "درمان عفونت گوش میانی اطفال",
+      "بررسی مشکلات شنوایی"
+    ],
+    "services_ar": [
+      "جراحة اللوزتين واللحمية للأطفال",
+      "علاج التهاب الأذن الوسطى للأطفال",
+      "فحص مشاكل السمع"
+    ],
+    "services_en": [
+      "Pediatric Tonsillectomy and Adenoidectomy",
+      "Treatment of Children's Middle Ear Infections",
+      "Evaluation of Hearing Problems"
+    ],
+    "about_fa": "متخصص گوش، حلق و بینی، فوق تخصص اختلالات ENT اطفال با رویکرد تخصصی و ملایم.",
+    "about_ar": "أخصائية الأنف والأذن والحنجرة، أخصائية دقيقة في اضطرابات الأنف والأذن والحنجرة للأطفال نهج متخصص ولطيف.",
+    "about_en": "Specialist in Otorhinolaryngology, sub-specialist in pediatric ENT disorders with a specialized and gentle approach.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب گوش و حلق و بینی کودکان کشاورز",
+    "office_name_ar": "عيادة الأنف والأذن والحنجرة للأطفال کشاورز",
+    "office_name_en": "Keshavarz Pediatric ENT Clinic",
+    "office_address_fa": "شیراز، خیابان معدل غربی، مجتمع پزشکی شفا",
+    "office_address_ar": "شیراز، شارع معدل غربی، المجمع الطبي شفا",
+    "office_address_en": "Shiraz, West Moadele St., Shafa Medical Complex",
+    "phone": "07132304422",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 350000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی",
+      "خدمات درمانی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي",
+      "الخدمات العلاجية"
+    ],
+    "insurance_accepted_en": [
+      "Social Security",
+      "Medical Services"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_051",
+    "name_fa": "دکتر پژمان حق‌شناس",
+    "name_ar": "الدكتور پژمان حق‌شناس",
+    "name_en": "Dr. Pejman Haghshenas",
+    "gender": "male",
+    "sub_specialty_fa": "گوش و شنوایی",
+    "sub_specialty_ar": "الأذن والسمع",
+    "sub_specialty_en": "Ear and Hearing",
+    "medical_council_id": "58190",
+    "rating": 4.9,
+    "reviews_count": 260,
+    "satisfaction_pct": 97,
+    "total_bookings": 1020,
+    "services_fa": [
+      "جراحی پرده گوش",
+      "درمان سرگیجه و اختلال تعادل",
+      "تیمپانوپلاستی پیشرفته"
+    ],
+    "services_ar": [
+      "جراحة طبلة الأذن",
+      "علاج الدوار واضطراب التوازن",
+      "رأب الطبلة المتقدم"
+    ],
+    "services_en": [
+      "Eardrum Surgery",
+      "Treatment of Vertigo and Balance Disorders",
+      "Advanced Tympanoplasty"
+    ],
+    "about_fa": "فوق تخصص گوش و جراحی‌های شنوایی (اتولوژی)، متخصص درمان بیماری‌های پیچیده گوش.",
+    "about_ar": "أخصائي دقيق في الأذن وجراحات السمع (طب الأذن)، متخصص في علاج أمراض الأذن المعقدة.",
+    "about_en": "Sub-specialist in ear and hearing surgeries (otologist), specialized in treating complex ear diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب گوش و شنوایی حق‌شناس",
+    "office_name_ar": "عيادة الأذن والسمع حق‌شناس",
+    "office_name_en": "Haghshenas Ear and Hearing Clinic",
+    "office_address_fa": "شیراز، خیابان زند، روبه‌روی هتل پارس، ساختمان پارس",
+    "office_address_ar": "شیراز، شارع زند، مقابل فندق پارس، مبنى پارس",
+    "office_address_en": "Shiraz, Zand St., Opposite Pars Hotel, Pars Building",
+    "phone": "07132334422",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:00"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_052",
+    "name_fa": "دکتر آزاده نامداری",
+    "name_ar": "الدكتورة آزاده نامداری",
+    "name_en": "Dr. Azadeh Namdari",
+    "gender": "female",
+    "sub_specialty_fa": "جراحی پلاستیک صورت",
+    "sub_specialty_ar": "جراحة تجميل الوجه",
+    "sub_specialty_en": "Facial Plastic Surgery",
+    "medical_council_id": "66890",
+    "rating": 4.8,
+    "reviews_count": 225,
+    "satisfaction_pct": 95,
+    "total_bookings": 900,
+    "services_fa": [
+      "رینوپلاستی زیبایی",
+      "جراحی زیبایی پلک",
+      "تزریق چربی و ژل"
+    ],
+    "services_ar": [
+      "تجميل الأنف التجميلي",
+      "جراحة تجميل الجفن",
+      "حقن الدهون والجل"
+    ],
+    "services_en": [
+      "Cosmetic Rhinoplasty",
+      "Eyelid Cosmetic Surgery",
+      "Fat and Gel Injection"
+    ],
+    "about_fa": "فوق تخصص جراحی پلاستیک صورت، ارائه‌دهنده خدمات تخصصی زیبایی صورت و بینی در شیراز.",
+    "about_ar": "أخصائية دقيقة في جراحة تجميل الوجه، تقدم الخدمات المتخصصة لتجميل الوجه والأنف في شيراز.",
+    "about_en": "Sub-specialist in facial plastic surgery, provider of specialized facial and nose aesthetic services in Shiraz.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب پلاستیک صورت نامداری",
+    "office_name_ar": "عيادة تجميل الوجه نامداری",
+    "office_name_en": "Namdari Facial Plastic Clinic",
+    "office_address_fa": "شیراز، فرهنگ‌شهر، بین کوچه ۲۶ و ۲۸، ساختمان سارا",
+    "office_address_ar": "شیراز، فرهنگ‌شهر، بين الزقاق 26 و 28، مبنى سارا",
+    "office_address_en": "Shiraz, Farhangshahr, Between Alley 26 and 28, Sara Building",
+    "phone": "07136318855",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [],
+    "insurance_accepted_ar": [],
+    "insurance_accepted_en": [],
+    "status": "active"
+  }
+]
+[
+  {
+    "id": "ent_053",
+    "name_fa": "دکتر سیروس کاظمی",
+    "name_ar": "الدكتور سیروس کاظمی",
+    "name_en": "Dr. Siroos Kazemi",
+    "gender": "male",
+    "sub_specialty_fa": "سر و گردن (تومورها)",
+    "sub_specialty_ar": "الرأس والرقبة (الأورام)",
+    "sub_specialty_en": "Head and Neck (Tumors)",
+    "medical_council_id": "62150",
+    "rating": 4.7,
+    "reviews_count": 190,
+    "satisfaction_pct": 93,
+    "total_bookings": 810,
+    "services_fa": [
+      "جراحی تیروئید",
+      "جراحی غدد بزاقی",
+      "درمان تومورهای سر و گردن"
+    ],
+    "services_ar": [
+      "جراحة الغدة الدرقية",
+      "جراحة الغدد اللعابية",
+      "علاج أورام الرأس والرقبة"
+    ],
+    "services_en": [
+      "Thyroid Surgery",
+      "Salivary Gland Surgery",
+      "Head and Neck Tumor Treatment"
+    ],
+    "about_fa": "فوق تخصص جراحی‌های سر و گردن، متخصص در جراحی‌های انکولوژیک سر و گردن.",
+    "about_ar": "أخصائي دقيق في جراحات الرأس والرقبة، متخصص في جراحات أورام الرأس والرقبة.",
+    "about_en": "Sub-specialist in head and neck surgery, specialized in head and neck oncological surgeries.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب سر و گردن کاظمی",
+    "office_name_ar": "عيادة الرأس والرقبة کاظمی",
+    "office_name_en": "Kazemi Head and Neck Clinic",
+    "office_address_fa": "شیراز، معالی‌آباد، روبروی پارک ملت، مجتمع طوبی",
+    "office_address_ar": "شیراز، معالي آباد، مقابل حديقة ملت، مجمع طوبي",
+    "office_address_en": "Shiraz, Ma'ali Abad, Opposite Mellat Park, Toba Complex",
+    "phone": "07136348866",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:00"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_054",
+    "name_fa": "دکتر مهسا ناصری",
+    "name_ar": "الدكتورة مهسا ناصری",
+    "name_en": "Dr. Mahsa Naseri",
+    "gender": "female",
+    "sub_specialty_fa": "سینوس و اندوسکوپی",
+    "sub_specialty_ar": "الجيوب الأنفية والمنظار",
+    "sub_specialty_en": "Sinus and Endoscopy",
+    "medical_council_id": "66120",
+    "rating": 4.8,
+    "reviews_count": 235,
+    "satisfaction_pct": 95,
+    "total_bookings": 940,
+    "services_fa": [
+      "جراحی آندوسکوپی سینوس",
+      "درمان سینوزیت مزمن",
+      "جراحی پولیپ بینی"
+    ],
+    "services_ar": [
+      "جراحة منظار الجيوب الأنفية",
+      "علاج التهاب الجيوب الأنفية المزمن",
+      "جراحة لحمية الأنف"
+    ],
+    "services_en": [
+      "Endoscopic Sinus Surgery",
+      "Treatment of Chronic Sinusitis",
+      "Nasal Polyp Surgery"
+    ],
+    "about_fa": "فوق تخصص جراحی‌های آندوسکوپی بینی و سینوس، متخصص در درمان بیماری‌های سینوسی.",
+    "about_ar": "أخصائية دقيقة في جراحات منظار الأنف والجيوب الأنفية، متخصصة في علاج أمراض الجيوب الأنفية.",
+    "about_en": "Sub-specialist in nasal and sinus endoscopic surgeries, specialized in treating sinus diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب سینوس ناصری",
+    "office_name_ar": "عيادة الجيوب الأنفية ناصری",
+    "office_name_en": "Naseri Sinus Clinic",
+    "office_address_fa": "شیراز، خیابان ستارخان، نبش کوچه ۵، ساختمان نگین",
+    "office_address_ar": "شیراز، شارع ستارخان، تقاطع الزقاق 5، مبنى نگين",
+    "office_address_en": "Shiraz, Sattarkhan St., Corner of Alley 5, Negin Building",
+    "phone": "07136284433",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_055",
+    "name_fa": "دکتر مهدی شاهرخی",
+    "name_ar": "الدكتور مهدی شاهرخی",
+    "name_en": "Dr. Mehdi Shahrokh",
+    "gender": "male",
+    "sub_specialty_fa": "جراحی بینی (رینوپلاستی)",
+    "sub_specialty_ar": "جراحة تجميل الأنف (رينوبلاستي)",
+    "sub_specialty_en": "Nose Surgery (Rhinoplasty)",
+    "medical_council_id": "61410",
+    "rating": 4.7,
+    "reviews_count": 180,
+    "satisfaction_pct": 92,
+    "total_bookings": 750,
+    "services_fa": [
+      "رینوپلاستی زیبایی",
+      "سپتوپلاستی",
+      "جراحی انحراف بینی"
+    ],
+    "services_ar": [
+      "تجميل الأنف التجميلي",
+      "رأب الحاجز الأنفي",
+      "جراحة انحراف الأنف"
+    ],
+    "services_en": [
+      "Cosmetic Rhinoplasty",
+      "Septoplasty",
+      "Nasal Deviation Surgery"
+    ],
+    "about_fa": "متخصص گوش، حلق و بینی و جراح پلاستیک بینی، ارائه‌دهنده خدمات تخصصی رینوپلاستی.",
+    "about_ar": "أخصائي الأنف والأذن والحنجرة وجراح تجميل الأنف، يقدم خدمات متخصصة لتجميل الأنف.",
+    "about_en": "ENT specialist and nasal plastic surgeon, provider of specialized rhinoplasty services.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب جراحی بینی شاهرخی",
+    "office_name_ar": "عيادة جراحة الأنف شاهرخی",
+    "office_name_en": "Shahrokhi Nose Surgery Clinic",
+    "office_address_fa": "شیراز، خیابان قصردشت، روبروی خیابان مهر، مجتمع نوین",
+    "office_address_ar": "شیراز، شارع قصر الدشت، مقابل شارع مهر، مجمع نوين",
+    "office_address_en": "Shiraz, Ghasrdasht St., Opposite Mehr St., Novin Complex",
+    "phone": "07136282244",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:00"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [],
+    "insurance_accepted_ar": [],
+    "insurance_accepted_en": [],
+    "status": "active"
+  },
+  {
+    "id": "ent_056",
+    "name_fa": "دکتر نیره آتشی",
+    "name_ar": "الدكتورة نیره آتشی",
+    "name_en": "Dr. Nayereh Atashi",
+    "gender": "female",
+    "sub_specialty_fa": "حنجره و صوت",
+    "sub_specialty_ar": "الحنجرة والصوت",
+    "sub_specialty_en": "Larynx and Voice",
+    "medical_council_id": "67120",
+    "rating": 4.6,
+    "reviews_count": 160,
+    "satisfaction_pct": 91,
+    "total_bookings": 690,
+    "services_fa": [
+      "جراحی تارهای صوتی",
+      "درمان اختلالات صدا",
+      "بررسی رفلاکس حنجره"
+    ],
+    "services_ar": [
+      "جراحة الأحبال الصوتية",
+      "علاج اضطرابات الصوت",
+      "فحص ارتجاع الحنجرة"
+    ],
+    "services_en": [
+      "Vocal Cord Surgery",
+      "Treatment of Voice Disorders",
+      "Evaluation of Laryngeal Reflux"
+    ],
+    "about_fa": "فوق تخصص حنجره و صوت، ارائه‌دهنده خدمات تخصصی درمانی و تشخیصی صوت و حنجره.",
+    "about_ar": "أخصائية دقيقة في الحنجرة والصوت، تقدم الخدمات العلاجية والتشخيصية المتخصصة للصوت والحنجرة.",
+    "about_en": "Sub-specialist in larynx and voice, provider of specialized therapeutic and diagnostic services for voice and larynx.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب حنجره و صوت آتشی",
+    "office_name_ar": "عيادة الحنجرة والصوت آتشی",
+    "office_name_en": "Atashi Larynx and Voice Clinic",
+    "office_address_fa": "شیراز، خیابان زند، بین ۲۰ متری و صورتگر، ساختمان فارس",
+    "office_address_ar": "شیراز، شارع زند، بين 20 متري و صورتگر، مبنى فارس",
+    "office_address_en": "Shiraz, Zand St., Between 20 Metri and Sooratgar, Fars Building",
+    "phone": "07132338899",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_057",
+    "name_fa": "دکتر غلامرضا حبیبی",
+    "name_ar": "الدكتور غلامرضا حبیبی",
+    "name_en": "Dr. Gholamreza Habibi",
+    "gender": "male",
+    "sub_specialty_fa": "گوش و شنوایی",
+    "sub_specialty_ar": "الأذن والسمع",
+    "sub_specialty_en": "Ear and Hearing",
+    "medical_council_id": "58120",
+    "rating": 4.8,
+    "reviews_count": 195,
+    "satisfaction_pct": 95,
+    "total_bookings": 810,
+    "services_fa": [
+      "جراحی ترمیمی پرده گوش",
+      "درمان سرگیجه",
+      "تیمپانوپلاستی"
+    ],
+    "services_ar": [
+      "جراحة ترميم طبلة الأذن",
+      "علاج الدوار",
+      "رأب الطبلة"
+    ],
+    "services_en": [
+      "Eardrum Repair Surgery",
+      "Treatment of Vertigo",
+      "Tympanoplasty"
+    ],
+    "about_fa": "فوق تخصص گوش و جراحی‌های شنوایی (اتولوژی)، متخصص در درمان بیماری‌های گوش.",
+    "about_ar": "أخصائي دقيق في الأذن وجراحات السمع (طب الأذن)، متخصص في علاج أمراض الأذن.",
+    "about_en": "Sub-specialist in ear and hearing surgeries (otologist), specialized in treating ear diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب گوش و شنوایی حبیبی",
+    "office_name_ar": "عيادة الأذن والسمع حبیبی",
+    "office_name_en": "Habibi Ear and Hearing Clinic",
+    "office_address_fa": "شیراز، خیابان ۲۰ متری سینما سعدی، تقاطع اردیبهشت، ساختمان شیراز",
+    "office_address_ar": "شیراز، شارع 20 متري سينما سعدي، تقاطع ارديبهشت، مبنى شيراز",
+    "office_address_en": "Shiraz, 20 Metri Cinema Saadi St., Ordibehesht Intersection, Shiraz Building",
+    "phone": "07132311133",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:00"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_058",
+    "name_fa": "دکتر زهرا کشاورز",
+    "name_ar": "الدكتورة زهرا کشاورز",
+    "name_en": "Dr. Zahra Keshavarz",
+    "gender": "female",
+    "sub_specialty_fa": "اطفال ENT",
+    "sub_specialty_ar": "أنف وأذن وحنجرة أطفال",
+    "sub_specialty_en": "Pediatric ENT",
+    "medical_council_id": "67410",
+    "rating": 4.9,
+    "reviews_count": 270,
+    "satisfaction_pct": 97,
+    "total_bookings": 1030,
+    "services_fa": [
+      "جراحی لوزه کودکان",
+      "درمان عفونت‌های مکرر گوش اطفال",
+      "بررسی مشکلات تنفسی اطفال"
+    ],
+    "services_ar": [
+      "جراحة لوزتين الأطفال",
+      "علاج التهابات الأذن المتكررة للأطفال",
+      "فحص مشاكل التنفس لدى الأطفال"
+    ],
+    "services_en": [
+      "Pediatric Tonsillectomy",
+      "Treatment of Recurrent Ear Infections in Children",
+      "Evaluation of Pediatric Breathing Issues"
+    ],
+    "about_fa": "متخصص گوش، حلق و بینی، فوق تخصص اختلالات ENT اطفال با سابقه درخشان.",
+    "about_ar": "أخصائية الأنف والأذن والحنجرة، أخصائية دقيقة في اضطرابات الأنف والأذن والحنجرة للأطفال ذات سجل لامع.",
+    "about_en": "Specialist in Otorhinolaryngology, sub-specialist in pediatric ENT disorders with a brilliant record.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب گوش و حلق و بینی کودکان کشاورز",
+    "office_name_ar": "عيادة الأنف والأذن والحنجرة للأطفال کشاورز",
+    "office_name_en": "Keshavarz Pediatric ENT Clinic",
+    "office_address_fa": "شیراز، خیابان ستارخان، نبش کوچه ۱۰، ساختمان آفتاب",
+    "office_address_ar": "شیراز، شارع ستارخان، تقاطع الزقاق 10، مبنى آفتاب",
+    "office_address_en": "Shiraz, Sattarkhan St., Corner of Alley 10, Aftab Building",
+    "phone": "07136263366",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "16:30",
+      "end": "20:30"
+    },
+    "consultation_fee": 350000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی",
+      "خدمات درمانی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي",
+      "الخدمات العلاجية"
+    ],
+    "insurance_accepted_en": [
+      "Social Security",
+      "Medical Services"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_059",
+    "name_fa": "دکتر شاهین خدام‌حسینی",
+    "name_ar": "الدكتور شاهین خدام‌حسینی",
+    "name_en": "Dr. Shahin Khodamhosseini",
+    "gender": "male",
+    "sub_specialty_fa": "جراحی پلاستیک صورت",
+    "sub_specialty_ar": "جراحة تجميل الوجه",
+    "sub_specialty_en": "Facial Plastic Surgery",
+    "medical_council_id": "61900",
+    "rating": 4.8,
+    "reviews_count": 240,
+    "satisfaction_pct": 96,
+    "total_bookings": 960,
+    "services_fa": [
+      "رینوپلاستی",
+      "جراحی زیبایی گوش",
+      "لیفت صورت"
+    ],
+    "services_ar": [
+      "تجميل الأنف",
+      "جراحة تجميل الأذن",
+      "شد الوجه"
+    ],
+    "services_en": [
+      "Rhinoplasty",
+      "Ear Cosmetic Surgery",
+      "Facelift"
+    ],
+    "about_fa": "فوق تخصص جراحی پلاستیک صورت، ارائه‌دهنده خدمات تخصصی زیبایی بینی و صورت در شیراز.",
+    "about_ar": "أخصائي دقيق في جراحة تجميل الوجه، يقدم الخدمات المتخصصة لتجميل الأنف والوجه في شيراز.",
+    "about_en": "Sub-specialist in facial plastic surgery, provider of specialized nose and facial aesthetic services in Shiraz.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب پلاستیک صورت خدام‌حسینی",
+    "office_name_ar": "عيادة تجميل الوجه خدام‌حسینی",
+    "office_name_en": "Khodamhosseini Facial Plastic Clinic",
+    "office_address_fa": "شیراز، خیابان زند، جنب بیمارستان سعدی، ساختمان صدرا",
+    "office_address_ar": "شیراز، شارع زند، بجانب مستشفي سعدي، مبنى صدرا",
+    "office_address_en": "Shiraz, Zand St., Beside Saadi Hospital, Sadra Building",
+    "phone": "07132308099",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [],
+    "insurance_accepted_ar": [],
+    "insurance_accepted_en": [],
+    "status": "active"
+  },
+  {
+    "id": "ent_060",
+    "name_fa": "دکتر مژگان صراف",
+    "name_ar": "الدكتورة مژگان صراف",
+    "name_en": "Dr. Mojgan Sarraf",
+    "gender": "female",
+    "sub_specialty_fa": "سینوس و اندوسکوپی",
+    "sub_specialty_ar": "الجيوب الأنفية والمنظار",
+    "sub_specialty_en": "Sinus and Endoscopy",
+    "medical_council_id": "67210",
+    "rating": 4.9,
+    "reviews_count": 290,
+    "satisfaction_pct": 98,
+    "total_bookings": 1110,
+    "services_fa": [
+      "جراحی آندوسکوپی سینوس",
+      "درمان سینوزیت مزمن",
+      "پولیپکتومی"
+    ],
+    "services_ar": [
+      "جراحة منظار الجيوب الأنفية",
+      "علاج التهاب الجيوب الأنفية المزمن",
+      "استئصال لحمية الأنف"
+    ],
+    "services_en": [
+      "Endoscopic Sinus Surgery",
+      "Treatment of Chronic Sinusitis",
+      "Polypectomy"
+    ],
+    "about_fa": "فوق تخصص جراحی‌های آندوسکوپی بینی و سینوس، متخصص در درمان بیماری‌های سینوسی.",
+    "about_ar": "أخصائية دقيقة في جراحات منظار الأنف والجيوب الأنفية، متخصصة في علاج أمراض الجيوب الأنفية.",
+    "about_en": "Sub-specialist in nasal and sinus endoscopic surgeries, specialized in treating sinus diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب سینوس صراف",
+    "office_name_ar": "عيادة الجيوب الأنفية صراف",
+    "office_name_en": "Sarraf Sinus Clinic",
+    "office_address_fa": "شیراز، خیابان اردیبهشت غربی، ساختمان دنا",
+    "office_address_ar": "شیراز، شارع اردیبهشت غربی، مبنى دنا",
+    "office_address_en": "Shiraz, West Ordibehesht St., Dena Building",
+    "phone": "07132315511",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "15:00",
+      "end": "19:00"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_061",
+    "name_fa": "دکتر مسعود شفیعی",
+    "name_ar": "الدكتور مسعود شفیعی",
+    "name_en": "Dr. Masoud Shafiei",
+    "gender": "male",
+    "sub_specialty_fa": "ENT عمومی",
+    "sub_specialty_ar": "أنف وأذن وحنجرة عام",
+    "sub_specialty_en": "General ENT",
+    "medical_council_id": "64210",
+    "rating": 4.8,
+    "reviews_count": 210,
+    "satisfaction_pct": 95,
+    "total_bookings": 880,
+    "services_fa": [
+      "درمان سینوزیت",
+      "شستشوی گوش",
+      "درمان عفونت‌های گوش و حلق"
+    ],
+    "services_ar": [
+      "علاج التهاب الجيوب الأنفية",
+      "غسل الأذن",
+      "علاج التهابات الأذن والبلعوم"
+    ],
+    "services_en": [
+      "Treatment of Sinusitis",
+      "Ear Irrigation",
+      "Treatment of Ear and Throat Infections"
+    ],
+    "about_fa": "متخصص گوش، حلق و بینی عمومی، با تجربه بالا در درمان بیماری‌های شایع ENT.",
+    "about_ar": "أخصائي الأنف والأذن والحنجرة العامة، ذو خبرة عالية في علاج أمراض الأنف والأذن والحنجرة الشائعة.",
+    "about_en": "General ENT specialist, highly experienced in treating common ENT diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب دکتر شفیعی",
+    "office_name_ar": "عيادة الدكتور شفیعی",
+    "office_name_en": "Dr. Shafiei Clinic",
+    "office_address_fa": "شیراز، خیابان زند، حدفاصل بیست متری و صورتگر، ساختمان نگین",
+    "office_address_ar": "شیراز، شارع زند، بين بيست متري و صورتگر، مبنى نگين",
+    "office_address_en": "Shiraz, Zand St., Between Bist Metri and Sooratgar, Negin Building",
+    "phone": "07132351177",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 300000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی",
+      "خدمات درمانی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي",
+      "الخدمات العلاجية"
+    ],
+    "insurance_accepted_en": [
+      "Social Security",
+      "Medical Services"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_062",
+    "name_fa": "دکتر رؤیا پاکار",
+    "name_ar": "الدكتورة رؤیا پاکار",
+    "name_en": "Dr. Roya Pakar",
+    "gender": "female",
+    "sub_specialty_fa": "سر و گردن (تومورها)",
+    "sub_specialty_ar": "الرأس والرقبة (الأورام)",
+    "sub_specialty_en": "Head and Neck (Tumors)",
+    "medical_council_id": "68120",
+    "rating": 4.9,
+    "reviews_count": 280,
+    "satisfaction_pct": 98,
+    "total_bookings": 1090,
+    "services_fa": [
+      "جراحی تیروئید و غدد بزاقی",
+      "جراحی تومورهای سر و گردن",
+      "نمونه‌برداری غدد لنفاوی"
+    ],
+    "services_ar": [
+      "جراحة الغدة الدرقية والغدد اللعابية",
+      "جراحة أورام الرأس والرقبة",
+      "خزعة الغدد الليمفاوية"
+    ],
+    "services_en": [
+      "Thyroid and Salivary Gland Surgery",
+      "Head and Neck Tumor Surgery",
+      "Lymph Node Biopsy"
+    ],
+    "about_fa": "فوق تخصص جراحی‌های سر و گردن، ارائه‌دهنده خدمات تخصصی جراحی تومورها و غدد.",
+    "about_ar": "أخصائية دقيقة في جراحات الرأس والرقبة، تقدم الخدمات المتخصصة لجراحة الأورام والغدد.",
+    "about_en": "Sub-specialist in head and neck surgery, provider of specialized tumor and gland surgery services.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب سر و گردن پاکار",
+    "office_name_ar": "عيادة الرأس والرقبة پاکار",
+    "office_name_en": "Pakar Head and Neck Clinic",
+    "office_address_fa": "شیراز، خیابان ملاصدرا، کوچه ۳، ساختمان دنا",
+    "office_address_ar": "شیراز، شارع ملاصدرا، الزقاق 3، مبنى دنا",
+    "office_address_en": "Shiraz, Mollasadra St., Alley 3, Dena Building",
+    "phone": "07136472266",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:30"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_063",
+    "name_fa": "دکتر فرناز باقری",
+    "name_ar": "الدكتورة فرناز باقری",
+    "name_en": "Dr. Farnaz Bagheri",
+    "gender": "female",
+    "sub_specialty_fa": "جراحی پلاستیک صورت",
+    "sub_specialty_ar": "جراحة تجميل الوجه",
+    "sub_specialty_en": "Facial Plastic Surgery",
+    "medical_council_id": "69120",
+    "rating": 4.9,
+    "reviews_count": 290,
+    "satisfaction_pct": 98,
+    "total_bookings": 1140,
+    "services_fa": [
+      "رینوپلاستی تخصصی",
+      "جراحی زیبایی پلک",
+      "تزریق فیلر و بوتاکس"
+    ],
+    "services_ar": [
+      "تجميل الأنف المتخصص",
+      "جراحة تجميل الجفن",
+      "حقن الفيلر والبوت็อกس"
+    ],
+    "services_en": [
+      "Specialized Rhinoplasty",
+      "Eyelid Cosmetic Surgery",
+      "Filler and Botox Injection"
+    ],
+    "about_fa": "فوق تخصص جراحی پلاستیک صورت، متعهد به ارائه بهترین خدمات زیبایی بینی و صورت در شیراز.",
+    "about_ar": "أخصائية دقيقة في جراحة تجميل الوجه، ملتزمة بتقديم أفضل خدمات تجميل الأنف والوجه في شيراز.",
+    "about_en": "Sub-specialist in facial plastic surgery, committed to providing the best nose and facial aesthetic services in Shiraz.",
+    "office_id": "off_01",
+    "office_name_fa": "کلینیک پلاستیک صورت باقری",
+    "office_name_ar": "عيادة تجميل الوجه باقری",
+    "office_name_en": "Bagheri Facial Plastic Clinic",
+    "office_address_fa": "شیراز، معالی‌آباد، نبش خیابان نسترن، مجتمع آریا",
+    "office_address_ar": "شیراز، معالي آباد، تقاطع شارع نسترن، مجمع آریا",
+    "office_address_en": "Shiraz, Ma'ali Abad, Corner of Nastaran St., Aria Complex",
+    "phone": "07136343311",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "15:00",
+      "end": "19:00"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [],
+    "insurance_accepted_ar": [],
+    "insurance_accepted_en": [],
+    "status": "active"
+  },
+  {
+    "id": "ent_064",
+    "name_fa": "دکتر کامران شریفی",
+    "name_ar": "الدكتور کامران شریفی",
+    "name_en": "Dr. Kamran Sharifi",
+    "gender": "male",
+    "sub_specialty_fa": "گوش و شنوایی",
+    "sub_specialty_ar": "الأذن والسمع",
+    "sub_specialty_en": "Ear and Hearing",
+    "medical_council_id": "61410",
+    "rating": 4.7,
+    "reviews_count": 180,
+    "satisfaction_pct": 92,
+    "total_bookings": 750,
+    "services_fa": [
+      "جراحی ترمیمی گوش",
+      "درمان سرگیجه",
+      "تیمپانوپلاستی"
+    ],
+    "services_ar": [
+      "جراحة ترميم الأذن",
+      "علاج الدوار",
+      "رأب الطبلة"
+    ],
+    "services_en": [
+      "Reconstructive Ear Surgery",
+      "Treatment of Vertigo",
+      "Tympanoplasty"
+    ],
+    "about_fa": "فوق تخصص گوش و جراحی‌های شنوایی (اتولوژی)، متخصص در درمان بیماری‌های گوش.",
+    "about_ar": "أخصائي دقيق في الأذن وجراحات السمع (طب الأذن)، متخصص في علاج أمراض الأذن.",
+    "about_en": "Sub-specialist in ear and hearing surgeries (otologist), specialized in treating ear diseases.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب گوش و شنوایی شریفی",
+    "office_name_ar": "عيادة الأذن والسمع شریفی",
+    "office_name_en": "Sharifi Ear and Hearing Clinic",
+    "office_address_fa": "شیراز، خیابان اردیبهشت غربی، ساختمان امیران",
+    "office_address_ar": "شیراز، شارع اردیبهشت غربی، مبنى أميران",
+    "office_address_en": "Shiraz, West Ordibehesht St., Amiran Building",
+    "phone": "07132318044",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:00"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_065",
+    "name_fa": "دکتر مرضیه قاسم‌زاده",
+    "name_ar": "الدكتورة مرضیه قاسم‌زاده",
+    "name_en": "Dr. Marzieh Ghasemzadeh",
+    "gender": "female",
+    "sub_specialty_fa": "جراحی بینی (رینوپلاستی)",
+    "sub_specialty_ar": "جراحة تجميل الأنف (رينوبلاستي)",
+    "sub_specialty_en": "Nose Surgery (Rhinoplasty)",
+    "medical_council_id": "70120",
+    "rating": 4.9,
+    "reviews_count": 310,
+    "satisfaction_pct": 98,
+    "total_bookings": 1250,
+    "services_fa": [
+      "رینوپلاستی زیبایی و ترمیمی",
+      "سپتوپلاستی",
+      "جراحی پولیپ"
+    ],
+    "services_ar": [
+      "تجميل الأنف التجميلي والترميمي",
+      "رأب الحاجز الأنفي",
+      "جراحة لحمية الأنف"
+    ],
+    "services_en": [
+      "Cosmetic and Revision Rhinoplasty",
+      "Septoplasty",
+      "Nasal Polyp Surgery"
+    ],
+    "about_fa": "فوق تخصص جراحی پلاستیک صورت، با سابقه درخشان در جراحی‌های زیبایی بینی و صورت.",
+    "about_ar": "أخصائية دقيقة في جراحة تجميل الوجه، مع سجل لامع في عمليات تجميل الأنف والوجه.",
+    "about_en": "Sub-specialist in facial plastic surgery, with a brilliant background in nose and facial aesthetic surgeries.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب جراحی بینی قاسم‌زاده",
+    "office_name_ar": "عيادة جراحة الأنف قاسم‌زاده",
+    "office_name_en": "Ghasemzadeh Nose Surgery Clinic",
+    "office_address_fa": "شیراز، خیابان زند، بین بیست متری و صورتگر، ساختمان کیمیا",
+    "office_address_ar": "شیراز، شارع زند، بين بيست متري و صورتگر، مبنى كيميا",
+    "office_address_en": "Shiraz, Zand St., Between Bist Metri and Sooratgar, Kimia Building",
+    "phone": "07132354455",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "16:30",
+      "end": "20:30"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [],
+    "insurance_accepted_ar": [],
+    "insurance_accepted_en": [],
+    "status": "active"
+  },
+  {
+    "id": "ent_067",
+    "name_fa": "دکتر پروانه مرزبان",
+    "name_ar": "الدكتورة پروانه مرزبان",
+    "name_en": "Dr. Parvaneh Marzban",
+    "gender": "female",
+    "sub_specialty_fa": "حنجره و صوت",
+    "sub_specialty_ar": "الحنجرة والصوت",
+    "sub_specialty_en": "Larynx and Voice",
+    "medical_council_id": "48990",
+    "rating": 4.8,
+    "reviews_count": 290,
+    "satisfaction_pct": 96,
+    "total_bookings": 1150,
+    "services_fa": [
+      "جراحی میکروسکوپی حنجره",
+      "درمان اختلالات صوت",
+      "بررسی مشکلات تارهای صوتی"
+    ],
+    "services_ar": [
+      "جراحة مجهرية للحنجرة",
+      "علاج اضطرابات الصوت",
+      "فحص مشاكل الأحبال الصوتية"
+    ],
+    "services_en": [
+      "Microscopic Laryngeal Surgery",
+      "Treatment of Voice Disorders",
+      "Evaluation of Vocal Cord Problems"
+    ],
+    "about_fa": "فوق تخصص حنجره و صوت، ارائه‌دهنده خدمات تخصصی درمانی و جراحی حنجره در شیراز.",
+    "about_ar": "أخصائية دقيقة في الحنجرة والصوت، تقدم الخدمات العلاجية والجراحية المتخصصة للحنجرة في شيراز.",
+    "about_en": "Sub-specialist in larynx and voice, provider of specialized therapeutic and surgical services for the larynx in Shiraz.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب حنجره و صوت مرزبان",
+    "office_name_ar": "عيادة الحنجرة والصوت مرزبان",
+    "office_name_en": "Marzban Larynx and Voice Clinic",
+    "office_address_fa": "شیراز، خیابان زند، روبه‌روی بیمارستان شهید فقیهی، ساختمان پارس",
+    "office_address_ar": "شیراز، شارع زند، مقابل مستشفي شهید فقیهی، مبنى پارس",
+    "office_address_en": "Shiraz, Zand St., Opposite Shahid Faghihi Hospital, Pars Building",
+    "phone": "07132338844",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 380000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي"
+    ],
+    "insurance_accepted_en": [
+      "Social Security"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_068",
+    "name_fa": "دکتر علیرضا برومند",
+    "name_ar": "الدكتور علیرضا برومند",
+    "name_en": "Dr. Alireza Boroumand",
+    "gender": "male",
+    "sub_specialty_fa": "جراحی پلاستیک صورت",
+    "sub_specialty_ar": "جراحة تجميل الوجه",
+    "sub_specialty_en": "Facial Plastic Surgery",
+    "medical_council_id": "45690",
+    "rating": 4.9,
+    "reviews_count": 310,
+    "satisfaction_pct": 97,
+    "total_bookings": 1250,
+    "services_fa": [
+      "رینوپلاستی تخصصی",
+      "جراحی زیبایی گوش",
+      "لیفت صورت و گردن"
+    ],
+    "services_ar": [
+      "تجميل الأنف المتخصص",
+      "جراحة تجميل الأذن",
+      "شد الوجه والرقبة"
+    ],
+    "services_en": [
+      "Specialized Rhinoplasty",
+      "Ear Cosmetic Surgery",
+      "Facelift and Necklift"
+    ],
+    "about_fa": "فوق تخصص جراحی پلاستیک صورت، با سابقه درخشان در جراحی‌های زیبایی بینی و صورت.",
+    "about_ar": "أخصائي دقيق في جراحة تجميل الوجه، مع سجل لامع في عمليات تجميل الأنف والوجه.",
+    "about_en": "Sub-specialist in facial plastic surgery, with a brilliant background in nose and facial aesthetic surgeries.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب پلاستیک صورت برومند",
+    "office_name_ar": "عيادة تجميل الوجه برومند",
+    "office_name_en": "Boroumand Facial Plastic Clinic",
+    "office_address_fa": "شیراز، خیابان زند، بین بیست متری و صورتگر، ساختمان آریا",
+    "office_address_ar": "شیراز، شارع زند، بين بيست متري و صورتگر، مبنى آریا",
+    "office_address_en": "Shiraz, Zand St., Between Bist Metri and Sooratgar, Aria Building",
+    "phone": "07132315599",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "15:30",
+      "end": "19:30"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [],
+    "insurance_accepted_ar": [],
+    "insurance_accepted_en": [],
+    "status": "active"
+  },
+  {
+    "id": "ent_069",
+    "name_fa": "دکتر مهناز صبوحی",
+    "name_ar": "الدكتورة مهناز صبوحی",
+    "name_en": "Dr. Mahnaz Sabouhi",
+    "gender": "female",
+    "sub_specialty_fa": "اطفال ENT",
+    "sub_specialty_ar": "أنف وأذن والحنجرة أطفال",
+    "sub_specialty_en": "Pediatric ENT",
+    "medical_council_id": "51290",
+    "rating": 4.7,
+    "reviews_count": 220,
+    "satisfaction_pct": 94,
+    "total_bookings": 920,
+    "services_fa": [
+      "جراحی لوزه کودکان",
+      "درمان عفونت‌های گوش اطفال",
+      "بررسی مشکلات تنفسی خواب کودکان"
+    ],
+    "services_ar": [
+      "جراحة لوزتين الأطفال",
+      "علاج التهابات أذن الأطفال",
+      "فحص مشاكل التنفس أثناء النوم للأطفال"
+    ],
+    "services_en": [
+      "Pediatric Tonsillectomy",
+      "Treatment of Children's Ear Infections",
+      "Evaluation of Pediatric Sleep Breathing Problems"
+    ],
+    "about_fa": "متخصص گوش، حلق و بینی، فوق تخصص اختلالات ENT اطفال با سابقه درخشان.",
+    "about_ar": "أخصائية الأنف والأذن والحنجرة، أخصائية دقيقة في اضطرابات الأنف والأذن والحنجرة للأطفال ذات سجل لامع.",
+    "about_en": "Specialist in Otorhinolaryngology, sub-specialist in pediatric ENT disorders with a brilliant record.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب گوش و حلق و بینی کودکان صبوحی",
+    "office_name_ar": "عيادة الأنف والأذن والحنجرة للأطفال صبوحی",
+    "office_name_en": "Sabouhi Pediatric ENT Clinic",
+    "office_address_fa": "شیراز، معالی‌آباد، روبروی پارک ملت، مجتمع طوبی",
+    "office_address_ar": "شیراز، معالي آباد، مقابل حديقة ملت، مجمع طوبي",
+    "office_address_en": "Shiraz, Ma'ali Abad, Opposite Mellat Park, Toba Complex",
+    "phone": "07136348888",
+    "working_days_fa": [
+      "یکشنبه",
+      "سه‌شنبه",
+      "پنجشنبه"
+    ],
+    "working_days_ar": [
+      "الأحد",
+      "الثلاثاء",
+      "الخميس"
+    ],
+    "working_days_en": [
+      "Sunday",
+      "Tuesday",
+      "Thursday"
+    ],
+    "working_hours": {
+      "start": "17:00",
+      "end": "20:30"
+    },
+    "consultation_fee": 350000,
+    "insurance_accepted_fa": [
+      "تامین اجتماعی",
+      "خدمات درمانی"
+    ],
+    "insurance_accepted_ar": [
+      "الضمان الاجتماعي",
+      "الخدمات العلاجية"
+    ],
+    "insurance_accepted_en": [
+      "Social Security",
+      "Medical Services"
+    ],
+    "status": "active"
+  },
+  {
+    "id": "ent_070",
+    "name_fa": "دکتر مسعود نمازی",
+    "name_ar": "الدكتور مسعود نمازی",
+    "name_en": "Dr. Masoud Namazi",
+    "gender": "male",
+    "sub_specialty_fa": "جراحی بینی (رینوپلاستی)",
+    "sub_specialty_ar": "جراحة تجميل الأنف (رينوبلاستي)",
+    "sub_specialty_en": "Nose Surgery (Rhinoplasty)",
+    "medical_council_id": "46990",
+    "rating": 4.8,
+    "reviews_count": 270,
+    "satisfaction_pct": 96,
+    "total_bookings": 1050,
+    "services_fa": [
+      "جراحی زیبایی بینی",
+      "سپتوپلاستی",
+      "جراحی ترمیمی بینی"
+    ],
+    "services_ar": [
+      "جراحة تجميل الأنف",
+      "رأب الحاجز الأنفي",
+      "جراحة ترميم الأنف"
+    ],
+    "services_en": [
+      "Rhinoplasty",
+      "Septoplasty",
+      "Revision Rhinoplasty"
+    ],
+    "about_fa": "فوق تخصص جراحی پلاستیک صورت و رینوپلاستی در شیراز، متخصص در فرم‌دهی و اصلاح ساختار بینی.",
+    "about_ar": "أخصائي دقيق في جراحة تجميل الوجه وتجميل الأنف في شيراز، متخصص في تشكيل وتصحيح هيكل الأنف.",
+    "about_en": "Sub-specialist in facial plastic surgery and rhinoplasty in Shiraz, specialized in shaping and correcting nasal structure.",
+    "office_id": "off_01",
+    "office_name_fa": "مطب جراحی بینی نمازی",
+    "office_name_ar": "عيادة جراحة الأنف نمازی",
+    "office_name_en": "Namazi Nose Surgery Clinic",
+    "office_address_fa": "شیراز، خیابان ستارخان, نبش کوچه ۵, ساختمان نگین",
+    "office_address_ar": "شیراز، شارع ستارخان، تقاطع الزقاق 5، مبنى نگين",
+    "office_address_en": "Shiraz, Sattarkhan St., Corner of Alley 5, Negin Building",
+    "phone": "07136284455",
+    "working_days_fa": [
+      "شنبه",
+      "دوشنبه",
+      "چهارشنبه"
+    ],
+    "working_days_ar": [
+      "السبت",
+      "الاثنين",
+      "الأربعاء"
+    ],
+    "working_days_en": [
+      "Saturday",
+      "Monday",
+      "Wednesday"
+    ],
+    "working_hours": {
+      "start": "16:00",
+      "end": "20:00"
+    },
+    "consultation_fee": 400000,
+    "insurance_accepted_fa": [],
+    "insurance_accepted_ar": [],
+    "insurance_accepted_en": [],
+    "status": "active"
+  }
+]
