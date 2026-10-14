@@ -2905,11 +2905,15 @@ def load_all_insurances():
     if _INSURANCE_CACHE["loaded"]:
         return _INSURANCE_CACHE["data"]
     all_ins = []
-    for fn in ("ins_p1.json", "ins_p2.json", "ins_p3.json", "ins_p4.json"):
-        data = _load_default(os.path.join(DATA_DIR, fn), {})
-        items = data.get("insurances", [])
-        if items:
-            all_ins.extend(items)
+    candidates = (
+    "ins_p1.json", "ins_p2.json", "ins_p3.json", "ins_p4.json",
+    "insurances.json", "insurance.json", "ins.json",
+)
+for fn in candidates:
+    data = _load_default(os.path.join(DATA_DIR, fn), {})
+    items = data.get("insurances", []) or []
+    if items:
+        all_ins.extend(items)
     _INSURANCE_CACHE["data"] = all_ins
     _INSURANCE_CACHE["loaded"] = True
     return all_ins
