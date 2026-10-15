@@ -13,378 +13,162 @@
   },
   {
     "id": "doc_003",
-    "name_fa": "دکتر ارتوپدی",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_004",
-    "name_fa": "دکتر ارتوپدی اصفهان",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_005",
-    "name_fa": "دکتر ارتوپدی ایران",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_006",
-    "name_fa": "دکتر ارتوپدی تبریز",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_007",
-    "name_fa": "دکتر ارتوپدی تهران",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_008",
-    "name_fa": "دکتر ارتوپدی شیراز",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_009",
-    "name_fa": "دکتر ارتوپدی مشهد",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_010",
-    "name_fa": "دکتر ایمپلنت دندان تهران",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_011",
     "name_fa": "دکتر بهرام قاسم زاده قطب",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_012",
+    "id": "doc_004",
     "name_fa": "دکتر تو در شهرهای مختلف",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_013",
+    "id": "doc_005",
     "name_fa": "دکتر جمشید بدر",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_014",
+    "id": "doc_006",
     "name_fa": "دکتر حسن بدیعی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_015",
+    "id": "doc_007",
     "name_fa": "دکتر خلیل ضرابی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_016",
-    "name_fa": "دکتر دندانپزشک تهران",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_017",
-    "name_fa": "دکتر دندانپزشکی کودکان تهران",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_018",
+    "id": "doc_008",
     "name_fa": "دکتر راضیه نعیمی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_019",
+    "id": "doc_009",
     "name_fa": "دکتر رضا خواجه",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_020",
-    "name_fa": "دکتر روانشناسی اصفهان",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_021",
-    "name_fa": "دکتر روانشناسی ایران",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_022",
-    "name_fa": "دکتر روانشناسی تهران",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_023",
-    "name_fa": "دکتر روانشناسی شیراز",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_024",
-    "name_fa": "دکتر روانشناسی مشهد",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_025",
-    "name_fa": "دکتر روانپزشک در شیراز",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_026",
-    "name_fa": "دکتر روانپزشکی اصفهان",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_027",
-    "name_fa": "دکتر روانپزشکی ایران",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_028",
-    "name_fa": "دکتر روانپزشکی تبریز",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_029",
-    "name_fa": "دکتر روانپزشکی تهران",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_030",
-    "name_fa": "دکتر روانپزشکی رشت",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_031",
-    "name_fa": "دکتر روانپزشکی شیراز",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_032",
-    "name_fa": "دکتر روانپزشکی مشهد",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_033",
-    "name_fa": "دکتر روانپزشکی کرج",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_034",
-    "name_fa": "دکتر روانپزشکی کرمان",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_035",
+    "id": "doc_010",
     "name_fa": "دکتر روماتولوژی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_036",
-    "name_fa": "دکتر روماتولوژی اصفهان",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_037",
-    "name_fa": "دکتر روماتولوژی ایران",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_038",
-    "name_fa": "دکتر روماتولوژی تبریز",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_039",
-    "name_fa": "دکتر روماتولوژی تهران",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_040",
-    "name_fa": "دکتر روماتولوژی شیراز",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_041",
-    "name_fa": "دکتر روماتولوژی مشهد",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_042",
-    "name_fa": "دکتر زنان",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_043",
+    "id": "doc_011",
     "name_fa": "دکتر زهرا تقیه",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_044",
+    "id": "doc_012",
     "name_fa": "دکتر زهرا سوندرومی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_045",
+    "id": "doc_013",
     "name_fa": "دکتر زهرا کیان پور",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_046",
+    "id": "doc_014",
     "name_fa": "دکتر سعید صالح پور",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_047",
+    "id": "doc_015",
     "name_fa": "دکتر سید مجتبی حسینی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_048",
+    "id": "doc_016",
     "name_fa": "دکتر سید محمدرضا هاشمی اردکانی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_049",
+    "id": "doc_017",
     "name_fa": "دکتر غدد",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_050",
-    "name_fa": "دکتر قلب",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_051",
-    "name_fa": "دکتر قلب خوب در شیراز",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_052",
-    "name_fa": "دکتر لمینت دندان تهران",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_053",
+    "id": "doc_018",
     "name_fa": "دکتر محمد حسن نعمتی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_054",
+    "id": "doc_019",
     "name_fa": "دکتر محمدعلی سنجریان",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_055",
+    "id": "doc_020",
     "name_fa": "دکتر مریم توسلی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_056",
+    "id": "doc_021",
     "name_fa": "دکتر مسعود شفیعی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_057",
+    "id": "doc_022",
     "name_fa": "دکتر مسیح شفا",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_058",
-    "name_fa": "دکتر مغز",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_059",
+    "id": "doc_023",
     "name_fa": "دکتر منصور جنتی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_060",
+    "id": "doc_024",
     "name_fa": "دکتر مهدی اکرمی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_061",
+    "id": "doc_025",
     "name_fa": "دکتر مورد نظر خود را",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_062",
+    "id": "doc_026",
     "name_fa": "دکتر نیاز به روش",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_063",
+    "id": "doc_027",
     "name_fa": "دکتر هم در پروفایل هر",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_064",
+    "id": "doc_028",
     "name_fa": "دکتر پروانه قنبری",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_065",
+    "id": "doc_029",
     "name_fa": "دکتر کامران جمشیدی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
