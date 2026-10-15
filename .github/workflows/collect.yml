@@ -6,11 +6,18 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: collect-and-push
+  cancel-in-progress: false
+
 jobs:
   collect:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/setup-python@v5
         with:
@@ -26,15 +33,11 @@ jobs:
           name: html-debug
           path: cache/
 
-      - name: Commit files
+      - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/doctors/
-          git diff-index --quiet HEAD || git commit -m "update doctors data"
-
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
+          git diff --staged --quiet || git commit -m "update doctors data"
+          git pull --rebase origin main
+          git push origin main
