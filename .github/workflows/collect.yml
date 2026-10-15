@@ -2,6 +2,8 @@ name: Collect Doctors
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * *"    # هر روز ساعت ۳ صبح UTC (= ۶:۳۰ صبح به وقت تهران)
 
 permissions:
   contents: write
