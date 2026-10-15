@@ -13,6 +13,11 @@ jobs:
           python-version: '3.11'
       - run: pip install requests
       - run: python collect.py
+      - name: Upload HTML debug
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-debug
+          path: cache/
       - run: |
           git config user.name "bot"
           git config user.email "bot@bot.com"
