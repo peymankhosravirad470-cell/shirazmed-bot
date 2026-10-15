@@ -23,4 +23,5 @@ jobs:
           git config user.email "bot@bot.com"
           git add data/doctors/
           git commit -m "update doctors" || echo "no change"
+          git pull --rebase
           git push
