@@ -19,156 +19,120 @@
   },
   {
     "id": "doc_004",
-    "name_fa": "دکتر تو در شهرهای مختلف",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_005",
     "name_fa": "دکتر جمشید بدر",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_006",
+    "id": "doc_005",
     "name_fa": "دکتر حسن بدیعی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_007",
+    "id": "doc_006",
     "name_fa": "دکتر خلیل ضرابی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_008",
+    "id": "doc_007",
     "name_fa": "دکتر راضیه نعیمی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_009",
+    "id": "doc_008",
     "name_fa": "دکتر رضا خواجه",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_010",
-    "name_fa": "دکتر روماتولوژی",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_011",
+    "id": "doc_009",
     "name_fa": "دکتر زهرا تقیه",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_012",
+    "id": "doc_010",
     "name_fa": "دکتر زهرا سوندرومی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_013",
+    "id": "doc_011",
     "name_fa": "دکتر زهرا کیان پور",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_014",
+    "id": "doc_012",
     "name_fa": "دکتر سعید صالح پور",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_015",
+    "id": "doc_013",
     "name_fa": "دکتر سید مجتبی حسینی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_016",
+    "id": "doc_014",
     "name_fa": "دکتر سید محمدرضا هاشمی اردکانی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_017",
-    "name_fa": "دکتر غدد",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_018",
+    "id": "doc_015",
     "name_fa": "دکتر محمد حسن نعمتی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_019",
+    "id": "doc_016",
     "name_fa": "دکتر محمدعلی سنجریان",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_020",
+    "id": "doc_017",
     "name_fa": "دکتر مریم توسلی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_021",
+    "id": "doc_018",
     "name_fa": "دکتر مسعود شفیعی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_022",
+    "id": "doc_019",
     "name_fa": "دکتر مسیح شفا",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_023",
+    "id": "doc_020",
     "name_fa": "دکتر منصور جنتی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_024",
+    "id": "doc_021",
     "name_fa": "دکتر مهدی اکرمی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_025",
-    "name_fa": "دکتر مورد نظر خود را",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_026",
-    "name_fa": "دکتر نیاز به روش",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_027",
-    "name_fa": "دکتر هم در پروفایل هر",
-    "specialty_fa": "قلب و عروق",
-    "status": "active"
-  },
-  {
-    "id": "doc_028",
+    "id": "doc_022",
     "name_fa": "دکتر پروانه قنبری",
     "specialty_fa": "قلب و عروق",
     "status": "active"
   },
   {
-    "id": "doc_029",
+    "id": "doc_023",
     "name_fa": "دکتر کامران جمشیدی",
     "specialty_fa": "قلب و عروق",
     "status": "active"
