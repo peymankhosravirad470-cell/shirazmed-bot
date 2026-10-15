@@ -43,4 +43,4 @@ jobs:
           git add data/doctors/
           git diff --staged --quiet || git commit -m "update doctors data"
           git pull --rebase origin main
-          git push origin main
+          git push origin main 
