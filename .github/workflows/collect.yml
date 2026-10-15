@@ -3,25 +3,37 @@ name: Collect Doctors
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   collect:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
       - run: pip install requests
+
       - run: python collect.py
+
       - name: Upload HTML debug
         uses: actions/upload-artifact@v4
         with:
           name: html-debug
           path: cache/
-      - run: |
+
+      - name: Commit and push
+        run: |
           git config user.name "bot"
-          git config user.email "bot@bot.com"
+          git config user.email "bot@users.noreply.github.com"
           git add data/doctors/
-          git commit -m "update doctors" || echo "no change"
-          git pull --rebase
-          git push
+          git diff --staged --quiet || git commit -m "update doctors"
+          git pull origin main --rebase
+          git push origin main
