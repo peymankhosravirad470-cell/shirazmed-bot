@@ -25,43 +25,43 @@
   },
   {
     "id": "doc_005",
-    "name_fa": "دکتر امین عسکریان",
-    "specialty_fa": "پوست و مو",
-    "status": "active"
-  },
-  {
-    "id": "doc_006",
     "name_fa": "دکتر امین کریم زاده",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_007",
+    "id": "doc_006",
     "name_fa": "دکتر بابک احمدی",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_008",
+    "id": "doc_007",
     "name_fa": "دکتر بهدخت آل علی",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_009",
+    "id": "doc_008",
     "name_fa": "دکتر جلال حاجی زاده ابرقوئی",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_010",
+    "id": "doc_009",
     "name_fa": "دکتر حسابی پلاک",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_011",
+    "id": "doc_010",
     "name_fa": "دکتر حمید حمیدی",
+    "specialty_fa": "پوست و مو",
+    "status": "active"
+  },
+  {
+    "id": "doc_011",
+    "name_fa": "دکتر حیدر غلام پور",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
