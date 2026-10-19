@@ -229,84 +229,78 @@
   },
   {
     "id": "doc_039",
-    "name_fa": "دکتر مریم صفردوست",
-    "specialty_fa": "پوست و مو",
-    "status": "active"
-  },
-  {
-    "id": "doc_040",
     "name_fa": "دکتر مسعود کرایی",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_041",
+    "id": "doc_040",
     "name_fa": "دکتر ملایی",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_042",
+    "id": "doc_041",
     "name_fa": "دکتر ملک نسب",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_043",
+    "id": "doc_042",
     "name_fa": "دکتر منوچهر سدیفی",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_044",
+    "id": "doc_043",
     "name_fa": "دکتر مهدی آرمانی فر",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_045",
+    "id": "doc_044",
     "name_fa": "دکتر مهدی گودرزی",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_046",
+    "id": "doc_045",
     "name_fa": "دکتر مژده خالدی",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_047",
+    "id": "doc_046",
     "name_fa": "دکتر هدیه تاجدینی",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_048",
+    "id": "doc_047",
     "name_fa": "دکتر پریسا پیروی",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_049",
+    "id": "doc_048",
     "name_fa": "دکتر پیمان فردوسی",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_050",
+    "id": "doc_049",
     "name_fa": "دکتر کریم زاده",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_051",
+    "id": "doc_050",
     "name_fa": "دکتر کسری بهداد",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_052",
+    "id": "doc_051",
     "name_fa": "دکتر یاسمن خسروی",
     "specialty_fa": "پوست و مو",
     "status": "active"
