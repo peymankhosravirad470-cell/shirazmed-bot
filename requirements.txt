@@ -1,3 +1,6 @@
-pyTelegramBotAPI
-requests
-jdatetime
+python-telegram-bot==21.9
+requests==2.32.3
+jdatetime==5.2.0
+reportlab==4.2.5
+qrcode==8.0
+pillow==11.1.0
