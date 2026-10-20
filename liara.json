@@ -1,7 +1,6 @@
 {
   "platform": "python",
   "app": "shirazmedical",
-  "port": 8080,
   "disks": [
     {
       "name": "shirazmedical",
