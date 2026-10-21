@@ -12,6 +12,7 @@ from telegram.ext import ContextTypes
 
 from app.keyboards.main import get_back_keyboard
 from app.keyboards.non_medical import get_non_medical_keyboard
+from app.keyboards.tourism import get_tourism_keyboard
 from app.locales import get_msg_btn
 
 
@@ -257,6 +258,22 @@ async def main_menu_callback(
 
     elif data == "non_transport":
         await show_transport(update, context, lang)
+        return
+
+    elif data == "tourism":
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="منوی گردشگری:",
+            reply_markup=get_tourism_keyboard(lang),
+        )
+        return
+
+    elif data == "tour_city":
+        await _show_items(update, context, lang, "leisure_city.json")
+        return
+
+    elif data == "tour_outside":
+        await _show_items(update, context, lang, "leisure_outside.json")
         return
 
     await context.bot.send_message(
