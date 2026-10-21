@@ -1,25 +1,29 @@
 # -*- coding: utf-8 -*-
-"""Shiraz Medical Bot v46 — minimal entrypoint."""
+"""نقطه‌ی ورود ربات شیراز مدیکال (v46)."""
 
 import logging
+import os
 import sys
-from pathlib import Path
+
+from telegram import Update
 
 from app.bot import build_application
 
+logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(name)s | %(message)s")
+logger = logging.getLogger(__name__)
+
 
 def main() -> None:
-    """Configure logging, ensure data dir, and start polling."""
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
-    )
-    Path("data").mkdir(parents=True, exist_ok=True)
+    """راه‌اندازی و اجرای ربات با polling (آپدیت‌های قدیمی دور ریخته می‌شوند)."""
+    os.makedirs("data", exist_ok=True)
     try:
-        app = build_application()
-        app.run_polling()
+        application = build_application()
+        application.run_polling(
+            allowed_updates=Update.ALL_TYPES,
+            drop_pending_updates=True,
+        )
     except Exception as exc:
-        logging.exception("Fatal error during startup: %s", exc)
+        logger.critical("خطای کشنده در راه‌اندازی ربات: %s", exc)
         sys.exit(1)
 
 
