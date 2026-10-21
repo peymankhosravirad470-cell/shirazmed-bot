@@ -18,7 +18,9 @@ def build_application() -> Application:
     application.add_handler(CallbackQueryHandler(select_language_handler, pattern=r"^lang_(fa|en|ar)$"))
     application.add_handler(CallbackQueryHandler(change_language_handler, pattern=r"^change_language$"))
     application.add_handler(CallbackQueryHandler(back_to_main_handler, pattern=r"^back_main$"))
-    application.add_handler(CallbackQueryHandler(main_menu_callback, pattern=r"^(medical|non_medical|tourism|paramedical|elderly|package|hubs|taxi|insurance|translator|charter|deepseek|file|appointments|medication|emergency|channel|invite|rights)$"))
+    
+    # اضافه شدن دکمه‌های زیرمنو به الگوی اصلی
+    application.add_handler(CallbackQueryHandler(main_menu_callback, pattern=r"^(medical|non_medical|non_hospitals|non_hotels|non_motels|non_tourist_houses|non_transport|tourism|paramedical|elderly|package|hubs|taxi|insurance|translator|charter|deepseek|file|appointments|medication|emergency|channel|invite|rights)$"))
 
     logger.info("Application built successfully.")
     return application
