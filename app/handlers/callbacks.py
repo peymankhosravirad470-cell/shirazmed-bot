@@ -13,6 +13,8 @@ from telegram.ext import ContextTypes
 from app.keyboards.main import get_back_keyboard
 from app.keyboards.non_medical import get_non_medical_keyboard
 from app.keyboards.tourism import get_tourism_keyboard
+from app.keyboards.paramedical import get_paramedical_keyboard
+from app.keyboards.elderly import get_elderly_keyboard
 from app.locales import get_msg_btn
 
 
@@ -274,6 +276,48 @@ async def main_menu_callback(
 
     elif data == "tour_outside":
         await _show_items(update, context, lang, "leisure_outside.json")
+        return
+
+    elif data == "paramedical":
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="منوی پیراپزشکی:",
+            reply_markup=get_paramedical_keyboard(lang),
+        )
+        return
+
+    elif data in (
+        "para_physio",
+        "para_lab",
+        "para_radiology",
+        "para_nursing",
+        "para_injection",
+        "para_trad_med",
+        "para_occupational",
+        "para_speech",
+        "para_orthotics",
+    ):
+        await _show_items(update, context, lang, "paramedical.json")
+        return
+
+    elif data == "elderly":
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="منوی خانه سالمندان:",
+            reply_markup=get_elderly_keyboard(lang),
+        )
+        return
+
+    elif data == "elderly_all":
+        await _show_items(update, context, lang, "elderly_homes.json")
+        return
+
+    elif data == "hubs":
+        await _show_items(update, context, lang, "transport_hubs.json")
+        return
+
+    elif data == "insurance":
+        await _show_items(update, context, lang, "insurances.json")
         return
 
     await context.bot.send_message(
