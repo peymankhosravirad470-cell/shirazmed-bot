@@ -1,17 +1,21 @@
 # -*- coding: utf-8 -*-
-"""هندلرهای ساده‌ی نمایش منو: /start (و بازگشت به خانه) و /help. بدون منطق دیتابیس یا API."""
+"""هندلرهای ساده‌ی نمایش منو: /start (و بازگشت به خانه) و /help."""
 
 from __future__ import annotations
 
+import logging
 from telegram import Update
 from telegram.ext import ContextTypes
 
 from app.locales.fa import MSG
 from app.keyboards.main import get_main_menu, get_back_button
 
+logger = logging.getLogger(__name__)
 
 async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """پیام خوش‌آمدگویی به همراه منوی اصلی را نمایش می‌دهد (برای /start و callback main:home)."""
+    """پیام خوش‌آمدگویی به همراه منوی اصلی را نمایش می‌دهد."""
+    logger.info("START_HANDLER_CALLED")  # لاگ تست
+    
     # بستن اسپینر دکمه در صورت کلیک روی کیبورد اینلاین
     if update.callback_query:
         await update.callback_query.answer()
