@@ -15,20 +15,24 @@ logger = logging.getLogger(__name__)
 
 
 def build_application() -> Application:
-    """Application را می‌سازد و هندلرهای فعلی را ثبت می‌کند."""
+    """Application را می‌سازد و هندلرها را ثبت می‌کند."""
+    logger.info("Building application for platform: %s", settings.platform)
+    
     builder = Application.builder().token(settings.active_token)
     
-    # هدایت به سرور بله (در صورت استفاده از بله)
+    # تنظیم آدرس سرور برای بله
     if settings.platform == "bale":
+        logger.info("Configuring Bale base URLs...")
         builder = builder.base_url("https://tapi.bale.ai/bot")
         builder = builder.base_file_url("https://tapi.bale.ai/file/bot")
-
+    
     application = builder.build()
 
+    # ثبت هندلرها
     application.add_handler(CommandHandler("start", start_handler))
     application.add_handler(CommandHandler("help", help_handler))
     application.add_handler(CallbackQueryHandler(start_handler, pattern="^main:home$"))
     application.add_handler(CallbackQueryHandler(main_menu_callback, pattern="^main:"))
 
-    logger.info("هندلرها ثبت شدند: /start, /help, main:home, main:*")
+    logger.info("Handlers registered successfully.")
     return application
