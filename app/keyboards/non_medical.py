@@ -13,37 +13,37 @@ def get_non_medical_keyboard(lang: str) -> InlineKeyboardMarkup:
         [
             [
                 InlineKeyboardButton(
-                    get_msg_btn(lang, "btn_hospitals"),
+                    text=get_msg_btn(lang, "btn_hospitals"),
                     callback_data="non_hospitals",
                 )
             ],
             [
                 InlineKeyboardButton(
-                    get_msg_btn(lang, "btn_hotels"),
+                    text=get_msg_btn(lang, "btn_hotels"),
                     callback_data="non_hotels",
                 )
             ],
             [
                 InlineKeyboardButton(
-                    get_msg_btn(lang, "btn_motels"),
+                    text=get_msg_btn(lang, "btn_motels"),
                     callback_data="non_motels",
                 )
             ],
             [
                 InlineKeyboardButton(
-                    get_msg_btn(lang, "btn_houses"),
+                    text=get_msg_btn(lang, "btn_houses"),
                     callback_data="non_tourist_houses",
                 )
             ],
             [
                 InlineKeyboardButton(
-                    get_msg_btn(lang, "btn_transport"),
+                    text=get_msg_btn(lang, "btn_transport"),
                     callback_data="non_transport",
                 )
             ],
             [
                 InlineKeyboardButton(
-                    get_msg_btn(lang, "btn_back"),
+                    text=get_msg_btn(lang, "btn_back"),
                     callback_data="back_main",
                 )
             ],
