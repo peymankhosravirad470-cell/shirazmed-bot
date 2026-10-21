@@ -8,6 +8,7 @@ import sys
 from telegram import Update
 
 from app.bot import build_application
+from app.health import start_health_server
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(name)s | %(message)s")
 logger = logging.getLogger(__name__)
@@ -17,6 +18,7 @@ def main() -> None:
     """راه‌اندازی و اجرای ربات با polling (آپدیت‌های قدیمی دور ریخته می‌شوند)."""
     os.makedirs("data", exist_ok=True)
     try:
+        start_health_server()
         application = build_application()
         application.run_polling(
             allowed_updates=Update.ALL_TYPES,
