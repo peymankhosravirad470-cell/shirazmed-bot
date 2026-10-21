@@ -19,8 +19,8 @@ def build_application() -> Application:
     application.add_handler(CallbackQueryHandler(change_language_handler, pattern=r"^change_language$"))
     application.add_handler(CallbackQueryHandler(back_to_main_handler, pattern=r"^back_main$"))
     
-    # اضافه شدن دکمه‌های گردشگری به الگوی اصلی
-    application.add_handler(CallbackQueryHandler(main_menu_callback, pattern=r"^(medical|non_medical|non_hospitals|non_hotels|non_motels|non_tourist_houses|non_transport|tourism|tour_city|tour_outside|paramedical|elderly|package|hubs|taxi|insurance|translator|charter|deepseek|file|appointments|medication|emergency|channel|invite|rights)$"))
+    # همه دکمه‌های فعال (منوی اصلی + زیرمنوها)
+    application.add_handler(CallbackQueryHandler(main_menu_callback, pattern=r"^(medical|non_medical|non_hospitals|non_hotels|non_motels|non_tourist_houses|non_transport|tourism|tour_city|tour_outside|paramedical|para_physio|para_lab|para_radiology|para_nursing|para_injection|para_trad_med|para_occupational|para_speech|para_orthotics|elderly|elderly_all|hubs|insurance|package|taxi|translator|charter|deepseek|file|appointments|medication|emergency|channel|invite|rights)$"))
 
     logger.info("Application built successfully.")
     return application
