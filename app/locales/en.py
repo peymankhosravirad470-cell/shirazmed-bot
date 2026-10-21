@@ -192,195 +192,8 @@ MSG = {
     "price_unknown": "Unknown — will be announced after doctor's review",
 
     "admin_only": "⛔️ This command is for administrators only.",
-}
 
-MSG_CH = {
-    "btn_channel_go": "🔗 Go to Channel",
-    "btn_channel_ok": "✅ I Joined",
-    "msg_channel": (
-        "🎁 We have a small gift for you\n\n"
-        "Join our channel → 5% discount\n"
-        "on all services (doctor, hotel, transfer)\n\n"
-        "After joining, come back and tap [✅ I Joined]"
-    ),
-    "msg_channel_done": (
-        "✅ Welcome aboard!\n\n"
-        "Your 5% discount on your first service is now active.\n\n"
-        "You can now book a doctor or reserve a hotel.\n"
-        "Start with /menu 🚀"
-    ),
-    "msg_channel_already": (
-        "😊 You already joined and your 5% discount is active.\n"
-        "Tap /menu and use it."
-    ),
-}
-
-MSG2 = {
-    "ref_your_code": "🔗 Your referral code: {code}\n\nLink:\n{link}",
-    "ref_your_stats": "👥 Invited: {count}\n🎁 Rewards: {rewards}",
-    "ref_new_from": "🎉 Someone joined with code {code}!\n\nReward: 10% discount 🌹",
-    "ref_welcome_new": "🎉 Welcome!\n\nWith code {code}.\n🎁 5% discount on your first visit",
-    "ref_invite_msg": (
-        "🌟 Invite your friend\n\n"
-        "Code: {code}\n\n"
-        "{link}\n\n"
-        "🎁 You: 10% discount\n"
-        "🎁 Your friend: 5% discount"
-    ),
-
-    "hope_night": "🌙 Good night\n\n💊 Don't forget to take your medication.\n🌷 We're here with you.",
-    "hope_stage_request": "🌟 You took your first step!\n\nWe're with you to make your treatment journey easier.",
-    "hope_stage_doctor": "👨‍⚕️ Your specialist doctor has been assigned 🌷",
-    "hope_stage_date": "🎉 Your appointment date is confirmed!\n\nOne step closer to health 💙",
-    "hope_stage_accommodation": "🏨 Your accommodation is arranged 🌷",
-    "hope_stage_transport": "🚗 Your transport is ready 💙",
-    "hope_stage_treatment": "🌸 Your treatment is done. May every day be better than yesterday.",
-    "hope_stage_followup": "🌷 We're still with you 💙",
-    "hope_general_1": "💙 \"Health is the greatest wealth.\"",
-    "hope_general_2": "🌷 \"Every day is a chance to improve.\"",
-    "hope_general_3": "✨ \"Hope is half the cure.\"",
-    "hope_general_4": "🌸 \"You're not alone. We're with you.\"",
-
-    "comp_ask": "👥 Do you have a companion? (Yes / No)",
-    "comp_ask_name": "👤 What's your companion's name?",
-    "comp_ask_phone": "📞 Your companion's phone number:",
-    "comp_saved": "✅ Companion saved\n\n👤 {name}\n📞 {phone}",
-    "comp_skip": "Okay, whenever you want, write: companion",
-
-    "sos_menu": (
-        "🚨 Emergency Situation\n\n"
-        "1️⃣ Ambulance 115\n"
-        "2️⃣ Nearest hospital\n"
-        "3️⃣ First aid guide\n"
-        "4️⃣ Notify my companion\n"
-        "5️⃣ Cancel"
-    ),
-    "sos_115": "🚑 Emergency: 115\n\nPlease call and give your exact address.",
-    "sos_first_aid": (
-        "🩺 First Aid\n\n"
-        "🔹 Chest pain:\n"
-        "- Sit down and rest\n"
-        "- Sublingual tablet\n"
-        "- Call 115 immediately\n\n"
-        "🔹 Bleeding:\n"
-        "- Direct pressure\n"
-        "- 115\n\n"
-        "🔹 Shortness of breath:\n"
-        "- Sit upright\n"
-        "- 115\n\n"
-        "⚠️ This guide is not a substitute for a doctor."
-    ),
-    "sos_no_companion": "❌ You haven't registered a companion. Write: companion",
-
-    "comp_voice_menu": (
-        "📩 Your Voice\n\n"
-        "1️⃣ Complaint about doctor\n"
-        "2️⃣ Complaint about medical center\n"
-        "3️⃣ Complaint about accommodation\n"
-        "4️⃣ Complaint about transport\n"
-        "5️⃣ General complaint\n"
-        "6️⃣ Cancel"
-    ),
-    "comp_voice_text": "📝 Write your message:",
-    "comp_voice_saved": "✅ Your message has been saved\n\n📋 Code: {id}\n\nWe will follow up 💙",
-    "comp_voice_skip": "Okay, whenever you want, write: complaint",
-    "comp_voice_admin": (
-        "📩 New complaint\n\n"
-        "📋 {id}\n"
-        "Category: {category}\n"
-        "Name: {name}\n"
-        "ChatID: {cid}\n\n"
-        "{text}"
-    ),
-
-    "rights_title": "⚖️ Your Rights as a Patient\n━━━━━━━━━━━━━━━",
-    "rights_body": (
-        "1️⃣ Receive complete information\n"
-        "2️⃣ Right to choose your doctor\n"
-        "3️⃣ Confidentiality of information\n"
-        "4️⃣ Informed consent\n"
-        "5️⃣ Receive prescription\n"
-        "6️⃣ Right to complain\n"
-        "7️⃣ Respect without discrimination\n"
-        "8️⃣ Access to your file\n\n"
-        "📞 @ShirazMedBot\n"
-        "- Medical Council\n"
-        "- Ministry of Health: 190"
-    ),
-
-    "med_menu": (
-        "⏰ Medication Reminder\n\n"
-        "1️⃣ Add new reminder\n"
-        "2️⃣ View reminders\n"
-        "3️⃣ Delete reminder\n"
-        "4️⃣ Cancel"
-    ),
-    "med_ask_name": "💊 Medication name:",
-    "med_ask_time": "⏰ Time? (e.g. 08:00)",
-    "med_saved": "✅ Reminder saved\n\n💊 {name}\n⏰ {time}\n🆔 {med_id}",
-    "med_none": "You haven't set any reminders yet. Write: med",
-    "med_ask_delete": "🗑️ Press the number of the reminder you want to delete:",
-    "med_deleted": "✅ Reminder deleted.",
-
-    "food_title": "🍏 Nutrition & Interactions Guide\n━━━━━━━━━━━━━━━",
-    "food_body": (
-        "🔴 Important interactions:\n\n"
-        "• Antibiotics + dairy (2 hours)\n"
-        "• Iron + tea/coffee (1 hour)\n"
-        "• Warfarin + cabbage and spinach\n"
-        "• Thyroid + morning on empty stomach\n"
-        "• Painkillers + empty stomach (forbidden)\n\n"
-        "💧 Drink plenty of water\n"
-        "🥗 Fruits and vegetables\n"
-        "🚫 Don't self-medicate\n\n"
-        "⚠️ General guide, not a substitute for a doctor."
-    ),
-
-    "menu_main": "📋 Shiraz Medical Menu\n\n👇 Choose one:",
-    "ai_unavailable": "🙏 I can't respond right now.\n\nWrite: menu",
-
-    "para_list_title": "🏥 Paramedical Services\n\n👇 Choose:",
-    "elderly_list_title": "🏡 Nursing Homes in Shiraz",
-    "elderly_all_title": "🏡 Nursing Homes in Shiraz:",
-    "package_title": "💎 Complete Treatment & Accommodation Package\n━━━━━━━━━━━━━━━",
-    "package_pitch": (
-        "🎯 Send one message, and we'll prepare everything.\n\n"
-        "From the moment you arrive in Shiraz until the moment you return in good health, we're with you."
-    ),
-    "package_value": (
-        "📦 What's in this package:\n\n"
-        "👨‍⚕️ Specialist doctor consultation\n"
-        "🏨 Hotel accommodation\n"
-        "🚗 Airport and city transfer\n"
-        "🗣️ Companion translator\n"
-        "🏛️ Shiraz city tour\n"
-        "📋 Personal health file\n"
-        "💊 Medication reminders and follow-up\n"
-        "🤝 Dedicated companion\n"
-        "💙 24/7 support"
-    ),
-    "package_cta": "🎁 All of this with one message.\n\n👇 To get the price:",
-    "package_ask_name": "👤 Full name:",
-    "package_ask_phone": "📞 Phone number:",
-    "package_saved": (
-        "✅ Package request submitted\n\n"
-        "📋 Code: {id}\n\n"
-        "Our team will contact you within 24 hours.\n\n"
-        "💙 Wishing you good health"
-    ),
-    "package_admin_new": (
-        "💎 New package request\n\n"
-        "📋 {id}\n"
-        "👤 {name}\n"
-        "📞 {phone}\n"
-        "ChatID: {cid}"
-    ),
-
-    "docs_list_title": "👨‍⚕️ Which specialty?\n\n👇 Choose:",
-    "nonmed_list_title": "🏥 Which service?\n\n👇 Choose:",
-    "tourist_list_title": "🏛️ Which tourist section?\n\n👇 Choose:",
-    "pkg_ask_title": "💎 Complete Package",
-    "hubs_title": "🚉 Shiraz Terminals and Airports\n\n👇 Which one do you want to see?",
+    "help": "Bot guide:\n\n• Use /start to begin.\n• Use the Back button to return to the main menu.\n• Use the Change Language button to switch languages.\n\nSelect one of the main menu options to use our services.",
 }
 
 MSG_BTN = {
@@ -445,6 +258,27 @@ MSG_BTN = {
 
     "btn_book": "📅 Book Appointment",
     "btn_call": "📞 Call",
+
+    "medical": "👨‍⚕️ Medical",
+    "non_medical": "🏥 Non-medical",
+    "tourism": "🏛️ Tourism",
+    "paramedical": "🏥 Paramedical",
+    "elderly": "🏡 Nursing Home",
+    "package": "💎 Complete Package",
+    "hubs": "🚉 Terminals & Airport",
+    "taxi": "🚕 Request Taxi",
+    "insurance": "🏥 Supported Insurances",
+    "translator": "🗣️ Companion Translator",
+    "charter": "📜 Ethical Charter",
+    "deepseek": "🤖 DeepSeek AI",
+    "file": "📋 File",
+    "appointments": "📅 My Appointments",
+    "medication": "💊 Medication Reminder",
+    "emergency": "🚨 Emergency",
+    "channel": "📢 Join Channel",
+    "invite": "🎁 Invite Friends",
+    "rights": "⚖️ Patient Rights",
+    "btn_change_lang": "🌐 Change Language",
 }
 
 INSURANCE_FIELD_LABELS = {
