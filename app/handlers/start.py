@@ -1,45 +1,44 @@
-# -*- coding: utf-8 -*-
-"""هندلرهای ساده‌ی نمایش منو: /start (و بازگشت به خانه) و /help. بدون منطق دیتابیس یا API."""
-
-from __future__ import annotations
-
-import logging
-
 from telegram import Update
 from telegram.ext import ContextTypes
+from app.locales import get_msg
+from app.keyboards.main import get_language_keyboard, get_main_menu_keyboard, get_back_keyboard
 
-from app.locales.fa import MSG, MSG_BTN
-from app.keyboards.main import get_main_menu, get_back_button
+DEFAULT_LANGUAGE = "fa"
 
-logger = logging.getLogger(__name__)
-
+def _get_user_lang(context: ContextTypes.DEFAULT_TYPE) -> str:
+    lang = context.user_data.get("lang")
+    if lang not in ("fa", "en", "ar"):
+        return DEFAULT_LANGUAGE
+    return lang
 
 async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """پیام خوش‌آمدگویی به همراه منوی اصلی را نمایش می‌دهد (برای /start و callback main:home)."""
-    # TODO: این لاگ تشخیصی موقتی است — بعد از رفع مشکل حذف شود.
-    logger.info("start_handler فراخوانی شد | update: %s", update.to_dict())
-
-    if update.effective_chat is None:
-        logger.warning("start_handler: effective_chat خالی است، پیام ارسال نشد.")
+    lang = context.user_data.get("lang")
+    if lang in ("fa", "en", "ar"):
+        await update.message.reply_text(get_msg(lang, "welcome"), reply_markup=get_main_menu_keyboard(lang))
         return
+    await update.message.reply_text(get_msg(DEFAULT_LANGUAGE, "welcome"), reply_markup=get_language_keyboard())
 
-    try:
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text=MSG["welcome"],
-            reply_markup=get_main_menu(),
-        )
-        logger.info("start_handler: پیام با موفقیت به chat_id=%s ارسال شد.", update.effective_chat.id)
-    except Exception as exc:  # noqa: BLE001 — لاگ تشخیصی موقت، نباید برنامه کرش کند
-        logger.error("start_handler: خطا در ارسال پیام: %s", exc)
+async def select_language_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    query = update.callback_query
+    await query.answer()
+    lang = query.data.replace("lang_", "")
+    if lang not in ("fa", "en", "ar"):
+        lang = DEFAULT_LANGUAGE
+    context.user_data["lang"] = lang
+    await query.edit_message_text(get_msg(lang, "welcome"), reply_markup=get_main_menu_keyboard(lang))
 
+async def change_language_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    query = update.callback_query
+    await query.answer()
+    lang = _get_user_lang(context)
+    await query.edit_message_text(get_msg(lang, "welcome"), reply_markup=get_language_keyboard())
 
 async def help_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """پیام راهنمای موقت را به همراه دکمه‌ی بازگشت نمایش می‌دهد."""
-    if update.effective_chat is None:
-        return
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id,
-        text="راهنمای ربات به‌زودی اضافه می‌شود.",
-        reply_markup=get_back_button(),
-    )
+    lang = _get_user_lang(context)
+    await update.message.reply_text(get_msg(lang, "help"), reply_markup=get_back_keyboard(lang))
+
+async def back_to_main_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    query = update.callback_query
+    await query.answer()
+    lang = _get_user_lang(context)
+    await query.edit_message_text(get_msg(lang, "welcome"), reply_markup=get_main_menu_keyboard(lang))
