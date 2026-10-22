@@ -25,6 +25,7 @@ from app.handlers.start import (
 )
 from app.handlers.callbacks import main_menu_callback
 from app.handlers.booking import booking_conversation_handler
+from app.handlers.survey import survey_conversation_handler
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -42,7 +43,7 @@ CHANGE_LANGUAGE_PATTERN = r"^change_language$"
 BACK_TO_MAIN_PATTERN = r"^back_main$"
 
 MENU_CALLBACKS: tuple[str, ...] = (
-    "start_booking",    # 🆕 اضافه شد برای هماهنگی کامل با منوی جدید
+    "start_booking",    # دکمه رزرو نوبت
     "medical",
     "non_medical",
     "non_hospitals",
@@ -82,6 +83,7 @@ MENU_CALLBACKS: tuple[str, ...] = (
     "patient_guide",
     "complaints",
     "support",
+    "start_survey",     # دکمه شروع نظرسنجی (برای اتصال به سرویس نظرسنجی)
 )
 
 MENU_PATTERN = rf"^({'|'.join(MENU_CALLBACKS)})$"
@@ -154,7 +156,7 @@ def _register_handlers(application: Application) -> None:
     1) هندلر خطای سراسری
     2) دستورات پایه (start/help) — فقط در چت خصوصی
     3) زبان و بازگشت به منو
-    4) ConversationHandler نوبت‌دهی (قبل از main_menu_callback)
+    4) ConversationHandlerهای رزرو و نظرسنجی (قبل از main_menu_callback)
     5) main_menu_callback (پوشش همه دکمه‌های منو)
     """
 
@@ -189,9 +191,8 @@ def _register_handlers(application: Application) -> None:
         )
     )
 
-    # 4) ConversationHandler نوبت‌دهی
-    #    باید قبل از main_menu_callback ثبت شود تا در حالت گفتگو،
-    #    callbackهای رزرو (booking_*) توسط منو گرفته نشوند.
+    # 4) ConversationHandlerها (باید قبل از main_menu_callback ثبت شوند)
+    application.add_handler(survey_conversation_handler)
     application.add_handler(booking_conversation_handler)
 
     # 5) همه دکمه‌های منو و زیرمنو
@@ -201,7 +202,7 @@ def _register_handlers(application: Application) -> None:
 
     logger.info(
         "Handlers registered: start, help, language, back_main, "
-        "booking_conversation, main_menu (%d callbacks).",
+        "survey_conversation, booking_conversation, main_menu (%d callbacks).",
         len(MENU_CALLBACKS),
     )
 
