@@ -1,5 +1,8 @@
+# app/keyboards/main.py
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+
 from app.locales import get_msg_btn
+
 
 def get_language_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
@@ -9,6 +12,7 @@ def get_language_keyboard() -> InlineKeyboardMarkup:
             InlineKeyboardButton("العربية", callback_data="lang_ar"),
         ]]
     )
+
 
 def get_main_menu_keyboard(lang: str) -> InlineKeyboardMarkup:
     keys = [
@@ -20,8 +24,13 @@ def get_main_menu_keyboard(lang: str) -> InlineKeyboardMarkup:
         [InlineKeyboardButton(get_msg_btn(lang, key), callback_data=key) for key in keys[i : i + 3]]
         for i in range(0, len(keys), 3)
     ]
+    # 🆕 دکمه رزرو نوبت (callback_data="start_booking")
+    rows.append([
+        InlineKeyboardButton("📅 رزرو نوبت", callback_data="start_booking"),
+    ])
     rows.append([InlineKeyboardButton(get_msg_btn(lang, "btn_change_lang"), callback_data="change_language")])
     return InlineKeyboardMarkup(rows)
+
 
 def get_back_keyboard(lang: str) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
