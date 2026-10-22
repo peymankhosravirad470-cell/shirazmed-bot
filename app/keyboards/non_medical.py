@@ -7,16 +7,12 @@ from app.locales import get_msg_btn
 
 
 def get_non_medical_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """کیبورد بخش خدمات غیرپزشکی (بدون دکمه حمل‌ونقل).
-
-    دکمه non_transport طبق دستور حذف شده است.
-    """
+    """کیبورد بخش خدمات غیرپزشکی (بدون دکمه حمل‌ونقل)."""
     keys = [
         "non_hospitals",
         "non_hotels",
         "non_motels",
         "non_tourist_houses",
-        # "non_transport"  ← حذف شد طبق دستور
     ]
     rows = [
         [InlineKeyboardButton(get_msg_btn(lang, key), callback_data=key)]
