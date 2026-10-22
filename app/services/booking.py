@@ -30,10 +30,10 @@ VALID_BOOKED_STATUSES: tuple[str, ...] = ("pending", "paid")
 # وضعیت پیش‌فرض نوبت جدید
 DEFAULT_STATUS = "pending"
 
-# مدت اعتبار نوبت pending (به دقیقه) — بعد از این مدت اسلات آزاد می‌شود
+# مدت اعتبار نوبت pending (به دقیقه)
 PENDING_TTL_MINUTES: int = 15
 
-# قفل درون‌فرآیندی برای جلوگیری از race در محیط multi-coroutine
+# قفل درون‌فرآیندی برای جلوگیری از race
 _BOOKING_LOCK = threading.Lock()
 
 
@@ -42,7 +42,6 @@ _BOOKING_LOCK = threading.Lock()
 # ---------------------------------------------------------------------------
 
 def _get_data_dir() -> str:
-    """مسیر پوشه data در روت پروژه را برمی‌گرداند."""
     base_dir = os.path.dirname(
         os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     )
@@ -50,7 +49,6 @@ def _get_data_dir() -> str:
 
 
 def _get_appointments_path() -> str:
-    """مسیر کامل فایل appointments.json را برمی‌گرداند."""
     return os.path.join(_get_data_dir(), APPOINTMENTS_FILE)
 
 
@@ -59,12 +57,10 @@ def _get_appointments_path() -> str:
 # ---------------------------------------------------------------------------
 
 def _now() -> datetime:
-    """زمان فعلی (قابل monkey-patch در تست)."""
     return datetime.now()
 
 
 def _parse_expires_at(appointment: dict[str, Any]) -> Optional[datetime]:
-    """تاریخ expires_at را به datetime تبدیل می‌کند یا None برمی‌گرداند."""
     raw = appointment.get("expires_at")
     if not isinstance(raw, str) or not raw.strip():
         return None
@@ -75,7 +71,6 @@ def _parse_expires_at(appointment: dict[str, Any]) -> Optional[datetime]:
 
 
 def _is_expired(appointment: dict[str, Any]) -> bool:
-    """آیا نوبت pending منقضی شده است؟"""
     expires_at = _parse_expires_at(appointment)
     if expires_at is None:
         return False
@@ -87,7 +82,6 @@ def _is_expired(appointment: dict[str, Any]) -> bool:
 # ---------------------------------------------------------------------------
 
 def _sanitize_item(item: Any) -> Optional[dict[str, Any]]:
-    """اگر آیتم dict معتبر بود، آن را برمی‌گرداند، وگرنه None."""
     if not isinstance(item, dict):
         return None
     if not item.get("date") or not item.get("time"):
@@ -96,30 +90,22 @@ def _sanitize_item(item: Any) -> Optional[dict[str, Any]]:
 
 
 def _sanitize_items(items: Any) -> list[dict[str, Any]]:
-    """فیلتر و پاکسازی لیست آیتم‌ها."""
     if not isinstance(items, list):
         return []
     return [sanitized for item in items if (sanitized := _sanitize_item(item))]
 
 
 def _is_slot_booked(item: dict[str, Any], date: str, time: str) -> bool:
-    """آیا این آیتم، اسلات (date, time) را در وضعیت booked گرفته است؟"""
     if item.get("date") != date or item.get("time") != time:
         return False
     if item.get("status") not in VALID_BOOKED_STATUSES:
         return False
-    # نوبت‌های pending منقضی، اسلات را آزاد می‌کنند
     if item.get("status") == "pending" and _is_expired(item):
         return False
     return True
 
 
 def _purge_expired(appointments: list[dict[str, Any]]) -> list[dict[str, Any]]:
-    """حذف نوبت‌های pending منقضی از لیست.
-
-    این کار هنگام خواندن انجام می‌شود تا فایل به مرور تمیز شود و
-    اسلات‌هایی که کاربر پرداخت را رها کرده، خودکار آزاد شوند.
-    """
     result: list[dict[str, Any]] = []
     for item in appointments:
         if item.get("status") == "pending" and _is_expired(item):
@@ -137,11 +123,6 @@ def _purge_expired(appointments: list[dict[str, Any]]) -> list[dict[str, Any]]:
 # ---------------------------------------------------------------------------
 
 def load_appointments() -> list[dict[str, Any]]:
-    """خواندن امن نوبت‌ها از فایل appointments.json.
-
-    - فقط آیتم‌های dict معتبر (با date/time) برگردانده می‌شوند.
-    - نوبت‌های pending منقضی فیلتر می‌شوند تا اسلات آزاد شود.
-    """
     file_path = _get_appointments_path()
     try:
         if not os.path.isfile(file_path):
@@ -156,7 +137,6 @@ def load_appointments() -> list[dict[str, Any]]:
 
 
 def _read_raw() -> list[dict[str, Any]]:
-    """خواندن خام بدون purge (برای عملیات نوشتن که نباید آیتم‌ها را قربانی کند)."""
     file_path = _get_appointments_path()
     try:
         if not os.path.isfile(file_path):
@@ -170,11 +150,6 @@ def _read_raw() -> list[dict[str, Any]]:
 
 
 def save_appointments(appointments: list[dict[str, Any]]) -> bool:
-    """ذخیره اتمیک نوبت‌ها در فایل appointments.json.
-
-    از نوشتن در فایل موقت + fsync + os.replace استفاده می‌کند تا در
-    صورت crash وسط نوشتن، فایل اصلی خراب نشود.
-    """
     file_path = _get_appointments_path()
     tmp_path = file_path + TMP_SUFFIX
     try:
@@ -196,16 +171,47 @@ def save_appointments(appointments: list[dict[str, Any]]) -> bool:
 
 
 # ---------------------------------------------------------------------------
+# 🆕 محاسبه کمیسیون
+# ---------------------------------------------------------------------------
+
+def calculate_commission(amount: int, rate: float) -> int:
+    """محاسبه مبلغ کمیسیون شیراز مدیکال.
+
+    Args:
+        amount: مبلغ ویزیت (تومان)
+        rate: درصد کمیسیون (مثلاً 2 یعنی ۲ درصد)
+
+    Returns:
+        مبلغ کمیسیون به تومان (integer). در صورت ورودی نامعتبر، 0.
+    """
+    try:
+        amount = int(amount)
+        rate = float(rate)
+    except (TypeError, ValueError):
+        return 0
+    if amount <= 0 or rate < 0:
+        return 0
+    return int(round(amount * rate / 100.0))
+
+
+# ---------------------------------------------------------------------------
 # عملیات دامنه
 # ---------------------------------------------------------------------------
 
-def add_appointment(appointment: dict[str, Any]) -> bool:
+def add_appointment(
+    appointment: dict[str, Any],
+    commission_rate: Optional[float] = None,
+    doctor_chat_id: Optional[str] = None,
+) -> bool:
     """افزودن یک نوبت جدید با چک مجدد اسلات.
 
-    - قبل از ذخیره، دوباره بررسی می‌کند که آن اسلات توسط نوبت
-      pending/paid دیگری (غیر منقضی) گرفته نشده باشد.
-    - از قفل درون‌فرآیندی برای جلوگیری از race بین coroutineها استفاده می‌کند.
-    - status را با "pending" پر می‌کند و expires_at را در صورت نبود ست می‌کند.
+    Args:
+        appointment: دیکشنری نوبت (شامل date, time, user_id, ...)
+        commission_rate: 🆕 درصد کمیسیون (اگر None باشد، از دیکشنری خوانده می‌شود)
+        doctor_chat_id: 🆕 آیدی عددی دکتر (اگر None باشد، از دیکشنری خوانده می‌شود)
+
+    Returns:
+        True اگر نوبت ذخیره شد، False در غیر این صورت.
     """
     if not isinstance(appointment, dict):
         logger.warning("add_appointment: appointment is not a dict")
@@ -219,7 +225,23 @@ def add_appointment(appointment: dict[str, Any]) -> bool:
 
     appointment.setdefault("status", DEFAULT_STATUS)
 
-    # ست کردن expires_at اگر pending است و از قبل ست نشده
+    # 🆕 ذخیره فیلدهای کمیسیون و آیدی دکتر
+    if commission_rate is not None:
+        appointment["commission_rate"] = float(commission_rate)
+    elif "commission_rate" not in appointment:
+        appointment["commission_rate"] = 0.0
+
+    if doctor_chat_id is not None:
+        appointment["doctor_chat_id"] = str(doctor_chat_id)
+    elif "doctor_chat_id" not in appointment:
+        appointment["doctor_chat_id"] = ""
+
+    # محاسبه و ذخیره کمیسیون
+    amount = appointment.get("amount", 0)
+    rate = appointment.get("commission_rate", 0.0)
+    appointment["commission_amount"] = calculate_commission(amount, rate)
+    appointment["doctor_share"] = int(amount) - appointment["commission_amount"]
+
     if appointment.get("status") == "pending" and not appointment.get("expires_at"):
         appointment["expires_at"] = (
             _now() + timedelta(minutes=PENDING_TTL_MINUTES)
@@ -241,10 +263,6 @@ def add_appointment(appointment: dict[str, Any]) -> bool:
 
 
 def cancel_appointment(date: str, time: str, user_id: int) -> bool:
-    """لغو یک نوبت pending متعلق به همان کاربر (مثلاً در صورت خطای پرداخت).
-
-    فقط نوبت pending همان کاربر حذف می‌شود تا اسلات آزاد شود.
-    """
     if not date or not time:
         logger.warning("cancel_appointment: date/time missing")
         return False
@@ -274,7 +292,6 @@ def cancel_appointment(date: str, time: str, user_id: int) -> bool:
 
 
 def mark_appointment_paid(user_id: int, date: str, time: str) -> bool:
-    """علامت‌گذاری نوبت pending به paid (برای فراخوانی از callback درگاه)."""
     with _BOOKING_LOCK:
         appointments = _read_raw()
         for appointment in appointments:
@@ -303,10 +320,6 @@ def mark_appointment_paid(user_id: int, date: str, time: str) -> bool:
 # ---------------------------------------------------------------------------
 
 def get_next_14_days(include_today: bool = False) -> list[str]:
-    """تولید تاریخ‌های ۱۴ روز آینده با فرمت YYYY-MM-DD.
-
-    اگر include_today=True باشد، امروز هم در لیست قرار می‌گیرد.
-    """
     today = _now().date()
     start = 0 if include_today else 1
     return [
@@ -316,12 +329,11 @@ def get_next_14_days(include_today: bool = False) -> list[str]:
 
 
 def get_available_times(date: str) -> list[str]:
-    """دریافت ساعت‌های خالی برای تاریخ مشخص‌شده."""
     if not date:
         return list(AVAILABLE_TIMES)
 
     try:
-        appointments = load_appointments()  # purge خودکار انجام می‌شود
+        appointments = load_appointments()
         booked = {
             appt.get("time")
             for appt in appointments
@@ -334,17 +346,10 @@ def get_available_times(date: str) -> list[str]:
 
 
 def is_time_available(date: str, time: str) -> bool:
-    """بررسی آزاد بودن یک ساعت مشخص در تاریخ داده‌شده.
-
-    توجه: این تابع فقط برای نمایش/اعتبارسنجی اولیه است. برای تأیید
-    نهایی رزرو باید از add_appointment استفاده کرد (که خودش دوباره
-    اسلات را چک می‌کند).
-    """
     return time in get_available_times(date)
 
 
 def get_user_appointments(user_id: int) -> list[dict[str, Any]]:
-    """دریافت نوبت‌های یک کاربر (برای نمایش در پرونده)."""
     try:
         return [
             appt
