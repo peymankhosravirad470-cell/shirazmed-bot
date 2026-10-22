@@ -1,6 +1,5 @@
 # app/keyboards/non_medical.py
-
-from typing import Optional
+from __future__ import annotations
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -8,44 +7,22 @@ from app.locales import get_msg_btn
 
 
 def get_non_medical_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """ساخت کیبورد بخش خدمات غیرپزشکی به زبان انتخابی کاربر."""
-    return InlineKeyboardMarkup(
-        [
-            [
-                InlineKeyboardButton(
-                    text=get_msg_btn(lang, "btn_hospitals"),
-                    callback_data="non_hospitals",
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    text=get_msg_btn(lang, "btn_hotels"),
-                    callback_data="non_hotels",
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    text=get_msg_btn(lang, "btn_motels"),
-                    callback_data="non_motels",
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    text=get_msg_btn(lang, "btn_houses"),
-                    callback_data="non_tourist_houses",
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    text=get_msg_btn(lang, "btn_transport"),
-                    callback_data="non_transport",
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    text=get_msg_btn(lang, "btn_back"),
-                    callback_data="back_main",
-                )
-            ],
-        ]
+    """کیبورد بخش خدمات غیرپزشکی (بدون دکمه حمل‌ونقل).
+
+    دکمه non_transport طبق دستور حذف شده است.
+    """
+    keys = [
+        "non_hospitals",
+        "non_hotels",
+        "non_motels",
+        "non_tourist_houses",
+        # "non_transport"  ← حذف شد طبق دستور
+    ]
+    rows = [
+        [InlineKeyboardButton(get_msg_btn(lang, key), callback_data=key)]
+        for key in keys
+    ]
+    rows.append(
+        [InlineKeyboardButton(get_msg_btn(lang, "btn_back"), callback_data="back_main")]
     )
+    return InlineKeyboardMarkup(rows)
