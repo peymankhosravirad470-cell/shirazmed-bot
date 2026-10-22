@@ -2,73 +2,157 @@
 
 from __future__ import annotations
 
-from typing import Optional
+import asyncio
+import logging
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from typing import Any, Optional
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import (
+    CallbackQueryHandler,
     ContextTypes,
     ConversationHandler,
-    CallbackQueryHandler,
     MessageHandler,
     filters,
 )
 
+from app.locales import get_msg_btn
 from app.services.booking import (
     add_appointment,
+    cancel_appointment,
     get_available_times,
     get_next_14_days,
     is_time_available,
 )
-from app.services.payment import create_payment_link
-from app.locales import get_msg_btn
+from app.services.payment import request_payment
+from config import settings
+
+logger = logging.getLogger(__name__)
 
 
-# مراحل گفتگو
+# ---------------------------------------------------------------------------
+# ثابت‌ها
+# ---------------------------------------------------------------------------
+
 ASK_NAME, ASK_NATIONAL_CODE, SELECT_DOCTOR, SELECT_DATE, SELECT_TIME, CONFIRM_BOOKING = range(6)
 
-# وضعیت موقت پزشکان
-TEMP_DOCTORS = [
+SUPPORTED_LANGS: tuple[str, ...] = ("fa", "en", "ar")
+DEFAULT_LANG: str = "fa"
+
+APPOINTMENT_AMOUNT: int = 100_000
+PENDING_TIMEOUT_MINUTES: int = 15
+PAYMENT_TIMEOUT_SECONDS: float = 15.0
+NATIONAL_CODE_LENGTH: int = 10
+MIN_NAME_LENGTH: int = 2
+
+TEMP_DOCTORS: tuple[dict[str, str], ...] = (
     {"id": "doc_1", "name": "دکتر علی رضایی"},
     {"id": "doc_2", "name": "دکتر مریم احمدی"},
     {"id": "doc_3", "name": "دکتر حسین کریمی"},
-]
-
-# مبلغ ثابت نوبت
-APPOINTMENT_AMOUNT = 100000
-
-# کلیدهای user_data مربوط به رزرو (برای پاکسازی در شروع)
-_BOOKING_KEYS = (
-    "booking_name",
-    "booking_national_code",
-    "booking_doctor_id",
-    "booking_doctor_name",
-    "booking_date",
-    "booking_time",
 )
 
+MSG_BOOKING_CANCELLED = "فرآیند رزرو نوبت لغو شد."
+MSG_PAYMENT_FAILED = (
+    "خطا در ایجاد لینک پرداخت. نوبت شما لغو شد.\n"
+    "لطفاً دوباره تلاش کنید یا با پشتیبانی تماس بگیرید."
+)
+MSG_SLOT_TAKEN = (
+    "خطا در ثبت نوبت رخ داد.\n"
+    "احتمالاً این ساعت همین الان توسط کاربر دیگری رزرو شده است.\n"
+    "لطفاً دوباره از منو نوبت بگیرید."
+)
+MSG_ALREADY_CONFIRMED = "این نوبت قبلاً ثبت شده است."
+
+
+# ---------------------------------------------------------------------------
+# داده‌های رزرو (برای مدیریت متمرکز user_data)
+# ---------------------------------------------------------------------------
+
+@dataclass
+class BookingData:
+    """نگه‌دارنده داده‌های رزرو در طول گفتگو.
+
+    به جای دسترسی مستقیم به user_data با کلیدهای پراکنده، از این
+    dataclass استفاده می‌کنیم تا:
+    - نام‌ها متمرکز و type-safe باشند.
+    - پاکسازی ساده باشد.
+    - افزودن فیلد جدید آسان باشد.
+    """
+
+    name: str = ""
+    national_code: str = ""
+    doctor_id: str = ""
+    doctor_name: str = ""
+    date: str = ""
+    time: str = ""
+    confirmed: bool = False
+
+    @classmethod
+    def from_context(cls, context: ContextTypes.DEFAULT_TYPE) -> "BookingData":
+        return cls(
+            name=context.user_data.get("booking_name", ""),
+            national_code=context.user_data.get("booking_national_code", ""),
+            doctor_id=context.user_data.get("booking_doctor_id", ""),
+            doctor_name=context.user_data.get("booking_doctor_name", ""),
+            date=context.user_data.get("booking_date", ""),
+            time=context.user_data.get("booking_time", ""),
+            confirmed=bool(context.user_data.get("booking_confirmed")),
+        )
+
+    def save_to(self, context: ContextTypes.DEFAULT_TYPE) -> None:
+        context.user_data["booking_name"] = self.name
+        context.user_data["booking_national_code"] = self.national_code
+        context.user_data["booking_doctor_id"] = self.doctor_id
+        context.user_data["booking_doctor_name"] = self.doctor_name
+        context.user_data["booking_date"] = self.date
+        context.user_data["booking_time"] = self.time
+        if self.confirmed:
+            context.user_data["booking_confirmed"] = True
+
+    def clear_from(self, context: ContextTypes.DEFAULT_TYPE) -> None:
+        for key in (
+            "booking_name",
+            "booking_national_code",
+            "booking_doctor_id",
+            "booking_doctor_name",
+            "booking_date",
+            "booking_time",
+            "booking_confirmed",
+        ):
+            context.user_data.pop(key, None)
+
+    def is_complete(self) -> bool:
+        return all(
+            [self.name, self.national_code, self.doctor_id, self.date, self.time]
+        )
+
+
+# ---------------------------------------------------------------------------
+# توابع کمکی
+# ---------------------------------------------------------------------------
 
 def _get_lang(context: ContextTypes.DEFAULT_TYPE) -> str:
-    """دریافت زبان کاربر با مقدار پیش‌فرض فارسی."""
-    lang = context.user_data.get("lang", "fa")
-    if lang not in ("fa", "en", "ar"):
-        return "fa"
+    lang = context.user_data.get("lang", DEFAULT_LANG)
+    if lang not in SUPPORTED_LANGS:
+        return DEFAULT_LANG
     return lang
 
 
 def _safe_btn(lang: str, key: str, default: str = "بازگشت") -> str:
-    """دریافت امن یک دکمه از get_msg_btn با fallback."""
+    """دریافت امن برچسب دکمه از get_msg_btn با fallback."""
     try:
         value = get_msg_btn(lang, key)
         if value is None:
             return default
-        return str(value)
+        text = str(value).strip()
+        return text if text else default
     except Exception as error:
-        print(f"Error getting msg btn '{key}' for lang '{lang}': {error}")
+        logger.warning("Error getting msg btn '%s' for lang '%s': %s", key, lang, error)
         return default
 
 
 def _cancel_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """کیبورد لغو گفتگوی نوبت‌دهی."""
     return InlineKeyboardMarkup(
         [
             [
@@ -81,15 +165,10 @@ def _cancel_keyboard(lang: str) -> InlineKeyboardMarkup:
     )
 
 
-def _dates_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """کیبورد انتخاب تاریخ (۱۴ روز آینده) + دکمه بازگشت."""
+def _build_date_keyboard(lang: str) -> InlineKeyboardMarkup:
+    """کیبورد انتخاب تاریخ (۱۴ روز آینده) + بازگشت."""
     rows = [
-        [
-            InlineKeyboardButton(
-                date_item,
-                callback_data=f"booking_date_{date_item}",
-            )
-        ]
+        [InlineKeyboardButton(date_item, callback_data=f"booking_date_{date_item}")]
         for date_item in get_next_14_days()
     ]
     rows.append(
@@ -103,15 +182,10 @@ def _dates_keyboard(lang: str) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(rows)
 
 
-def _times_keyboard(lang: str, available_times: list[str]) -> InlineKeyboardMarkup:
-    """کیبورد انتخاب ساعت + دکمه بازگشت."""
+def _build_time_keyboard(lang: str, available_times: list[str]) -> InlineKeyboardMarkup:
+    """کیبورد انتخاب ساعت + بازگشت."""
     rows = [
-        [
-            InlineKeyboardButton(
-                slot,
-                callback_data=f"booking_time_{slot}",
-            )
-        ]
+        [InlineKeyboardButton(slot, callback_data=f"booking_time_{slot}")]
         for slot in available_times
     ]
     rows.append(
@@ -125,11 +199,108 @@ def _times_keyboard(lang: str, available_times: list[str]) -> InlineKeyboardMark
     return InlineKeyboardMarkup(rows)
 
 
-def _clear_booking_data(context: ContextTypes.DEFAULT_TYPE) -> None:
-    """پاکسازی داده‌های رزرو از user_data."""
-    for key in _BOOKING_KEYS:
-        context.user_data.pop(key, None)
+def _build_doctor_keyboard() -> InlineKeyboardMarkup:
+    """کیبورد انتخاب پزشک (بدون دکمه بازگشت چون در این مرحله لغو معنا ندارد)."""
+    return InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(
+                    doctor["name"],
+                    callback_data=f"booking_doctor_{doctor['id']}",
+                )
+            ]
+            for doctor in TEMP_DOCTORS
+        ]
+    )
 
+
+def _build_summary(data: BookingData, lang: str) -> str:
+    """ساخت متن خلاصه نوبت برای تأیید."""
+    return "\n".join(
+        [
+            "خلاصه نوبت:",
+            f"نام بیمار: {data.name}",
+            f"کد ملی: {data.national_code}",
+            f"پزشک: {data.doctor_name}",
+            f"تاریخ: {data.date}",
+            f"ساعت: {data.time}",
+            f"مبلغ: {APPOINTMENT_AMOUNT:,} تومان",
+            "",
+            "آیا از ثبت این نوبت مطمئن هستید؟",
+        ]
+    )
+
+
+def _build_confirm_keyboard(lang: str) -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(
+        [
+            [
+                InlineKeyboardButton(
+                    "تأیید و پرداخت", callback_data="booking_confirm"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    _safe_btn(lang, "btn_back", "بازگشت"),
+                    callback_data="booking_cancel",
+                )
+            ],
+        ]
+    )
+
+
+def _build_callback_url(context: ContextTypes.DEFAULT_TYPE) -> str:
+    """ساخت callback_url قابل تنظیم (Bale/Telegram) از settings."""
+    bot_username = getattr(context.bot, "username", None)
+    if not bot_username:
+        bot_username = getattr(settings, "BOT_USERNAME", "ShirazMedBot")
+    base = getattr(settings, "PAYMENT_CALLBACK_BASE", "https://ble.ir")
+    return f"{base}/{bot_username}"
+
+
+async def _request_payment_safe(
+    *,
+    user_id: int,
+    amount: int,
+    description: str,
+    callback_url: str,
+) -> dict[str, Any]:
+    """فراخوانی امن request_payment در thread جدا با timeout.
+
+    با استفاده از asyncio.to_thread از بلاک شدن event loop جلوگیری
+    می‌کند و با asyncio.wait_for زمان انتظار را محدود می‌کند.
+    """
+    try:
+        result = await asyncio.wait_for(
+            asyncio.to_thread(
+                request_payment,
+                user_id=user_id,
+                amount=amount,
+                description=description,
+                callback_url=callback_url,
+            ),
+            timeout=PAYMENT_TIMEOUT_SECONDS,
+        )
+    except asyncio.TimeoutError as error:
+        raise ValueError("درگاه پرداخت پاسخ نداد (timeout)") from error
+
+    if not isinstance(result, dict):
+        raise ValueError("پاسخ درگاه پرداخت نامعتبر است")
+
+    return result
+
+
+async def _safe_answer(query) -> None:
+    """پاسخ امن به callback_query (جلوگیری از BadRequest)."""
+    try:
+        await query.answer()
+    except Exception as error:
+        logger.debug("Failed to answer callback: %s", error)
+
+
+# ---------------------------------------------------------------------------
+# مراحل گفتگو
+# ---------------------------------------------------------------------------
 
 async def start_booking(
     update: Update, context: ContextTypes.DEFAULT_TYPE
@@ -138,28 +309,21 @@ async def start_booking(
     if update.effective_chat is None:
         return ConversationHandler.END
 
-    # اگر ورودی از callback است
     if update.callback_query is not None:
-        try:
-            await update.callback_query.answer()
-        except Exception:
-            pass
+        await _safe_answer(update.callback_query)
 
     lang = _get_lang(context)
 
-    # پاکسازی داده‌های قبلی برای جلوگیری از قاطی شدن
-    _clear_booking_data(context)
+    # پاکسازی داده‌های قبلی
+    BookingData().clear_from(context)
+
+    prompt = "لطفاً نام و نام خانوادگی بیمار را وارد کنید:"
+    keyboard = _cancel_keyboard(lang)
 
     if update.message is not None:
-        await update.message.reply_text(
-            "لطفاً نام و نام خانوادگی بیمار را وارد کنید:",
-            reply_markup=_cancel_keyboard(lang),
-        )
+        await update.message.reply_text(prompt, reply_markup=keyboard)
     elif update.callback_query is not None:
-        await update.callback_query.edit_message_text(
-            "لطفاً نام و نام خانوادگی بیمار را وارد کنید:",
-            reply_markup=_cancel_keyboard(lang),
-        )
+        await update.callback_query.edit_message_text(prompt, reply_markup=keyboard)
     else:
         return ConversationHandler.END
 
@@ -176,14 +340,17 @@ async def receive_name(
     lang = _get_lang(context)
     name = update.message.text.strip()
 
-    if len(name) < 2:
+    if len(name) < MIN_NAME_LENGTH:
         await update.message.reply_text(
             "نام وارد شده خیلی کوتاه است.\nلطفاً نام و نام خانوادگی کامل وارد کنید:",
             reply_markup=_cancel_keyboard(lang),
         )
         return ASK_NAME
 
-    context.user_data["booking_name"] = name
+    data = BookingData.from_context(context)
+    data.name = name
+    data.save_to(context)
+
     await update.message.reply_text(
         "لطفاً کد ملی ۱۰ رقمی بیمار را وارد کنید:",
         reply_markup=_cancel_keyboard(lang),
@@ -201,29 +368,20 @@ async def receive_national_code(
     lang = _get_lang(context)
     national_code = update.message.text.strip()
 
-    if not national_code.isdigit() or len(national_code) != 10:
+    if not national_code.isdigit() or len(national_code) != NATIONAL_CODE_LENGTH:
         await update.message.reply_text(
-            "کد ملی وارد شده معتبر نیست.\nلطفاً یک کد ملی ۱۰ رقمی وارد کنید:",
+            f"کد ملی وارد شده معتبر نیست.\nلطفاً یک کد ملی {NATIONAL_CODE_LENGTH} رقمی وارد کنید:",
             reply_markup=_cancel_keyboard(lang),
         )
         return ASK_NATIONAL_CODE
 
-    context.user_data["booking_national_code"] = national_code
+    data = BookingData.from_context(context)
+    data.national_code = national_code
+    data.save_to(context)
 
-    keyboard = InlineKeyboardMarkup(
-        [
-            [
-                InlineKeyboardButton(
-                    doctor["name"],
-                    callback_data=f"booking_doctor_{doctor['id']}",
-                )
-            ]
-            for doctor in TEMP_DOCTORS
-        ]
-    )
     await update.message.reply_text(
         "لطفاً پزشک مورد نظر را انتخاب کنید:",
-        reply_markup=keyboard,
+        reply_markup=_build_doctor_keyboard(),
     )
     return SELECT_DOCTOR
 
@@ -237,11 +395,13 @@ async def select_doctor(
     if query is None:
         return SELECT_DOCTOR
 
-    await query.answer()
+    await _safe_answer(query)
 
     lang = _get_lang(context)
     doctor_id = query.data.replace("booking_doctor_", "")
-    doctor = next((item for item in TEMP_DOCTORS if item["id"] == doctor_id), None)
+    doctor = next(
+        (item for item in TEMP_DOCTORS if item["id"] == doctor_id), None
+    )
 
     if doctor is None:
         await query.edit_message_text(
@@ -250,12 +410,14 @@ async def select_doctor(
         )
         return SELECT_DOCTOR
 
-    context.user_data["booking_doctor_id"] = doctor["id"]
-    context.user_data["booking_doctor_name"] = doctor["name"]
+    data = BookingData.from_context(context)
+    data.doctor_id = doctor["id"]
+    data.doctor_name = doctor["name"]
+    data.save_to(context)
 
     await query.edit_message_text(
         "لطفاً تاریخ نوبت را انتخاب کنید:",
-        reply_markup=_dates_keyboard(lang),
+        reply_markup=_build_date_keyboard(lang),
     )
     return SELECT_DATE
 
@@ -269,25 +431,26 @@ async def select_date(
     if query is None:
         return SELECT_DATE
 
-    await query.answer()
+    await _safe_answer(query)
 
     lang = _get_lang(context)
     date = query.data.replace("booking_date_", "")
     available_times = get_available_times(date)
 
     if not available_times:
-        # کیبورد تاریخ را دوباره می‌فرستیم تا کاربر گیر نکند
         await query.edit_message_text(
             "برای این تاریخ ساعت خالی وجود ندارد.\nلطفاً تاریخ دیگری انتخاب کنید:",
-            reply_markup=_dates_keyboard(lang),
+            reply_markup=_build_date_keyboard(lang),
         )
         return SELECT_DATE
 
-    context.user_data["booking_date"] = date
+    data = BookingData.from_context(context)
+    data.date = date
+    data.save_to(context)
 
     await query.edit_message_text(
         "لطفاً ساعت نوبت را انتخاب کنید:",
-        reply_markup=_times_keyboard(lang, available_times),
+        reply_markup=_build_time_keyboard(lang, available_times),
     )
     return SELECT_TIME
 
@@ -301,63 +464,36 @@ async def select_time(
     if query is None:
         return SELECT_TIME
 
-    await query.answer()
+    await _safe_answer(query)
 
     lang = _get_lang(context)
     slot = query.data.replace("booking_time_", "")
-    date = context.user_data.get("booking_date", "")
+    data = BookingData.from_context(context)
 
-    if not is_time_available(date, slot):
-        # شاید کاربر دیگری همان لحظه رزرو کرده باشد
-        available_times = get_available_times(date)
+    if not is_time_available(data.date, slot):
+        available_times = get_available_times(data.date)
 
         if not available_times:
             await query.edit_message_text(
                 "این ساعت دیگر در دسترس نیست و ساعت خالی دیگری هم برای این تاریخ وجود ندارد.\n"
                 "لطفاً تاریخ دیگری انتخاب کنید:",
-                reply_markup=_dates_keyboard(lang),
+                reply_markup=_build_date_keyboard(lang),
             )
             return SELECT_DATE
 
         await query.edit_message_text(
             "این ساعت دیگر در دسترس نیست.\nلطفاً ساعت دیگری انتخاب کنید:",
-            reply_markup=_times_keyboard(lang, available_times),
+            reply_markup=_build_time_keyboard(lang, available_times),
         )
         return SELECT_TIME
 
-    context.user_data["booking_time"] = slot
+    data.time = slot
+    data.save_to(context)
 
-    summary = "\n".join(
-        [
-            "خلاصه نوبت:",
-            f"نام بیمار: {context.user_data.get('booking_name', '')}",
-            f"کد ملی: {context.user_data.get('booking_national_code', '')}",
-            f"پزشک: {context.user_data.get('booking_doctor_name', '')}",
-            f"تاریخ: {date}",
-            f"ساعت: {slot}",
-            f"مبلغ: {APPOINTMENT_AMOUNT} تومان",
-            "",
-            "آیا از ثبت این نوبت مطمئن هستید؟",
-        ]
+    await query.edit_message_text(
+        _build_summary(data, lang),
+        reply_markup=_build_confirm_keyboard(lang),
     )
-
-    keyboard = InlineKeyboardMarkup(
-        [
-            [
-                InlineKeyboardButton(
-                    "تأیید و پرداخت", callback_data="booking_confirm"
-                )
-            ],
-            [
-                InlineKeyboardButton(
-                    _safe_btn(lang, "btn_back", "بازگشت"),
-                    callback_data="booking_cancel",
-                )
-            ],
-        ]
-    )
-
-    await query.edit_message_text(summary, reply_markup=keyboard)
     return CONFIRM_BOOKING
 
 
@@ -370,48 +506,67 @@ async def confirm_booking(
     if query is None:
         return CONFIRM_BOOKING
 
-    await query.answer()
+    await _safe_answer(query)
 
-    lang = _get_lang(context)
-    user = update.effective_user
+    data = BookingData.from_context(context)
 
-    appointment = {
-        "user_id": user.id if user else None,
-        "full_name": context.user_data.get("booking_name", ""),
-        "national_code": context.user_data.get("booking_national_code", ""),
-        "doctor_id": context.user_data.get("booking_doctor_id", ""),
-        "doctor_name": context.user_data.get("booking_doctor_name", ""),
-        "date": context.user_data.get("booking_date", ""),
-        "time": context.user_data.get("booking_time", ""),
-        "amount": APPOINTMENT_AMOUNT,
-        "status": "pending",
-    }
-
-    saved = add_appointment(appointment)
-
-    if not saved:
-        # ممکن است اسلات همین لحظه توسط کاربر دیگری رزرو شده باشد
-        await query.edit_message_text(
-            "خطا در ثبت نوبت رخ داد.\n"
-            "احتمالاً این ساعت همین الان توسط کاربر دیگری رزرو شده است.\n"
-            "لطفاً دوباره از منو نوبت بگیرید.",
-            reply_markup=None,
-        )
-        _clear_booking_data(context)
+    if data.confirmed:
+        await query.edit_message_text(MSG_ALREADY_CONFIRMED, reply_markup=None)
         return ConversationHandler.END
 
+    if not data.is_complete():
+        await query.edit_message_text(
+            "اطلاعات نوبت ناقص است. لطفاً دوباره از منو نوبت بگیرید.",
+            reply_markup=None,
+        )
+        data.clear_from(context)
+        return ConversationHandler.END
+
+    user = update.effective_user
+    user_id = user.id if user else 0
+
+    appointment = {
+        "user_id": user_id,
+        "full_name": data.name,
+        "national_code": data.national_code,
+        "doctor_id": data.doctor_id,
+        "doctor_name": data.doctor_name,
+        "date": data.date,
+        "time": data.time,
+        "amount": APPOINTMENT_AMOUNT,
+        "status": "pending",
+        "expires_at": (
+            datetime.now() + timedelta(minutes=PENDING_TIMEOUT_MINUTES)
+        ).isoformat(),
+    }
+
+    if not add_appointment(appointment):
+        await query.edit_message_text(MSG_SLOT_TAKEN, reply_markup=None)
+        data.clear_from(context)
+        return ConversationHandler.END
+
+    data.confirmed = True
+    data.save_to(context)
+
     try:
-        payment_link = create_payment_link(
-            user_id=user.id if user else 0,
+        callback_url = _build_callback_url(context)
+        payment_response = await _request_payment_safe(
+            user_id=user_id,
             amount=APPOINTMENT_AMOUNT,
             description=(
-                f"نوبت {appointment['doctor_name']} - "
-                f"{appointment['date']} {appointment['time']}"
+                f"نوبت {data.doctor_name} - {data.date} {data.time}"
             ),
+            callback_url=callback_url,
         )
 
-        if not payment_link:
-            raise ValueError("empty payment link")
+        if not payment_response.get("success"):
+            raise ValueError(
+                payment_response.get("error", "خطای نامشخص در درگاه پرداخت")
+            )
+
+        payment_link = payment_response.get("url")
+        if not payment_link or not isinstance(payment_link, str):
+            raise ValueError("لینک پرداخت خالی یا نامعتبر است")
 
         await query.edit_message_text(
             "\n".join(
@@ -424,15 +579,22 @@ async def confirm_booking(
             ),
             reply_markup=None,
         )
-    except Exception as error:
-        print(f"Error creating payment link: {error}")
-        await query.edit_message_text(
-            "نوبت ثبت شد، اما ایجاد لینک پرداخت با خطا مواجه شد.\n"
-            "لطفاً بعداً با پشتیبانی تماس بگیرید.",
-            reply_markup=None,
-        )
 
-    _clear_booking_data(context)
+    except Exception as error:
+        logger.error("Error creating payment link: %s", error)
+
+        try:
+            cancel_appointment(
+                date=data.date,
+                time=data.time,
+                user_id=user_id,
+            )
+        except Exception as cancel_error:
+            logger.error("Error cancelling pending appointment: %s", cancel_error)
+
+        await query.edit_message_text(MSG_PAYMENT_FAILED, reply_markup=None)
+
+    data.clear_from(context)
     return ConversationHandler.END
 
 
@@ -443,33 +605,28 @@ async def cancel_booking(
     query = update.callback_query
 
     if query is not None:
-        try:
-            await query.answer()
-        except Exception:
-            pass
+        await _safe_answer(query)
 
         try:
-            await query.edit_message_text(
-                "فرآیند رزرو نوبت لغو شد.",
-                reply_markup=None,
-            )
+            await query.edit_message_text(MSG_BOOKING_CANCELLED, reply_markup=None)
         except Exception as error:
-            print(f"Error editing cancel message: {error}")
+            logger.debug("Error editing cancel message: %s", error)
 
-        _clear_booking_data(context)
+        BookingData().clear_from(context)
         return ConversationHandler.END
 
     if update.message is not None:
-        await update.message.reply_text(
-            "فرآیند رزرو نوبت لغو شد.",
-            reply_markup=None,
-        )
-        _clear_booking_data(context)
+        await update.message.reply_text(MSG_BOOKING_CANCELLED, reply_markup=None)
+        BookingData().clear_from(context)
         return ConversationHandler.END
 
-    _clear_booking_data(context)
+    BookingData().clear_from(context)
     return ConversationHandler.END
 
+
+# ---------------------------------------------------------------------------
+# ConversationHandler
+# ---------------------------------------------------------------------------
 
 booking_conversation_handler = ConversationHandler(
     entry_points=[
