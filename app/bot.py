@@ -42,6 +42,7 @@ CHANGE_LANGUAGE_PATTERN = r"^change_language$"
 BACK_TO_MAIN_PATTERN = r"^back_main$"
 
 MENU_CALLBACKS: tuple[str, ...] = (
+    "start_booking",    # 🆕 اضافه شد برای هماهنگی کامل با منوی جدید
     "medical",
     "non_medical",
     "non_hospitals",
