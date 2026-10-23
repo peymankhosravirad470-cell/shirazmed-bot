@@ -190,10 +190,11 @@
     </div>
 
     <script>
+        // آدرس مستقیم فایل‌های JSON در گیت‌هاب
         const GITHUB_BASE = "https://raw.githubusercontent.com/peymanrad/shirazmedical/main/data";
         const container = document.getElementById('app-content');
 
-        // منوها دقیقاً بر اساس فایل‌های موجود در پوشه data (بدون پزشکان)
+        // منوها بر اساس فایل‌های موجود در پوشه data
         const menuItems = [
             { title: "بیمارستان‌ها", icon: "🏥", file: "hospitals2.json" },
             { title: "بیمه‌ها", icon: "🛡️", file: "insurances.json" },
@@ -242,7 +243,6 @@
                 let items = Array.isArray(data) ? data : (data.items || data.data || [data]);
 
                 items.forEach(item => {
-                    // استخراج هوشمند فیلدها (چون اسم فیلدها در فایل‌های مختلف ممکن است فرق کند)
                     let name = item.name_fa || item.title || item.name || item.hotel_name || 'بدون نام';
                     let address = item.address_fa || item.address || item.location || '';
                     let phone = item.phone || item.phone_fa || item.main_phone_fa || item.tel || '';
@@ -270,6 +270,7 @@
             }
         }
 
+        // لود شدن صفحه اصلی در ابتدا
         goHome();
     </script>
 </body>
