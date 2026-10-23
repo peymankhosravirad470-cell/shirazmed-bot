@@ -20,22 +20,20 @@ def get_main_menu_keyboard(lang: str) -> InlineKeyboardMarkup:
         "hubs", "taxi", "insurance", "translator", "charter", "deepseek",
         "file", "appointments", "medication", "emergency", "channel", "invite", "rights",
     ]
+    
+    # چیدمان جدید: ۲ دکمه در هر ردیف به جای ۳ دکمه
     rows = [
-        [InlineKeyboardButton(get_msg_btn(lang, key), callback_data=key) for key in keys[i : i + 3]]
-        for i in range(0, len(keys), 3)
+        [InlineKeyboardButton(get_msg_btn(lang, key), callback_data=key) for key in keys[i : i + 2]]
+        for i in range(0, len(keys), 2)
     ]
     
-    # دکمه رزرو نوبت
+    # دکمه‌های اصلی (تمام عرض)
     rows.append([
         InlineKeyboardButton("📅 رزرو نوبت", callback_data="start_booking"),
     ])
-    
-    # دکمه ثبت همراه بیمار
     rows.append([
         InlineKeyboardButton("🤝 ثبت همراه بیمار", callback_data="start_companion"),
     ])
-    
-    # دکمه ثبت نظر و رضایت‌سنجی
     rows.append([
         InlineKeyboardButton("📝 ثبت نظر و رضایت‌سنجی", callback_data="start_survey"),
     ])
