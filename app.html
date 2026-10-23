@@ -2,8 +2,9 @@
 <html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>شیراز مدیکال</title>
+    <!-- ✅ مورد 6: اضافه شدن font-display: swap -->
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
     <style>
         :root {
@@ -13,9 +14,10 @@
             --text-color: #1E293B;
             --text-muted: #64748B;
             --chip-bg: #F0FDFA;
+            --danger: #DC2626;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Vazirmatn', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: 100px; }
+        body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
         header { background: linear-gradient(135deg, var(--primary-color) 0%, #06B6D4 100%); color: white; padding: 24px 20px; border-bottom-left-radius: 28px; border-bottom-right-radius: 28px; box-shadow: 0 4px 12px rgba(14, 116, 144, 0.2); }
         .header-content { display: flex; align-items: center; gap: 16px; }
         .logo-placeholder { width: 56px; height: 56px; background-color: white; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
@@ -29,27 +31,42 @@
         .menu-icon { font-size: 28px; margin-bottom: 8px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #F0FDFA; color: var(--primary-color); }
         .menu-title { font-size: 12px; font-weight: 700; }
         .page-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; background: white; padding: 12px; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
-        .back-btn { background: #F8FAFC; border: 1px solid #E2E8F0; width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; }
+        .back-btn { background: #F8FAFC; border: 1px solid #E2E8F0; width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; flex-shrink: 0; }
         .page-title { font-size: 18px; font-weight: 800; color: var(--primary-color); }
+        .item-count { font-size: 12px; color: var(--text-muted); margin-right: auto; padding-left: 8px; }
         
-        .hospital-card { background-color: var(--card-bg); border-radius: 16px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #E2E8F0; }
-        .hospital-name { font-size: 15px; font-weight: 800; color: var(--primary-color); margin-bottom: 8px; }
-        .hospital-info { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; display: flex; align-items: flex-start; gap: 6px; line-height: 1.6; }
-        .hospital-info span { flex: 1; }
+        .card { background-color: var(--card-bg); border-radius: 16px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #E2E8F0; }
+        .card-title { font-size: 15px; font-weight: 800; color: var(--primary-color); margin-bottom: 8px; word-break: break-word; }
+        .card-info { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; display: flex; align-items: flex-start; gap: 6px; line-height: 1.6; }
+        .card-info span { flex: 1; word-break: break-word; }
+        .card-info a { color: var(--primary-color); text-decoration: none; font-weight: 600; }
         
-        .badge { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; margin-bottom: 8px; margin-left: 4px; }
-        .badge-ownership { background: #FEF3C7; color: #92400E; }
-        .badge-ipd { background: #DBEAFE; color: #1E40AF; }
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; margin-bottom: 8px; margin-left: 4px; word-break: break-word; }
+        .badge-yellow { background: #FEF3C7; color: #92400E; }
+        .badge-blue { background: #DBEAFE; color: #1E40AF; }
+        .badge-green { background: #ECFDF5; color: #065F46; }
+        .badge-purple { background: #F3E8FF; color: #6B21A8; }
         
         .chips-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-        .chip { background-color: var(--chip-bg); color: var(--primary-color); font-size: 11px; padding: 4px 8px; border-radius: 8px; font-weight: 600; }
-        .chip-lang { background-color: #F3E8FF; color: #6B21A8; }
+        .chip { background-color: var(--chip-bg); color: var(--primary-color); font-size: 11px; padding: 4px 8px; border-radius: 8px; font-weight: 600; word-break: break-word; }
         .chips-title { font-size: 11px; color: var(--text-muted); width: 100%; margin-bottom: 2px; }
+
+        .steps-list { padding-right: 20px; margin-top: 8px; }
+        .steps-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; line-height: 1.6; }
 
         .loader { width: 40px; height: 40px; border: 4px solid #E2E8F0; border-top: 4px solid var(--primary-color); border-radius: 50%; margin: 40px auto; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.95); display: flex; justify-content: center; padding: 12px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); border-top: 1px solid #E2E8F0; border-top-left-radius: 20px; border-top-right-radius: 20px; z-index: 100; }
+        .error-box { text-align: center; padding: 30px 20px; }
+        .error-box .icon { font-size: 40px; margin-bottom: 12px; }
+        .error-box p { color: var(--danger); margin-bottom: 16px; font-size: 14px; }
+        .retry-btn { background: var(--primary-color); color: white; border: none; padding: 10px 24px; border-radius: 12px; font-family: 'Vazirmatn', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; }
+        .retry-btn:active { opacity: 0.8; }
+
+        #toast { visibility: hidden; min-width: 250px; background-color: #1E293B; color: #fff; text-align: center; border-radius: 12px; padding: 14px 20px; position: fixed; z-index: 9999; bottom: calc(110px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); font-size: 13px; opacity: 0; transition: opacity 0.3s, visibility 0.3s; box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
+        #toast.show { visibility: visible; opacity: 1; }
+
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.95); display: flex; justify-content: center; padding: 12px 0 calc(12px + env(safe-area-inset-bottom)); box-shadow: 0 -2px 10px rgba(0,0,0,0.05); border-top: 1px solid #E2E8F0; border-top-left-radius: 20px; border-top-right-radius: 20px; z-index: 100; }
         .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--primary-color); font-size: 12px; gap: 4px; cursor: pointer; padding: 4px 32px; }
         .nav-item svg { width: 24px; height: 24px; }
     </style>
@@ -67,6 +84,7 @@
     </header>
 
     <div class="container" id="app-content"></div>
+    <div id="toast"></div>
 
     <div class="bottom-nav">
         <div class="nav-item" onclick="goHome()">
@@ -76,112 +94,289 @@
     </div>
 
     <script>
-        const GITHUB_BASE = "https://raw.githubusercontent.com/peymanrad/shirazmedical/main/data";
+        const GITHUB_BASE = "https://raw.githubusercontent.com/peymankhosravirad470-cell/shirazmed-bot/main/data";
+        const CACHE_TTL = 60 * 60 * 1000; // ✅ 1 hour cache (رفع مورد 4 و 5)
         const container = document.getElementById('app-content');
+        const toastEl = document.getElementById('toast');
+        let toastTimer;
 
-        // فقط دکمه‌های اصلی
+        function toast(message, duration = 2500) { toastEl.textContent = message; toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toastEl.classList.remove('show'), duration); }
+
+        function safeString(val, defaultVal = '') {
+            if (val === null || val === undefined) return defaultVal;
+            if (typeof val === 'number' && !isFinite(val)) return defaultVal;
+            if (typeof val !== 'string' && typeof val !== 'number') return defaultVal;
+            return String(val).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        function safeArray(val) {
+            if (!val) return [];
+            if (!Array.isArray(val)) {
+                if (typeof val === 'string') return val.trim() !== '' ? [val] : [];
+                if (typeof val === 'object') return Object.values(val).map(v => (typeof v === 'object' && v !== null) ? (v.fa || v.en || v.title || JSON.stringify(v)) : v).filter(v => v !== null && v !== undefined && v !== '');
+                return [];
+            }
+            return val.map(v => (typeof v === 'object' && v !== null) ? (v.fa || v.en || v.title || JSON.stringify(v)) : v).filter(v => v !== null && v !== undefined && v !== '');
+        }
+
+        function telLink(phone) {
+            if (!phone || typeof phone !== 'string') return '';
+            const clean = phone.replace(/[^\d+]/g, '');
+            if (clean.length < 3) return safeString(phone);
+            return `<a href="tel:${clean}">${safeString(phone)}</a>`;
+        }
+
+        function webLink(url) {
+            if (!url || typeof url !== 'string') return '';
+            const trimmed = url.trim();
+            if (trimmed === '—' || trimmed === '-' || trimmed === 'ندارد' || trimmed === 'ثبت نشده') return safeString(url);
+            if (!/^https?:\/\//.test(trimmed) && !/^[\w.-]+\.[a-z]{2,}/i.test(trimmed)) return safeString(url);
+            let href = trimmed;
+            if (!href.startsWith('http')) href = 'https://' + href;
+            return `<a href="${safeString(href)}" target="_blank" rel="noopener">${safeString(url)}</a>`;
+        }
+
+        // ✅ سیستم کش
+        function getCached(key) {
+            try {
+                const raw = localStorage.getItem(key);
+                if (!raw) return null;
+                const { data, timestamp } = JSON.parse(raw);
+                if (Date.now() - timestamp > CACHE_TTL) { localStorage.removeItem(key); return null; }
+                return data;
+            } catch { return null; }
+        }
+        function setCache(key, data) {
+            try { localStorage.setItem(key, JSON.stringify({ data, timestamp: Date.now() })); } catch { /* ignore quota errors */ }
+        }
+
         const mainMenu = [
-            { title: "بیمارستان‌ها", icon: "🏥", action: "showHospitals" },
-            { title: "بیمه‌ها", icon: "🛡️", action: "comingSoon" },
-            { title: "پیراپزشکی", icon: "🩺", action: "comingSoon" },
-            { title: "اقامتگاه‌ها", icon: "🏨", action: "comingSoon" },
-            { title: "حمل و نقل", icon: "🚕", action: "comingSoon" },
-            { title: "گردشگری", icon: "🏛️", action: "comingSoon" },
-            { title: "خانه سالمندان", icon: "👵", action: "comingSoon" },
-            { title: "راهنمای بیمار", icon: "📖", action: "comingSoon" },
+            { title: "بیمارستان‌ها", icon: "🏥", action: "loadData", file: "hospitals2.json", type: "hospital" },
+            { title: "بیمه‌ها", icon: "🛡️", action: "loadData", file: "insurances.json", type: "insurance" },
+            { title: "پیراپزشکی", icon: "🩺", action: "loadData", file: "paramedical.json", type: "paramedical" },
+            { title: "اقامتگاه‌ها", icon: "🏨", action: "loadData", file: "hotels.json", type: "hotel" },
+            { title: "خانه سالمندان", icon: "👵", action: "loadData", file: "elderly_homes.json", type: "elderly" },
+            { title: "حمل و نقل", icon: "🚕", action: "loadData", file: "transport.json", type: "transport" },
+            { title: "گردشگری شهری", icon: "🏛️", action: "loadData", file: "leisure_city.json", type: "tourism" },
+            { title: "گردشگری خارج شهر", icon: "🏞️", action: "loadData", file: "leisure_outside.json", type: "tourism_out" },
+            { title: "راهنمای بیمار", icon: "📖", action: "loadData", file: "patient_guide.json", type: "patient_guide" },
+            { title: "پشتیبانی و اورژانس", icon: "🚨", action: "loadData", file: "support.json", type: "support" },
+            { title: "شکایات ایرانیان", icon: "📝", action: "loadData", file: "complaints_iranian.json", type: "complaints" },
+            { title: "شکایات خارجی", icon: "🌍", action: "loadData", file: "complaints.json", type: "complaints_foreign" }
         ];
 
         function goHome() {
             let menuHtml = "";
-            mainMenu.forEach(item => {
-                menuHtml += `
-                    <div class="menu-card" onclick="${item.action}()">
-                        <div class="menu-icon">${item.icon}</div>
-                        <div class="menu-title">${item.title}</div>
-                    </div>
-                `;
+            mainMenu.forEach((item) => {
+                menuHtml += `<div class="menu-card" data-file="${item.file}" data-type="${item.type}" data-title="${item.title}" data-icon="${item.icon}"><div class="menu-icon">${item.icon}</div><div class="menu-title">${item.title}</div></div>`;
             });
-            container.innerHTML = `
-                <p class="hero-text">🌟 با یک لمس، به تمام خدمات پزشکی، اقامتی و گردشگری شیراز دسترسی داشته باشید.</p>
-                <div class="grid-menu">${menuHtml}</div>
-            `;
+            container.innerHTML = `<p class="hero-text">🌟 با یک لمس، به تمام خدمات پزشکی، اقامتی و گردشگری شیراز دسترسی داشته باشید.</p><div class="grid-menu">${menuHtml}</div>`;
+            document.querySelectorAll('.menu-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    const el = e.currentTarget;
+                    loadData(el.dataset.file, el.dataset.title, el.dataset.icon, el.dataset.type);
+                });
+            });
         }
 
-        function comingSoon() { alert("این بخش به زودی در اپلیکیشن فعال می‌شود."); }
         function showLoading() { container.innerHTML = `<div class="loader"></div>`; }
-        function pageHeader(title, icon) {
-            return `
-                <div class="page-header">
-                    <button class="back-btn" onclick="goHome()">🔙</button>
-                    <div class="page-title">${icon} ${title}</div>
-                </div>
-            `;
-        }
-        function showError(message) {
-            container.innerHTML = pageHeader("خطا", "⚠️") + `<p style="text-align:center; color:#DC2626; margin-top:20px;">${message}</p>`;
+        function pageHeader(title, icon, count = 0) { return `<div class="page-header"><button class="back-btn" onclick="goHome()" aria-label="بازگشت">🔙</button><div class="page-title">${icon} ${title}</div>${count > 0 ? `<div class="item-count">${count} مورد</div>` : ''}</div>`; }
+        
+        // ✅ retryAction امن (بدون استفاده از رشته)
+        function showError(message, retryParams = null) {
+            container.innerHTML = `<div class="page-header"><button class="back-btn" onclick="goHome()" aria-label="بازگشت">🔙</button><div class="page-title">⚠️ خطا</div></div><div class="error-box"><div class="icon">😔</div><p>${safeString(message)}</p>${retryParams ? `<button class="retry-btn" id="retry-btn">🔄 تلاش دوباره</button>` : ''}</div>`;
+            window.scrollTo(0, 0);
+            if (retryParams) {
+                document.getElementById('retry-btn').addEventListener('click', () => {
+                    loadData(retryParams.file, retryParams.title, retryParams.icon, retryParams.type);
+                });
+            }
         }
 
-        // ================= بیمارستان‌ها =================
-        async function showHospitals() {
+        async function fetchWithTimeout(url, timeout = 10000) {
+            const controller = new AbortController();
+            const id = setTimeout(() => controller.abort(), timeout);
+            try { const response = await fetch(url, { signal: controller.signal }); clearTimeout(id); return response; }
+            catch (e) { clearTimeout(id); if (e.name === 'AbortError') throw new Error("اتصال طول کشید."); throw e; }
+        }
+
+        async function loadData(fileName, title, icon, type) {
             showLoading();
+            const cacheKey = `sm_${fileName}`;
             try {
-                // فقط hospitals2.json را می‌خوانیم
-                const response = await fetch(`${GITHUB_BASE}/hospitals2.json`);
-                if (!response.ok) throw new Error("File not found");
-                const hospitals = await response.json();
+                // ✅ اول از کش می‌خوانیم
+                let data = getCached(cacheKey);
+                
+                if (!data) {
+                    const response = await fetchWithTimeout(`${GITHUB_BASE}/${fileName}`);
+                    if (!response.ok) throw new Error(`فایل ${fileName} یافت نشد (${response.status})`);
+                    data = await response.json();
+                    setCache(cacheKey, data); // ذخیره در کش
+                }
+                
+                // هندل حمل و نقل
+                if (type === 'transport') {
+                    const items = Array.isArray(data) ? data : (data.shiraz_transport_hubs || data.items || data.data || []);
+                    if (!Array.isArray(items) || items.length === 0) {
+                        container.innerHTML = pageHeader(title, icon) + `<p style="text-align:center; margin-top:20px;">اطلاعاتی یافت نشد.</p>`;
+                        window.scrollTo(0, 0); return;
+                    }
 
-                if (!Array.isArray(hospitals) || hospitals.length === 0) {
-                    container.innerHTML = pageHeader("بیمارستان‌ها", "🏥") + `<p style="text-align:center; margin-top:20px;">اطلاعاتی یافت نشد.</p>`;
-                    return;
+                    const hubs = [
+                        { key: 'shiraz_airport', title: '✈️ فرودگاه بین‌المللی شهید دستغیب' },
+                        { key: 'shiraz_railway', title: '🚆 ایستگاه راه‌آهن شیراز' },
+                        { key: 'karandish_terminal', title: '🚌 پایانه کاراندیش' },
+                        { key: 'amirkabir_terminal', title: '🚌 پایانه امیرکبیر' }
+                    ];
+                    
+                    let html = pageHeader(title, icon, 4);
+                    let cardCount = 0; // ✅ شمارش کارت‌ها
+
+                    hubs.forEach(hub => {
+                        let address = '', phone = '', website = '', tips = '', name = '';
+                        items.forEach(field => {
+                            if (field[hub.key]) {
+                                if (field.key === 'full_address') address = field[hub.key].value_fa;
+                                if (field.key === 'main_phone') phone = field[hub.key].value_fa;
+                                if (field.key === 'website') website = field[hub.key].value_fa;
+                                if (field.key === 'important_tips') tips = field[hub.key].value_fa;
+                                if (field.key === 'official_name') name = field[hub.key].value_fa;
+                            }
+                        });
+
+                        // ✅ فقط اگر حداقل یک فیلد پر باشد، کارت رندر شود
+                        if (name || address || phone || website || tips) {
+                            html += `<div class="card">
+                                <div class="card-title">${hub.title}</div>
+                                ${name ? `<div class="card-info"><span>🏢 ${safeString(name)}</span></div>` : ''}
+                                ${address ? `<div class="card-info"><span>📍 ${safeString(address)}</span></div>` : ''}
+                                ${phone ? `<div class="card-info"><span>📞 ${telLink(phone)}</span></div>` : ''}
+                                ${website && website !== '—' ? `<div class="card-info"><span>🌐 ${webLink(website)}</span></div>` : ''}
+                                ${tips ? `<div class="card-info"><span>💡 ${safeString(tips)}</span></div>` : ''}
+                            </div>`;
+                            cardCount++;
+                        }
+                    });
+                    
+                    // ✅ اگر هیچ کارتی رندر نشد
+                    if (cardCount === 0) {
+                        container.innerHTML = pageHeader(title, icon) + `<p style="text-align:center; margin-top:20px;">اطلاعاتی برای نمایش وجود ندارد.</p>`;
+                    } else {
+                        container.innerHTML = html;
+                    }
+                    window.scrollTo(0, 0); return;
                 }
 
-                let html = pageHeader("بیمارستان‌ها", "🏥");
-                
-                hospitals.forEach(h => {
-                    const name = h.name_fa || 'بدون نام';
-                    const ownership = h.ownership_fa || '';
-                    const address = h.address_fa || '';
-                    const phone = h.phone || '';
-                    const ipdPhone = h.ipd_direct_phone || '';
-                    const website = h.website || '';
-                    const ipdCode = h.ipd_code || '';
-                    const hasIpd = h.has_ipd === true;
-                    
-                    const specialties = Array.isArray(h.specialties_fa) ? h.specialties_fa : [];
-                    const languages = Array.isArray(h.translator_languages_fa) ? h.translator_languages_fa : [];
+                let items = Array.isArray(data) ? data : (data.items || data.data || [data]);
+                if (!Array.isArray(items) || items.length === 0) {
+                    container.innerHTML = pageHeader(title, icon) + `<p style="text-align:center; margin-top:20px;">اطلاعاتی یافت نشد.</p>`;
+                    window.scrollTo(0, 0); return;
+                }
 
-                    html += `
-                        <div class="hospital-card">
-                            <div class="hospital-name">${name}</div>
-                            
-                            ${ownership ? `<div class="badge badge-ownership">🏢 ${ownership}</div>` : ''}
-                            ${hasIpd && ipdCode ? `<div class="badge badge-ipd">✅ دارای مجوز IPD | کد: ${ipdCode}</div>` : ''}
-                            
-                            ${address ? `<div class="hospital-info">📍 <span>${address}</span></div>` : ''}
-                            ${phone ? `<div class="hospital-info">📞 <span>تلفن اصلی: ${phone}</span></div>` : ''}
-                            ${ipdPhone ? `<div class="hospital-info">☎️ <span>تلفن مستقیم IPD: ${ipdPhone}</span></div>` : ''}
-                            ${website ? `<div class="hospital-info">🌐 <span>${website}</span></div>` : ''}
-                            
-                            ${specialties.length > 0 ? `
-                                <div class="chips-container">
-                                    <div class="chips-title">🔬 تخصص‌ها:</div>
-                                    ${specialties.map(s => `<div class="chip">${s}</div>`).join('')}
-                                </div>
-                            ` : ''}
-                            
-                            ${languages.length > 0 ? `
-                                <div class="chips-container">
-                                    <div class="chips-title">🗣 زبان‌های مترجم:</div>
-                                    ${languages.map(t => `<div class="chip chip-lang">${t}</div>`).join('')}
-                                </div>
-                            ` : ''}
-                        </div>
-                    `;
+                let html = pageHeader(title, icon, items.length);
+                let cardCount = 0;
+
+                items.forEach(item => {
+                    let name = '', badges = [], infos = [], chips = [], stepsList = [];
+
+                    if (type === 'hospital') {
+                        name = safeString(item.name_fa, 'بدون نام');
+                        if (item.ownership_fa) badges.push(`<div class="badge badge-yellow">🏢 ${safeString(item.ownership_fa)}</div>`);
+                        if (item.has_ipd && item.ipd_code) badges.push(`<div class="badge badge-blue">✅ مجوز IPD | کد: ${safeString(item.ipd_code)}</div>`);
+                        if (item.address_fa) infos.push(`📍 ${safeString(item.address_fa)}`);
+                        if (item.phone) infos.push(`📞 ${telLink(item.phone)}`);
+                        if (item.ipd_direct_phone) infos.push(`☎️ IPD: ${telLink(item.ipd_direct_phone)}`);
+                        if (item.website) infos.push(`🌐 ${webLink(item.website)}`);
+                        if (safeArray(item.specialties_fa).length) chips.push({title: '🔬 تخصص‌ها:', list: safeArray(item.specialties_fa)});
+                        if (safeArray(item.translator_languages_fa).length) chips.push({title: '🗣 مترجم:', list: safeArray(item.translator_languages_fa)});
+                    } 
+                    else if (type === 'insurance') {
+                        name = safeString(item.name_fa, 'بدون نام');
+                        if (item.type_fa) badges.push(`<div class="badge badge-green">📋 ${safeString(item.type_fa)}</div>`);
+                        if (item.coverage_gp_visit_fa) infos.push(`💊 پوشش: ${safeString(item.coverage_gp_visit_fa)}`);
+                        if (item.main_phone_fa) infos.push(`📞 تلفن: ${telLink(item.main_phone_fa)}`);
+                        if (item.support_phone_24h_fa) infos.push(`🚨 پشتیبانی: ${telLink(item.support_phone_24h_fa)}`);
+                        if (item.website_fa) infos.push(`🌐 ${webLink(item.website_fa)}`);
+                        if (item.shiraz_offices_fa) infos.push(`📍 ${safeString(item.shiraz_offices_fa)}`);
+                    }
+                    else if (type === 'hotel') {
+                        name = safeString(item.name_fa, 'بدون نام');
+                        if (item.star_rating_fa) badges.push(`<div class="badge badge-blue">⭐ ${safeString(item.star_rating_fa)}</div>`);
+                        if (item.address_fa) infos.push(`📍 ${safeString(item.address_fa)}`);
+                        if (item.phone) infos.push(`📞 ${telLink(item.phone)}`);
+                        if (item.distance_to_city_center_fa) infos.push(`📏 ${safeString(item.distance_to_city_center_fa)}`);
+                        if (safeArray(item.amenities_fa).length) chips.push({title: '✨ امکانات:', list: safeArray(item.amenities_fa)});
+                    }
+                    else if (type === 'elderly' || type === 'paramedical') {
+                        name = (item.name && typeof item.name === 'object') ? safeString(item.name.fa || item.name.en || item.name.ar || 'بدون نام') : safeString(item.name_fa, 'بدون نام');
+                        if (item.address && typeof item.address === 'object') infos.push(`📍 ${safeString(item.address.fa || item.address.en || '')}`);
+                        else if (item.address_fa) infos.push(`📍 ${safeString(item.address_fa)}`);
+                        if (item.phone) infos.push(`📞 ${telLink(item.phone)}`);
+                        if (item.working_hours && typeof item.working_hours === 'object') infos.push(`⏰ ${safeString(item.working_hours.fa || item.working_hours.en || '')}`);
+                        else if (item.working_hours_fa) infos.push(`⏰ ${safeString(item.working_hours_fa)}`);
+                        let services = (item.services && typeof item.services === 'object') ? safeArray(item.services.fa || item.services.en || item.services.ar) : safeArray(item.services_fa);
+                        if (services.length) chips.push({title: '🛠 خدمات:', list: services});
+                    }
+                    else if (type === 'tourism' || type === 'tourism_out') {
+                        name = safeString(item.name_fa, 'بدون نام');
+                        if (item.category_fa) badges.push(`<div class="badge badge-green">📌 ${safeString(item.category_fa)}</div>`);
+                        if (item.address_fa) infos.push(`📍 ${safeString(item.address_fa)}`);
+                        if (item.visiting_hours_fa) infos.push(`⏰ ${safeString(item.visiting_hours_fa)}`);
+                        if (item.ticket_price_fa) infos.push(`🎫 بلیط: ${safeString(item.ticket_price_fa)}`);
+                        if (safeArray(item.amenities_fa).length) chips.push({title: '✨ امکانات:', list: safeArray(item.amenities_fa)});
+                    }
+                    else if (type === 'support') {
+                        name = safeString(item.name_fa, 'بدون نام');
+                        if (item.type_fa) badges.push(`<div class="badge badge-purple">${safeString(item.type_fa)}</div>`);
+                        if (item.phone) infos.push(`📞 ${telLink(item.phone)}`);
+                        if (item.emergency_contact) infos.push(`🚨 اضطراری: ${telLink(item.emergency_contact)}`);
+                        if (item.working_hours_fa) infos.push(`⏰ ${safeString(item.working_hours_fa)}`);
+                        if (item.notes_fa) infos.push(`📝 ${safeString(item.notes_fa)}`);
+                    }
+                    else if (type === 'complaints' || type === 'complaints_foreign') {
+                        name = safeString(item.category_fa || item.department_fa, 'بدون نام');
+                        if (item.department_fa) infos.push(`🏢 ${safeString(item.department_fa)}`);
+                        if (item.phone) infos.push(`📞 ${telLink(item.phone)}`);
+                        if (item.working_hours_fa) infos.push(`⏰ ${safeString(item.working_hours_fa)}`);
+                        const process = safeArray(item.process_fa);
+                        if (process.length) chips.push({title: '📋 مراحل:', list: process});
+                    }
+                    else if (type === 'patient_guide') {
+                        name = safeString(item.topic_fa || 'راهنمای بیمار');
+                        if (item.administrative_steps_fa && Array.isArray(item.administrative_steps_fa)) {
+                            item.administrative_steps_fa.forEach((step) => {
+                                if (step.title && step.description) stepsList.push(`<li><strong>${safeString(step.title)}:</strong> ${safeString(step.description)}</li>`);
+                            });
+                        }
+                        const visaDocs = safeArray(item.medical_visa_documents_fa);
+                        const admissionDocs = safeArray(item.hospital_admission_documents_fa);
+                        if (visaDocs.length) chips.push({title: '🛂 مدارک ویزا:', list: visaDocs});
+                        if (admissionDocs.length) chips.push({title: '🏥 مدارک پذیرش:', list: admissionDocs});
+                        if (item.translator_requirement_fa) infos.push(`🗣 مترجم: ${safeString(item.translator_requirement_fa)}`);
+                        if (item.costs_and_payment_fa) infos.push(`💰 هزینه‌ها: ${safeString(item.costs_and_payment_fa)}`);
+                    }
+
+                    if (name !== 'بدون نام' || infos.length > 0 || chips.length > 0 || stepsList.length > 0) {
+                        html += `<div class="card">
+                            <div class="card-title">${name}</div>
+                            ${badges.join('')}
+                            ${infos.map(i => `<div class="card-info"><span>${i}</span></div>`).join('')}
+                            ${stepsList.length > 0 ? `<ul class="steps-list">${stepsList.join('')}</ul>` : ''}
+                            ${chips.map(c => `<div class="chips-container"><div class="chips-title">${c.title}</div>${c.list.map(x => `<div class="chip">${safeString(x)}</div>`).join('')}</div>`).join('')}
+                        </div>`;
+                        cardCount++;
+                    }
                 });
-                container.innerHTML = html;
+
+                if (cardCount === 0) {
+                    container.innerHTML = pageHeader(title, icon) + `<p style="text-align:center; margin-top:20px;">اطلاعاتی برای نمایش وجود ندارد. ساختار داده ممکن است تغییر کرده باشد.</p>`;
+                } else {
+                    container.innerHTML = html;
+                }
+                window.scrollTo(0, 0);
             } catch (e) {
-                console.error(e);
-                showError("خطا در دریافت اطلاعات بیمارستان‌ها.");
+                console.warn("Error loading data:", e.message);
+                showError(e.message || "خطا در دریافت اطلاعات.", { file: fileName, title, icon, type });
             }
         }
 
