@@ -12,155 +12,45 @@
             --card-bg: #FFFFFF;
             --text-color: #1E293B;
             --text-muted: #64748B;
+            --chip-bg: #F0FDFA;
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Vazirmatn', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            padding-bottom: 70px;
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, #06B6D4 100%);
-            color: white;
-            padding: 24px 20px;
-            border-bottom-left-radius: 28px;
-            border-bottom-right-radius: 28px;
-            box-shadow: 0 4px 12px rgba(14, 116, 144, 0.2);
-        }
-
-        .header-content {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .logo-placeholder {
-            width: 56px;
-            height: 56px;
-            background-color: white;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Vazirmatn', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: 100px; }
+        header { background: linear-gradient(135deg, var(--primary-color) 0%, #06B6D4 100%); color: white; padding: 24px 20px; border-bottom-left-radius: 28px; border-bottom-right-radius: 28px; box-shadow: 0 4px 12px rgba(14, 116, 144, 0.2); }
+        .header-content { display: flex; align-items: center; gap: 16px; }
+        .logo-placeholder { width: 56px; height: 56px; background-color: white; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
         .header-title { font-size: 22px; font-weight: 800; }
         .header-subtitle { font-size: 13px; opacity: 0.9; margin-top: 4px; }
-
         .container { padding: 20px; }
-
-        .hero-text {
-            text-align: center;
-            margin-bottom: 24px;
-            font-size: 14px;
-            color: var(--text-muted);
-            line-height: 1.8;
-        }
-
-        .grid-menu {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-        }
-
-        .menu-card {
-            background-color: var(--card-bg);
-            border-radius: 20px;
-            padding: 16px 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-            border: 1px solid #E2E8F0;
-            transition: transform 0.1s;
-            cursor: pointer;
-        }
-
+        .hero-text { text-align: center; margin-bottom: 20px; font-size: 14px; color: var(--text-muted); line-height: 1.8; }
+        .grid-menu { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .menu-card { background-color: var(--card-bg); border-radius: 16px; padding: 16px 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.03); border: 1px solid #E2E8F0; transition: transform 0.1s; cursor: pointer; }
         .menu-card:active { transform: scale(0.95); }
-
-        .menu-icon {
-            font-size: 32px;
-            margin-bottom: 12px;
-            background: #F0FDFA;
-            width: 56px;
-            height: 56px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            color: var(--primary-color);
-        }
-
-        .menu-title { font-size: 14px; font-weight: 700; }
-
-        .page-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        
-        .back-btn {
-            background: white;
-            border: 1px solid #E2E8F0;
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 18px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-
+        .menu-icon { font-size: 28px; margin-bottom: 8px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #F0FDFA; color: var(--primary-color); }
+        .menu-title { font-size: 12px; font-weight: 700; }
+        .page-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; background: white; padding: 12px; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
+        .back-btn { background: #F8FAFC; border: 1px solid #E2E8F0; width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; }
         .page-title { font-size: 18px; font-weight: 800; color: var(--primary-color); }
+        
+        .hospital-card { background-color: var(--card-bg); border-radius: 16px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #E2E8F0; }
+        .hospital-name { font-size: 15px; font-weight: 800; color: var(--primary-color); margin-bottom: 8px; }
+        .hospital-info { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; display: flex; align-items: flex-start; gap: 6px; line-height: 1.6; }
+        .hospital-info span { flex: 1; }
+        
+        .badge { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; margin-bottom: 8px; margin-left: 4px; }
+        .badge-ownership { background: #FEF3C7; color: #92400E; }
+        .badge-ipd { background: #DBEAFE; color: #1E40AF; }
+        
+        .chips-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+        .chip { background-color: var(--chip-bg); color: var(--primary-color); font-size: 11px; padding: 4px 8px; border-radius: 8px; font-weight: 600; }
+        .chip-lang { background-color: #F3E8FF; color: #6B21A8; }
+        .chips-title { font-size: 11px; color: var(--text-muted); width: 100%; margin-bottom: 2px; }
 
-        .list-card {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            border: 1px solid #E2E8F0;
-        }
-
-        .list-card h3 { font-size: 15px; margin-bottom: 8px; color: var(--primary-color); }
-        .list-card p { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; line-height: 1.6; }
-
-        .loader {
-            width: 40px; height: 40px; border: 4px solid #E2E8F0; border-top: 4px solid var(--primary-color); border-radius: 50%; margin: 40px auto; animation: spin 1s linear infinite;
-        }
+        .loader { width: 40px; height: 40px; border: 4px solid #E2E8F0; border-top: 4px solid var(--primary-color); border-radius: 50%; margin: 40px auto; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background-color: rgba(255, 255, 255, 0.95);
-            display: flex; justify-content: space-around; padding: 12px 0;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-            border-top: 1px solid #E2E8F0;
-            border-top-left-radius: 20px; border-top-right-radius: 20px;
-            z-index: 100;
-        }
-
-        .nav-item {
-            display: flex; flex-direction: column; align-items: center;
-            color: var(--text-muted); font-size: 11px; gap: 4px; cursor: pointer; padding: 4px 16px;
-        }
-
-        .nav-item.active { color: var(--primary-color); }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.95); display: flex; justify-content: center; padding: 12px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); border-top: 1px solid #E2E8F0; border-top-left-radius: 20px; border-top-right-radius: 20px; z-index: 100; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--primary-color); font-size: 12px; gap: 4px; cursor: pointer; padding: 4px 32px; }
         .nav-item svg { width: 24px; height: 24px; }
     </style>
 </head>
@@ -179,98 +69,122 @@
     <div class="container" id="app-content"></div>
 
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="goHome()">
+        <div class="nav-item" onclick="goHome()">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-            <span>خانه</span>
-        </div>
-        <div class="nav-item">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-            <span>پروفایل</span>
+            <span>صفحه اصلی</span>
         </div>
     </div>
 
     <script>
-        // آدرس مستقیم فایل‌های JSON در گیت‌هاب
         const GITHUB_BASE = "https://raw.githubusercontent.com/peymanrad/shirazmedical/main/data";
         const container = document.getElementById('app-content');
 
-        // منوها بر اساس فایل‌های موجود در پوشه data
-        const menuItems = [
-            { title: "بیمارستان‌ها", icon: "🏥", file: "hospitals2.json" },
-            { title: "بیمه‌ها", icon: "🛡️", file: "insurances.json" },
-            { title: "پیراپزشکی", icon: "🩺", file: "paramedical.json" },
-            { title: "اقامتگاه‌ها", icon: "🏨", file: "hotels.json" },
-            { title: "حمل و نقل", icon: "🚕", file: "transport.json" },
-            { title: "گردشگری", icon: "🏛️", file: "leisure_city.json" },
-            { title: "خانه سالمندان", icon: "👵", file: "elderly_homes.json" },
-            { title: "شکایات", icon: "📝", file: "complaints.json" }
+        // فقط دکمه‌های اصلی
+        const mainMenu = [
+            { title: "بیمارستان‌ها", icon: "🏥", action: "showHospitals" },
+            { title: "بیمه‌ها", icon: "🛡️", action: "comingSoon" },
+            { title: "پیراپزشکی", icon: "🩺", action: "comingSoon" },
+            { title: "اقامتگاه‌ها", icon: "🏨", action: "comingSoon" },
+            { title: "حمل و نقل", icon: "🚕", action: "comingSoon" },
+            { title: "گردشگری", icon: "🏛️", action: "comingSoon" },
+            { title: "خانه سالمندان", icon: "👵", action: "comingSoon" },
+            { title: "راهنمای بیمار", icon: "📖", action: "comingSoon" },
         ];
 
         function goHome() {
             let menuHtml = "";
-            menuItems.forEach((item) => {
+            mainMenu.forEach(item => {
                 menuHtml += `
-                    <div class="menu-card" onclick="loadData('${item.file}', '${item.title}', '${item.icon}')">
+                    <div class="menu-card" onclick="${item.action}()">
                         <div class="menu-icon">${item.icon}</div>
                         <div class="menu-title">${item.title}</div>
                     </div>
                 `;
             });
-
             container.innerHTML = `
-                <p class="hero-text">
-                    🌟 با یک لمس، به تمام خدمات پزشکی، اقامتی و گردشگری شیراز دسترسی داشته باشید.
-                </p>
+                <p class="hero-text">🌟 با یک لمس، به تمام خدمات پزشکی، اقامتی و گردشگری شیراز دسترسی داشته باشید.</p>
                 <div class="grid-menu">${menuHtml}</div>
             `;
         }
 
-        async function loadData(fileName, pageTitle, icon) {
-            container.innerHTML = `<div class="loader"></div>`;
+        function comingSoon() { alert("این بخش به زودی در اپلیکیشن فعال می‌شود."); }
+        function showLoading() { container.innerHTML = `<div class="loader"></div>`; }
+        function pageHeader(title, icon) {
+            return `
+                <div class="page-header">
+                    <button class="back-btn" onclick="goHome()">🔙</button>
+                    <div class="page-title">${icon} ${title}</div>
+                </div>
+            `;
+        }
+        function showError(message) {
+            container.innerHTML = pageHeader("خطا", "⚠️") + `<p style="text-align:center; color:#DC2626; margin-top:20px;">${message}</p>`;
+        }
 
+        // ================= بیمارستان‌ها =================
+        async function showHospitals() {
+            showLoading();
             try {
-                const response = await fetch(`${GITHUB_BASE}/${fileName}`);
+                // فقط hospitals2.json را می‌خوانیم
+                const response = await fetch(`${GITHUB_BASE}/hospitals2.json`);
                 if (!response.ok) throw new Error("File not found");
-                const data = await response.json();
+                const hospitals = await response.json();
 
-                let html = `
-                    <div class="page-header">
-                        <button class="back-btn" onclick="goHome()">🔙</button>
-                        <div class="page-title">${icon} ${pageTitle}</div>
-                    </div>
-                `;
+                if (!Array.isArray(hospitals) || hospitals.length === 0) {
+                    container.innerHTML = pageHeader("بیمارستان‌ها", "🏥") + `<p style="text-align:center; margin-top:20px;">اطلاعاتی یافت نشد.</p>`;
+                    return;
+                }
 
-                let items = Array.isArray(data) ? data : (data.items || data.data || [data]);
-
-                items.forEach(item => {
-                    let name = item.name_fa || item.title || item.name || item.hotel_name || 'بدون نام';
-                    let address = item.address_fa || item.address || item.location || '';
-                    let phone = item.phone || item.phone_fa || item.main_phone_fa || item.tel || '';
-                    let website = item.website_fa || item.website || '';
+                let html = pageHeader("بیمارستان‌ها", "🏥");
+                
+                hospitals.forEach(h => {
+                    const name = h.name_fa || 'بدون نام';
+                    const ownership = h.ownership_fa || '';
+                    const address = h.address_fa || '';
+                    const phone = h.phone || '';
+                    const ipdPhone = h.ipd_direct_phone || '';
+                    const website = h.website || '';
+                    const ipdCode = h.ipd_code || '';
+                    const hasIpd = h.has_ipd === true;
+                    
+                    const specialties = Array.isArray(h.specialties_fa) ? h.specialties_fa : [];
+                    const languages = Array.isArray(h.translator_languages_fa) ? h.translator_languages_fa : [];
 
                     html += `
-                        <div class="list-card">
-                            <h3>${name}</h3>
-                            ${address ? `<p>📍 ${address}</p>` : ''}
-                            ${phone ? `<p>📞 ${phone}</p>` : ''}
-                            ${website ? `<p>🌐 ${website}</p>` : ''}
+                        <div class="hospital-card">
+                            <div class="hospital-name">${name}</div>
+                            
+                            ${ownership ? `<div class="badge badge-ownership">🏢 ${ownership}</div>` : ''}
+                            ${hasIpd && ipdCode ? `<div class="badge badge-ipd">✅ دارای مجوز IPD | کد: ${ipdCode}</div>` : ''}
+                            
+                            ${address ? `<div class="hospital-info">📍 <span>${address}</span></div>` : ''}
+                            ${phone ? `<div class="hospital-info">📞 <span>تلفن اصلی: ${phone}</span></div>` : ''}
+                            ${ipdPhone ? `<div class="hospital-info">☎️ <span>تلفن مستقیم IPD: ${ipdPhone}</span></div>` : ''}
+                            ${website ? `<div class="hospital-info">🌐 <span>${website}</span></div>` : ''}
+                            
+                            ${specialties.length > 0 ? `
+                                <div class="chips-container">
+                                    <div class="chips-title">🔬 تخصص‌ها:</div>
+                                    ${specialties.map(s => `<div class="chip">${s}</div>`).join('')}
+                                </div>
+                            ` : ''}
+                            
+                            ${languages.length > 0 ? `
+                                <div class="chips-container">
+                                    <div class="chips-title">🗣 زبان‌های مترجم:</div>
+                                    ${languages.map(t => `<div class="chip chip-lang">${t}</div>`).join('')}
+                                </div>
+                            ` : ''}
                         </div>
                     `;
                 });
-
                 container.innerHTML = html;
-            } catch (error) {
-                container.innerHTML = `
-                    <div class="page-header">
-                        <button class="back-btn" onclick="goHome()">🔙</button>
-                        <div class="page-title">${icon} ${pageTitle}</div>
-                    </div>
-                    <p style="text-align:center; color:#DC2626; margin-top:20px;">خطا در اتصال یا عدم وجود فایل (${fileName}).</p>
-                `;
+            } catch (e) {
+                console.error(e);
+                showError("خطا در دریافت اطلاعات بیمارستان‌ها.");
             }
         }
 
-        // لود شدن صفحه اصلی در ابتدا
         goHome();
     </script>
 </body>
