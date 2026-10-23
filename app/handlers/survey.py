@@ -37,13 +37,11 @@ async def start_survey(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
     query = update.callback_query
     if query is not None:
         await query.answer()
-        # اگر از طریق دکمه صدا زده شد
         await query.edit_message_text(
             "از اینکه با ما همراه بودید سپاسگزاریم.\n\nآیا مایل به ادامه استفاده از خدمات هستید؟",
             reply_markup=_get_survey_keyboard(),
         )
     elif update.message is not None:
-        # اگر از طریق پیام صدا زده شد
         await update.message.reply_text(
             "از اینکه با ما همراه بودید سپاسگزاریم.\n\nآیا مایل به ادامه استفاده از خدمات هستید؟",
             reply_markup=_get_survey_keyboard(),
@@ -62,16 +60,13 @@ async def handle_satisfaction(update: Update, context: ContextTypes.DEFAULT_TYPE
     data = query.data
 
     if data == "survey_yes":
-        # کاربر راضی است
         await query.edit_message_text(
             "از همراهی شما صمیمانه سپاسگزاریم. روز خوبی داشته باشید! 🌸",
             reply_markup=None,
         )
-        # TODO: میتوانید کاربر را به منوی اصلی برگردانید
         return ConversationHandler.END
 
     elif data == "survey_no":
-        # کاربر ناراضی است، علت را می‌پرسیم
         await query.edit_message_text(
             "متأسفیم که تجربه خوبی نداشتید. لطفاً در یک پیام کوتاه بنویسید چه چیزی باعث نارضایتی شما شد تا ما بهتر شویم:",
             reply_markup=None,
@@ -92,7 +87,6 @@ async def receive_reason(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     username = f"@{user.username}" if user and user.username else "بدون یوزرنیم"
     full_name = user.full_name if user else "بدون نام"
 
-    # ارسال پیام به ادمین
     admin_message = (
         f"🚨 **نارضایتی کاربر**\n\n"
         f"👤 نام: {full_name}\n"
@@ -131,7 +125,6 @@ async def cancel_survey(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
 # ساخت ConversationHandler برای نظرسنجی
 survey_conversation_handler = ConversationHandler(
     entry_points=[
-        # اینجا می‌توانید یک CallbackQueryHandler یا CommandHandler برای شروع نظرسنجی قرار دهید
         CallbackQueryHandler(start_survey, pattern=r"^start_survey$"),
     ],
     states={
@@ -143,7 +136,6 @@ survey_conversation_handler = ConversationHandler(
         ],
     },
     fallbacks=[
-        # برای اطمینان از اینکه کاربر گیر نمی‌کند
         MessageHandler(filters.TEXT & ~filters.COMMAND, receive_reason)
     ],
     allow_reentry=True,
