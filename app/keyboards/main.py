@@ -19,20 +19,28 @@ def get_main_menu_keyboard(lang: str) -> InlineKeyboardMarkup:
         "medical", "non_medical", "tourism", "paramedical", "elderly", "package",
         "hubs", "taxi", "insurance", "translator", "charter", "deepseek",
         "file", "appointments", "medication", "emergency", "channel", "invite", "rights",
-        "survey", # 🆕 دکمه نظرسنجی (اگر کلید ترجمه‌اش رو داری)
     ]
     rows = [
         [InlineKeyboardButton(get_msg_btn(lang, key), callback_data=key) for key in keys[i : i + 3]]
         for i in range(0, len(keys), 3)
     ]
-    # 🆕 دکمه رزرو نوبت
+    
+    # دکمه رزرو نوبت
     rows.append([
         InlineKeyboardButton("📅 رزرو نوبت", callback_data="start_booking"),
     ])
-    # 🆕 دکمه ثبت نظر و رضایت‌سنجی
+    
+    # دکمه ثبت همراه بیمار
+    rows.append([
+        InlineKeyboardButton("🤝 ثبت همراه بیمار", callback_data="start_companion"),
+    ])
+    
+    # دکمه ثبت نظر و رضایت‌سنجی
     rows.append([
         InlineKeyboardButton("📝 ثبت نظر و رضایت‌سنجی", callback_data="start_survey"),
     ])
+    
+    # دکمه تغییر زبان
     rows.append([InlineKeyboardButton(get_msg_btn(lang, "btn_change_lang"), callback_data="change_language")])
     return InlineKeyboardMarkup(rows)
 
