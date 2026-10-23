@@ -13,7 +13,11 @@ from telegram.ext import ContextTypes
 
 from app.keyboards.main import get_back_keyboard, get_main_menu_keyboard
 from app.keyboards.non_medical import get_non_medical_keyboard
-from app.keyboards.tourism import get_tourism_keyboard
+from app.keyboards.tourism import (
+    get_tourism_keyboard,
+    get_patient_rights_keyboard,
+    get_complaints_menu_keyboard,
+)
 from app.keyboards.paramedical import get_paramedical_keyboard
 from app.keyboards.elderly import get_elderly_keyboard
 from app.locales import get_msg_btn
@@ -365,9 +369,14 @@ async def show_patient_guide(
 
 
 async def show_complaints(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str
+    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str, is_foreign: bool = False
 ) -> None:
-    await _show_items(update, context, lang, "complaints.json", empty_message="اطلاعاتی یافت نشد.")
+    """نمایش شکایات (ایرانی یا خارجی) بر اساس انتخاب کاربر."""
+    filename = "complaints_foreign.json" if is_foreign else "complaints_iranian.json"
+    await _show_items(
+        update, context, lang, filename,
+        empty_message="اطلاعاتی برای این بخش یافت نشد."
+    )
 
 
 async def show_support(
@@ -495,7 +504,6 @@ async def show_appointments(
         return
     chat_id = update.effective_chat.id
     try:
-        # فعلاً خالی است. در آینده از appointments.json خوانده می‌شود.
         message_text = _safe_msg("apt_none", "شما هنوز هیچ نوبتی ثبت نکرده‌اید.")
         book_keyboard = InlineKeyboardMarkup([
             [InlineKeyboardButton("📅 رزرو نوبت جدید", callback_data="start_booking")],
@@ -622,7 +630,6 @@ async def show_hubs(
         if isinstance(hubs, list):
             all_items.extend(hubs)
         if isinstance(transport, list):
-            # فیلتر کردن اسنپ و تپسی از لیست transport
             for item in transport:
                 if isinstance(item, dict):
                     name = str(item.get("name_fa", ""))
@@ -722,12 +729,33 @@ async def main_menu_callback(
     if data == "patient_guide":
         await show_patient_guide(update, context, lang)
         return
+        
+    # بخش حقوق بیمار و شکایات (تفکیک شده)
     if data == "rights":
-        await show_patient_guide(update, context, lang)
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="لطفاً بخش مورد نظر را انتخاب کنید:",
+            reply_markup=get_patient_rights_keyboard(lang)
+        )
         return
-    if data == "complaints":
-        await show_complaints(update, context, lang)
+    if data == "charter":
+        await show_charter(update, context, lang)
         return
+    if data == "complaints_menu":
+        await context.bot.send_message(
+            chat_id=update.effective_chat.id,
+            text="لطفاً نوع شکایت خود را انتخاب کنید:",
+            reply_markup=get_complaints_menu_keyboard(lang)
+        )
+        return
+    if data == "complaints_iranian":
+        await show_complaints(update, context, lang, is_foreign=False)
+        return
+    if data == "complaints_foreign":
+        await show_complaints(update, context, lang, is_foreign=True)
+        return
+    # پایان بخش حقوق بیمار
+        
     if data == "support":
         await show_support(update, context, lang)
         return
