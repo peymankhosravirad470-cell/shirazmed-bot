@@ -177,6 +177,13 @@ def _build_confirm_keyboard(lang: str) -> InlineKeyboardMarkup:
     ])
 
 
+def _error_keyboard(lang: str) -> InlineKeyboardMarkup:
+    """کیبورد خطا شامل دکمه بازگشت به منوی اصلی"""
+    return InlineKeyboardMarkup([
+        [InlineKeyboardButton("بازگشت به منوی اصلی", callback_data="back_main")]
+    ])
+
+
 def _build_callback_url(context: ContextTypes.DEFAULT_TYPE) -> str:
     bot_username = getattr(context.bot, "username", None)
     if not bot_username:
@@ -310,13 +317,14 @@ async def confirm_booking(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     if query is None: return CONFIRM_BOOKING
     await _safe_answer(query)
     data = BookingData.from_context(context)
+    lang = _get_lang(context)
 
     if data.confirmed:
-        await query.edit_message_text(MSG_ALREADY_CONFIRMED, reply_markup=None)
+        await query.edit_message_text(MSG_ALREADY_CONFIRMED, reply_markup=_error_keyboard(lang))
         return ConversationHandler.END
 
     if not data.is_complete():
-        await query.edit_message_text("اطلاعات نوبت ناقص است. لطفاً دوباره از منو نوبت بگیرید.", reply_markup=None)
+        await query.edit_message_text("اطلاعات نوبت ناقص است. لطفاً دوباره از منو نوبت بگیرید.", reply_markup=_error_keyboard(lang))
         data.clear_from(context)
         return ConversationHandler.END
 
@@ -348,7 +356,7 @@ async def confirm_booking(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     }
 
     if not add_appointment(appointment):
-        await query.edit_message_text(MSG_SLOT_TAKEN, reply_markup=None)
+        await query.edit_message_text(MSG_SLOT_TAKEN, reply_markup=_error_keyboard(lang))
         data.clear_from(context)
         return ConversationHandler.END
 
@@ -381,7 +389,7 @@ async def confirm_booking(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
             reply_markup=None,
         )
 
-        # 🆕 ارسال رسید (متن + PDF) به بیمار
+        # ارسال رسید (متن + PDF) به بیمار
         try:
             receipt_text = generate_receipt_text(appointment, {"full_name": data.name, "national_code": data.national_code})
             await context.bot.send_message(chat_id=user_id, text=receipt_text, parse_mode="HTML")
@@ -392,7 +400,7 @@ async def confirm_booking(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         except Exception as e:
             logger.error("Error generating/sending receipt: %s", e)
 
-        # 🆕 ارسال پیام به دکتر
+        # ارسال پیام به دکتر
         if doctor_chat_id and str(doctor_chat_id).isdigit():
             try:
                 doc_msg = (
@@ -415,7 +423,8 @@ async def confirm_booking(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
             cancel_appointment(date=data.date, time=data.time, user_id=user_id)
         except Exception as cancel_error:
             logger.error("Error cancelling pending appointment: %s", cancel_error)
-        await query.edit_message_text(MSG_PAYMENT_FAILED, reply_markup=None)
+        # در صورت خطا، دکمه بازگشت به منو نمایش داده می‌شود
+        await query.edit_message_text(MSG_PAYMENT_FAILED, reply_markup=_error_keyboard(lang))
 
     data.clear_from(context)
     return ConversationHandler.END
