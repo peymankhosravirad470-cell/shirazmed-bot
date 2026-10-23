@@ -26,6 +26,7 @@ from app.handlers.start import (
 from app.handlers.callbacks import main_menu_callback
 from app.handlers.booking import booking_conversation_handler
 from app.handlers.survey import survey_conversation_handler
+from app.handlers.companion import companion_conversation_handler  # 🆕 اضافه شد
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -44,6 +45,7 @@ BACK_TO_MAIN_PATTERN = r"^back_main$"
 
 MENU_CALLBACKS: tuple[str, ...] = (
     "start_booking",    # دکمه رزرو نوبت
+    "start_companion",  # 🆕 دکمه ثبت همراه بیمار
     "medical",
     "non_medical",
     "non_hospitals",
@@ -82,8 +84,10 @@ MENU_CALLBACKS: tuple[str, ...] = (
     "rights",
     "patient_guide",
     "complaints",
+    "complaints_iranian",   # 🆕
+    "complaints_foreign",   # 🆕
     "support",
-    "start_survey",     # دکمه شروع نظرسنجی (برای اتصال به سرویس نظرسنجی)
+    "start_survey",         # 🆕 دکمه شروع نظرسنجی
 )
 
 MENU_PATTERN = rf"^({'|'.join(MENU_CALLBACKS)})$"
@@ -109,7 +113,6 @@ async def global_error_handler(
     if not isinstance(update, Update):
         return
 
-    # اگر callback بود، فوراً answer کن تا دکمه از حالت loading خارج شود
     if update.callback_query is not None:
         try:
             await update.callback_query.answer(
@@ -122,7 +125,6 @@ async def global_error_handler(
                 "Failed to answer callback in error handler: %s", error
             )
 
-    # در غیر این صورت، اگر chat در دسترس است، پیام متنی بفرست
     if update.effective_chat is not None:
         try:
             await context.bot.send_message(
@@ -156,7 +158,7 @@ def _register_handlers(application: Application) -> None:
     1) هندلر خطای سراسری
     2) دستورات پایه (start/help) — فقط در چت خصوصی
     3) زبان و بازگشت به منو
-    4) ConversationHandlerهای رزرو و نظرسنجی (قبل از main_menu_callback)
+    4) ConversationHandlerها (قبل از main_menu_callback)
     5) main_menu_callback (پوشش همه دکمه‌های منو)
     """
 
@@ -193,6 +195,7 @@ def _register_handlers(application: Application) -> None:
 
     # 4) ConversationHandlerها (باید قبل از main_menu_callback ثبت شوند)
     application.add_handler(survey_conversation_handler)
+    application.add_handler(companion_conversation_handler)  # 🆕
     application.add_handler(booking_conversation_handler)
 
     # 5) همه دکمه‌های منو و زیرمنو
@@ -202,7 +205,8 @@ def _register_handlers(application: Application) -> None:
 
     logger.info(
         "Handlers registered: start, help, language, back_main, "
-        "survey_conversation, booking_conversation, main_menu (%d callbacks).",
+        "survey_conversation, companion_conversation, booking_conversation, "
+        "main_menu (%d callbacks).",
         len(MENU_CALLBACKS),
     )
 
