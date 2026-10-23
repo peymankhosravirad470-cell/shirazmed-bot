@@ -452,18 +452,41 @@ async def show_charter(
 async def show_translator(
     update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str
 ) -> None:
-    """نمایش اطلاعات مترجم (به زودی)."""
+    """نمایش گزینه‌های اتصال به اپلیکیشن مترجم گوشی."""
     if update.effective_chat is None:
         return
     chat_id = update.effective_chat.id
+
+    translator_keyboard = InlineKeyboardMarkup([
+        [InlineKeyboardButton("🌐 ترجمه با Google Translate (وب)", url="https://translate.google.com/")],
+        [InlineKeyboardButton("📱 اپلیکیشن Google Translate", url="https://play.google.com/store/apps/details?id=com.google.android.apps.translate")],
+        [InlineKeyboardButton("🍎 اپلیکیشن Apple Translate (iOS)", url="https://apps.apple.com/us/app/translate/id1514844618")],
+        [InlineKeyboardButton("🔙 بازگشت", callback_data="back_main")]
+    ])
+
+    text = (
+        "🌐 **مترجم همراه هوشمند**\n\n"
+        "برای ارتباط آسان با راننده تاکسی، فروشنده یا هر شخص دیگری، "
+        "کافیست روی یکی از لینک‌های زیر کلیک کنید. "
+        "این لینک‌ها شما را مستقیم به اپلیکیشن مترجم گوشی‌تان متصل می‌کنند.\n\n"
+        "💡 **نکته:** اگر اپلیکیشن Google Translate را روی گوشی خود دارید، "
+        "می‌توانید از دکمه «اپلیکیشن Google Translate» استفاده کنید تا سریع‌تر باز شود."
+    )
+
     try:
-        title = _safe_btn(lang, "translator_title", "مترجم پزشکی")
-        info = "این بخش به زودی فعال می‌شود. برای هماهنگی با مترجم، با پشتیبانی تماس بگیرید: 07132122000"
-        message_text = f"{title}\n\n{info}" if title else info
-        await context.bot.send_message(chat_id=chat_id, text=message_text, reply_markup=get_back_keyboard(lang))
+        await context.bot.send_message(
+            chat_id=chat_id,
+            text=text,
+            reply_markup=translator_keyboard,
+            parse_mode="Markdown",
+        )
     except Exception as error:
         traceback.print_exc()
-        await context.bot.send_message(chat_id=chat_id, text="خطا در دریافت اطلاعات.", reply_markup=get_back_keyboard(lang))
+        await context.bot.send_message(
+            chat_id=chat_id,
+            text="خطا در دریافت اطلاعات.",
+            reply_markup=get_back_keyboard(lang),
+        )
 
 
 async def show_deepseek(
