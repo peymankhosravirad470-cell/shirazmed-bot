@@ -3,58 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0E7490">
+    <meta name="description" content="شیراز مدیکال — همراه شما در سفر سلامت. دسترسی به بیمارستان‌ها، بیمه‌ها، اقامتگاه‌ها و خدمات گردشگری شیراز">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>شیراز مدیکال | همراه شما در سفر سلامت</title>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
     <style>
-        :root { --primary-color: #0E7490; --bg-color: #F8FAFC; --card-bg: #FFFFFF; --text-color: #1E293B; --text-muted: #64748B; --chip-bg: #F0FDFA; --danger: #DC2626; --cache-color: #F59E0B; --success-color: #10B981; }
+        :root { 
+            --primary-color: #0E7490; --primary-dark: #0B5A6E; --primary-light: #06B6D4;
+            --bg-color: #F8FAFC; --card-bg: #FFFFFF;
+            --text-color: #1E293B; --text-muted: #64748B; --chip-bg: #F0FDFA;
+            --danger: #DC2626; --cache-color: #F59E0B; --success-color: #10B981;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 12px rgba(14, 116, 144, 0.15);
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Vazirmatn', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
-        header { background: linear-gradient(135deg, var(--primary-color) 0%, #06B6D4 100%); color: white; padding: 24px 20px; border-bottom-left-radius: 28px; border-bottom-right-radius: 28px; box-shadow: 0 4px 12px rgba(14, 116, 144, 0.2); }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--bg-color); color: var(--text-color); padding-bottom: calc(100px + env(safe-area-inset-bottom)); min-height: 100vh; }
+        
+        /* Header */
+        header { background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%); color: white; padding: 24px 20px; border-bottom-left-radius: 28px; border-bottom-right-radius: 28px; box-shadow: var(--shadow-md); }
         .header-content { display: flex; align-items: center; gap: 16px; }
-        .logo-placeholder { width: 56px; height: 56px; background-color: white; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; }
+        .logo-placeholder { width: 56px; height: 56px; background-color: white; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         .header-title { font-size: 22px; font-weight: 800; }
         .header-subtitle { font-size: 13px; opacity: 0.9; margin-top: 4px; }
-        .container { padding: 20px; }
+        
+        /* Container */
+        .container { padding: 20px; max-width: 900px; margin: 0 auto; }
         .hero-text { text-align: center; margin-bottom: 20px; font-size: 14px; color: var(--text-muted); line-height: 1.8; }
+        
+        /* Menu Grid */
         .grid-menu { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .menu-card { background-color: var(--card-bg); border-radius: 16px; padding: 16px 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.03); border: 1px solid #E2E8F0; transition: transform 0.1s; cursor: pointer; }
+        @media (min-width: 600px) { .grid-menu { grid-template-columns: repeat(3, 1fr); } }
+        @media (min-width: 900px) { .grid-menu { grid-template-columns: repeat(4, 1fr); } }
+        
+        .menu-card { background-color: var(--card-bg); border-radius: 16px; padding: 16px 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; box-shadow: var(--shadow-sm); border: 1px solid #E2E8F0; transition: transform 0.15s, box-shadow 0.15s; cursor: pointer; position: relative; overflow: hidden; }
         .menu-card:active { transform: scale(0.95); }
-        .menu-icon { font-size: 28px; margin-bottom: 8px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #F0FDFA; color: var(--primary-color); }
-        .menu-title { font-size: 12px; font-weight: 700; }
-        .page-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; background: white; padding: 12px; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
-        .back-btn { background: #F8FAFC; border: 1px solid #E2E8F0; width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; flex-shrink: 0; }
+        .menu-card:hover { box-shadow: var(--shadow-md); }
+        .menu-card.badge-new::after { content: 'جدید'; position: absolute; top: 6px; left: 6px; background: var(--success-color); color: white; font-size: 9px; padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+        .menu-icon { font-size: 28px; margin-bottom: 8px; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--chip-bg); color: var(--primary-color); }
+        .menu-title { font-size: 12px; font-weight: 700; line-height: 1.4; }
+        
+        /* Page Header */
+        .page-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; background: white; padding: 12px; border-radius: 16px; box-shadow: var(--shadow-sm); }
+        .back-btn { background: var(--bg-color); border: 1px solid #E2E8F0; width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; flex-shrink: 0; transition: background 0.15s; }
+        .back-btn:hover { background: #E2E8F0; }
         .page-title { font-size: 18px; font-weight: 800; color: var(--primary-color); }
         .header-meta { margin-right: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
         .item-count { font-size: 12px; color: var(--text-muted); }
         .cache-badge { font-size: 10px; color: var(--cache-color); font-weight: 700; }
-        .card { background-color: var(--card-bg); border-radius: 16px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border: 1px solid #E2E8F0; }
+        
+        /* Cards */
+        .card { background-color: var(--card-bg); border-radius: 16px; padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow-sm); border: 1px solid #E2E8F0; transition: box-shadow 0.15s; }
+        .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
         .card-title { font-size: 15px; font-weight: 800; color: var(--primary-color); margin-bottom: 8px; word-break: break-word; }
         .card-info { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; display: flex; align-items: flex-start; gap: 6px; line-height: 1.6; }
         .card-info span { flex: 1; word-break: break-word; }
         .card-info a { color: var(--primary-color); text-decoration: none; font-weight: 600; }
+        .card-info a:hover { text-decoration: underline; }
+        
+        /* Badges & Chips */
         .badge { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; margin-bottom: 8px; margin-left: 4px; word-break: break-word; }
         .badge-yellow { background: #FEF3C7; color: #92400E; }
         .badge-blue { background: #DBEAFE; color: #1E40AF; }
         .badge-green { background: #ECFDF5; color: #065F46; }
         .badge-purple { background: #F3E8FF; color: #6B21A8; }
+        
         .chips-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
         .chip { background-color: var(--chip-bg); color: var(--primary-color); font-size: 11px; padding: 4px 8px; border-radius: 8px; font-weight: 600; word-break: break-word; }
-        .chips-title { font-size: 11px; color: var(--text-muted); width: 100%; margin-bottom: 2px; }
+        .chips-title { font-size: 11px; color: var(--text-muted); width: 100%; margin-bottom: 2px; font-weight: 700; }
+        
+        /* Steps */
         .steps-list { padding-right: 20px; margin-top: 8px; }
         .steps-list li { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; line-height: 1.6; }
+        
+        /* Loader */
         .loader { width: 40px; height: 40px; border: 4px solid #E2E8F0; border-top: 4px solid var(--primary-color); border-radius: 50%; margin: 40px auto; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* Error */
         .error-box { text-align: center; padding: 30px 20px; }
         .error-box .icon { font-size: 40px; margin-bottom: 12px; }
-        .error-box p { color: var(--danger); margin-bottom: 16px; font-size: 14px; }
-        .retry-btn { background: var(--primary-color); color: white; border: none; padding: 10px 24px; border-radius: 12px; font-family: 'Vazirmatn', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; }
-        #toast { visibility: hidden; min-width: 250px; background-color: #1E293B; color: #fff; text-align: center; border-radius: 12px; padding: 14px 20px; position: fixed; z-index: 9999; bottom: calc(110px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); font-size: 13px; opacity: 0; transition: opacity 0.3s, visibility 0.3s; box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
+        .error-box p { color: var(--danger); margin-bottom: 16px; font-size: 14px; line-height: 1.6; }
+        .retry-btn { background: var(--primary-color); color: white; border: none; padding: 10px 24px; border-radius: 12px; font-family: 'Vazirmatn', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: opacity 0.15s; }
+        .retry-btn:hover { opacity: 0.9; }
+        .retry-btn:active { opacity: 0.8; }
+        
+        /* Static Page */
+        .static-page { text-align: center; padding: 40px 20px; }
+        .static-page .icon { font-size: 60px; margin-bottom: 20px; }
+        .static-page h2 { font-size: 20px; font-weight: 800; color: var(--primary-color); margin-bottom: 12px; }
+        .static-page p { font-size: 14px; color: var(--text-muted); line-height: 1.8; margin-bottom: 20px; }
+        .static-page .action-btn { display: inline-block; background: var(--primary-color); color: white; padding: 12px 24px; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 14px; }
+        
+        /* Taxi Page */
+        .taxi-page { padding: 20px 0; }
+        .taxi-card { display: block; background: var(--chip-bg); border: 1px solid #E2E8F0; color: var(--primary-color); padding: 16px; border-radius: 12px; text-decoration: none; font-weight: 700; margin-bottom: 12px; text-align: center; transition: transform 0.15s; }
+        .taxi-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .taxi-card:active { transform: scale(0.98); }
+        
+        /* Toast */
+        #toast { visibility: hidden; min-width: 250px; max-width: 90vw; background-color: #1E293B; color: #fff; text-align: center; border-radius: 12px; padding: 14px 20px; position: fixed; z-index: 9999; bottom: calc(110px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); font-size: 13px; opacity: 0; transition: opacity 0.3s, visibility 0.3s; box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
         #toast.show { visibility: visible; opacity: 1; }
         #toast.success { background-color: var(--success-color); }
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.95); display: flex; justify-content: center; padding: 12px 0 calc(12px + env(safe-area-inset-bottom)); box-shadow: 0 -2px 10px rgba(0,0,0,0.05); border-top: 1px solid #E2E8F0; border-top-left-radius: 20px; border-top-right-radius: 20px; z-index: 100; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--primary-color); font-size: 12px; gap: 4px; cursor: pointer; padding: 4px 32px; }
+        #toast.error { background-color: var(--danger); }
+        
+        /* Bottom Nav */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background-color: rgba(255, 255, 255, 0.95); display: flex; justify-content: center; padding: 12px 0 calc(12px + env(safe-area-inset-bottom)); box-shadow: 0 -2px 10px rgba(0,0,0,0.05); border-top: 1px solid #E2E8F0; border-top-left-radius: 20px; border-top-right-radius: 20px; z-index: 100; backdrop-filter: blur(10px); }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--primary-color); font-size: 12px; gap: 4px; cursor: pointer; padding: 4px 32px; transition: opacity 0.15s; }
+        .nav-item:hover { opacity: 0.8; }
         .nav-item svg { width: 24px; height: 24px; }
+        
+        /* Search Box */
+        .search-container { position: relative; margin-bottom: 16px; }
+        .search-input { width: 100%; padding: 12px 44px 12px 16px; border: 1px solid #E2E8F0; border-radius: 12px; font-family: 'Vazirmatn', sans-serif; font-size: 14px; background: white; color: var(--text-color); transition: border-color 0.15s; }
+        .search-input:focus { outline: none; border-color: var(--primary-color); }
+        .search-icon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 18px; pointer-events: none; }
+        .search-clear { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 18px; padding: 4px; display: none; }
+        .search-clear.visible { display: block; }
+        .no-results { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 14px; }
+        
+        /* Back to top */
+        .back-to-top { position: fixed; bottom: calc(100px + env(safe-area-inset-bottom)); left: 20px; width: 44px; height: 44px; background: var(--primary-color); color: white; border: none; border-radius: 50%; cursor: pointer; font-size: 20px; display: none; align-items: center; justify-content: center; box-shadow: var(--shadow-md); z-index: 99; transition: opacity 0.3s; }
+        .back-to-top.visible { display: flex; }
     </style>
 </head>
 <body>
@@ -71,6 +144,7 @@
 
     <div class="container" id="app-content"></div>
     <div id="toast"></div>
+    <button class="back-to-top" id="back-to-top" aria-label="بازگشت به بالا">↑</button>
 
     <div class="bottom-nav">
         <div class="nav-item" id="nav-home">
@@ -80,319 +154,601 @@
     </div>
 
     <script>
-        // ==================== تنظیمات ====================
-        const GITHUB_BASE = "https://cdn.jsdelivr.net/gh/peymankhosravirad470-cell/shirazmed-bot@main/data";
-        const TTL_MAP = { hospital: 24 * 60 * 60 * 1000, insurance: 12 * 60 * 60 * 1000, support: 6 * 60 * 60 * 1000 };
-        const DEFAULT_TTL = 60 * 60 * 1000;
+        'use strict';
         
+        // ==================== تنظیمات ====================
+        const CONFIG = {
+            GITHUB_BASE: "https://cdn.jsdelivr.net/gh/peymankhosravirad470-cell/shirazmed-bot@main/data",
+            TTL_MAP: { hospital: 24 * 60 * 60 * 1000, insurance: 12 * 60 * 60 * 1000, support: 6 * 60 * 60 * 1000 },
+            DEFAULT_TTL: 60 * 60 * 1000,
+            FETCH_TIMEOUT: 10000,
+            RETRY_DELAY: 3000,
+            APP_NAME: 'شیراز مدیکال',
+            APP_TAGLINE: 'همراه شما در سفر سلامت'
+        };
+
         const container = document.getElementById('app-content');
         const toastEl = document.getElementById('toast');
+        const backToTopBtn = document.getElementById('back-to-top');
         let toastTimer;
         let currentRequestToken = 0;
         let currentAbortController = null;
+        let currentSearchFilter = '';
 
         // ==================== توابع کمکی ====================
-        function toast(message, type = 'default', duration = 2500) { 
-            toastEl.textContent = message; 
-            toastEl.className = type === 'success' ? 'show success' : 'show';
-            clearTimeout(toastTimer); 
-            toastTimer = setTimeout(() => toastEl.classList.remove('show'), duration); 
-        }
+        const Utils = {
+            toast(message, type = 'default', duration = 2500) {
+                toastEl.textContent = message;
+                toastEl.className = type === 'success' ? 'show success' : type === 'error' ? 'show error' : 'show';
+                clearTimeout(toastTimer);
+                toastTimer = setTimeout(() => toastEl.classList.remove('show'), duration);
+            },
 
-        function safeString(val, defaultVal = '') {
-            if (val === null || val === undefined) return defaultVal;
-            if (typeof val === 'number' && !isFinite(val)) return defaultVal;
-            if (typeof val !== 'string' && typeof val !== 'number') return defaultVal;
-            return String(val).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-        }
+            safeString(val, defaultVal = '') {
+                if (val === null || val === undefined) return defaultVal;
+                if (typeof val === 'number' && !isFinite(val)) return defaultVal;
+                if (typeof val !== 'string' && typeof val !== 'number') return defaultVal;
+                return String(val).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+            },
 
-        function safeArray(val) {
-            if (!val) return [];
-            if (!Array.isArray(val)) {
-                if (typeof val === 'string') return val.trim() !== '' ? [val] : [];
-                if (typeof val === 'object') return Object.values(val).map(v => (typeof v === 'object' && v !== null) ? (v.fa || v.en || v.title || JSON.stringify(v)) : v).filter(v => v !== null && v !== undefined && v !== '');
-                return [];
+            safeArray(val) {
+                if (!val) return [];
+                const extract = (v) => {
+                    if (typeof v === 'object' && v !== null) return v.fa || v.en || v.title || JSON.stringify(v);
+                    if (typeof v === 'string' && v.trim() !== '') return v;
+                    return null;
+                };
+                if (!Array.isArray(val)) {
+                    if (typeof val === 'string') return val.trim() !== '' ? [val] : [];
+                    if (typeof val === 'object') return Object.values(val).map(extract).filter(Boolean);
+                    return [];
+                }
+                return val.map(extract).filter(Boolean);
+            },
+
+            telLink(phone) {
+                if (!phone || typeof phone !== 'string') return '';
+                const clean = phone.replace(/[^\d+]/g, '');
+                if (clean.length < 3) return this.safeString(phone);
+                return `<a href="tel:${clean}" title="تماس">${this.safeString(phone)}</a>`;
+            },
+
+            webLink(url) {
+                if (!url || typeof url !== 'string') return '';
+                const trimmed = url.trim();
+                const invalid = ['—', '-', 'ندارد', 'ثبت نشده', 'نامشخص', ''];
+                if (invalid.includes(trimmed)) return this.safeString(url);
+                if (!/^https?:\/\//.test(trimmed) && !/^[\w.-]+\.[a-z]{2,}/i.test(trimmed)) return this.safeString(url);
+                const href = trimmed.startsWith('http') ? trimmed : 'https://' + trimmed;
+                return `<a href="${this.safeString(href)}" target="_blank" rel="noopener noreferrer" title="باز کردن لینک">${this.safeString(url)}</a>`;
+            },
+
+            isValidUrl(url) {
+                if (!url || typeof url !== 'string') return false;
+                return /^https?:\/\/[\w.-]+\.[a-z]{2,}/i.test(url.trim());
             }
-            return val.map(v => (typeof v === 'object' && v !== null) ? (v.fa || v.en || v.title || JSON.stringify(v)) : v).filter(v => v !== null && v !== undefined && v !== '');
-        }
-
-        function telLink(phone) { 
-            if (!phone || typeof phone !== 'string') return ''; 
-            const clean = phone.replace(/[^\d+]/g, ''); 
-            if (clean.length < 3) return safeString(phone); 
-            return `<a href="tel:${clean}" title="تماس">${safeString(phone)}</a>`; 
-        }
-        
-        function webLink(url) { 
-            if (!url || typeof url !== 'string') return ''; 
-            const trimmed = url.trim(); 
-            if (trimmed === '—' || trimmed === '-' || trimmed === 'ندارد' || trimmed === 'ثبت نشده') return safeString(url); 
-            if (!/^https?:\/\//.test(trimmed) && !/^[\w.-]+\.[a-z]{2,}/i.test(trimmed)) return safeString(url); 
-            let href = trimmed; 
-            if (!href.startsWith('http')) href = 'https://' + href; 
-            return `<a href="${safeString(href)}" target="_blank" rel="noopener" title="باز کردن لینک">${safeString(url)}</a>`; 
-        }
+        };
 
         // ==================== کش ====================
-        function getCache(key, type) {
-            try {
-                const raw = localStorage.getItem(key);
-                if (!raw) return null;
-                const { data, timestamp } = JSON.parse(raw);
-                const ttl = TTL_MAP[type] || DEFAULT_TTL;
-                return { data, isStale: (Date.now() - timestamp) > ttl, type };
-            } catch { return null; }
-        }
-        
-        function setCache(key, data) {
-            try { 
-                localStorage.setItem(key, JSON.stringify({ data, timestamp: Date.now() })); 
-            } catch { 
-                cleanupExpiredCache();
-                try { localStorage.setItem(key, JSON.stringify({ data, timestamp: Date.now() })); } catch { }
+        const Cache = {
+            get(key, type) {
+                try {
+                    const raw = localStorage.getItem(key);
+                    if (!raw) return null;
+                    const { data, timestamp } = JSON.parse(raw);
+                    const ttl = CONFIG.TTL_MAP[type] || CONFIG.DEFAULT_TTL;
+                    return { data, isStale: (Date.now() - timestamp) > ttl };
+                } catch { return null; }
+            },
+
+            set(key, data) {
+                try {
+                    localStorage.setItem(key, JSON.stringify({ data, timestamp: Date.now() }));
+                } catch {
+                    this.cleanup();
+                    try { localStorage.setItem(key, JSON.stringify({ data, timestamp: Date.now() })); } catch { }
+                }
+            },
+
+            cleanup() {
+                try {
+                    Object.keys(localStorage).filter(k => k.startsWith('sm_')).forEach(k => {
+                        try {
+                            const { timestamp } = JSON.parse(localStorage.getItem(k));
+                            const file = k.replace('sm_', '');
+                            const type = MainMenu.items.find(m => m.file === file)?.type || 'default';
+                            const ttl = CONFIG.TTL_MAP[type] || CONFIG.DEFAULT_TTL;
+                            if (Date.now() - timestamp > ttl) localStorage.removeItem(k);
+                        } catch { localStorage.removeItem(k); }
+                    });
+                } catch { }
             }
-        }
-        
-        function cleanupExpiredCache() {
-            try {
-                Object.keys(localStorage).filter(k => k.startsWith('sm_')).forEach(k => {
-                    try {
-                        const raw = localStorage.getItem(k);
-                        const { timestamp } = JSON.parse(raw);
-                        const file = k.replace('sm_', '');
-                        const type = mainMenu.find(m => m.file === file)?.type || 'default';
-                        const ttl = TTL_MAP[type] || DEFAULT_TTL;
-                        if (Date.now() - timestamp > ttl) localStorage.removeItem(k);
-                    } catch { localStorage.removeItem(k); }
-                });
-            } catch { }
-        }
+        };
 
         // ==================== منو ====================
-        const mainMenu = [
-            { title: "بیمارستان‌ها", icon: "🏥", file: "hospitals2.json", type: "hospital", hash: "hospital" },
-            { title: "بیمه‌ها", icon: "🛡️", file: "insurances.json", type: "insurance", hash: "insurance" },
-            { title: "پیراپزشکی", icon: "🩺", file: "paramedical.json", type: "paramedical", hash: "paramedical" },
-            { title: "اقامتگاه‌ها", icon: "🏨", file: "hotels.json", type: "hotel", hash: "hotel" },
-            { title: "خانه سالمندان", icon: "👵", file: "elderly_homes.json", type: "elderly", hash: "elderly" },
-            { title: "حمل و نقل", icon: "🚕", file: "transport.json", type: "transport", hash: "transport" },
-            { title: "گردشگری شهری", icon: "🏛️", file: "leisure_city.json", type: "tourism", hash: "tourism" },
-            { title: "گردشگری خارج شهر", icon: "🏞️", file: "leisure_outside.json", type: "tourism_out", hash: "tourism-out" },
-            { title: "راهنمای بیمار", icon: "📖", file: "patient_guide.json", type: "patient_guide", hash: "guide" },
-            { title: "پشتیبانی و اورژانس", icon: "🚨", file: "support.json", type: "support", hash: "support" },
-            { title: "شکایات ایرانیان", icon: "📝", file: "complaints_iranian.json", type: "complaints", hash: "complaints" },
-            { title: "شکایات خارجی", icon: "🌍", file: "complaints.json", type: "complaints_foreign", hash: "complaints-foreign" }
-        ];
+        const MainMenu = {
+            items: [
+                { title: "پزشکی", icon: "👨‍⚕️", file: "hospitals2.json", type: "hospital", hash: "medical" },
+                { title: "غیرپزشکی", icon: "🏥", file: "hotels.json", type: "hotel", hash: "non-medical" },
+                { title: "گردشگری", icon: "🏛️", file: "leisure_city.json", type: "tourism", hash: "tourism" },
+                { title: "پیراپزشکی", icon: "🩺", file: "paramedical.json", type: "paramedical", hash: "paramedical" },
+                { title: "خانه سالمندان", icon: "🏡", file: "elderly_homes.json", type: "elderly", hash: "elderly" },
+                { title: "پکیج کامل", icon: "💎", file: null, type: "static", hash: "package", staticMsg: "به زودی در نسخه‌های بعدی", staticIcon: "💎" },
+                { title: "پایانه‌ها و فرودگاه", icon: "🚉", file: "transport.json", type: "transport", hash: "transport" },
+                { title: "درخواست تاکسی", icon: "🚕", file: null, type: "taxi", hash: "taxi" },
+                { title: "بیمه‌های تحت پوشش", icon: "🏥", file: "insurances.json", type: "insurance", hash: "insurance" },
+                { title: "مترجم همراه", icon: "🗣️", file: null, type: "static", hash: "translator", staticMsg: "برای استفاده از مترجم همراه، از اپلیکیشن Google Translate استفاده کنید.", staticIcon: "🗣️", link: "https://translate.google.com" },
+                { title: "منشور اخلاقی", icon: "📜", file: null, type: "static", hash: "charter", staticMsg: "منشور اخلاقی شیراز مدیکال در ربات رسمی موجود است.", staticIcon: "📜" },
+                { title: "هوش مصنوعی DeepSeek", icon: "🤖", file: null, type: "link", hash: "deepseek", link: "https://chat.deepseek.com" },
+                { title: "پروانه مسکن", icon: "📋", file: null, type: "static", hash: "file", staticMsg: "این بخش در نسخه‌های بعدی فعال می‌شود.", staticIcon: "📋" },
+                { title: "نوبت‌های من", icon: "📅", file: null, type: "static", hash: "appointments", staticMsg: "برای مشاهده نوبت‌ها، از ربات رسمی استفاده کنید.", staticIcon: "📅" },
+                { title: "یادآور دارو", icon: "💊", file: null, type: "static", hash: "medication", staticMsg: "برای یادآور دارو، از ربات رسمی استفاده کنید.", staticIcon: "💊" },
+                { title: "اضطراری", icon: "🚨", file: "support.json", type: "support", hash: "emergency" },
+                { title: "عضویت در کانال", icon: "📢", file: null, type: "link", hash: "channel", link: "https://ble.ir/shiraz_medical" },
+                { title: "دعوت دوستان", icon: "🎁", file: null, type: "static", hash: "invite", staticMsg: "برای دعوت دوستان، از لینک اختصاصی خود در ربات استفاده کنید.", staticIcon: "🎁" },
+                { title: "حقوق بیمار", icon: "⚖️", file: "complaints_iranian.json", type: "complaints", hash: "rights" },
+                { title: "شکات خارجی", icon: "🌍", file: "complaints.json", type: "complaints_foreign", hash: "complaints-foreign" }
+            ],
+
+            find(hash) { return this.items.find(m => m.hash === hash); }
+        };
 
         // ==================== ناوبری ====================
-        function goHome(pushHistory = true) {
-            currentRequestToken++;
-            if (currentAbortController) { currentAbortController.abort(); currentAbortController = null; }
-            
-            let menuHtml = "";
-            mainMenu.forEach((item) => {
-                menuHtml += `<div class="menu-card" data-file="${item.file}" data-type="${item.type}" data-title="${item.title}" data-icon="${item.icon}" data-hash="${item.hash}"><div class="menu-icon">${item.icon}</div><div class="menu-title">${item.title}</div></div>`;
-            });
-            container.innerHTML = `<p class="hero-text">🌟 با یک لمس، به تمام خدمات پزشکی، اقامتی و گردشگری شیراز دسترسی داشته باشید.</p><div class="grid-menu">${menuHtml}</div>`;
-            document.querySelectorAll('.menu-card').forEach(card => {
-                card.addEventListener('click', (e) => {
-                    const el = e.currentTarget;
-                    loadData(el.dataset.file, el.dataset.title, el.dataset.icon, el.dataset.type, el.dataset.hash);
+        const Navigation = {
+            isHome() {
+                const state = window.history.state;
+                return !state || state.page === 'home';
+            },
+
+            goHome(pushHistory = true) {
+                currentRequestToken++;
+                if (currentAbortController) { currentAbortController.abort(); currentAbortController = null; }
+
+                let menuHtml = "";
+                MainMenu.items.forEach((item) => {
+                    const badgeClass = item.badge ? 'badge-new' : '';
+                    menuHtml += `<div class="menu-card ${badgeClass}" data-file="${item.file || ''}" data-type="${item.type}" data-title="${item.title}" data-icon="${item.icon}" data-hash="${item.hash}" data-static="${item.staticMsg || ''}" data-static-icon="${item.staticIcon || ''}" data-link="${item.link || ''}" role="button" tabindex="0">
+                        <div class="menu-icon">${item.icon}</div>
+                        <div class="menu-title">${item.title}</div>
+                    </div>`;
                 });
-            });
-            
-            // ✅ اصلاح شد: همیشه URL را با state هماهنگ کن
-            const currentHash = window.location.hash;
-            if (pushHistory) {
-                if (currentHash !== '' && currentHash !== '#') {
-                    history.pushState({ page: 'home' }, 'شیراز مدیکال', '#');
-                }
-            } else {
-                if (currentHash !== '' && currentHash !== '#') {
-                    history.replaceState({ page: 'home' }, 'شیراز مدیکال', '#');
-                }
-            }
-            
-            document.title = 'شیراز مدیکال | همراه شما در سفر سلامت';
-            window.scrollTo(0, 0);
-        }
 
-        function goBack() {
-            const state = window.history.state;
-            // اگر در Home هستیم (state=home یا hash خالی)، کاری نکن
-            if (!state || state.page === 'home' || !window.location.hash || window.location.hash === '#') {
-                if (window.location.hash && window.location.hash !== '#') {
-                    goHome(false);
-                }
-                return;
-            }
-            if (state.page === 'detail') {
-                window.history.back();
-            } else {
-                goHome(false);
-            }
-        }
+                container.innerHTML = `
+                    <p class="hero-text">🌟 با یک لمس، به تمام خدمات پزشکی، اقامتی و گردشگری شیراز دسترسی داشته باشید.</p>
+                    <div class="grid-menu">${menuHtml}</div>
+                `;
 
-        window.addEventListener('popstate', (e) => {
-            const state = e.state;
-            if (!state || state.page === 'home') {
-                goHome(false);
-            } else if (state.page === 'detail') {
-                const menuItem = mainMenu.find(m => m.hash === state.hash);
-                if (menuItem) {
-                    loadData(menuItem.file, menuItem.title, menuItem.icon, menuItem.type, menuItem.hash, false);
+                container.querySelectorAll('.menu-card').forEach(card => {
+                    const handler = (e) => {
+                        e.preventDefault();
+                        this.handleMenuClick(card);
+                    };
+                    card.addEventListener('click', handler);
+                    card.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') handler(e); });
+                });
+
+                const currentHash = window.location.hash;
+                const isHomeNow = this.isHome();
+
+                if (pushHistory && !isHomeNow) {
+                    history.pushState({ page: 'home' }, CONFIG.APP_NAME, '#');
+                } else if (!pushHistory && currentHash && currentHash !== '#') {
+                    history.replaceState({ page: 'home' }, CONFIG.APP_NAME, '#');
+                } else if (!currentHash || currentHash === '#') {
+                    if (!window.history.state) history.replaceState({ page: 'home' }, CONFIG.APP_NAME, '#');
+                }
+
+                document.title = `${CONFIG.APP_NAME} | ${CONFIG.APP_TAGLINE}`;
+                window.scrollTo(0, 0);
+            },
+
+            handleMenuClick(card) {
+                const type = card.dataset.type;
+                const staticMsg = card.dataset.static;
+                const link = card.dataset.link;
+
+                if (type === 'static') {
+                    Pages.showStatic(card.dataset.title, card.dataset.icon, staticMsg, card.dataset.staticIcon, link);
+                    return;
+                }
+                if (type === 'link') {
+                    if (Utils.isValidUrl(link)) {
+                        window.open(link, '_blank', 'noopener,noreferrer');
+                    } else {
+                        Utils.toast('لینک نامعتبر است', 'error');
+                    }
+                    return;
+                }
+                if (type === 'taxi') {
+                    Pages.showTaxi(true);
+                    return;
+                }
+                Data.load(card.dataset.file, card.dataset.title, card.dataset.icon, card.dataset.type, card.dataset.hash);
+            },
+
+            goBack() {
+                if (this.isHome() && (!window.location.hash || window.location.hash === '#')) return;
+                const state = window.history.state;
+                if (state && state.page === 'detail') {
+                    window.history.back();
                 } else {
-                    goHome(false);
+                    this.goHome(false);
                 }
-            } else {
-                goHome(false);
             }
-        });
+        };
 
-        document.getElementById('nav-home').addEventListener('click', (e) => {
-            e.preventDefault();
-            const state = window.history.state;
-            if (!state || state.page !== 'home') {
-                goHome(true);
-            }
-        });
+        // ==================== صفحات ====================
+        const Pages = {
+            showStatic(title, icon, message, staticIcon, link) {
+                const stateObj = { page: 'detail', type: 'static', hash: 'static-' + Date.now() };
+                if (window.location.hash !== `#static`) {
+                    history.pushState(stateObj, title, '#static');
+                }
+                document.title = `${title} | ${CONFIG.APP_NAME}`;
 
-        // ==================== صفحه‌ها ====================
-        function showLoading() { container.innerHTML = `<div class="loader"></div>`; }
-        
-        function pageHeader(title, icon, count = 0, isCached = false) {
-            return `<div class="page-header">
-                <button class="back-btn" onclick="goBack()" aria-label="بازگشت">🔙</button>
-                <div class="page-title">${icon} ${title}</div>
-                <div class="header-meta">
-                    ${count > 0 ? `<div class="item-count" aria-label="${count} مورد یافت شد">${count} مورد</div>` : ''}
-                    ${isCached ? `<div class="cache-badge" aria-label="داده از حافظه">📦 از حافظه</div>` : ''}
-                </div>
-            </div>`;
-        }
-        
-        function showError(message, retryParams = null) {
-            container.innerHTML = `<div class="page-header"><button class="back-btn" onclick="goBack()" aria-label="بازگشت">🔙</button><div class="page-title">⚠️ خطا</div></div><div class="error-box"><div class="icon">😔</div><p>${safeString(message)}</p>${retryParams ? `<button class="retry-btn" id="retry-btn">🔄 تلاش دوباره</button>` : ''}</div>`;
-            window.scrollTo(0, 0);
-            if (retryParams) { 
-                document.getElementById('retry-btn').addEventListener('click', () => { 
-                    loadData(retryParams.file, retryParams.title, retryParams.icon, retryParams.type, retryParams.hash); 
-                }); 
+                const actionBtn = link && Utils.isValidUrl(link) ? `<a href="${Utils.safeString(link)}" target="_blank" rel="noopener noreferrer" class="action-btn">باز کردن لینک</a>` : '';
+
+                container.innerHTML = `
+                    <div class="page-header">
+                        <button class="back-btn" onclick="Navigation.goBack()" aria-label="بازگشت">🔙</button>
+                        <div class="page-title">${Utils.safeString(icon)} ${Utils.safeString(title)}</div>
+                    </div>
+                    <div class="static-page">
+                        <div class="icon">${Utils.safeString(staticIcon || 'ℹ️')}</div>
+                        <h2>${Utils.safeString(title)}</h2>
+                        <p>${Utils.safeString(message)}</p>
+                        ${actionBtn}
+                    </div>
+                `;
+                window.scrollTo(0, 0);
+            },
+
+            showTaxi(pushHistory = true) {
+                currentRequestToken++;
+                if (currentAbortController) { currentAbortController.abort(); currentAbortController = null; }
+
+                const stateObj = { page: 'detail', type: 'taxi', hash: 'taxi' };
+                if (pushHistory && window.location.hash !== '#taxi') {
+                    history.pushState(stateObj, 'درخواست تاکسی', '#taxi');
+                } else if (!pushHistory && window.location.hash !== '#taxi') {
+                    history.replaceState(stateObj, 'درخواست تاکسی', '#taxi');
+                } else if (window.location.hash === '#taxi' && !window.history.state) {
+                    history.replaceState(stateObj, 'درخواست تاکسی', '#taxi');
+                }
+
+                document.title = `درخواست تاکسی | ${CONFIG.APP_NAME}`;
+
+                container.innerHTML = `
+                    <div class="page-header">
+                        <button class="back-btn" onclick="Navigation.goBack()" aria-label="بازگشت">🔙</button>
+                        <div class="page-title">🚕 درخواست تاکسی</div>
+                    </div>
+                    <div class="taxi-page">
+                        <p style="text-align:center; color:var(--text-muted); margin-bottom:20px; font-size:13px;">برای درخواست خودرو، یکی از اپلیکیشن‌های زیر را انتخاب کنید:</p>
+                        <a href="https://snapp.ir" target="_blank" rel="noopener noreferrer" class="taxi-card">🚖 اسنپ (Snapp)</a>
+                        <a href="https://tapsi.ir" target="_blank" rel="noopener noreferrer" class="taxi-card">🚕 تپسی (Tapsi)</a>
+                        <a href="https://maximapp.ir" target="_blank" rel="noopener noreferrer" class="taxi-card">🚗 ماکسیم (Maxim)</a>
+                    </div>
+                `;
+                window.scrollTo(0, 0);
+            },
+
+            showLoading() { container.innerHTML = `<div class="loader"></div>`; },
+
+            showError(message, retryParams = null) {
+                container.innerHTML = `
+                    <div class="page-header">
+                        <button class="back-btn" onclick="Navigation.goBack()" aria-label="بازگشت">🔙</button>
+                        <div class="page-title">⚠️ خطا</div>
+                    </div>
+                    <div class="error-box">
+                        <div class="icon">😔</div>
+                        <p>${Utils.safeString(message)}</p>
+                        ${retryParams ? `<button class="retry-btn" id="retry-btn">🔄 تلاش دوباره</button>` : ''}
+                    </div>
+                `;
+                window.scrollTo(0, 0);
+                if (retryParams) {
+                    document.getElementById('retry-btn').addEventListener('click', () => {
+                        Data.load(retryParams.file, retryParams.title, retryParams.icon, retryParams.type, retryParams.hash);
+                    });
+                }
+            },
+
+            pageHeader(title, icon, count = 0, isCached = false) {
+                return `<div class="page-header">
+                    <button class="back-btn" onclick="Navigation.goBack()" aria-label="بازگشت">🔙</button>
+                    <div class="page-title">${Utils.safeString(icon)} ${Utils.safeString(title)}</div>
+                    <div class="header-meta">
+                        ${count > 0 ? `<div class="item-count" aria-label="${count} مورد یافت شد">${count} مورد</div>` : ''}
+                        ${isCached ? `<div class="cache-badge" aria-label="داده از حافظه">📦 از حافظه</div>` : ''}
+                    </div>
+                </div>`;
             }
-        }
+        };
 
         // ==================== Fetch ====================
-        async function fetchWithTimeout(url, timeout = 10000, signal = null) {
-            const controller = new AbortController();
-            const id = setTimeout(() => controller.abort(), timeout);
-            const onAbort = () => controller.abort();
-            if (signal) signal.addEventListener('abort', onAbort);
-            try { 
-                const response = await fetch(url, { signal: controller.signal }); 
-                clearTimeout(id); 
-                if (signal) signal.removeEventListener('abort', onAbort);
-                return response; 
-            }
-            catch (e) { 
-                clearTimeout(id); 
-                if (signal) signal.removeEventListener('abort', onAbort);
-                if (e.name === 'AbortError') throw new Error("Aborted"); 
-                throw e; 
-            }
-        }
+        const Fetcher = {
+            async withTimeout(url, timeout = CONFIG.FETCH_TIMEOUT, signal = null) {
+                const controller = new AbortController();
+                const id = setTimeout(() => controller.abort(), timeout);
+                const onAbort = () => controller.abort();
+                if (signal) signal.addEventListener('abort', onAbort);
+                try {
+                    const response = await fetch(url, { signal: controller.signal });
+                    clearTimeout(id);
+                    if (signal) signal.removeEventListener('abort', onAbort);
+                    return response;
+                } catch (e) {
+                    clearTimeout(id);
+                    if (signal) signal.removeEventListener('abort', onAbort);
+                    if (e.name === 'AbortError') throw new Error("Aborted");
+                    throw e;
+                }
+            },
 
-        async function fetchWithRetry(url, signal) {
-            let response = await fetchWithTimeout(url, 10000, signal);
-            if (response.status === 429) {
-                await new Promise(r => setTimeout(r, 3000));
-                response = await fetchWithTimeout(url, 10000, signal);
+            async withRetry(url, signal) {
+                let response = await this.withTimeout(url, CONFIG.FETCH_TIMEOUT, signal);
+                if (response.status === 429) {
+                    await new Promise(r => setTimeout(r, CONFIG.RETRY_DELAY));
+                    response = await this.withTimeout(url, CONFIG.FETCH_TIMEOUT, signal);
+                }
+                return response;
             }
-            return response;
-        }
+        };
 
         // ==================== بارگذاری داده ====================
-        async function loadData(fileName, title, icon, type, hash, pushHistory = true) {
-            const myToken = ++currentRequestToken;
-            if (currentAbortController) currentAbortController.abort();
-            currentAbortController = new AbortController();
-            
-            showLoading();
-            
-            if (pushHistory && window.location.hash !== `#${hash}`) {
-                history.pushState({ page: 'detail', file: fileName, type, hash }, title, `#${hash}`);
-            } else if (!pushHistory && window.location.hash !== `#${hash}`) {
-                history.replaceState({ page: 'detail', file: fileName, type, hash }, title, `#${hash}`);
-            }
-            document.title = `${title} | شیراز مدیکال`;
+        const Data = {
+            async load(fileName, title, icon, type, hash, pushHistory = true) {
+                if (!fileName) { Utils.toast("این بخش به زودی فعال می‌شود."); return; }
 
-            const cacheKey = `sm_${fileName}`;
-            const cached = getCache(cacheKey, type);
-            let data = cached?.data;
-            let isStale = cached?.isStale;
+                const myToken = ++currentRequestToken;
+                if (currentAbortController) currentAbortController.abort();
+                currentAbortController = new AbortController();
 
-            if (data) {
-                renderItems(data, title, icon, type, isStale, myToken);
-                
-                if (isStale) {
-                    fetchWithRetry(`${GITHUB_BASE}/${fileName}`, currentAbortController.signal)
-                        .then(res => res.ok ? res.json() : Promise.reject())
-                        .then(newData => {
-                            if (myToken !== currentRequestToken) return;
-                            setCache(cacheKey, newData);
-                            if (JSON.stringify(newData) !== JSON.stringify(data)) {
-                                renderItems(newData, title, icon, type, false, myToken);
-                                toast(`✅ اطلاعات «${title}» به‌روز شد.`, 'success');
-                            }
-                        })
-                        .catch(() => { });
+                Pages.showLoading();
+
+                const stateObj = { page: 'detail', file: fileName, type, hash };
+                const targetHash = `#${hash}`;
+
+                if (pushHistory && window.location.hash !== targetHash) {
+                    history.pushState(stateObj, title, targetHash);
+                } else if (!pushHistory && window.location.hash !== targetHash) {
+                    history.replaceState(stateObj, title, targetHash);
+                } else if (window.location.hash === targetHash && !window.history.state) {
+                    history.replaceState(stateObj, title, targetHash);
                 }
-            } else {
-                try {
-                    const response = await fetchWithRetry(`${GITHUB_BASE}/${fileName}`, currentAbortController.signal);
-                    if (!response.ok) throw new Error(`فایل ${fileName} یافت نشد (${response.status})`);
-                    data = await response.json();
-                    if (myToken !== currentRequestToken) return;
-                    setCache(cacheKey, data);
-                    renderItems(data, title, icon, type, false, myToken);
-                } catch (e) {
-                    if (myToken !== currentRequestToken || e.message === "Aborted") return;
-                    console.warn("Error:", e.message);
-                    showError(e.message || "خطا در دریافت اطلاعات.", { file: fileName, title, icon, type, hash });
+
+                document.title = `${title} | ${CONFIG.APP_NAME}`;
+
+                const cacheKey = `sm_${fileName}`;
+                const cached = Cache.get(cacheKey, type);
+
+                if (cached?.data) {
+                    Renderer.render(cached.data, title, icon, type, cached.isStale, myToken);
+
+                    if (cached.isStale) {
+                        Fetcher.withRetry(`${CONFIG.GITHUB_BASE}/${fileName}`, currentAbortController.signal)
+                            .then(res => res.ok ? res.json() : Promise.reject())
+                            .then(newData => {
+                                if (myToken !== currentRequestToken) return;
+                                Cache.set(cacheKey, newData);
+                                if (JSON.stringify(newData) !== JSON.stringify(cached.data)) {
+                                    Renderer.render(newData, title, icon, type, false, myToken);
+                                    Utils.toast(`✅ اطلاعات «${title}» به‌روز شد.`, 'success');
+                                }
+                            }).catch(() => { });
+                    }
+                } else {
+                    try {
+                        const response = await Fetcher.withRetry(`${CONFIG.GITHUB_BASE}/${fileName}`, currentAbortController.signal);
+                        if (!response.ok) throw new Error(`فایل ${fileName} یافت نشد (${response.status})`);
+                        const data = await response.json();
+                        if (myToken !== currentRequestToken) return;
+                        Cache.set(cacheKey, data);
+                        Renderer.render(data, title, icon, type, false, myToken);
+                    } catch (e) {
+                        if (myToken !== currentRequestToken || e.message === "Aborted") return;
+                        console.warn("Error:", e.message);
+                        Pages.showError(e.message || "خطا در دریافت اطلاعات.", { file: fileName, title, icon, type, hash });
+                    }
                 }
             }
-        }
+        };
 
         // ==================== رندر ====================
-        function renderItems(data, title, icon, type, isCached, token) {
-            if (token && token !== currentRequestToken) return;
-            
-            let items = [];
-            if (type === 'transport') {
-                if (data && data.shiraz_transport_hubs) items = data.shiraz_transport_hubs;
-                else if (data && data.items) items = data.items;
-                else if (data && data.data) items = data.data;
-                else if (Array.isArray(data)) items = data;
-            } else {
-                items = Array.isArray(data) ? data : (data.items || data.data || [data]);
-            }
+        const Renderer = {
+            render(data, title, icon, type, isCached, token) {
+                if (token && token !== currentRequestToken) return;
 
-            if (!Array.isArray(items) || items.length === 0) {
-                container.innerHTML = pageHeader(title, icon, 0, isCached) + `<p style="text-align:center; margin-top:20px;">اطلاعاتی یافت نشد.</p>`;
-                window.scrollTo(0, 0); return;
-            }
+                let items = [];
+                if (type === 'transport') {
+                    if (data?.shiraz_transport_hubs) items = data.shiraz_transport_hubs;
+                    else if (data?.items) items = data.items;
+                    else if (data?.data) items = data.data;
+                    else if (Array.isArray(data)) items = data;
+                } else {
+                    items = Array.isArray(data) ? data : (data.items || data.data || [data]);
+                }
 
-            let html = '';
-            
-            // ========== حمل و نقل ==========
-            if (type === 'transport') {
+                if (!Array.isArray(items) || items.length === 0) {
+                    container.innerHTML = Pages.pageHeader(title, icon, 0, isCached) + `<p style="text-align:center; margin-top:20px;">اطلاعاتی یافت نشد.</p>`;
+                    window.scrollTo(0, 0);
+                    return;
+                }
+
+                if (type === 'transport') {
+                    this.renderTransport(items, title, icon, isCached);
+                    return;
+                }
+
+                // Search box
+                let html = Pages.pageHeader(title, icon, items.length, isCached);
+                html += `<div class="search-container">
+                    <input type="text" class="search-input" id="search-input" placeholder="جستجو..." aria-label="جستجو">
+                    <span class="search-icon">🔍</span>
+                    <button class="search-clear" id="search-clear" aria-label="پاک کردن">✕</button>
+                </div>`;
+                html += `<div id="results-container"></div>`;
+
+                container.innerHTML = html;
+
+                // رندر اولیه
+                this.renderCards(items, type, isCached);
+
+                // Setup search
+                const searchInput = document.getElementById('search-input');
+                const searchClear = document.getElementById('search-clear');
+                if (searchInput) {
+                    searchInput.addEventListener('input', (e) => {
+                        currentSearchFilter = e.target.value.trim();
+                        searchClear.classList.toggle('visible', currentSearchFilter.length > 0);
+                        this.renderCards(items, type, isCached);
+                    });
+                    searchClear.addEventListener('click', () => {
+                        searchInput.value = '';
+                        currentSearchFilter = '';
+                        searchClear.classList.remove('visible');
+                        this.renderCards(items, type, isCached);
+                        searchInput.focus();
+                    });
+                }
+
+                window.scrollTo(0, 0);
+            },
+
+            renderCards(items, type, isCached) {
+                const resultsContainer = document.getElementById('results-container');
+                if (!resultsContainer) return;
+
+                let filteredItems = items;
+                if (currentSearchFilter) {
+                    const filter = currentSearchFilter.toLowerCase();
+                    filteredItems = items.filter(item => {
+                        const searchText = JSON.stringify(item).toLowerCase();
+                        return searchText.includes(filter);
+                    });
+                }
+
+                if (filteredItems.length === 0) {
+                    resultsContainer.innerHTML = `<div class="no-results">🔍 نتیجه‌ای برای «${Utils.safeString(currentSearchFilter)}» یافت نشد.</div>`;
+                    return;
+                }
+
+                let html = '';
+                let cardCount = 0;
+
+                filteredItems.forEach(item => {
+                    const card = this.buildCard(item, type);
+                    if (card) { html += card; cardCount++; }
+                });
+
+                if (cardCount === 0) {
+                    resultsContainer.innerHTML = `<div class="no-results">اطلاعاتی برای نمایش وجود ندارد.</div>`;
+                } else {
+                    resultsContainer.innerHTML = html;
+                }
+            },
+
+            buildCard(item, type) {
+                let name = '', badges = [], infos = [], chips = [], stepsList = [];
+
+                try {
+                    if (type === 'hospital') {
+                        name = Utils.safeString(item.name_fa, 'بدون نام');
+                        if (item.ownership_fa) badges.push(`<div class="badge badge-yellow">🏢 ${Utils.safeString(item.ownership_fa)}</div>`);
+                        if (item.has_ipd && item.ipd_code) badges.push(`<div class="badge badge-blue">✅ مجوز IPD | کد: ${Utils.safeString(item.ipd_code)}</div>`);
+                        if (item.address_fa) infos.push(`📍 ${Utils.safeString(item.address_fa)}`);
+                        if (item.phone) infos.push(`📞 ${Utils.telLink(item.phone)}`);
+                        if (item.ipd_direct_phone) infos.push(`☎️ IPD: ${Utils.telLink(item.ipd_direct_phone)}`);
+                        if (item.website) infos.push(`🌐 ${Utils.webLink(item.website)}`);
+                        if (Utils.safeArray(item.specialties_fa).length) chips.push({title: '🔬 تخصص‌ها:', list: Utils.safeArray(item.specialties_fa)});
+                        if (Utils.safeArray(item.translator_languages_fa).length) chips.push({title: '🗣 مترجم:', list: Utils.safeArray(item.translator_languages_fa)});
+                    } else if (type === 'insurance') {
+                        name = Utils.safeString(item.name_fa, 'بدون نام');
+                        if (item.type_fa) badges.push(`<div class="badge badge-green">📋 ${Utils.safeString(item.type_fa)}</div>`);
+                        if (item.coverage_gp_visit_fa) infos.push(`💊 پوشش: ${Utils.safeString(item.coverage_gp_visit_fa)}`);
+                        if (item.main_phone_fa) infos.push(`📞 تلفن: ${Utils.telLink(item.main_phone_fa)}`);
+                        if (item.support_phone_24h_fa) infos.push(`🚨 پشتیبانی: ${Utils.telLink(item.support_phone_24h_fa)}`);
+                        if (item.website_fa) infos.push(`🌐 ${Utils.webLink(item.website_fa)}`);
+                        if (item.shiraz_offices_fa) infos.push(`📍 ${Utils.safeString(item.shiraz_offices_fa)}`);
+                    } else if (type === 'hotel') {
+                        name = Utils.safeString(item.name_fa, 'بدون نام');
+                        if (item.star_rating_fa) badges.push(`<div class="badge badge-blue">⭐ ${Utils.safeString(item.star_rating_fa)}</div>`);
+                        if (item.address_fa) infos.push(`📍 ${Utils.safeString(item.address_fa)}`);
+                        if (item.phone) infos.push(`📞 ${Utils.telLink(item.phone)}`);
+                        if (item.distance_to_city_center_fa) infos.push(`📏 ${Utils.safeString(item.distance_to_city_center_fa)}`);
+                        if (Utils.safeArray(item.amenities_fa).length) chips.push({title: '✨ امکانات:', list: Utils.safeArray(item.amenities_fa)});
+                    } else if (type === 'elderly' || type === 'paramedical') {
+                        name = (item.name && typeof item.name === 'object') ? Utils.safeString(item.name.fa || item.name.en || item.name.ar || 'بدون نام') : Utils.safeString(item.name_fa, 'بدون نام');
+                        if (item.address && typeof item.address === 'object') infos.push(`📍 ${Utils.safeString(item.address.fa || item.address.en || '')}`);
+                        else if (item.address_fa) infos.push(`📍 ${Utils.safeString(item.address_fa)}`);
+                        if (item.phone) infos.push(`📞 ${Utils.telLink(item.phone)}`);
+                        if (item.working_hours && typeof item.working_hours === 'object') infos.push(`⏰ ${Utils.safeString(item.working_hours.fa || item.working_hours.en || '')}`);
+                        else if (item.working_hours_fa) infos.push(`⏰ ${Utils.safeString(item.working_hours_fa)}`);
+                        const services = (item.services && typeof item.services === 'object') ? Utils.safeArray(item.services.fa || item.services.en || item.services.ar) : Utils.safeArray(item.services_fa);
+                        if (services.length) chips.push({title: '🛠 خدمات:', list: services});
+                    } else if (type === 'tourism' || type === 'tourism_out') {
+                        name = Utils.safeString(item.name_fa, 'بدون نام');
+                        if (item.category_fa) badges.push(`<div class="badge badge-green">📌 ${Utils.safeString(item.category_fa)}</div>`);
+                        if (item.address_fa) infos.push(`📍 ${Utils.safeString(item.address_fa)}`);
+                        if (item.visiting_hours_fa) infos.push(`⏰ ${Utils.safeString(item.visiting_hours_fa)}`);
+                        if (item.ticket_price_fa) infos.push(`🎫 بلیط: ${Utils.safeString(item.ticket_price_fa)}`);
+                        if (Utils.safeArray(item.amenities_fa).length) chips.push({title: '✨ امکانات:', list: Utils.safeArray(item.amenities_fa)});
+                    } else if (type === 'support') {
+                        name = Utils.safeString(item.name_fa, 'بدون نام');
+                        if (item.type_fa) badges.push(`<div class="badge badge-purple">${Utils.safeString(item.type_fa)}</div>`);
+                        if (item.phone) infos.push(`📞 ${Utils.telLink(item.phone)}`);
+                        if (item.emergency_contact) infos.push(`🚨 اضطراری: ${Utils.telLink(item.emergency_contact)}`);
+                        if (item.working_hours_fa) infos.push(`⏰ ${Utils.safeString(item.working_hours_fa)}`);
+                        if (item.notes_fa) infos.push(`📝 ${Utils.safeString(item.notes_fa)}`);
+                    } else if (type === 'complaints' || type === 'complaints_foreign') {
+                        name = Utils.safeString(item.category_fa || item.department_fa, 'بدون نام');
+                        if (item.department_fa) infos.push(`🏢 ${Utils.safeString(item.department_fa)}`);
+                        if (item.phone) infos.push(`📞 ${Utils.telLink(item.phone)}`);
+                        if (item.working_hours_fa) infos.push(`⏰ ${Utils.safeString(item.working_hours_fa)}`);
+                        const process = Utils.safeArray(item.process_fa);
+                        if (process.length) chips.push({title: '📋 مراحل:', list: process});
+                    } else if (type === 'patient_guide') {
+                        name = Utils.safeString(item.topic_fa || 'راهنمای بیمار');
+                        if (item.administrative_steps_fa && Array.isArray(item.administrative_steps_fa)) {
+                            item.administrative_steps_fa.forEach((step) => {
+                                if (step.title && step.description) stepsList.push(`<li><strong>${Utils.safeString(step.title)}:</strong> ${Utils.safeString(step.description)}</li>`);
+                            });
+                        }
+                        const visaDocs = Utils.safeArray(item.medical_visa_documents_fa);
+                        const admissionDocs = Utils.safeArray(item.hospital_admission_documents_fa);
+                        if (visaDocs.length) chips.push({title: '🛂 مدارک ویزا:', list: visaDocs});
+                        if (admissionDocs.length) chips.push({title: '🏥 مدارک پذیرش:', list: admissionDocs});
+                        if (item.translator_requirement_fa) infos.push(`🗣 مترجم: ${Utils.safeString(item.translator_requirement_fa)}`);
+                        if (item.costs_and_payment_fa) infos.push(`💰 هزینه‌ها: ${Utils.safeString(item.costs_and_payment_fa)}`);
+                    }
+                } catch (e) {
+                    console.warn('Error building card:', e);
+                    return '';
+                }
+
+                if (name === 'بدون نام' && infos.length === 0 && chips.length === 0 && stepsList.length === 0) return '';
+
+                return `<div class="card">
+                    <div class="card-title">${name}</div>
+                    ${badges.join('')}
+                    ${infos.map(i => `<div class="card-info"><span>${i}</span></div>`).join('')}
+                    ${stepsList.length > 0 ? `<ul class="steps-list">${stepsList.join('')}</ul>` : ''}
+                    ${chips.map(c => `<div class="chips-container"><div class="chips-title">${c.title}</div>${c.list.map(x => `<div class="chip">${Utils.safeString(x)}</div>`).join('')}</div>`).join('')}
+                </div>`;
+            },
+
+            renderTransport(items, title, icon, isCached) {
                 const hubs = [
                     { key: 'shiraz_airport', title: '✈️ فرودگاه بین‌المللی شهید دستغیب' },
                     { key: 'shiraz_railway', title: '🚆 ایستگاه راه‌آهن شیراز' },
                     { key: 'karandish_terminal', title: '🚌 پایانه کاراندیش' },
                     { key: 'amirkabir_terminal', title: '🚌 پایانه امیرکبیر' }
                 ];
-                html = pageHeader(title, icon, 4, isCached);
+                let html = Pages.pageHeader(title, icon, 4, isCached);
                 let cardCount = 0;
+
                 hubs.forEach(hub => {
                     let address = '', phone = '', website = '', tips = '', name = '';
                     items.forEach(field => {
@@ -405,130 +761,92 @@
                         }
                     });
                     if (name || address || phone || website || tips) {
-                        html += `<div class="card"><div class="card-title">${hub.title}</div>${name ? `<div class="card-info"><span>🏢 ${safeString(name)}</span></div>` : ''}${address ? `<div class="card-info"><span>📍 ${safeString(address)}</span></div>` : ''}${phone ? `<div class="card-info"><span>📞 ${telLink(phone)}</span></div>` : ''}${website && website !== '—' ? `<div class="card-info"><span>🌐 ${webLink(website)}</span></div>` : ''}${tips ? `<div class="card-info"><span>💡 ${safeString(tips)}</span></div>` : ''}</div>`;
+                        html += `<div class="card">
+                            <div class="card-title">${hub.title}</div>
+                            ${name ? `<div class="card-info"><span>🏢 ${Utils.safeString(name)}</span></div>` : ''}
+                            ${address ? `<div class="card-info"><span>📍 ${Utils.safeString(address)}</span></div>` : ''}
+                            ${phone ? `<div class="card-info"><span>📞 ${Utils.telLink(phone)}</span></div>` : ''}
+                            ${website && website !== '—' ? `<div class="card-info"><span>🌐 ${Utils.webLink(website)}</span></div>` : ''}
+                            ${tips ? `<div class="card-info"><span>💡 ${Utils.safeString(tips)}</span></div>` : ''}
+                        </div>`;
                         cardCount++;
                     }
                 });
-                container.innerHTML = cardCount === 0 ? pageHeader(title, icon, 0, isCached) + `<p style="text-align:center; margin-top:20px;">اطلاعاتی برای نمایش وجود ندارد.</p>` : html;
-                window.scrollTo(0, 0); return;
-            }
 
-            // ========== بقیه انواع ==========
-            html = pageHeader(title, icon, items.length, isCached);
-            let cardCount = 0;
-
-            items.forEach(item => {
-                let name = '', badges = [], infos = [], chips = [], stepsList = [];
-
-                if (type === 'hospital') {
-                    name = safeString(item.name_fa, 'بدون نام');
-                    if (item.ownership_fa) badges.push(`<div class="badge badge-yellow">🏢 ${safeString(item.ownership_fa)}</div>`);
-                    if (item.has_ipd && item.ipd_code) badges.push(`<div class="badge badge-blue">✅ مجوز IPD | کد: ${safeString(item.ipd_code)}</div>`);
-                    if (item.address_fa) infos.push(`📍 ${safeString(item.address_fa)}`);
-                    if (item.phone) infos.push(`📞 ${telLink(item.phone)}`);
-                    if (item.ipd_direct_phone) infos.push(`☎️ IPD: ${telLink(item.ipd_direct_phone)}`);
-                    if (item.website) infos.push(`🌐 ${webLink(item.website)}`);
-                    if (safeArray(item.specialties_fa).length) chips.push({title: '🔬 تخصص‌ها:', list: safeArray(item.specialties_fa)});
-                    if (safeArray(item.translator_languages_fa).length) chips.push({title: '🗣 مترجم:', list: safeArray(item.translator_languages_fa)});
-                } 
-                else if (type === 'insurance') {
-                    name = safeString(item.name_fa, 'بدون نام');
-                    if (item.type_fa) badges.push(`<div class="badge badge-green">📋 ${safeString(item.type_fa)}</div>`);
-                    if (item.coverage_gp_visit_fa) infos.push(`💊 پوشش: ${safeString(item.coverage_gp_visit_fa)}`);
-                    if (item.main_phone_fa) infos.push(`📞 تلفن: ${telLink(item.main_phone_fa)}`);
-                    if (item.support_phone_24h_fa) infos.push(`🚨 پشتیبانی: ${telLink(item.support_phone_24h_fa)}`);
-                    if (item.website_fa) infos.push(`🌐 ${webLink(item.website_fa)}`);
-                    if (item.shiraz_offices_fa) infos.push(`📍 ${safeString(item.shiraz_offices_fa)}`);
+                if (cardCount === 0) {
+                    html += `<p style="text-align:center; margin-top:20px;">اطلاعاتی برای نمایش وجود ندارد.</p>`;
                 }
-                else if (type === 'hotel') {
-                    name = safeString(item.name_fa, 'بدون نام');
-                    if (item.star_rating_fa) badges.push(`<div class="badge badge-blue">⭐ ${safeString(item.star_rating_fa)}</div>`);
-                    if (item.address_fa) infos.push(`📍 ${safeString(item.address_fa)}`);
-                    if (item.phone) infos.push(`📞 ${telLink(item.phone)}`);
-                    if (item.distance_to_city_center_fa) infos.push(`📏 ${safeString(item.distance_to_city_center_fa)}`);
-                    if (safeArray(item.amenities_fa).length) chips.push({title: '✨ امکانات:', list: safeArray(item.amenities_fa)});
-                }
-                else if (type === 'elderly' || type === 'paramedical') {
-                    name = (item.name && typeof item.name === 'object') ? safeString(item.name.fa || item.name.en || item.name.ar || 'بدون نام') : safeString(item.name_fa, 'بدون نام');
-                    if (item.address && typeof item.address === 'object') infos.push(`📍 ${safeString(item.address.fa || item.address.en || '')}`);
-                    else if (item.address_fa) infos.push(`📍 ${safeString(item.address_fa)}`);
-                    if (item.phone) infos.push(`📞 ${telLink(item.phone)}`);
-                    if (item.working_hours && typeof item.working_hours === 'object') infos.push(`⏰ ${safeString(item.working_hours.fa || item.working_hours.en || '')}`);
-                    else if (item.working_hours_fa) infos.push(`⏰ ${safeString(item.working_hours_fa)}`);
-                    let services = (item.services && typeof item.services === 'object') ? safeArray(item.services.fa || item.services.en || item.services.ar) : safeArray(item.services_fa);
-                    if (services.length) chips.push({title: '🛠 خدمات:', list: services});
-                }
-                else if (type === 'tourism' || type === 'tourism_out') {
-                    name = safeString(item.name_fa, 'بدون نام');
-                    if (item.category_fa) badges.push(`<div class="badge badge-green">📌 ${safeString(item.category_fa)}</div>`);
-                    if (item.address_fa) infos.push(`📍 ${safeString(item.address_fa)}`);
-                    if (item.visiting_hours_fa) infos.push(`⏰ ${safeString(item.visiting_hours_fa)}`);
-                    if (item.ticket_price_fa) infos.push(`🎫 بلیط: ${safeString(item.ticket_price_fa)}`);
-                    if (safeArray(item.amenities_fa).length) chips.push({title: '✨ امکانات:', list: safeArray(item.amenities_fa)});
-                }
-                else if (type === 'support') {
-                    name = safeString(item.name_fa, 'بدون نام');
-                    if (item.type_fa) badges.push(`<div class="badge badge-purple">${safeString(item.type_fa)}</div>`);
-                    if (item.phone) infos.push(`📞 ${telLink(item.phone)}`);
-                    if (item.emergency_contact) infos.push(`🚨 اضطراری: ${telLink(item.emergency_contact)}`);
-                    if (item.working_hours_fa) infos.push(`⏰ ${safeString(item.working_hours_fa)}`);
-                    if (item.notes_fa) infos.push(`📝 ${safeString(item.notes_fa)}`);
-                }
-                else if (type === 'complaints' || type === 'complaints_foreign') {
-                    name = safeString(item.category_fa || item.department_fa, 'بدون نام');
-                    if (item.department_fa) infos.push(`🏢 ${safeString(item.department_fa)}`);
-                    if (item.phone) infos.push(`📞 ${telLink(item.phone)}`);
-                    if (item.working_hours_fa) infos.push(`⏰ ${safeString(item.working_hours_fa)}`);
-                    const process = safeArray(item.process_fa);
-                    if (process.length) chips.push({title: '📋 مراحل:', list: process});
-                }
-                else if (type === 'patient_guide') {
-                    name = safeString(item.topic_fa || 'راهنمای بیمار');
-                    if (item.administrative_steps_fa && Array.isArray(item.administrative_steps_fa)) {
-                        item.administrative_steps_fa.forEach((step) => { 
-                            if (step.title && step.description) stepsList.push(`<li><strong>${safeString(step.title)}:</strong> ${safeString(step.description)}</li>`); 
-                        });
-                    }
-                    const visaDocs = safeArray(item.medical_visa_documents_fa);
-                    const admissionDocs = safeArray(item.hospital_admission_documents_fa);
-                    if (visaDocs.length) chips.push({title: '🛂 مدارک ویزا:', list: visaDocs});
-                    if (admissionDocs.length) chips.push({title: '🏥 مدارک پذیرش:', list: admissionDocs});
-                    if (item.translator_requirement_fa) infos.push(`🗣 مترجم: ${safeString(item.translator_requirement_fa)}`);
-                    if (item.costs_and_payment_fa) infos.push(`💰 هزینه‌ها: ${safeString(item.costs_and_payment_fa)}`);
-                }
-
-                if (name !== 'بدون نام' || infos.length > 0 || chips.length > 0 || stepsList.length > 0) {
-                    html += `<div class="card"><div class="card-title">${name}</div>${badges.join('')}${infos.map(i => `<div class="card-info"><span>${i}</span></div>`).join('')}${stepsList.length > 0 ? `<ul class="steps-list">${stepsList.join('')}</ul>` : ''}${chips.map(c => `<div class="chips-container"><div class="chips-title">${c.title}</div>${c.list.map(x => `<div class="chip">${safeString(x)}</div>`).join('')}</div>`).join('')}</div>`;
-                    cardCount++;
-                }
-            });
-
-            if (cardCount === 0) {
-                container.innerHTML = pageHeader(title, icon, 0, isCached) + `<p style="text-align:center; margin-top:20px;">اطلاعاتی برای نمایش وجود ندارد. ساختار داده ممکن است تغییر کرده باشد.</p>`;
-            } else {
                 container.innerHTML = html;
+                window.scrollTo(0, 0);
             }
-            window.scrollTo(0, 0);
-        }
+        };
+
+        // ==================== رویدادها ====================
+        window.addEventListener('popstate', (e) => {
+            const state = e.state;
+            if (!state || state.page === 'home') {
+                Navigation.goHome(false);
+            } else if (state.page === 'detail') {
+                if (state.type === 'taxi') { Pages.showTaxi(false); return; }
+                if (state.type === 'static') { Navigation.goHome(false); return; }
+                const menuItem = MainMenu.find(state.hash);
+                if (menuItem) {
+                    if (menuItem.type === 'static' || menuItem.type === 'link') {
+                        Utils.toast(menuItem.staticMsg || 'این بخش در دسترس نیست');
+                        Navigation.goHome(false);
+                    } else if (menuItem.type === 'taxi') {
+                        Pages.showTaxi(false);
+                    } else {
+                        Data.load(menuItem.file, menuItem.title, menuItem.icon, menuItem.type, menuItem.hash, false);
+                    }
+                } else {
+                    Navigation.goHome(false);
+                }
+            }
+        });
+
+        document.getElementById('nav-home').addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!Navigation.isHome()) Navigation.goHome(true);
+        });
+
+        // Back to top
+        window.addEventListener('scroll', () => {
+            backToTopBtn.classList.toggle('visible', window.scrollY > 400);
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
 
         // ==================== شروع ====================
-        cleanupExpiredCache();
-        
-        // ✅ مدیریت hash اولیه + replaceState
-        if (window.location.hash && window.location.hash !== '#') {
-            const hash = window.location.hash.replace('#', '');
-            const menuItem = mainMenu.find(m => m.hash === hash);
-            if (menuItem) {
-                history.replaceState({ page: 'detail', file: menuItem.file, type: menuItem.type, hash: menuItem.hash }, menuItem.title, `#${menuItem.hash}`);
-                loadData(menuItem.file, menuItem.title, menuItem.icon, menuItem.type, menuItem.hash, false);
-            } else {
-                history.replaceState({ page: 'home' }, 'شیراز مدیکال', '#');
-                goHome(false);
+        (function init() {
+            Cache.cleanup();
+
+            const initialHash = window.location.hash;
+            if (initialHash && initialHash !== '#') {
+                const hash = initialHash.replace('#', '');
+                const menuItem = MainMenu.find(hash);
+
+                if (menuItem) {
+                    if (menuItem.type === 'static' || menuItem.type === 'link') {
+                        history.replaceState({ page: 'home' }, CONFIG.APP_NAME, '#');
+                        Navigation.goHome(false);
+                        setTimeout(() => Utils.toast(menuItem.staticMsg || 'این بخش در دسترس نیست'), 300);
+                    } else if (menuItem.type === 'taxi') {
+                        history.replaceState({ page: 'detail', type: 'taxi', hash: 'taxi' }, 'درخواست تاکسی', '#taxi');
+                        Pages.showTaxi(false);
+                    } else {
+                        history.replaceState({ page: 'detail', file: menuItem.file, type: menuItem.type, hash: menuItem.hash }, menuItem.title, `#${menuItem.hash}`);
+                        Data.load(menuItem.file, menuItem.title, menuItem.icon, menuItem.type, menuItem.hash, false);
+                    }
+                    return;
+                }
             }
-        } else {
-            history.replaceState({ page: 'home' }, 'شیراز مدیکال', '#');
-            goHome(false);
-        }
+
+            history.replaceState({ page: 'home' }, CONFIG.APP_NAME, '#');
+            Navigation.goHome(false);
+        })();
     </script>
 </body>
 </html>
