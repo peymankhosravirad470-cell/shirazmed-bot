@@ -1,0 +1,67 @@
+[
+  {
+    "category_fa": "شکایات درمانی و بیمارستانی",
+    "category_ar": "الشكاوى العلاجية والمستشفيات",
+    "category_en": "Medical & Hospital Complaints",
+    "department_fa": "معاونت درمان دانشگاه علوم پزشکی شیراز",
+    "department_ar": "معاونية العلاج لجامعة شيراز للعلوم الطبية",
+    "department_en": "Deputy of Treatment, Shiraz University of Medical Sciences",
+    "phone": "190",
+    "email": "treatment@sums.ac.ir",
+    "working_hours_fa": "۲۴ ساعته (پاسخگویی تلفنی)",
+    "working_hours_ar": "٢٤ ساعة",
+    "working_hours_en": "24 Hours"
+  },
+  {
+    "category_fa": "شکایات دارویی و داروخانه‌ها",
+    "category_ar": "الشكاوى الدوائية والصيدليات",
+    "category_en": "Pharmaceutical & Pharmacy Complaints",
+    "department_fa": "معاونت غذا و دارو دانشگاه علوم پزشکی شیراز",
+    "department_ar": "معاونية الغذاء والدواء",
+    "department_en": "Deputy of Food and Drug, SUMS",
+    "phone": "190",
+    "email": "fdo@sums.ac.ir",
+    "working_hours_fa": "شنبه تا چهارشنبه ۸:۰۰ الی ۱۴:۰۰",
+    "working_hours_ar": "السبت إلى الأربعاء ٨:٠٠ حتى ١٤:٠٠",
+    "working_hours_en": "Sat-Wed 8:00 AM - 2:00 PM"
+  },
+  {
+    "category_fa": "شکایات از مراکز درمانی خصوصی و پزشکان",
+    "category_ar": "الشكاوى من المراكز الخاصة والأطباء",
+    "category_en": "Complaints Against Private Centers & Doctors",
+    "department_fa": "سازمان نظام پزشکی استان فارس",
+    "department_ar": "منظمة النظام الطبي لمحافظة فارس",
+    "department_en": "Fars Medical Council",
+    "phone": "07132333010",
+    "email": "info@irimc.org",
+    "working_hours_fa": "شنبه تا چهارشنبه ۸:۰۰ الی ۱۴:۰۰",
+    "working_hours_ar": "السبت إلى الأربعاء ٨:٠٠ حتى ١٤:٠٠",
+    "working_hours_en": "Sat-Wed 8:00 AM - 2:00 PM"
+  },
+  {
+    "category_fa": "شکایات بیمه‌ای (تأمین اجتماعی و سلامت)",
+    "category_ar": "الشكاوى التأمينية",
+    "category_en": "Insurance Complaints",
+    "department_fa": "اداره کل بیمه سلامت استان فارس / مدیریت درمان تأمین اجتماعی",
+    "department_ar": "إدارة التأمين الصحي / إدارة علاج التأمين الاجتماعي",
+    "department_en": "Health Insurance / Social Security Treatment Management",
+    "phone": "1666 / 1420",
+    "email": "info@ihio.gov.ir",
+    "working_hours_fa": "شنبه تا چهارشنبه ۸:۰۰ الی ۱۴:۰۰",
+    "working_hours_ar": "السبت إلى الأربعاء ٨:٠٠ حتى ١٤:٠٠",
+    "working_hours_en": "Sat-Wed 8:00 AM - 2:00 PM"
+  },
+  {
+    "category_fa": "شکایات مربوط به گردشگری و اقامت",
+    "category_ar": "شكاوى السياحة والإقامة",
+    "category_en": "Tourism & Accommodation Complaints",
+    "department_fa": "سامانه پاسخگویی به شکایات وزارت میراث فرهنگی، گردشگری و صنایع دستی",
+    "department_ar": "نظام الرد على الشكاوى لوزارة التراث الثقافي والسياحة",
+    "department_en": "Ministry of Cultural Heritage & Tourism Complaint System",
+    "phone": "09629",
+    "email": "info@mcth.ir",
+    "working_hours_fa": "۲۴ ساعته",
+    "working_hours_ar": "٢٤ ساعة",
+    "working_hours_en": "24 Hours"
+  }
+]
