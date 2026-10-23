@@ -54,20 +54,10 @@
             font-size: 28px;
         }
 
-        .header-title {
-            font-size: 22px;
-            font-weight: 800;
-        }
+        .header-title { font-size: 22px; font-weight: 800; }
+        .header-subtitle { font-size: 13px; opacity: 0.9; margin-top: 4px; }
 
-        .header-subtitle {
-            font-size: 13px;
-            opacity: 0.9;
-            margin-top: 4px;
-        }
-
-        .container {
-            padding: 20px;
-        }
+        .container { padding: 20px; }
 
         .hero-text {
             text-align: center;
@@ -77,6 +67,7 @@
             line-height: 1.8;
         }
 
+        /* استایل‌های منوی اصلی */
         .grid-menu {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -86,7 +77,7 @@
         .menu-card {
             background-color: var(--card-bg);
             border-radius: 20px;
-            padding: 24px 12px;
+            padding: 16px 12px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -98,16 +89,14 @@
             cursor: pointer;
         }
 
-        .menu-card:active {
-            transform: scale(0.95);
-        }
+        .menu-card:active { transform: scale(0.95); }
 
         .menu-icon {
-            font-size: 36px;
+            font-size: 32px;
             margin-bottom: 12px;
             background: #F0FDFA;
-            width: 64px;
-            height: 64px;
+            width: 56px;
+            height: 56px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -115,51 +104,67 @@
             color: var(--primary-color);
         }
 
-        .menu-title {
-            font-size: 15px;
-            font-weight: 700;
+        .menu-title { font-size: 14px; font-weight: 700; }
+
+        /* استایل‌های لیست دیتا */
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .back-btn {
+            background: white;
+            border: 1px solid #E2E8F0;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
-        .menu-subtitle {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-top: 6px;
+        .page-title { font-size: 18px; font-weight: 800; color: var(--primary-color); }
+
+        .list-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #E2E8F0;
         }
+
+        .list-card h3 { font-size: 15px; margin-bottom: 8px; color: var(--primary-color); }
+        .list-card p { font-size: 13px; color: var(--text-muted); margin-bottom: 4px; line-height: 1.6; }
+
+        /* لودینگ و خطا */
+        .loader {
+            width: 40px; height: 40px; border: 4px solid #E2E8F0; border-top: 4px solid var(--primary-color); border-radius: 50%; margin: 40px auto; animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            position: fixed; bottom: 0; left: 0; right: 0;
             background-color: rgba(255, 255, 255, 0.95);
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 0;
+            display: flex; justify-content: space-around; padding: 12px 0;
             box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
             border-top: 1px solid #E2E8F0;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
+            border-top-left-radius: 20px; border-top-right-radius: 20px;
+            z-index: 100;
         }
 
         .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--text-muted);
-            font-size: 11px;
-            gap: 4px;
-            cursor: pointer;
-            padding: 4px 16px;
+            display: flex; flex-direction: column; align-items: center;
+            color: var(--text-muted); font-size: 11px; gap: 4px; cursor: pointer; padding: 4px 16px;
         }
 
-        .nav-item.active {
-            color: var(--primary-color);
-        }
-
-        .nav-item svg {
-            width: 24px;
-            height: 24px;
-        }
+        .nav-item.active { color: var(--primary-color); }
+        .nav-item svg { width: 24px; height: 24px; }
     </style>
 </head>
 <body>
@@ -174,52 +179,10 @@
         </div>
     </header>
 
-    <div class="container">
-        <p class="hero-text">
-            🌟 با یک لمس، به تمام خدمات پزشکی، اقامتی و گردشگری شیراز دسترسی داشته باشید.
-        </p>
-
-        <div class="grid-menu">
-            <div class="menu-card" onclick="alert('به زودی')">
-                <div class="menu-icon">🏥</div>
-                <div class="menu-title">بیمارستان‌ها</div>
-                <div class="menu-subtitle">لیست مراکز درمانی</div>
-            </div>
-            
-            <div class="menu-card" onclick="alert('به زودی')">
-                <div class="menu-icon">📅</div>
-                <div class="menu-title">رزرو نوبت</div>
-                <div class="menu-subtitle">رزرو آنلاین پزشک</div>
-            </div>
-
-            <div class="menu-card" onclick="alert('به زودی')">
-                <div class="menu-icon">🛡️</div>
-                <div class="menu-title">بیمه‌ها</div>
-                <div class="menu-subtitle">پوشش‌های بیمه‌ای</div>
-            </div>
-
-            <div class="menu-card" onclick="alert('به زودی')">
-                <div class="menu-icon">🚕</div>
-                <div class="menu-title">حمل و نقل</div>
-                <div class="menu-subtitle">تاکسی و مترو</div>
-            </div>
-
-            <div class="menu-card" onclick="alert('به زودی')">
-                <div class="menu-icon">🌐</div>
-                <div class="menu-title">مترجم همراه</div>
-                <div class="menu-subtitle">ارتباط با پزشک</div>
-            </div>
-
-            <div class="menu-card" onclick="alert('به زودی')">
-                <div class="menu-icon">🏛️</div>
-                <div class="menu-title">گردشگری</div>
-                <div class="menu-subtitle">جاذبه‌های شیراز</div>
-            </div>
-        </div>
-    </div>
+    <div class="container" id="app-content"></div>
 
     <div class="bottom-nav">
-        <div class="nav-item active">
+        <div class="nav-item active" onclick="goHome()">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
             <span>خانه</span>
         </div>
@@ -229,5 +192,93 @@
         </div>
     </div>
 
+    <script>
+        const GITHUB_BASE = "https://raw.githubusercontent.com/peymanrad/shirazmedical/main/data";
+        const container = document.getElementById('app-content');
+
+        // تعریف منوها بر اساس ربات و فایل‌های گیت‌هاب
+        const menuItems = [
+            { title: "بیمارستان‌ها", icon: "🏥", file: "hospitals2.json", type: "hospital" },
+            { title: "بیمه‌ها", icon: "🛡️", file: "insurances.json", type: "insurance" },
+            { title: "پزشکان", icon: "👨‍⚕️", file: "doctors/doctors.json", type: "doctor" },
+            { title: "پیراپزشکی", icon: "🩺", file: "paramedical.json", type: "generic" },
+            { title: "اقامتگاه‌ها", icon: "🏨", file: "hotels.json", type: "generic" },
+            { title: "حمل و نقل", icon: "🚕", file: "transport.json", type: "generic" },
+            { title: "گردشگری", icon: "🏛️", file: "leisure_city.json", type: "generic" },
+            { title: "خانه سالمندان", icon: "👵", file: "elderly_homes.json", type: "generic" },
+            { title: "شکایات", icon: "📝", file: "complaints.json", type: "generic" }
+        ];
+
+        // 1. نمایش صفحه اصلی
+        function goHome() {
+            let menuHtml = "";
+            menuItems.forEach((item, index) => {
+                menuHtml += `
+                    <div class="menu-card" onclick="loadData('${item.file}', '${item.title}', '${item.icon}', '${item.type}')">
+                        <div class="menu-icon">${item.icon}</div>
+                        <div class="menu-title">${item.title}</div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = `
+                <p class="hero-text">
+                    🌟 با یک لمس، به تمام خدمات پزشکی، اقامتی و گردشگری شیراز دسترسی داشته باشید.
+                </p>
+                <div class="grid-menu">${menuHtml}</div>
+            `;
+        }
+
+        // 2. تابع عمومی برای لود کردن هر فایلی از گیت‌هاب
+        async function loadData(fileName, pageTitle, icon, type) {
+            container.innerHTML = `<div class="loader"></div>`;
+
+            try {
+                const response = await fetch(`${GITHUB_BASE}/${fileName}`);
+                if (!response.ok) throw new Error("File not found");
+                const data = await response.json();
+
+                let html = `
+                    <div class="page-header">
+                        <button class="back-btn" onclick="goHome()">🔙</button>
+                        <div class="page-title">${icon} ${pageTitle}</div>
+                    </div>
+                `;
+
+                // بررسی اینکه دیتا آرایه است یا آبجکت
+                let items = Array.isArray(data) ? data : (data.items || data.data || [data]);
+
+                items.forEach(item => {
+                    // استخراج نام و جزئیات بر اساس نوع دیتا
+                    let name = item.name_fa || item.title || item.name || 'بدون نام';
+                    let address = item.address_fa || item.address || '';
+                    let phone = item.phone || item.phone_fa || item.main_phone_fa || '';
+                    let website = item.website_fa || item.website || '';
+
+                    html += `
+                        <div class="list-card">
+                            <h3>${name}</h3>
+                            ${address ? `<p>📍 ${address}</p>` : ''}
+                            ${phone ? `<p>📞 ${phone}</p>` : ''}
+                            ${website ? `<p>🌐 ${website}</p>` : ''}
+                        </div>
+                    `;
+                });
+
+                container.innerHTML = html;
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="page-header">
+                        <button class="back-btn" onclick="goHome()">🔙</button>
+                        <div class="page-title">${icon} ${pageTitle}</div>
+                    </div>
+                    <p style="text-align:center; color:#DC2626; margin-top:20px;">خطا در اتصال یا عدم وجود فایل (${fileName}).</p>
+                `;
+            }
+        }
+
+        // اجرای اولیه
+        goHome();
+    </script>
 </body>
 </html>
