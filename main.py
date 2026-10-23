@@ -197,7 +197,8 @@ def build_application() -> Application:
     if WEBHOOK_URL:
         logger.info(f"🌐 حالت Webhook — URL: {WEBHOOK_URL}")
     else:
-        # ✅ اصلاح: آدرس BotGate باید شامل توکن ربات باشد
+        # ✅ تنظیمات BotGate برای Polling
+        # طبق مستندات، BotGate نیاز به آدرس دقیق با توکن دارد
         builder = (
             builder
             .base_url(f"{BOTGATE_BASE_URL}/bot{BOT_TOKEN}")
@@ -247,4 +248,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main() 
+    main()
