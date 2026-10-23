@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>شیراز مدیکال</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <style>
+        :root {
+            --primary-color: #0E7490;
+            --bg-color: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-color: #1E293B;
+            --text-muted: #64748B;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Vazirmatn', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding-bottom: 70px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #06B6D4 100%);
+            color: white;
+            padding: 24px 20px;
+            border-bottom-left-radius: 28px;
+            border-bottom-right-radius: 28px;
+            box-shadow: 0 4px 12px rgba(14, 116, 144, 0.2);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-placeholder {
+            width: 56px;
+            height: 56px;
+            background-color: white;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .header-title {
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .header-subtitle {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        .hero-text {
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .grid-menu {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .menu-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 24px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            border: 1px solid #E2E8F0;
+            transition: transform 0.1s;
+            cursor: pointer;
+        }
+
+        .menu-card:active {
+            transform: scale(0.95);
+        }
+
+        .menu-icon {
+            font-size: 36px;
+            margin-bottom: 12px;
+            background: #F0FDFA;
+            width: 64px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: var(--primary-color);
+        }
+
+        .menu-title {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .menu-subtitle {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            border-top: 1px solid #E2E8F0;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 11px;
+            gap: 4px;
+            cursor: pointer;
+            padding: 4px 16px;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+
+        .nav-item svg {
+            width: 24px;
+            height: 24px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="logo-placeholder">🏥</div>
+            <div>
+                <div class="header-title">شیراز مدیکال</div>
+                <div class="header-subtitle">Shiraz Medical | همراه شما در سفر سلامت</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <p class="hero-text">
+            🌟 با یک لمس، به تمام خدمات پزشکی، اقامتی و گردشگری شیراز دسترسی داشته باشید.
+        </p>
+
+        <div class="grid-menu">
+            <div class="menu-card" onclick="alert('به زودی')">
+                <div class="menu-icon">🏥</div>
+                <div class="menu-title">بیمارستان‌ها</div>
+                <div class="menu-subtitle">لیست مراکز درمانی</div>
+            </div>
+            
+            <div class="menu-card" onclick="alert('به زودی')">
+                <div class="menu-icon">📅</div>
+                <div class="menu-title">رزرو نوبت</div>
+                <div class="menu-subtitle">رزرو آنلاین پزشک</div>
+            </div>
+
+            <div class="menu-card" onclick="alert('به زودی')">
+                <div class="menu-icon">🛡️</div>
+                <div class="menu-title">بیمه‌ها</div>
+                <div class="menu-subtitle">پوشش‌های بیمه‌ای</div>
+            </div>
+
+            <div class="menu-card" onclick="alert('به زودی')">
+                <div class="menu-icon">🚕</div>
+                <div class="menu-title">حمل و نقل</div>
+                <div class="menu-subtitle">تاکسی و مترو</div>
+            </div>
+
+            <div class="menu-card" onclick="alert('به زودی')">
+                <div class="menu-icon">🌐</div>
+                <div class="menu-title">مترجم همراه</div>
+                <div class="menu-subtitle">ارتباط با پزشک</div>
+            </div>
+
+            <div class="menu-card" onclick="alert('به زودی')">
+                <div class="menu-icon">🏛️</div>
+                <div class="menu-title">گردشگری</div>
+                <div class="menu-subtitle">جاذبه‌های شیراز</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item active">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+            <span>خانه</span>
+        </div>
+        <div class="nav-item">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+            <span>پروفایل</span>
+        </div>
+    </div>
+
+</body>
+</html>
