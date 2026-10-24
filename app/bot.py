@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
 from typing import Optional
 
@@ -15,6 +16,7 @@ from telegram.ext import (
     filters,
 )
 
+from app import runtime
 from config import settings
 from app.handlers.start import (
     start_handler,
@@ -23,7 +25,7 @@ from app.handlers.start import (
     change_language_handler,
     back_to_main_handler,
 )
-from app.handlers.callbacks import main_menu_callback
+from app.handlers.callbacks import main_menu_callback, medical_browse_callback
 from app.handlers.booking import booking_conversation_handler
 from app.handlers.survey import survey_conversation_handler
 from app.handlers.companion import companion_conversation_handler  # 🆕 اضافه شد
@@ -84,8 +86,9 @@ MENU_CALLBACKS: tuple[str, ...] = (
     "rights",
     "patient_guide",
     "complaints",
-    "complaints_iranian",   # 🆕
-    "complaints_foreign",   # 🆕
+    "complaints_menu",      # 🆕 فیکس: دکمه «راهنمای ثبت شکایت» قبلاً هندل نمی‌شد
+    "complaints_iranian",
+    "complaints_foreign",
     "support",
     "start_survey",         # 🆕 دکمه شروع نظرسنجی
 )
@@ -138,8 +141,18 @@ async def global_error_handler(
 
 
 # ---------------------------------------------------------------------------
-# ثبت هندلرها
+# ساخت اپلیکیشن
 # ---------------------------------------------------------------------------
+
+def _validate_settings() -> None:
+    """اعتبارسنجی تنظیمات ضروری قبل از ساخت اپلیکیشن."""
+    token: Optional[str] = getattr(settings, "active_token", None)
+    if not token or not isinstance(token, str) or not token.strip():
+        raise RuntimeError(
+            "BOT_TOKEN (settings.active_token) is missing or empty. "
+            "Cannot start the bot."
+        )
+
 
 def _register_handlers(application: Application) -> None:
     """ثبت همه handlerها روی اپلیکیشن.
@@ -193,6 +206,14 @@ def _register_handlers(application: Application) -> None:
         CallbackQueryHandler(main_menu_callback, pattern=MENU_PATTERN)
     )
 
+    # 6) 🆕 مرور پزشکان واقعی (دکمه «پزشکی») + دکمه شمارنده صفحه (noop_page)
+    application.add_handler(
+        CallbackQueryHandler(
+            medical_browse_callback,
+            pattern=r"^med_(page_\d+|spec_[a-z]+_\d+|back)$|^noop_page$",
+        )
+    )
+
     logger.info(
         "Handlers registered: start, help, language, back_main, "
         "survey_conversation, companion_conversation, booking_conversation, "
@@ -201,49 +222,27 @@ def _register_handlers(application: Application) -> None:
     )
 
 
-# ---------------------------------------------------------------------------
-# ساخت اپلیکیشن — حالا دو پلتفرمی: بله و تلگرام
-# ---------------------------------------------------------------------------
-
-def build_application(platform: str = "bale") -> Application:
-    """ساخت اپلیکیشن برای بله یا تلگرام.
-
-    Args:
-        platform: "bale" (پیش‌فرض) یا "telegram".
+def build_application() -> Application:
+    """ساخت اپلیکیشن تلگرام/بله با تنظیمات فعلی.
 
     Raises:
-        RuntimeError: اگر توکنِ پلتفرم مربوطه در env تنظیم نشده باشد،
-            یا نام پلتفرم نامعتبر باشد.
+        RuntimeError: اگر توکن تنظیم نشده باشد.
     """
-    token: Optional[str]
-    base_url: Optional[str]
-    base_file_url: Optional[str]
+    _validate_settings()
 
-    if platform == "bale":
-        token = settings.bale_bot_token
-        base_url = "https://tapi.bale.ai/bot"
-        base_file_url = "https://tapi.bale.ai/file/bot"
-    elif platform == "telegram":
-        token = settings.telegram_bot_token
-        base_url = settings.telegram_bridge_url or None
-        base_file_url = settings.telegram_bridge_file_url or None
-    else:
-        raise RuntimeError(f"پلتفرم نامعتبر: {platform!r} (مقادیر مجاز: bale, telegram)")
+    async def _post_init(application: Application) -> None:
+        """🆕 فیکس پرداخت: capture کردن event loop تا سرور health (ترد جدا) بتواند
+        پیام‌های ربات را برای callback زرین‌پال ارسال کند (app/runtime.py)."""
+        runtime.bind_application(application)
+        logger.info("Post-init: runtime bridge bound (payment callback active).")
 
-    if not token or not token.strip():
-        raise RuntimeError(
-            f"توکن برای پلتفرم '{platform}' در env تنظیم نشده. "
-            f"{'BALE_BOT_TOKEN' if platform == 'bale' else 'TELEGRAM_BOT_TOKEN'} را بررسی کنید."
-        )
-
-    builder = ApplicationBuilder().token(token)
-    if base_url:
-        builder.base_url(base_url)
-    if base_file_url:
-        builder.base_file_url(base_file_url)
+    builder = ApplicationBuilder().token(settings.active_token)
+    builder.base_url("https://tapi.bale.ai/bot")
+    builder.base_file_url("https://tapi.bale.ai/file/bot")
+    builder.post_init(_post_init)
     application = builder.build()
 
     _register_handlers(application)
 
-    logger.info("Application built successfully for platform=%s.", platform)
+    logger.info("Application built successfully.")
     return application
