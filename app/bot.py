@@ -138,18 +138,8 @@ async def global_error_handler(
 
 
 # ---------------------------------------------------------------------------
-# ساخت اپلیکیشن
+# ثبت هندلرها
 # ---------------------------------------------------------------------------
-
-def _validate_settings() -> None:
-    """اعتبارسنجی تنظیمات ضروری قبل از ساخت اپلیکیشن."""
-    token: Optional[str] = getattr(settings, "active_token", None)
-    if not token or not isinstance(token, str) or not token.strip():
-        raise RuntimeError(
-            "BOT_TOKEN (settings.active_token) is missing or empty. "
-            "Cannot start the bot."
-        )
-
 
 def _register_handlers(application: Application) -> None:
     """ثبت همه handlerها روی اپلیکیشن.
@@ -211,20 +201,49 @@ def _register_handlers(application: Application) -> None:
     )
 
 
-def build_application() -> Application:
-    """ساخت اپلیکیشن تلگرام/بله با تنظیمات فعلی.
+# ---------------------------------------------------------------------------
+# ساخت اپلیکیشن — حالا دو پلتفرمی: بله و تلگرام
+# ---------------------------------------------------------------------------
+
+def build_application(platform: str = "bale") -> Application:
+    """ساخت اپلیکیشن برای بله یا تلگرام.
+
+    Args:
+        platform: "bale" (پیش‌فرض) یا "telegram".
 
     Raises:
-        RuntimeError: اگر توکن تنظیم نشده باشد.
+        RuntimeError: اگر توکنِ پلتفرم مربوطه در env تنظیم نشده باشد،
+            یا نام پلتفرم نامعتبر باشد.
     """
-    _validate_settings()
+    token: Optional[str]
+    base_url: Optional[str]
+    base_file_url: Optional[str]
 
-    builder = ApplicationBuilder().token(settings.active_token)
-    builder.base_url("https://tapi.bale.ai/bot")
-    builder.base_file_url("https://tapi.bale.ai/file/bot")
+    if platform == "bale":
+        token = settings.bale_bot_token
+        base_url = "https://tapi.bale.ai/bot"
+        base_file_url = "https://tapi.bale.ai/file/bot"
+    elif platform == "telegram":
+        token = settings.telegram_bot_token
+        base_url = settings.telegram_bridge_url or None
+        base_file_url = settings.telegram_bridge_file_url or None
+    else:
+        raise RuntimeError(f"پلتفرم نامعتبر: {platform!r} (مقادیر مجاز: bale, telegram)")
+
+    if not token or not token.strip():
+        raise RuntimeError(
+            f"توکن برای پلتفرم '{platform}' در env تنظیم نشده. "
+            f"{'BALE_BOT_TOKEN' if platform == 'bale' else 'TELEGRAM_BOT_TOKEN'} را بررسی کنید."
+        )
+
+    builder = ApplicationBuilder().token(token)
+    if base_url:
+        builder.base_url(base_url)
+    if base_file_url:
+        builder.base_file_url(base_file_url)
     application = builder.build()
 
     _register_handlers(application)
 
-    logger.info("Application built successfully.")
+    logger.info("Application built successfully for platform=%s.", platform)
     return application
