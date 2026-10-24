@@ -93,6 +93,11 @@ class Settings:
     )
     bot_username: str = field(default_factory=lambda: os.getenv("BOT_USERNAME", "ShirazMedBot"))
 
+    # آدرس عمومی اپ (برای callback زرین‌پال). پیش‌فرض: دامنه استاندارد لیارا
+    public_base_url: str = field(
+        default_factory=lambda: os.getenv("PUBLIC_BASE_URL", "https://shirazmedical.iran.liara.run").rstrip("/")
+    )
+
     # 🆕 آدرس پل (bridge) برای دسترسی به API تلگرام از خارج از ایران
     telegram_bridge_url: str = field(
         default_factory=lambda: os.getenv("TELEGRAM_BRIDGE_URL", "")
@@ -116,22 +121,4 @@ class Settings:
     @property
     def platform(self) -> str:
         """نام پلتفرم فعال بر اساس توکن موجود."""
-        return "bale" if self.bale_bot_token else "telegram"
-
-    def log_startup_summary(self) -> None:
-        """مقادیر غیرحساس را کامل و مقادیر حساس را ماسک‌شده لاگ می‌کند."""
-        logger.info("%s v%s — در حال راه‌اندازی", PROJECT_NAME, VERSION)
-        logger.info("پلتفرم فعال: %s", self.platform)
-        logger.info("BOT_USERNAME: %s", self.bot_username)
-        logger.info("ADMIN_CHAT_ID: %s", self.admin_chat_id if self.admin_chat_id else "(تنظیم نشده)")
-        logger.info("ZARINPAL_SANDBOX: %s", self.zarinpal_sandbox)
-        logger.info("TIMEZONE_OFFSET_HOURS: %s", self.timezone_offset_hours)
-        logger.info("BALE_BOT_TOKEN: %s", _mask(self.bale_bot_token))
-        logger.info("TELEGRAM_BOT_TOKEN: %s", _mask(self.telegram_bot_token))
-        logger.info("TELEGRAM_BRIDGE_URL: %s", self.telegram_bridge_url or "(تنظیم نشده)")
-        logger.info("AVALAI_API_KEY: %s", _mask(self.avalai_api_key))
-        logger.info("ZARINPAL_MERCHANT_ID: %s", _mask(self.zarinpal_merchant_id))
-
-
-# ─── نمونه‌ی singleton — در کل پروژه از همین import شود ───
-settings = Settings()
+        return "bale" if self.bale_bot_token else
