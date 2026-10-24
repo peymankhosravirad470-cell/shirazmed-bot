@@ -9,7 +9,16 @@ import threading
 from datetime import datetime, timedelta
 from typing import Any, Optional
 
+import jdatetime
+
+from config import settings
+
 logger = logging.getLogger(__name__)
+
+# ─── نام روزهای هفته شمسی (شنبه = ایندکس 0) ───
+WEEKDAYS_FA: tuple[str, ...] = (
+    "شنبه", "یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنجشنبه", "جمعه",
+)
 
 
 # ---------------------------------------------------------------------------
@@ -57,7 +66,27 @@ def _get_appointments_path() -> str:
 # ---------------------------------------------------------------------------
 
 def _now() -> datetime:
-    return datetime.now()
+    """زمان فعلی به وقت ایران (سرور لیارا UTC است؛ بدون آفست، اسلات‌ها نصف‌روز خطا می‌کردند)."""
+    return datetime.utcnow() + timedelta(hours=settings.timezone_offset_hours)
+
+
+def format_jalali(date_str: str) -> str:
+    """تبدیل تاریخ ISO میلادی (2026-10-25) به نمایش شمسی (۱۴۰۵/۰۸/۰۳) با نام روز.
+
+    ورودی نامعتبر → همان رشته ورودی برگردانده می‌شود.
+    """
+    try:
+        g = datetime.strptime(date_str, "%Y-%m-%d").date()
+        j = jdatetime.date.fromgregorian(date=g)
+        weekday_fa = WEEKDAYS_FA[(g.weekday() + 2) % 7]
+        return f"{weekday_fa} {j.strftime('%Y/%m/%d')}"
+    except (ValueError, TypeError):
+        return date_str
+
+
+def get_next_14_days_display(include_today: bool = False) -> list[tuple[str, str]]:
+    """۱۴ روز آینده: لیست (تاریخ ISO برای callback، برچسب شمسی برای نمایش دکمه)."""
+    return [(iso, format_jalali(iso)) for iso in get_next_14_days(include_today=include_today)]
 
 
 def _parse_expires_at(appointment: dict[str, Any]) -> Optional[datetime]:
@@ -95,8 +124,15 @@ def _sanitize_items(items: Any) -> list[dict[str, Any]]:
     return [sanitized for item in items if (sanitized := _sanitize_item(item))]
 
 
-def _is_slot_booked(item: dict[str, Any], date: str, time: str) -> bool:
+def _is_slot_booked(item: dict[str, Any], date: str, time: str, doctor_key: Optional[str] = None) -> bool:
+    """بررسی رزروشدن اسلات.
+
+    🆕 فیکس: اگر doctor_key داده شود، اسلات‌ها برای هر پزشک جداگانه چک می‌شوند —
+    قبلاً رزرو یک پزشک، همان ساعت را برای بقیه پزشکان هم می‌بست!
+    """
     if item.get("date") != date or item.get("time") != time:
+        return False
+    if doctor_key is not None and item.get("doctor_key") != doctor_key:
         return False
     if item.get("status") not in VALID_BOOKED_STATUSES:
         return False
@@ -251,10 +287,10 @@ def add_appointment(
         appointments = _read_raw()
 
         for existing in appointments:
-            if _is_slot_booked(existing, date, time):
+            if _is_slot_booked(existing, date, time, appointment.get("doctor_key")):
                 logger.info(
-                    "add_appointment: slot already taken date=%s time=%s",
-                    date, time,
+                    "add_appointment: slot already taken date=%s time=%s doctor=%s",
+                    date, time, appointment.get("doctor_key"),
                 )
                 return False
 
@@ -328,7 +364,8 @@ def get_next_14_days(include_today: bool = False) -> list[str]:
     ]
 
 
-def get_available_times(date: str) -> list[str]:
+def get_available_times(date: str, doctor_key: Optional[str] = None) -> list[str]:
+    """ساعت‌های خالی یک تاریخ (و در صورت ارسال، برای یک پزشک مشخص)."""
     if not date:
         return list(AVAILABLE_TIMES)
 
@@ -337,7 +374,7 @@ def get_available_times(date: str) -> list[str]:
         booked = {
             appt.get("time")
             for appt in appointments
-            if _is_slot_booked(appt, date, appt.get("time"))
+            if _is_slot_booked(appt, date, appt.get("time"), doctor_key)
         }
         return [slot for slot in AVAILABLE_TIMES if slot not in booked]
     except Exception as error:
@@ -345,8 +382,8 @@ def get_available_times(date: str) -> list[str]:
         return list(AVAILABLE_TIMES)
 
 
-def is_time_available(date: str, time: str) -> bool:
-    return time in get_available_times(date)
+def is_time_available(date: str, time: str, doctor_key: Optional[str] = None) -> bool:
+    return time in get_available_times(date, doctor_key)
 
 
 def get_user_appointments(user_id: int) -> list[dict[str, Any]]:
