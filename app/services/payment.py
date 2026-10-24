@@ -89,8 +89,18 @@ def _find_transaction(transactions: list[dict[str, Any]], authority: str) -> dic
     return None
 
 
-def request_payment(user_id: int, amount: int, description: str, callback_url: str) -> dict[str, Any]:
-    """درخواست ایجاد یک پرداخت جدید از زرین‌پال؛ مبلغ به تومان دریافت و به ریال تبدیل می‌شود."""
+def request_payment(
+    user_id: int,
+    amount: int,
+    description: str,
+    callback_url: str,
+    extra: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """درخواست ایجاد یک پرداخت جدید از زرین‌پال؛ مبلغ به تومان دریافت و به ریال تبدیل می‌شود.
+
+    🆕 extra: اطلاعات اضافی (date/time/doctor_key/doctor_name/full_name) که در تراکنش
+    محلی ذخیره می‌شوند تا هندلر callback بعد از پرداخت بتواند نوبت متناظر را پیدا کند.
+    """
     payload = {
         "merchant_id": settings.zarinpal_merchant_id,
         "amount": int(amount) * 10,  # زرین‌پال ریال می‌گیرد
@@ -115,15 +125,16 @@ def request_payment(user_id: int, amount: int, description: str, callback_url: s
     if response.status_code == 200 and data.get("code") == 100:
         authority = data.get("authority", "")
         transactions = _load_transactions(user_id)
-        transactions.append(
-            {
-                "authority": authority,
-                "amount": int(amount),
-                "description": description,
-                "status": "pending",
-                "created_at": datetime.now().isoformat(),
-            }
-        )
+        transaction = {
+            "authority": authority,
+            "amount": int(amount),
+            "description": description,
+            "status": "pending",
+            "created_at": datetime.now().isoformat(),
+        }
+        if extra:
+            transaction.update(extra)
+        transactions.append(transaction)
         _save_transactions(user_id, transactions)
         return {
             "success": True,
