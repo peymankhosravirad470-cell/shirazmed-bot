@@ -12,13 +12,15 @@ from telegram.ext import (
     filters,
 )
 
+from config import settings
+
 logger = logging.getLogger(__name__)
 
 # مراحل گفتگو
 ASK_SATISFACTION, ASK_REASON = range(2)
 
-# آیدی ادمین (طبق دستور پرامپت)
-ADMIN_CHAT_ID = 1967087863
+# 🆕 فیکس: آیدی ادمین دیگر هاردکد نیست — از متغیر محیطی ADMIN_CHAT_ID خوانده می‌شود
+# (قبلاً: ADMIN_CHAT_ID = 1967087863 که امن نبود و قابل تغییر نبود)
 
 
 def _get_survey_keyboard() -> InlineKeyboardMarkup:
@@ -88,18 +90,28 @@ async def receive_reason(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     full_name = user.full_name if user else "بدون نام"
 
     admin_message = (
-        f"🚨 **نارضایتی کاربر**\n\n"
+        f"🚨 <b>نارضایتی کاربر</b>\n\n"
         f"👤 نام: {full_name}\n"
-        f"🆔 آیدی عددی: `{user_id}`\n"
+        f"🆔 آیدی عددی: <code>{user_id}</code>\n"
         f"🌐 یوزرنیم: {username}\n\n"
         f"📝 علت نارضایتی:\n{reason}"
     )
 
+    # 🆕 فیکس: parse_mode از Markdown به HTML تغییر کرد — «**bold**» در Markdown
+    # قدیمی نامعتبر است و پیام ادمین در بله ارسال نمی‌شد.
+    if settings.admin_chat_id is None:
+        logger.warning("ADMIN_CHAT_ID تنظیم نشده است؛ پیام نارضایتی برای ادمین ارسال نشد.")
+        await update.message.reply_text(
+            "از اینکه نظر خود را با ما در میان گذاشتید سپاسگزاریم. تیم پشتیبانی ما به زودی بررسی می‌کند.",
+            reply_markup=None,
+        )
+        return ConversationHandler.END
+
     try:
         await context.bot.send_message(
-            chat_id=ADMIN_CHAT_ID,
+            chat_id=settings.admin_chat_id,
             text=admin_message,
-            parse_mode="Markdown",
+            parse_mode="HTML",
         )
         await update.message.reply_text(
             "از اینکه نظر خود را با ما در میان گذاشتید سپاسگزاریم. تیم پشتیبانی ما به زودی بررسی می‌کند.",
@@ -135,8 +147,10 @@ survey_conversation_handler = ConversationHandler(
             MessageHandler(filters.TEXT & ~filters.COMMAND, receive_reason)
         ],
     },
+    # 🆕 فیکس: قبلاً fallback شامل MessageHandler(TEXT) بود که باعث می‌شد هر متنی
+    # در مرحله اول (سؤال رضایت) مستقیماً به‌عنوان «علت نارضایتی» ثبت شود.
     fallbacks=[
-        MessageHandler(filters.TEXT & ~filters.COMMAND, receive_reason)
+        CallbackQueryHandler(cancel_survey, pattern=r"^survey_cancel$"),
     ],
     allow_reentry=True,
 )
