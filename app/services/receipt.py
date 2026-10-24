@@ -12,6 +12,22 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 
+# 🆕 فیکس بحرانی PDF: بدون arabic_reshaper + python-bidi، حروف فارسی در PDF
+# جدا و معکوس چاپ می‌شدند (مثلاً «شیراز» به‌صورت حروف بریده و از چپ به راست).
+try:
+    import arabic_reshaper
+    from bidi.algorithm import get_display
+
+    def _rtl(text: str) -> str:
+        """آماده‌سازی متن فارسی برای رسم صحیح در reportlab."""
+        try:
+            return get_display(arabic_reshaper.reshape(text))
+        except Exception:
+            return text
+except ImportError:  # pragma: no cover
+    def _rtl(text: str) -> str:
+        return text
+
 _BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 FONT_DIR = os.path.join(_BASE_DIR, "assets", "fonts")
 FONT_PATH = os.path.join(FONT_DIR, "Vazir.ttf")
@@ -19,20 +35,36 @@ FONT_URL = "https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/fonts/ttf/
 FONT_NAME = "Vazir"
 
 _font_registered = False
+_font_failed = False
 
 def _ensure_font() -> bool:
-    global _font_registered
+    global _font_registered, _font_failed
     if _font_registered:
         return True
+    if _font_failed:
+        return False
 
-    os.makedirs(FONT_DIR, exist_ok=True)
+    # 🆕 فیکس: در مخزن، «assets» یک فایل placeholder است نه پوشه —
+    # makedirs خطای [Errno 20] Not a directory می‌داد و PDF کلاً ساخته نمی‌شد.
+    try:
+        if os.path.exists(FONT_DIR) and not os.path.isdir(FONT_DIR):
+            os.remove(FONT_DIR)
+        parent = os.path.dirname(FONT_DIR)
+        if os.path.exists(parent) and not os.path.isdir(parent):
+            os.remove(parent)
+        os.makedirs(FONT_DIR, exist_ok=True)
+    except OSError as error:
+        print(f"Font dir error: {error}")
+        _font_failed = True
+        return False
 
     if not os.path.exists(FONT_PATH):
         try:
-            # دانلود خودکار فونت از یک CDN امن
+            # دانلود خودکار فونت از CDN (یک‌بار در اولین اجرا)
             urllib.request.urlretrieve(FONT_URL, FONT_PATH)
         except Exception as e:
             print(f"Error downloading font: {e}")
+            _font_failed = True
             return False
 
     try:
@@ -40,6 +72,7 @@ def _ensure_font() -> bool:
         _font_registered = True
         return True
     except Exception:
+        _font_failed = True
         return False
 
 POEM = (
@@ -59,7 +92,8 @@ def _draw_rtl_line(c: canvas.Canvas, text: str, x_right: float, y: float, font_s
         c.setFont(FONT_NAME, font_size)
     else:
         c.setFont("Helvetica", font_size)
-    c.drawRightString(x_right, y, text)
+    # 🆕 فیکس: reshape + bidi قبل از رسم — بدون این، متن فارسی بریده و معکوس می‌شود
+    c.drawRightString(x_right, y, _rtl(text))
 
 def generate_receipt_text(appointment_data: Dict[str, Any], user_data: Dict[str, Any]) -> str:
     patient = _safe(appointment_data.get("full_name") or user_data.get("full_name"), "بیمار گرامی")
@@ -99,8 +133,14 @@ def generate_receipt_pdf(
     _ensure_font()
 
     if output_path is None:
-        tracking = _safe(appointment_data.get("tracking_code") or appointment_data.get("id"), "receipt")
-        output_path = os.path.join(_BASE_DIR, "data", "receipts", f"receipt_{tracking}.pdf")
+        # 🆕 فیکس: نام فایل یکتا — قبلاً tracking_code/id وجود نداشت و همه رسیدها
+        # با نام «receipt_receipt.pdf» روی هم overwrite می‌شدند!
+        tracking = _safe(appointment_data.get("tracking_code") or appointment_data.get("id"))
+        user_part = str(appointment_data.get("user_id") or user_data.get("user_id") or "anon")
+        date_part = str(appointment_data.get("date") or "nodate").replace("-", "")
+        time_part = str(appointment_data.get("time") or "").replace(":", "")
+        suffix = tracking if tracking not in ("", "-") else f"{user_part}_{date_part}{time_part}"
+        output_path = os.path.join(_BASE_DIR, "data", "receipts", f"receipt_{suffix}.pdf")
 
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     c = canvas.Canvas(output_path, pagesize=A4)
