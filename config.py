@@ -93,6 +93,14 @@ class Settings:
     )
     bot_username: str = field(default_factory=lambda: os.getenv("BOT_USERNAME", "ShirazMedBot"))
 
+    # 🆕 آدرس پل (bridge) برای دسترسی به API تلگرام از خارج از ایران
+    telegram_bridge_url: str = field(
+        default_factory=lambda: os.getenv("TELEGRAM_BRIDGE_URL", "")
+    )
+    telegram_bridge_file_url: str = field(
+        default_factory=lambda: os.getenv("TELEGRAM_BRIDGE_FILE_URL", "")
+    )
+
     def __post_init__(self) -> None:
         """اعتبارسنجی نهاییِ ترکیب تنظیمات."""
         if not self.bale_bot_token and not self.telegram_bot_token:
@@ -120,6 +128,7 @@ class Settings:
         logger.info("TIMEZONE_OFFSET_HOURS: %s", self.timezone_offset_hours)
         logger.info("BALE_BOT_TOKEN: %s", _mask(self.bale_bot_token))
         logger.info("TELEGRAM_BOT_TOKEN: %s", _mask(self.telegram_bot_token))
+        logger.info("TELEGRAM_BRIDGE_URL: %s", self.telegram_bridge_url or "(تنظیم نشده)")
         logger.info("AVALAI_API_KEY: %s", _mask(self.avalai_api_key))
         logger.info("ZARINPAL_MERCHANT_ID: %s", _mask(self.zarinpal_merchant_id))
 
