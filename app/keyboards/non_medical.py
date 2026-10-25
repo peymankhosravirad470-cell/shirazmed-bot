@@ -18,4 +18,4 @@ def get_non_medical_keyboard(lang: str) -> InlineKeyboardMarkup:
         [InlineKeyboardButton("🏠 خانه مسافر", callback_data="non_tourist_houses")],
         [InlineKeyboardButton("🔙 بازگشت", callback_data="back_main")],
     ]
-    return InlineKeyboardMarkup(rows)
+    return InlineKeyboardMarkup(rows) 
