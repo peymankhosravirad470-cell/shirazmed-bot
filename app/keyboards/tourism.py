@@ -35,4 +35,4 @@ def get_complaints_menu_keyboard(lang: str) -> InlineKeyboardMarkup:
         [InlineKeyboardButton("🌍 شکایات اتباع خارجی", callback_data="complaints_foreign")],
         [InlineKeyboardButton(get_msg_btn(lang, "btn_back"), callback_data="rights")],
     ]
-    return InlineKeyboardMarkup(rows)
+    return InlineKeyboardMarkup(rows) 
