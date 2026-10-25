@@ -176,4 +176,4 @@ async def back_to_main_handler(update: Update, context: ContextTypes.DEFAULT_TYP
 
     lang = _get_lang(context)
 
-    await _edit_menu_message(update, context, WELCOME_TEXT, get_main_menu_keyboard(lang))
+    await _edit_menu_message(update, context, WELCOME_TEXT, get_main_menu_keyboard(lang)) 
