@@ -3,17 +3,14 @@
 from __future__ import annotations
 
 import logging
-from typing import Optional
 
-from telegram import Update
+from telegram import InlineKeyboardMarkup, Update
 from telegram.ext import ContextTypes
 
 from app.keyboards.main import (
     get_language_keyboard,
     get_main_menu_keyboard,
-    get_back_keyboard,
 )
-from app.locales import get_msg_btn
 
 logger = logging.getLogger(__name__)
 
@@ -34,6 +31,46 @@ def _get_lang(context: ContextTypes.DEFAULT_TYPE) -> str:
     if lang not in ("fa", "en", "ar"):
         return "fa"
     return lang
+
+
+async def _edit_menu_message(
+    update: Update,
+    context: ContextTypes.DEFAULT_TYPE,
+    text: str,
+    reply_markup: InlineKeyboardMarkup,
+) -> None:
+    """🎯 فیکس تکرار منو: نمایش منو روی «همان پیام فعلی» به‌جای پیام جدید.
+
+    ۱) ابتدا پیام فعلی ویرایش می‌شود (edit_message_text)
+    ۲) اگر ویرایش ممکن نبود، پیام قبلی حذف و پیام جدید ارسال می‌شود
+    ۳) اگر آن هم نشد، فقط پیام جدید ارسال می‌شود
+
+    نتیجه: با هر بار زدن «بازگشت»، منوی تکراری در چت ساخته نمی‌شود و
+    همیشه فقط یک منوی اصلی روی صفحه است.
+    """
+    chat_id = update.effective_chat.id if update.effective_chat else None
+    if chat_id is None:
+        return
+
+    query = update.callback_query
+    if query is not None and query.message is not None:
+        try:
+            await query.edit_message_text(text=text, reply_markup=reply_markup)
+            return
+        except Exception as exc:
+            # «Message is not modified» یعنی همان محتوای فعلی درست است — خطا نیست
+            if "not modified" in str(exc).lower():
+                return
+            logger.debug(f"Could not edit message, will replace it: {exc}")
+            # ویرایش نشد → پیام قبلی حذف شود تا منوی تکراری در چت نماند
+            try:
+                await context.bot.delete_message(
+                    chat_id=chat_id, message_id=query.message.message_id
+                )
+            except Exception:
+                pass
+
+    await context.bot.send_message(chat_id=chat_id, text=text, reply_markup=reply_markup)
 
 
 async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -103,20 +140,8 @@ async def select_language_handler(update: Update, context: ContextTypes.DEFAULT_
 
     context.user_data["lang"] = lang
 
-    try:
-        # ویرایش پیام قبلی به جای ارسال پیام جدید
-        await query.edit_message_text(
-            text=WELCOME_TEXT,
-            reply_markup=get_main_menu_keyboard(lang),
-        )
-    except Exception as e:
-        logger.error(f"Error editing message on language select: {e}")
-        # اگر ویرایش ممکن نبود، پیام جدید بفرست (مثلاً پیام قبلی عکس بوده)
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text=WELCOME_TEXT,
-            reply_markup=get_main_menu_keyboard(lang),
-        )
+    # 🎯 فیکس تکرار منو: همان پیام به منوی اصلی تبدیل می‌شود
+    await _edit_menu_message(update, context, WELCOME_TEXT, get_main_menu_keyboard(lang))
 
 
 async def change_language_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -127,23 +152,22 @@ async def change_language_handler(update: Update, context: ContextTypes.DEFAULT_
 
     await query.answer()
 
-    try:
-        # ویرایش پیام فعلی به منوی انتخاب زبان
-        await query.edit_message_text(
-            text="🌐 لطفاً زبان خود را انتخاب کنید:",
-            reply_markup=get_language_keyboard(),
-        )
-    except Exception as e:
-        logger.error(f"Error editing message on change language: {e}")
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text="🌐 لطفاً زبان خود را انتخاب کنید:",
-            reply_markup=get_language_keyboard(),
-        )
+    # 🎯 فیکس تکرار منو: همان پیام به منوی زبان تبدیل می‌شود
+    await _edit_menu_message(
+        update,
+        context,
+        "🌐 لطفاً زبان خود را انتخاب کنید:",
+        get_language_keyboard(),
+    )
 
 
 async def back_to_main_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """بازگشت به منوی اصلی (با ویرایش پیام فعلی به جای ارسال پیام جدید)."""
+    """بازگشت به منوی اصلی.
+
+    🎯 فیکس تکرار منو: پیام فعلی به منوی اصلی «ویرایش» می‌شود؛ اگر ویرایش
+    ممکن نباشد، پیام قبلی حذف و منوی اصلی جایگزین آن می‌شود. بنابراین
+    دیگر با هر بار بازگشت، منوی تکراری جدیدی در چت ساخته نمی‌شود.
+    """
     query = update.callback_query
     if query is None:
         return
@@ -152,17 +176,4 @@ async def back_to_main_handler(update: Update, context: ContextTypes.DEFAULT_TYP
 
     lang = _get_lang(context)
 
-    try:
-        # ویرایش پیام فعلی به منوی اصلی
-        await query.edit_message_text(
-            text=WELCOME_TEXT,
-            reply_markup=get_main_menu_keyboard(lang),
-        )
-    except Exception as e:
-        # اگر ویرایش ممکن نبود (مثلاً پیام قبلی عکس بوده)، پیام جدید بفرست
-        logger.debug(f"Could not edit message: {e}")
-        await context.bot.send_message(
-            chat_id=update.effective_chat.id,
-            text=WELCOME_TEXT,
-            reply_markup=get_main_menu_keyboard(lang),
-        )
+    await _edit_menu_message(update, context, WELCOME_TEXT, get_main_menu_keyboard(lang))
