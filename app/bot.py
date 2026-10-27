@@ -25,7 +25,6 @@ from app.handlers.start import (
     select_language_handler,
     change_language_handler,
     back_to_main_handler,
-    # ✅ اضافه شد: هندلرهای نظرسنجی
     start_feedback_handler,
     feedback_yes_handler,
     feedback_no_handler,
@@ -47,7 +46,6 @@ LANGUAGE_PATTERN = r"^lang_(fa|en|ar)$"
 CHANGE_LANGUAGE_PATTERN = r"^change_language$"
 BACK_TO_MAIN_PATTERN = r"^back_main$"
 
-# ✅ الگوهای جدید برای نظرسنجی
 FEEDBACK_START_PATTERN = r"^start_feedback$"
 FEEDBACK_YES_PATTERN = r"^feedback_yes$"
 FEEDBACK_NO_PATTERN = r"^feedback_no$"
@@ -180,7 +178,7 @@ def _register_handlers(application: Application) -> None:
         )
     )
 
-    # ✅ هندلرهای نظرسنجی (اضافه شد)
+    # هندلرهای نظرسنجی
     application.add_handler(
         CallbackQueryHandler(
             start_feedback_handler,
@@ -199,21 +197,18 @@ def _register_handlers(application: Application) -> None:
             pattern=FEEDBACK_NO_PATTERN,
         )
     )
-    application.add_handler(
-        MessageHandler(
-            filters.TEXT & ~filters.COMMAND,
-            feedback_text_handler,
-        )
-    )
 
+    # ConversationHandlerها
     application.add_handler(survey_conversation_handler)
     application.add_handler(companion_conversation_handler)
     application.add_handler(booking_conversation_handler)
 
+    # دکمه‌های منو
     application.add_handler(
         CallbackQueryHandler(main_menu_callback, pattern=MENU_PATTERN)
     )
 
+    # مرور پزشکان
     application.add_handler(
         CallbackQueryHandler(
             medical_browse_callback,
@@ -221,10 +216,18 @@ def _register_handlers(application: Application) -> None:
         )
     )
 
+    # ✅ هندلر متن نظر ناراضی (باید در انتها باشد تا مزاحم ConversationHandlerها نشود)
+    application.add_handler(
+        MessageHandler(
+            filters.TEXT & ~filters.COMMAND,
+            feedback_text_handler,
+        )
+    )
+
     logger.info(
         "Handlers registered: start, help, language, back_main, "
-        "feedback_start/yes/no/text, survey_conversation, companion_conversation, "
-        "booking_conversation, main_menu (%d callbacks).",
+        "feedback_start/yes/no, survey_conversation, companion_conversation, "
+        "booking_conversation, main_menu (%d callbacks), feedback_text.",
         len(MENU_CALLBACKS),
     )
 
