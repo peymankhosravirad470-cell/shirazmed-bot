@@ -231,6 +231,7 @@ MSG_BTN = {
     "btn_deepseek_go": "🚀 الانتقال إلى DeepSeek",
 
     "btn_back": "🔙 رجوع",
+    "btn_feedback": "💬 ملاحظات",
     "btn_change_lang": "🌐 تغيير اللغة",
 
     "btn_hospitals": "🏥 المستشفيات",
