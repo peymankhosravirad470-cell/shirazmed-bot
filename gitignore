@@ -1,8 +1,0 @@
-__pycache__/
-*.pyc
-data/receipts/
-data/transactions/
-data/appointments.json
-data/*.tmp
-cache/
-.env

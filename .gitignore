@@ -1,0 +1,18 @@
+# پایتون
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# داده‌های ران‌تایم ربات (حاوی اطلاعات کاربران)
+data/receipts/
+data/transactions/
+data/appointments.json
+data/contracts/
+data/*.tmp
+
+# کش
+cache/
+
+# محیط مجازی و اسرار
+venv/
+.env
