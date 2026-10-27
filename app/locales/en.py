@@ -232,6 +232,7 @@ MSG_BTN = {
     "btn_deepseek_go": "🚀 Go to DeepSeek",
 
     "btn_back": "🔙 Back",
+    "btn_change_lang": "🌐 Change Language",
 
     "btn_hospitals": "🏥 Hospitals",
     "btn_hotels": "🏨 Hotels",
@@ -257,6 +258,8 @@ MSG_BTN = {
     "btn_pkg_order": "💎 Order Package",
 
     "btn_book": "📅 Book Appointment",
+    "btn_companion": "🤝 Register Companion",
+    "btn_survey": "📝 Survey & Feedback",
     "btn_call": "📞 Call",
 
     "medical": "👨‍⚕️ Medical",
@@ -278,7 +281,6 @@ MSG_BTN = {
     "channel": "📢 Join Channel",
     "invite": "🎁 Invite Friends",
     "rights": "⚖️ Patient Rights",
-    "btn_change_lang": "🌐 Change Language",
 }
 
 INSURANCE_FIELD_LABELS = {
