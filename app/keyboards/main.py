@@ -21,22 +21,20 @@ def get_main_menu_keyboard(lang: str) -> InlineKeyboardMarkup:
         "file", "appointments", "medication", "emergency", "channel", "invite", "rights",
     ]
     
-    # چیدمان جدید: ۲ دکمه در هر ردیف به جای ۳ دکمه
+    # چیدمان: ۲ دکمه در هر ردیف با استفاده از get_msg_btn (که زبان را در نظر می‌گیرد)
     rows = [
         [InlineKeyboardButton(get_msg_btn(lang, key), callback_data=key) for key in keys[i : i + 2]]
         for i in range(0, len(keys), 2)
     ]
     
-    # دکمه‌های اصلی (تمام عرض)
-    rows.append([
-        InlineKeyboardButton("📅 رزرو نوبت", callback_data="start_booking"),
-    ])
-    rows.append([
-        InlineKeyboardButton("🤝 ثبت همراه بیمار", callback_data="start_companion"),
-    ])
-    rows.append([
-        InlineKeyboardButton("📝 ثبت نظر و رضایت‌سنجی", callback_data="start_survey"),
-    ])
+    # ✅ استفاده از get_msg_btn برای دکمه‌های اصلی (با پشتیبانی از زبان‌های مختلف)
+    book_text = get_msg_btn(lang, "btn_book") or "📅 نوبت بگیر"
+    companion_text = get_msg_btn(lang, "btn_companion") or "🤝 ثبت همراه بیمار"
+    survey_text = get_msg_btn(lang, "btn_survey") or "📝 ثبت نظر و رضایت‌سنجی"
+
+    rows.append([InlineKeyboardButton(book_text, callback_data="start_booking")])
+    rows.append([InlineKeyboardButton(companion_text, callback_data="start_companion")])
+    rows.append([InlineKeyboardButton(survey_text, callback_data="start_survey")])
     
     # دکمه تغییر زبان
     rows.append([InlineKeyboardButton(get_msg_btn(lang, "btn_change_lang"), callback_data="change_language")])
