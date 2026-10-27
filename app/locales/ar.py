@@ -257,6 +257,8 @@ MSG_BTN = {
     "btn_pkg_order": "💎 طلب الباقة",
 
     "btn_book": "📅 احجز موعداً",
+    "btn_companion": "🤝 تسجيل مرافق",
+    "btn_survey": "📝 استبيان الرضا",
     "btn_call": "📞 اتصال",
 
     "medical": "👨‍⚕️ طبي",
