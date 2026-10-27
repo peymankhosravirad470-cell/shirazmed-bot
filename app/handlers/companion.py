@@ -17,6 +17,14 @@ logger = logging.getLogger(__name__)
 # مراحل گفتگو
 ASK_IS_COMPANION, ASK_NAME, ASK_PHONE = range(3)
 
+
+def _back_to_menu_keyboard():
+    """✅ دکمه بازگشت به منو."""
+    return InlineKeyboardMarkup([
+        [InlineKeyboardButton("🔙 بازگشت به منو", callback_data="back_main")]
+    ])
+
+
 async def start_companion(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """شروع فرآیند ثبت همراه بیمار."""
     query = update.callback_query
@@ -29,8 +37,6 @@ async def start_companion(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
             [InlineKeyboardButton("لغو", callback_data="comp_cancel")],
         ])
 
-        # 🆕 فیکس: parse_mode حذف شد — «**bold**» در Markdown قدیمی بله/تلگرام نامعتبر است
-        # و باعث خطای parse و بدکار شدن کل فرآیند ثبت همراه می‌شد.
         await query.edit_message_text(
             "🤝 همراه بیمار\n\n"
             "آیا مایل هستید شخص دیگری (مثلاً یکی از اعضای خانواده یا دوستان) "
@@ -39,6 +45,7 @@ async def start_companion(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         )
         return ASK_IS_COMPANION
     return ConversationHandler.END
+
 
 async def receive_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """دریافت پاسخ بله یا خیر از کاربر."""
@@ -49,7 +56,7 @@ async def receive_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     if query.data == "comp_no":
         await query.edit_message_text(
             "بسیار خب. در صورت نیاز در آینده می‌توانید از این بخش استفاده کنید.",
-            reply_markup=None
+            reply_markup=_back_to_menu_keyboard(),
         )
         context.user_data.pop("companion_name", None)
         return ConversationHandler.END
@@ -58,7 +65,7 @@ async def receive_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         context.user_data.pop("companion_name", None)
         await query.edit_message_text(
             "فرآیند ثبت همراه بیمار لغو شد.",
-            reply_markup=None
+            reply_markup=_back_to_menu_keyboard(),
         )
         return ConversationHandler.END
     
@@ -69,6 +76,7 @@ async def receive_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         reply_markup=None
     )
     return ASK_NAME
+
 
 async def receive_companion_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """دریافت نام همراه."""
@@ -84,6 +92,7 @@ async def receive_companion_name(update: Update, context: ContextTypes.DEFAULT_T
     
     await update.message.reply_text("لطفاً شماره تماس همراه خود را وارد کنید (مثال: 09123456789):\n\n🚪 برای لغو، دستور /cancel را بفرستید:")
     return ASK_PHONE
+
 
 async def receive_companion_phone(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """دریافت شماره تماس همراه و ارسال پیام (شبیه‌سازی SMS)."""
@@ -110,28 +119,36 @@ async def receive_companion_phone(update: Update, context: ContextTypes.DEFAULT_
     logger.info(f"متن پیامک: {sms_text}")
     logger.info("----------------------------------------")
     
-    # نمایش پیام موفقیت به کاربر
+    # ✅ نمایش پیام موفقیت به کاربر + دکمه بازگشت به منو
     await update.message.reply_text(
         "✅ اطلاعات همراه شما با موفقیت ثبت شد.\n"
         f"در صورت نیاز، پیام اطلاع‌رسانی برای شماره {phone} ارسال خواهد شد.",
-        reply_markup=None
+        reply_markup=_back_to_menu_keyboard(),
     )
     
     # پاکسازی داده‌های موقت
     context.user_data.pop("companion_name", None)
     return ConversationHandler.END
 
+
 async def cancel_companion(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """لغو فرآیند (دستور /cancel یا هر دستور دیگر)."""
     context.user_data.pop("companion_name", None)
     if update.message is not None:
-        await update.message.reply_text("فرآیند ثبت همراه بیمار لغو شد.")
+        await update.message.reply_text(
+            "فرآیند ثبت همراه بیمار لغو شد.",
+            reply_markup=_back_to_menu_keyboard(),
+        )
     if update.callback_query is not None:
         try:
-            await update.callback_query.edit_message_text("فرآیند ثبت همراه بیمار لغو شد.", reply_markup=None)
+            await update.callback_query.edit_message_text(
+                "فرآیند ثبت همراه بیمار لغو شد.",
+                reply_markup=_back_to_menu_keyboard(),
+            )
         except Exception:
             pass
     return ConversationHandler.END
+
 
 # ساخت ConversationHandler
 companion_conversation_handler = ConversationHandler(
