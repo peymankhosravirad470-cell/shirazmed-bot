@@ -1,21 +1,48 @@
 # app/keyboards/non_medical.py
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from app.locales import get_msg_btn
 
 
 def get_non_medical_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """کیبورد زیرمنوی خدمات غیرپزشکی.
+    """کیبورد زیرمنوی خدمات غیرپزشکی با پشتیبانی از هر سه زبان."""
 
-    🎯 فیکس دکمه‌های انگلیسی: قبلاً get_msg_btn با کلیدهای ناموجود
-    (non_hospitals و…) صدا زده می‌شد؛ چون این کلیدها در فایل ترجمه
-    (fa/en/ar) تعریف نشده بودند، get_msg_btn خودِ کلید انگلیسی را
-    برمی‌گرداند و دکمه‌ها به‌صورت «non_hospitals» نمایش داده می‌شدند.
-    حالا برچسب فارسی به‌صورت مستقیم نوشته می‌شود.
-    """
+    # برچسب‌های سه‌زبانه
+    labels = {
+        "fa": {
+            "hospitals": "🏥 بیمارستان‌ها",
+            "hotels": "🏨 هتل‌ها",
+            "motels": "🛏️ مهمان‌پذیر",
+            "houses": "🏠 خانه مسافر",
+            "back": "🔙 بازگشت",
+            "feedback": "💬 پیشنهادات",
+        },
+        "en": {
+            "hospitals": "🏥 Hospitals",
+            "hotels": "🏨 Hotels",
+            "motels": "🛏️ Motels",
+            "houses": "🏠 Guest Houses",
+            "back": "🔙 Back",
+            "feedback": "💬 Feedback",
+        },
+        "ar": {
+            "hospitals": "🏥 المستشفيات",
+            "hotels": "🏨 الفنادق",
+            "motels": "🛏️ بيت ضيافة",
+            "houses": "🏠 بيت المسافر",
+            "back": "🔙 رجوع",
+            "feedback": "💬 ملاحظات",
+        },
+    }
+    L = labels.get(lang, labels["fa"])
+
     rows = [
-        [InlineKeyboardButton("🏥 بیمارستان‌ها", callback_data="non_hospitals")],
-        [InlineKeyboardButton("🏨 هتل‌ها", callback_data="non_hotels")],
-        [InlineKeyboardButton("🛏️ مهمان‌پذیر", callback_data="non_motels")],
-        [InlineKeyboardButton("🏠 خانه مسافر", callback_data="non_tourist_houses")],
-        [InlineKeyboardButton("🔙 بازگشت", callback_data="back_main")],
+        [InlineKeyboardButton(L["hospitals"], callback_data="non_hospitals")],
+        [InlineKeyboardButton(L["hotels"], callback_data="non_hotels")],
+        [InlineKeyboardButton(L["motels"], callback_data="non_motels")],
+        [InlineKeyboardButton(L["houses"], callback_data="non_tourist_houses")],
+        [
+            InlineKeyboardButton(L["back"], callback_data="back_main"),
+            InlineKeyboardButton(L["feedback"], callback_data="start_feedback"),
+        ],
     ]
-    return InlineKeyboardMarkup(rows) 
+    return InlineKeyboardMarkup(rows)
