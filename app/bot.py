@@ -24,11 +24,15 @@ from app.handlers.start import (
     select_language_handler,
     change_language_handler,
     back_to_main_handler,
+    start_feedback_handler,
+    feedback_yes_handler,
+    feedback_no_handler,
+    feedback_text_handler,
 )
 from app.handlers.callbacks import main_menu_callback, medical_browse_callback
 from app.handlers.booking import booking_conversation_handler
 from app.handlers.survey import survey_conversation_handler
-from app.handlers.companion import companion_conversation_handler  # 🆕 اضافه شد
+from app.handlers.companion import companion_conversation_handler
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -45,9 +49,13 @@ LANGUAGE_PATTERN = r"^lang_(fa|en|ar)$"
 CHANGE_LANGUAGE_PATTERN = r"^change_language$"
 BACK_TO_MAIN_PATTERN = r"^back_main$"
 
+FEEDBACK_START_PATTERN = r"^start_feedback$"
+FEEDBACK_YES_PATTERN = r"^feedback_yes$"
+FEEDBACK_NO_PATTERN = r"^feedback_no$"
+
 MENU_CALLBACKS: tuple[str, ...] = (
-    "start_booking",    # دکمه رزرو نوبت
-    "start_companion",  # 🆕 دکمه ثبت همراه بیمار
+    "start_booking",
+    "start_companion",
     "medical",
     "non_medical",
     "non_hospitals",
@@ -86,11 +94,11 @@ MENU_CALLBACKS: tuple[str, ...] = (
     "rights",
     "patient_guide",
     "complaints",
-    "complaints_menu",      # 🆕 فیکس: دکمه «راهنمای ثبت شکایت» قبلاً هندل نمی‌شد
+    "complaints_menu",
     "complaints_iranian",
     "complaints_foreign",
     "support",
-    "start_survey",         # 🆕 دکمه شروع نظرسنجی
+    "start_survey",
 )
 
 MENU_PATTERN = rf"^({'|'.join(MENU_CALLBACKS)})$"
@@ -100,14 +108,9 @@ PRIVATE_CHAT_ONLY = filters.ChatType.PRIVATE
 USER_ERROR_MESSAGE = "خطایی رخ داد. لطفاً دوباره تلاش کنید."
 
 
-# ---------------------------------------------------------------------------
-# هندلر خطای سراسری
-# ---------------------------------------------------------------------------
-
 async def global_error_handler(
     update: object, context: ContextTypes.DEFAULT_TYPE
 ) -> None:
-    """هندلر خطای سراسری: لاگ کامل + تلاش برای اطلاع‌رسانی به کاربر."""
     logger.error(
         "Unhandled exception while processing update:",
         exc_info=context.error,
@@ -140,12 +143,7 @@ async def global_error_handler(
             )
 
 
-# ---------------------------------------------------------------------------
-# ساخت اپلیکیشن
-# ---------------------------------------------------------------------------
-
 def _validate_settings() -> None:
-    """اعتبارسنجی تنظیمات ضروری قبل از ساخت اپلیکیشن."""
     token: Optional[str] = getattr(settings, "active_token", None)
     if not token or not isinstance(token, str) or not token.strip():
         raise RuntimeError(
@@ -155,20 +153,8 @@ def _validate_settings() -> None:
 
 
 def _register_handlers(application: Application) -> None:
-    """ثبت همه handlerها روی اپلیکیشن.
-
-    ترتیب ثبت مهم است:
-    1) هندلر خطای سراسری
-    2) دستورات پایه (start/help) — فقط در چت خصوصی
-    3) زبان و بازگشت به منو
-    4) ConversationHandlerها (قبل از main_menu_callback)
-    5) main_menu_callback (پوشش همه دکمه‌های منو)
-    """
-
-    # 1) هندلر خطای سراسری
     application.add_error_handler(global_error_handler)
 
-    # 2) دستورات پایه — فقط در چت خصوصی
     application.add_handler(
         CommandHandler("start", start_handler, filters=PRIVATE_CHAT_ONLY)
     )
@@ -176,7 +162,6 @@ def _register_handlers(application: Application) -> None:
         CommandHandler("help", help_handler, filters=PRIVATE_CHAT_ONLY)
     )
 
-    # 3) انتخاب/تغییر زبان و بازگشت به منوی اصلی
     application.add_handler(
         CallbackQueryHandler(
             select_language_handler,
@@ -196,17 +181,40 @@ def _register_handlers(application: Application) -> None:
         )
     )
 
-    # 4) ConversationHandlerها (باید قبل از main_menu_callback ثبت شوند)
+    # ✅ هندلرهای نظرسنجی
+    application.add_handler(
+        CallbackQueryHandler(
+            start_feedback_handler,
+            pattern=FEEDBACK_START_PATTERN,
+        )
+    )
+    application.add_handler(
+        CallbackQueryHandler(
+            feedback_yes_handler,
+            pattern=FEEDBACK_YES_PATTERN,
+        )
+    )
+    application.add_handler(
+        CallbackQueryHandler(
+            feedback_no_handler,
+            pattern=FEEDBACK_NO_PATTERN,
+        )
+    )
+    application.add_handler(
+        MessageHandler(
+            filters.TEXT & ~filters.COMMAND,
+            feedback_text_handler,
+        )
+    )
+
     application.add_handler(survey_conversation_handler)
-    application.add_handler(companion_conversation_handler)  # 🆕
+    application.add_handler(companion_conversation_handler)
     application.add_handler(booking_conversation_handler)
 
-    # 5) همه دکمه‌های منو و زیرمنو
     application.add_handler(
         CallbackQueryHandler(main_menu_callback, pattern=MENU_PATTERN)
     )
 
-    # 6) 🆕 مرور پزشکان واقعی (دکمه «پزشکی») + دکمه شمارنده صفحه (noop_page)
     application.add_handler(
         CallbackQueryHandler(
             medical_browse_callback,
@@ -216,23 +224,16 @@ def _register_handlers(application: Application) -> None:
 
     logger.info(
         "Handlers registered: start, help, language, back_main, "
-        "survey_conversation, companion_conversation, booking_conversation, "
-        "main_menu (%d callbacks).",
+        "feedback_start/yes/no/text, survey_conversation, companion_conversation, "
+        "booking_conversation, main_menu (%d callbacks).",
         len(MENU_CALLBACKS),
     )
 
 
 def build_application() -> Application:
-    """ساخت اپلیکیشن تلگرام/بله با تنظیمات فعلی.
-
-    Raises:
-        RuntimeError: اگر توکن تنظیم نشده باشد.
-    """
     _validate_settings()
 
     async def _post_init(application: Application) -> None:
-        """🆕 فیکس پرداخت: capture کردن event loop تا سرور health (ترد جدا) بتواند
-        پیام‌های ربات را برای callback زرین‌پال ارسال کند (app/runtime.py)."""
         runtime.bind_application(application)
         logger.info("Post-init: runtime bridge bound (payment callback active).")
 
