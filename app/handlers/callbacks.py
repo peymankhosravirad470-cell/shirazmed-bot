@@ -28,6 +28,10 @@ from app.services import doctor_loader
 if not isinstance(MSG, dict):
     MSG = {}
 
+# 🆕 دیکشنری برای ذخیره شناسه پیام‌های ارسال‌شده به ازای هر چت
+# تا هنگام بازگشت، بتوانیم آن‌ها را پاک کنیم.
+_sent_messages = {}
+
 
 def load_json(filename: str) -> Union[list, dict]:
     try:
@@ -78,13 +82,32 @@ def _safe_btn(lang: str, key: str, default: str = "") -> str:
         return default
 
 
+async def _cleanup_previous_messages(chat_id: int, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """🆕 پاک کردن پیام‌های قبلی که ربات در این چت فرستاده است."""
+    if chat_id in _sent_messages:
+        for msg_id in _sent_messages[chat_id]:
+            try:
+                await context.bot.delete_message(chat_id=chat_id, message_id=msg_id)
+            except Exception:
+                pass
+        _sent_messages[chat_id] = []
+
+
 async def _display(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str, reply_markup: InlineKeyboardMarkup | None = None) -> None:
     chat_id = update.effective_chat.id if update.effective_chat else None
     if chat_id is None: return
+    
+    # 🆕 قبل از نمایش هر چیز جدید، پیام‌های قبلی را پاک کن
+    await _cleanup_previous_messages(chat_id, context)
+    
     query = update.callback_query
     if query is not None and query.message is not None:
         try:
             await query.edit_message_text(text=text, reply_markup=reply_markup)
+            # پیام ویرایش‌شده را در لیست ذخیره کن
+            if chat_id not in _sent_messages:
+                _sent_messages[chat_id] = []
+            _sent_messages[chat_id].append(query.message.message_id)
             return
         except Exception as exc:
             if "not modified" in str(exc).lower(): return
@@ -92,7 +115,11 @@ async def _display(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str
                 await context.bot.delete_message(chat_id=chat_id, message_id=query.message.message_id)
             except Exception:
                 pass
-    await context.bot.send_message(chat_id=chat_id, text=text, reply_markup=reply_markup)
+    
+    msg = await context.bot.send_message(chat_id=chat_id, text=text, reply_markup=reply_markup)
+    if chat_id not in _sent_messages:
+        _sent_messages[chat_id] = []
+    _sent_messages[chat_id].append(msg.message_id)
 
 
 async def _send_chunked(update: Update, context: ContextTypes.DEFAULT_TYPE, chat_id: int, texts: list[str], back_markup: InlineKeyboardMarkup, max_chars: int = 2800) -> int:
@@ -115,7 +142,10 @@ async def _send_chunked(update: Update, context: ContextTypes.DEFAULT_TYPE, chat
         if index == 0:
             await _display(update, context, chunk, markup)
         else:
-            await context.bot.send_message(chat_id=chat_id, text=chunk, reply_markup=markup)
+            msg = await context.bot.send_message(chat_id=chat_id, text=chunk, reply_markup=markup)
+            if chat_id not in _sent_messages:
+                _sent_messages[chat_id] = []
+            _sent_messages[chat_id].append(msg.message_id)
         sent += 1
         if not is_last: await asyncio.sleep(0.35)
     return sent
@@ -132,7 +162,6 @@ async def _show_items(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: 
         for item in items:
             if not isinstance(item, dict): continue
 
-            # استخراج نام (پشتیبانی از ساختار تودرتو و مسطح)
             name = ""
             name_obj = item.get("name")
             if isinstance(name_obj, dict):
@@ -140,7 +169,6 @@ async def _show_items(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: 
             else:
                 name = _get_localized_field(item, "name_fa", lang) or _get_localized_field(item, "name", lang)
 
-            # استخراج آدرس
             address = ""
             addr_obj = item.get("address")
             if isinstance(addr_obj, dict):
@@ -148,7 +176,6 @@ async def _show_items(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: 
             else:
                 address = _get_localized_field(item, "address_fa", lang) or _get_localized_field(item, "address", lang)
 
-            # استخراج بقیه فیلدها (برای گردشگری و هر بخش دیگر)
             category = _get_localized_field(item, "category_fa", lang)
             visiting_hours = _get_localized_field(item, "visiting_hours_fa", lang)
             ticket_price = _get_localized_field(item, "ticket_price_fa", lang)
@@ -300,7 +327,10 @@ async def show_charter(update: Update, context: ContextTypes.DEFAULT_TYPE, lang:
         for idx, chunk in enumerate(chunks):
             markup = get_back_keyboard(lang) if idx == len(chunks) - 1 else None
             if idx == 0: await _display(update, context, chunk, markup)
-            else: await context.bot.send_message(chat_id=chat_id, text=chunk, reply_markup=markup)
+            else: 
+                msg = await context.bot.send_message(chat_id=chat_id, text=chunk, reply_markup=markup)
+                if chat_id not in _sent_messages: _sent_messages[chat_id] = []
+                _sent_messages[chat_id].append(msg.message_id)
     except Exception:
         await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
 
