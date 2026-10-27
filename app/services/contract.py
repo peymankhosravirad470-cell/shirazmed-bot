@@ -12,6 +12,21 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 
+# 🆕 فیکس PDF فارسی: بدون arabic_reshaper + python-bidi حروف فارسی جدا و معکوس
+# رسم می‌شوند (همان باگی که در receipt.py رفع شد).
+try:
+    import arabic_reshaper
+    from bidi.algorithm import get_display
+
+    def _reshape(text: str) -> str:
+        try:
+            return get_display(arabic_reshaper.reshape(str(text)))
+        except Exception:
+            return str(text)
+except ImportError:  # pragma: no cover
+    def _reshape(text: str) -> str:
+        return str(text)
+
 _BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 FONT_DIR = os.path.join(_BASE_DIR, "assets", "fonts")
 FONT_PATH = os.path.join(FONT_DIR, "Vazir.ttf")
@@ -44,7 +59,7 @@ def _safe(value: Any, default: str = "-") -> str:
 def _rtl(c: canvas.Canvas, text: str, x_right: float, y: float, size: int = 11):
     if _font_registered: c.setFont(FONT_NAME, size)
     else: c.setFont("Helvetica", size)
-    c.drawRightString(x_right, y, text)
+    c.drawRightString(x_right, y, _reshape(text))
 
 def generate_doctor_contract_pdf(doctor_data: Dict[str, Any], output_path: str = None) -> str:
     _ensure_font()
