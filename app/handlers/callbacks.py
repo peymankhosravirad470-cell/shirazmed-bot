@@ -28,8 +28,7 @@ from app.services import doctor_loader
 if not isinstance(MSG, dict):
     MSG = {}
 
-# 🆕 دیکشنری برای ذخیره شناسه پیام‌های ارسال‌شده به ازای هر چت
-# تا هنگام بازگشت، بتوانیم آن‌ها را پاک کنیم.
+# دیکشنری برای ذخیره شناسه پیام‌های ارسال‌شده به ازای هر چت
 _sent_messages = {}
 
 
@@ -83,7 +82,7 @@ def _safe_btn(lang: str, key: str, default: str = "") -> str:
 
 
 async def _cleanup_previous_messages(chat_id: int, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """🆕 پاک کردن پیام‌های قبلی که ربات در این چت فرستاده است."""
+    """پاک کردن پیام‌های قبلی که ربات در این چت فرستاده است."""
     if chat_id in _sent_messages:
         for msg_id in _sent_messages[chat_id]:
             try:
@@ -97,14 +96,13 @@ async def _display(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str
     chat_id = update.effective_chat.id if update.effective_chat else None
     if chat_id is None: return
     
-    # 🆕 قبل از نمایش هر چیز جدید، پیام‌های قبلی را پاک کن
+    # قبل از نمایش هر چیز جدید، پیام‌های قبلی را پاک کن
     await _cleanup_previous_messages(chat_id, context)
     
     query = update.callback_query
     if query is not None and query.message is not None:
         try:
             await query.edit_message_text(text=text, reply_markup=reply_markup)
-            # پیام ویرایش‌شده را در لیست ذخیره کن
             if chat_id not in _sent_messages:
                 _sent_messages[chat_id] = []
             _sent_messages[chat_id].append(query.message.message_id)
@@ -136,6 +134,10 @@ async def _send_chunked(update: Update, context: ContextTypes.DEFAULT_TYPE, chat
 
     sent = 0
     total = len(chunks)
+    
+    # قبل از ارسال لیست جدید، پیام‌های قبلی را پاک کن
+    await _cleanup_previous_messages(chat_id, context)
+    
     for index, chunk in enumerate(chunks):
         is_last = index == total - 1
         markup = back_markup if is_last else None
