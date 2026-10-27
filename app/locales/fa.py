@@ -154,6 +154,8 @@ MSG_BTN = {
     'btn_elder_all': '🏡 همه خانه‌های سالمندان',
     'btn_pkg_order': '💎 سفارش پکیج',
     'btn_book': '📅 نوبت بگیر',
+    'btn_companion': '🤝 ثبت همراه بیمار',
+    'btn_survey': '📝 ثبت نظر و رضایت‌سنجی',
     'btn_call': '📞 تماس',
     'medical': '👨‍⚕️ پزشکی',
     'non_medical': '🏥 غیرپزشکی',
