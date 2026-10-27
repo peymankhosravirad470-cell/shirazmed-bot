@@ -135,6 +135,7 @@ MSG_BTN = {
     'btn_deepseek': '🤖 هوش مصنوعی DeepSeek',
     'btn_deepseek_go': '🚀 رفتن به DeepSeek',
     'btn_back': '🔙 بازگشت',
+    'btn_feedback': '💬 پیشنهادات',
     'btn_hospitals': '🏥 بیمارستان‌ها',
     'btn_hotels': '🏨 هتل‌ها',
     'btn_motels': '🛏️ مهمان‌پذیر',
