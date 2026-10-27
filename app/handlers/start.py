@@ -15,14 +15,29 @@ from app.keyboards.main import (
 logger = logging.getLogger(__name__)
 
 
-# متن خوش‌آمدگویی که در منوی اصلی استفاده می‌شود
-WELCOME_TEXT = (
-    "🌟 یه پیام بدی، همه‌چیز رو آماده می‌کنیم.\n\n"
-    "از پزشک تا هتل، از ترانسفر تا مترجم،\n"
-    "از نوبت تا گشت گردشگری — همه‌چیز یکجا.\n\n"
-    "💙 بدون دغدغه، بدون هزینه اضافه\n\n"
-    "👇 از دکمه‌های زیر انتخاب کن:"
-)
+WELCOME_TEXTS = {
+    "fa": (
+        "🌟 یه پیام بدی، همه‌چیز رو آماده می‌کنیم.\n\n"
+        "از پزشک تا هتل، از ترانسفر تا مترجم،\n"
+        "از نوبت تا گشت گردشگری — همه‌چیز یکجا.\n\n"
+        "💙 بدون دغدغه، بدون هزینه اضافه\n\n"
+        "👇 از دکمه‌های زیر انتخاب کن:"
+    ),
+    "en": (
+        "🌟 Send us a message, we'll prepare everything.\n\n"
+        "From doctor to hotel, from transfer to translator,\n"
+        "from appointment to city tour — all in one place.\n\n"
+        "💙 Without worry, without extra cost\n\n"
+        "👇 Choose from the buttons below:"
+    ),
+    "ar": (
+        "🌟 أرسل لنا رسالة، وسنجهز كل شيء.\n\n"
+        "من الطبيب إلى الفندق، من النقل إلى المترجم،\n"
+        "من الموعد إلى الجولة السياحية — كل شيء في مكان واحد.\n\n"
+        "💙 بدون قلق، بدون تكلفة إضافية\n\n"
+        "👇 اختر من الأزرار أدناه:"
+    ),
+}
 
 
 def _get_lang(context: ContextTypes.DEFAULT_TYPE) -> str:
@@ -39,15 +54,7 @@ async def _edit_menu_message(
     text: str,
     reply_markup: InlineKeyboardMarkup,
 ) -> None:
-    """🎯 فیکس تکرار منو: نمایش منو روی «همان پیام فعلی» به‌جای پیام جدید.
-
-    ۱) ابتدا پیام فعلی ویرایش می‌شود (edit_message_text)
-    ۲) اگر ویرایش ممکن نبود، پیام قبلی حذف و پیام جدید ارسال می‌شود
-    ۳) اگر آن هم نشد، فقط پیام جدید ارسال می‌شود
-
-    نتیجه: با هر بار زدن «بازگشت»، منوی تکراری در چت ساخته نمی‌شود و
-    همیشه فقط یک منوی اصلی روی صفحه است.
-    """
+    """نمایش منو روی همان پیام فعلی و پاک کردن پیام‌های قبلی."""
     chat_id = update.effective_chat.id if update.effective_chat else None
     if chat_id is None:
         return
@@ -58,11 +65,9 @@ async def _edit_menu_message(
             await query.edit_message_text(text=text, reply_markup=reply_markup)
             return
         except Exception as exc:
-            # «Message is not modified» یعنی همان محتوای فعلی درست است — خطا نیست
             if "not modified" in str(exc).lower():
                 return
             logger.debug(f"Could not edit message, will replace it: {exc}")
-            # ویرایش نشد → پیام قبلی حذف شود تا منوی تکراری در چت نماند
             try:
                 await context.bot.delete_message(
                     chat_id=chat_id, message_id=query.message.message_id
@@ -80,23 +85,22 @@ async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
 
     lang = context.user_data.get("lang")
 
-    # اگر زبان کاربر تنظیم نشده، ابتدا منوی انتخاب زبان را نمایش بده
     if not lang:
         try:
             await context.bot.send_message(
                 chat_id=update.effective_chat.id,
-                text="🌐 لطفاً زبان خود را انتخاب کنید:",
+                text="🌐 لطفاً زبان خود را انتخاب کنید:\nPlease choose your language:\nالرجاء اختيار اللغة:",
                 reply_markup=get_language_keyboard(),
             )
         except Exception as e:
             logger.error(f"Error sending language selection: {e}")
         return
 
-    # اگر زبان تنظیم شده، منوی اصلی را نمایش بده
+    welcome_text = WELCOME_TEXTS.get(lang, WELCOME_TEXTS["fa"])
     try:
         await context.bot.send_message(
             chat_id=update.effective_chat.id,
-            text=WELCOME_TEXT,
+            text=welcome_text,
             reply_markup=get_main_menu_keyboard(lang),
         )
     except Exception as e:
@@ -109,13 +113,12 @@ async def help_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> No
         return
 
     lang = _get_lang(context)
-    text = (
-        "راهنمای ربات شیراز مدیکال:\n\n"
-        "• از منوی اصلی می‌توانید به بخش‌های مختلف دسترسی داشته باشید.\n"
-        "• برای رزرو نوبت، دکمه «📅 رزرو نوبت» را بزنید.\n"
-        "• برای تغییر زبان، دکمه «🌐 تغییر زبان» را بزنید.\n"
-        "• برای بازگشت به این منو، هر زمان می‌توانید دکمه «🔙 بازگشت» را بزنید."
-    )
+    help_texts = {
+        "fa": "راهنمای ربات شیراز مدیکال:\n\nاز منوی اصلی استفاده کنید.",
+        "en": "Shiraz Medical Bot Guide:\n\nUse the main menu.",
+        "ar": "دليل روبوت شيراز الطبي:\n\nاستخدم القائمة الرئيسية.",
+    }
+    text = help_texts.get(lang, help_texts["fa"])
     try:
         await update.message.reply_text(
             text=text,
@@ -132,7 +135,7 @@ async def select_language_handler(update: Update, context: ContextTypes.DEFAULT_
         return
 
     await query.answer()
-    data = query.data  # مثل: lang_fa, lang_en, lang_ar
+    data = query.data
     lang = data.replace("lang_", "")
 
     if lang not in ("fa", "en", "ar"):
@@ -140,34 +143,28 @@ async def select_language_handler(update: Update, context: ContextTypes.DEFAULT_
 
     context.user_data["lang"] = lang
 
-    # 🎯 فیکس تکرار منو: همان پیام به منوی اصلی تبدیل می‌شود
-    await _edit_menu_message(update, context, WELCOME_TEXT, get_main_menu_keyboard(lang))
+    welcome_text = WELCOME_TEXTS.get(lang, WELCOME_TEXTS["fa"])
+    await _edit_menu_message(update, context, welcome_text, get_main_menu_keyboard(lang))
 
 
 async def change_language_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """نمایش منوی انتخاب زبان (بدون پاک کردن پیام اصلی)."""
+    """نمایش منوی انتخاب زبان."""
     query = update.callback_query
     if query is None:
         return
 
     await query.answer()
 
-    # 🎯 فیکس تکرار منو: همان پیام به منوی زبان تبدیل می‌شود
     await _edit_menu_message(
         update,
         context,
-        "🌐 لطفاً زبان خود را انتخاب کنید:",
+        "🌐 لطفاً زبان خود را انتخاب کنید:\nPlease choose your language:\nالرجاء اختيار اللغة:",
         get_language_keyboard(),
     )
 
 
 async def back_to_main_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """بازگشت به منوی اصلی.
-
-    🎯 فیکس تکرار منو: پیام فعلی به منوی اصلی «ویرایش» می‌شود؛ اگر ویرایش
-    ممکن نباشد، پیام قبلی حذف و منوی اصلی جایگزین آن می‌شود. بنابراین
-    دیگر با هر بار بازگشت، منوی تکراری جدیدی در چت ساخته نمی‌شود.
-    """
+    """بازگشت به منوی اصلی با حفظ زبان کاربر."""
     query = update.callback_query
     if query is None:
         return
@@ -175,5 +172,5 @@ async def back_to_main_handler(update: Update, context: ContextTypes.DEFAULT_TYP
     await query.answer()
 
     lang = _get_lang(context)
-
-    await _edit_menu_message(update, context, WELCOME_TEXT, get_main_menu_keyboard(lang)) 
+    welcome_text = WELCOME_TEXTS.get(lang, WELCOME_TEXTS["fa"])
+    await _edit_menu_message(update, context, welcome_text, get_main_menu_keyboard(lang))
