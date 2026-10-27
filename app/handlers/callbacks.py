@@ -12,7 +12,7 @@ from typing import Any, Union
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import ContextTypes
 
-from app.keyboards.main import get_back_keyboard, get_main_menu_keyboard
+from app.keyboards.main import get_back_keyboard
 from app.keyboards.non_medical import get_non_medical_keyboard
 from app.keyboards.tourism import (
     get_tourism_keyboard,
@@ -27,8 +27,6 @@ from app.services import doctor_loader
 
 if not isinstance(MSG, dict):
     MSG = {}
-
-_sent_messages = {}
 
 
 def load_json(filename: str) -> Union[list, dict]:
@@ -80,27 +78,24 @@ def _safe_btn(lang: str, key: str, default: str = "") -> str:
         return default
 
 
-async def _cleanup_previous_messages(chat_id: int, context: ContextTypes.DEFAULT_TYPE) -> None:
-    if chat_id in _sent_messages:
-        for msg_id in _sent_messages[chat_id]:
-            try:
-                await context.bot.delete_message(chat_id=chat_id, message_id=msg_id)
-            except Exception:
-                pass
-        _sent_messages[chat_id] = []
-
-
 async def _display(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str, reply_markup: InlineKeyboardMarkup | None = None) -> None:
+    """🎯 فیکس تکرار منو: نمایش محتوا روی «همان پیام فعلی» به‌جای پیام جدید.
+
+    ۱) ابتدا پیام فعلی ویرایش می‌شود (edit_message_text)
+    ۲) اگر ویرایش ممکن نبود، پیام قبلی حذف و پیام جدید ارسال می‌شود
+    ۳) اگر آن هم نشد، فقط پیام جدید ارسال می‌شود
+
+    ⚠️ نکته مهم: هیچ‌وقت پیام فعلی را «قبل از ویرایش» پاک نمی‌کنیم.
+    (نسخه قبلی که پیام‌ها را در _sent_messages ردیابی و اول پاک می‌کرد، باعث
+    می‌شد edit_message_text روی پیام حذف‌شده شکست بخورد و با هر کلیک یک
+    پیام جدید ساخته شود — دقیقاً همان باگ تکثیر منو.)
+    """
     chat_id = update.effective_chat.id if update.effective_chat else None
     if chat_id is None: return
-    await _cleanup_previous_messages(chat_id, context)
     query = update.callback_query
     if query is not None and query.message is not None:
         try:
             await query.edit_message_text(text=text, reply_markup=reply_markup)
-            if chat_id not in _sent_messages:
-                _sent_messages[chat_id] = []
-            _sent_messages[chat_id].append(query.message.message_id)
             return
         except Exception as exc:
             if "not modified" in str(exc).lower(): return
@@ -108,13 +103,11 @@ async def _display(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str
                 await context.bot.delete_message(chat_id=chat_id, message_id=query.message.message_id)
             except Exception:
                 pass
-    msg = await context.bot.send_message(chat_id=chat_id, text=text, reply_markup=reply_markup)
-    if chat_id not in _sent_messages:
-        _sent_messages[chat_id] = []
-    _sent_messages[chat_id].append(msg.message_id)
+    await context.bot.send_message(chat_id=chat_id, text=text, reply_markup=reply_markup)
 
 
 async def _send_chunked(update: Update, context: ContextTypes.DEFAULT_TYPE, chat_id: int, texts: list[str], back_markup: InlineKeyboardMarkup, max_chars: int = 2800) -> int:
+    """ادغام آیتم‌ها در پیام‌های چندتایی (فیکس flood) + ویرایش تکه اول روی همان پیام."""
     chunks = []
     current = []
     current_len = 0
@@ -127,17 +120,13 @@ async def _send_chunked(update: Update, context: ContextTypes.DEFAULT_TYPE, chat
     if current: chunks.append("\n\n".join(current))
     sent = 0
     total = len(chunks)
-    await _cleanup_previous_messages(chat_id, context)
     for index, chunk in enumerate(chunks):
         is_last = index == total - 1
         markup = back_markup if is_last else None
         if index == 0:
             await _display(update, context, chunk, markup)
         else:
-            msg = await context.bot.send_message(chat_id=chat_id, text=chunk, reply_markup=markup)
-            if chat_id not in _sent_messages:
-                _sent_messages[chat_id] = []
-            _sent_messages[chat_id].append(msg.message_id)
+            await context.bot.send_message(chat_id=chat_id, text=chunk, reply_markup=markup)
         sent += 1
         if not is_last: await asyncio.sleep(0.35)
     return sent
@@ -313,9 +302,7 @@ async def show_charter(update: Update, context: ContextTypes.DEFAULT_TYPE, lang:
             markup = get_back_keyboard(lang) if idx == len(chunks) - 1 else None
             if idx == 0: await _display(update, context, chunk, markup)
             else: 
-                msg = await context.bot.send_message(chat_id=chat_id, text=chunk, reply_markup=markup)
-                if chat_id not in _sent_messages: _sent_messages[chat_id] = []
-                _sent_messages[chat_id].append(msg.message_id)
+                await context.bot.send_message(chat_id=chat_id, text=chunk, reply_markup=markup)
     except Exception:
         await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
 
