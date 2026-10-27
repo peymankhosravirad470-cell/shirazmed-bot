@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import logging
-import os
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import ContextTypes
@@ -11,13 +10,10 @@ from telegram.ext import ContextTypes
 from app.keyboards.main import (
     get_language_keyboard,
     get_main_menu_keyboard,
-    get_back_keyboard,
 )
-from app.locales import get_msg_btn
+from config import settings
 
 logger = logging.getLogger(__name__)
-
-ADMIN_ID = os.environ.get("ADMIN_ID", "").strip()
 
 WELCOME_TEXTS = {
     "fa": (
@@ -179,9 +175,12 @@ async def select_language_handler(update: Update, context: ContextTypes.DEFAULT_
     if lang not in ("fa", "en", "ar"):
         lang = "fa"
     context.user_data["lang"] = lang
-    await query.edit_message_text(
-        text=WELCOME_TEXTS.get(lang, WELCOME_TEXTS["fa"]),
-        reply_markup=get_main_menu_keyboard(lang),
+    # 🎯 فیکس تکرار منو: همان پیام به منوی اصلی تبدیل می‌شود (با fallback)
+    await _edit_menu_message(
+        update,
+        context,
+        WELCOME_TEXTS.get(lang, WELCOME_TEXTS["fa"]),
+        get_main_menu_keyboard(lang),
     )
 
 
@@ -190,22 +189,32 @@ async def change_language_handler(update: Update, context: ContextTypes.DEFAULT_
     if query is None:
         return
     await query.answer()
-    await query.edit_message_text(
-        text="🌐 لطفاً زبان خود را انتخاب کنید:\nPlease choose your language:\nالرجاء اختيار اللغة:",
-        reply_markup=get_language_keyboard(),
+    # 🎯 فیکس تکرار منو: همان پیام به منوی زبان تبدیل می‌شود (با fallback)
+    await _edit_menu_message(
+        update,
+        context,
+        "🌐 لطفاً زبان خود را انتخاب کنید:\nPlease choose your language:\nالرجاء اختيار اللغة:",
+        get_language_keyboard(),
     )
 
 
 async def back_to_main_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """بازگشت ساده به منو (بدون نظرسنجی اجباری)."""
+    """بازگشت به منوی اصلی.
+
+    🎯 فیکس تکرار منو: پیام فعلی به منوی اصلی «ویرایش» می‌شود؛ اگر ویرایش
+    ممکن نباشد، پیام قبلی حذف و منوی اصلی جایگزین می‌شود تا هیچ‌وقت منوی
+    تکراری ساخته نشود.
+    """
     query = update.callback_query
     if query is None:
         return
     await query.answer()
     lang = _get_lang(context)
-    await query.edit_message_text(
-        text=WELCOME_TEXTS.get(lang, WELCOME_TEXTS["fa"]),
-        reply_markup=get_main_menu_keyboard(lang),
+    await _edit_menu_message(
+        update,
+        context,
+        WELCOME_TEXTS.get(lang, WELCOME_TEXTS["fa"]),
+        get_main_menu_keyboard(lang),
     )
 
 
@@ -216,9 +225,11 @@ async def start_feedback_handler(update: Update, context: ContextTypes.DEFAULT_T
         return
     await query.answer()
     lang = _get_lang(context)
-    await query.edit_message_text(
-        text=FEEDBACK_ASK.get(lang, FEEDBACK_ASK["fa"]),
-        reply_markup=_feedback_keyboard(lang),
+    await _edit_menu_message(
+        update,
+        context,
+        FEEDBACK_ASK.get(lang, FEEDBACK_ASK["fa"]),
+        _feedback_keyboard(lang),
     )
 
 
@@ -229,12 +240,17 @@ async def feedback_yes_handler(update: Update, context: ContextTypes.DEFAULT_TYP
         return
     await query.answer()
     lang = _get_lang(context)
-    text = FEEDBACK_YES.get(lang, FEEDBACK_YES["fa"])
-    # ✅ دکمه بازگشت به منو اضافه شد
-    await query.edit_message_text(
-        text=text,
+    back_labels = {
+        "fa": "🔙 بازگشت به منو",
+        "en": "🔙 Back to Menu",
+        "ar": "🔙 العودة إلى القائمة",
+    }
+    await _edit_menu_message(
+        update,
+        context,
+        text=FEEDBACK_YES.get(lang, FEEDBACK_YES["fa"]),
         reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton("🔙 بازگشت به منو", callback_data="back_main")]
+            [InlineKeyboardButton(back_labels.get(lang, back_labels["fa"]), callback_data="back_main")]
         ]),
     )
 
@@ -247,33 +263,53 @@ async def feedback_no_handler(update: Update, context: ContextTypes.DEFAULT_TYPE
     await query.answer()
     lang = _get_lang(context)
     context.user_data["awaiting_feedback"] = True
-    await query.edit_message_text(
+    back_labels = {
+        "fa": "🔙 بازگشت",
+        "en": "🔙 Back",
+        "ar": "🔙 رجوع",
+    }
+    await _edit_menu_message(
+        update,
+        context,
         text=FEEDBACK_NO.get(lang, FEEDBACK_NO["fa"]),
-        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🔙 بازگشت", callback_data="back_main")]]),
+        reply_markup=InlineKeyboardMarkup([[
+            InlineKeyboardButton(back_labels.get(lang, back_labels["fa"]), callback_data="back_main")
+        ]]),
     )
 
 
 async def feedback_text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """دریافت متن نظر ناراضی و ارسال برای ادمین."""
+    """دریافت متن نظر ناراضی و ارسال برای ادمین.
+
+    🎯 فیکس: قبلاً از متغیر محیطی ADMIN_ID خوانده می‌شد که هیچ‌جا مستند/تنظیم
+    نشده بود — در نتیجه نظرات ناراضی هرگز به ادمین نمی‌رسید. حالا از
+    settings.admin_chat_id (متغیر ADMIN_CHAT_ID، همان که survey.py استفاده می‌کند)
+    خوانده می‌شود.
+    """
     if not context.user_data.get("awaiting_feedback"):
         return
     context.user_data["awaiting_feedback"] = False
     lang = _get_lang(context)
     user = update.effective_user
     text = update.message.text
-    if ADMIN_ID:
+    first_name = user.first_name if user else "کاربر"
+    username = f"@{user.username}" if user and user.username else "—"
+    user_id = user.id if user else 0
+    if settings.admin_chat_id:
         try:
             await context.bot.send_message(
-                chat_id=ADMIN_ID,
+                chat_id=settings.admin_chat_id,
                 text=(
                     f"❌ نظر ناراضی جدید\n\n"
-                    f"👤 کاربر: {user.first_name} (@{user.username})\n"
-                    f"🆔 Chat ID: {user.id}\n\n"
+                    f"👤 کاربر: {first_name} ({username})\n"
+                    f"🆔 Chat ID: {user_id}\n\n"
                     f"💬 متن نظر:\n{text}"
                 ),
             )
         except Exception as e:
             logger.error(f"Error sending feedback: {e}")
+    else:
+        logger.warning("ADMIN_CHAT_ID تنظیم نشده است؛ نظر ناراضی برای ادمین ارسال نشد.")
     await update.message.reply_text(
         text=f"{FEEDBACK_THANKS.get(lang, FEEDBACK_THANKS['fa'])}\n\n{WELCOME_TEXTS.get(lang, WELCOME_TEXTS['fa'])}",
         reply_markup=get_main_menu_keyboard(lang),
