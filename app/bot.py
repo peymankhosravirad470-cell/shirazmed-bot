@@ -13,6 +13,7 @@ from telegram.ext import (
     CallbackQueryHandler,
     CommandHandler,
     ContextTypes,
+    MessageHandler,
     filters,
 )
 
@@ -24,6 +25,7 @@ from app.handlers.start import (
     select_language_handler,
     change_language_handler,
     back_to_main_handler,
+    # ✅ اضافه شد: هندلرهای نظرسنجی
     start_feedback_handler,
     feedback_yes_handler,
     feedback_no_handler,
@@ -41,14 +43,11 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
-# الگوهای callback
-# ---------------------------------------------------------------------------
-
 LANGUAGE_PATTERN = r"^lang_(fa|en|ar)$"
 CHANGE_LANGUAGE_PATTERN = r"^change_language$"
 BACK_TO_MAIN_PATTERN = r"^back_main$"
 
+# ✅ الگوهای جدید برای نظرسنجی
 FEEDBACK_START_PATTERN = r"^start_feedback$"
 FEEDBACK_YES_PATTERN = r"^feedback_yes$"
 FEEDBACK_NO_PATTERN = r"^feedback_no$"
@@ -181,7 +180,7 @@ def _register_handlers(application: Application) -> None:
         )
     )
 
-    # ✅ هندلرهای نظرسنجی
+    # ✅ هندلرهای نظرسنجی (اضافه شد)
     application.add_handler(
         CallbackQueryHandler(
             start_feedback_handler,
