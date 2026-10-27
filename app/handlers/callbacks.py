@@ -28,7 +28,6 @@ from app.services import doctor_loader
 if not isinstance(MSG, dict):
     MSG = {}
 
-# دیکشنری برای ذخیره شناسه پیام‌های ارسال‌شده به ازای هر چت
 _sent_messages = {}
 
 
@@ -82,7 +81,6 @@ def _safe_btn(lang: str, key: str, default: str = "") -> str:
 
 
 async def _cleanup_previous_messages(chat_id: int, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """پاک کردن پیام‌های قبلی که ربات در این چت فرستاده است."""
     if chat_id in _sent_messages:
         for msg_id in _sent_messages[chat_id]:
             try:
@@ -95,10 +93,7 @@ async def _cleanup_previous_messages(chat_id: int, context: ContextTypes.DEFAULT
 async def _display(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str, reply_markup: InlineKeyboardMarkup | None = None) -> None:
     chat_id = update.effective_chat.id if update.effective_chat else None
     if chat_id is None: return
-    
-    # قبل از نمایش هر چیز جدید، پیام‌های قبلی را پاک کن
     await _cleanup_previous_messages(chat_id, context)
-    
     query = update.callback_query
     if query is not None and query.message is not None:
         try:
@@ -113,7 +108,6 @@ async def _display(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str
                 await context.bot.delete_message(chat_id=chat_id, message_id=query.message.message_id)
             except Exception:
                 pass
-    
     msg = await context.bot.send_message(chat_id=chat_id, text=text, reply_markup=reply_markup)
     if chat_id not in _sent_messages:
         _sent_messages[chat_id] = []
@@ -131,13 +125,9 @@ async def _send_chunked(update: Update, context: ContextTypes.DEFAULT_TYPE, chat
         current.append(text)
         current_len += len(text) + 2
     if current: chunks.append("\n\n".join(current))
-
     sent = 0
     total = len(chunks)
-    
-    # قبل از ارسال لیست جدید، پیام‌های قبلی را پاک کن
     await _cleanup_previous_messages(chat_id, context)
-    
     for index, chunk in enumerate(chunks):
         is_last = index == total - 1
         markup = back_markup if is_last else None
@@ -163,21 +153,18 @@ async def _show_items(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: 
         texts = []
         for item in items:
             if not isinstance(item, dict): continue
-
             name = ""
             name_obj = item.get("name")
             if isinstance(name_obj, dict):
                 name = name_obj.get(lang) or name_obj.get("fa") or ""
             else:
                 name = _get_localized_field(item, "name_fa", lang) or _get_localized_field(item, "name", lang)
-
             address = ""
             addr_obj = item.get("address")
             if isinstance(addr_obj, dict):
                 address = addr_obj.get(lang) or addr_obj.get("fa") or ""
             else:
                 address = _get_localized_field(item, "address_fa", lang) or _get_localized_field(item, "address", lang)
-
             category = _get_localized_field(item, "category_fa", lang)
             visiting_hours = _get_localized_field(item, "visiting_hours_fa", lang)
             ticket_price = _get_localized_field(item, "ticket_price_fa", lang)
@@ -185,10 +172,8 @@ async def _show_items(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: 
             best_season = _get_localized_field(item, "best_season_fa", lang)
             district = _get_localized_field(item, "district_fa", lang)
             phone = str(item.get("phone", "")) if item.get("phone") else ""
-            
             amenities = _get_localized_list(item, "amenities_fa", lang)
             amenities_str = "، ".join(amenities) if amenities else ""
-
             lines = []
             if name: lines.append(f"🏛️ نام: {name}")
             if category: lines.append(f"📌 دسته‌بندی: {category}")
@@ -200,10 +185,8 @@ async def _show_items(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: 
             if best_season: lines.append(f"🌤️ بهترین فصل: {best_season}")
             if phone: lines.append(f"📞 تلفن: {phone}")
             if amenities_str: lines.append(f"✨ امکانات: {amenities_str}")
-
             if lines:
                 texts.append("\n".join(lines))
-
         if not texts:
             await _display(update, context, empty_message, back_markup)
             return
@@ -388,12 +371,16 @@ async def show_appointments(update: Update, context: ContextTypes.DEFAULT_TYPE, 
 
 
 async def show_medication(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    """✅ اصلاح شد: حالا به جای پیام «به زودی»، فرم ثبت یادآور دارو نمایش می‌دهد."""
     if update.effective_chat is None: return
     try:
-        remind = _safe_msg("remind_med", "")
-        info = "این بخش به زودی فعال می‌شود. برای یادآور دارو، فعلاً از پشتیبانی استفاده کنید: 190"
-        parts = [remind, info] if remind else [info]
-        await _display(update, context, "\n\n".join(parts), get_back_keyboard(lang))
+        texts = {
+            "fa": "💊 یادآور دارو\n\nلطفاً نام دارو و ساعت مصرف را بنویسید تا برای شما یادآوری کنیم.\n\nمثال: «قرص فشار، ساعت ۸ صبح»",
+            "en": "💊 Medication Reminder\n\nPlease write the medication name and time so we can remind you.\n\nExample: «Blood pressure pill, 8 AM»",
+            "ar": "💊 تذكير بالدواء\n\nيرجى كتابة اسم الدواء ووقت تناوله حتى نذكرك.\n\nمثال: «حبة ضغط، الساعة 8 صباحاً»",
+        }
+        text = texts.get(lang, texts["fa"])
+        await _display(update, context, text, get_back_keyboard(lang))
     except Exception:
         await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
 
@@ -599,7 +586,8 @@ async def main_menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
 MED_SPEC_PER_PAGE = 8
 
-def _medical_spec_keyboard(page: int) -> tuple[InlineKeyboardMarkup, int]:
+def _medical_spec_keyboard(page: int, lang: str = "fa") -> tuple[InlineKeyboardMarkup, int]:
+    """✅ اصلاح شد: حالا زبان کاربر را دریافت می‌کند و برچسب‌ها را از فایل ترجمه می‌خواند."""
     from app.services import doctor_loader
     specialties = doctor_loader.load_specialties()
     total_pages = max(1, (len(specialties) + MED_SPEC_PER_PAGE - 1) // MED_SPEC_PER_PAGE)
@@ -610,15 +598,20 @@ def _medical_spec_keyboard(page: int) -> tuple[InlineKeyboardMarkup, int]:
     if page > 0: nav.append(InlineKeyboardButton("▶️ قبلی", callback_data=f"med_page_{page - 1}"))
     if page < total_pages - 1: nav.append(InlineKeyboardButton("◀️ بعدی", callback_data=f"med_page_{page + 1}"))
     if nav: rows.append(nav)
-    rows.append([InlineKeyboardButton(get_msg_btn("fa", "btn_back"), callback_data="back_main")])
+    rows.append([InlineKeyboardButton(get_msg_btn(lang, "btn_back"), callback_data="back_main")])
     return InlineKeyboardMarkup(rows), len(specialties)
 
 
 async def show_medical_specialties(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str, page: int = 0) -> None:
     if update.effective_chat is None: return
     try:
-        kb, total = _medical_spec_keyboard(page)
-        await _display(update, context, f"👨‍⚕️ تخصص‌های پزشکی شیراز ({total} تخصص):\n\nیکی را انتخاب کنید:", kb)
+        kb, total = _medical_spec_keyboard(page, lang)
+        texts = {
+            "fa": f"👨‍⚕️ تخصص‌های پزشکی شیراز ({total} تخصص):\n\nیکی را انتخاب کنید:",
+            "en": f"👨‍⚕️ Medical Specialties in Shiraz ({total} specialties):\n\nChoose one:",
+            "ar": f"👨‍⚕️ التخصصات الطبية في شيراز ({total} تخصص):\n\nاختر واحداً:",
+        }
+        await _display(update, context, texts.get(lang, texts["fa"]), kb)
     except Exception:
         await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
 
@@ -636,7 +629,7 @@ async def medical_browse_callback(update: Update, context: ContextTypes.DEFAULT_
         try: page = int(data.replace("med_page_", ""))
         except ValueError: page = 0
         try:
-            kb, _ = _medical_spec_keyboard(page)
+            kb, _ = _medical_spec_keyboard(page, lang)
             await query.edit_message_reply_markup(reply_markup=kb)
         except Exception: pass
         return
@@ -668,7 +661,8 @@ async def medical_browse_callback(update: Update, context: ContextTypes.DEFAULT_
 
     if data == "med_back":
         try:
-            await query.edit_message_text("👨‍⚕️ تخصص‌های پزشکی شیراز:", reply_markup=_medical_spec_keyboard(0)[0])
+            kb, _ = _medical_spec_keyboard(0, lang)
+            await query.edit_message_text("👨‍⚕️ تخصص‌های پزشکی شیراز:", reply_markup=kb)
         except Exception: pass
         return
 
