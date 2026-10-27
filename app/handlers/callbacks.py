@@ -25,153 +25,79 @@ from app.locales import get_msg_btn
 from app.locales.fa import MSG
 from app.services import doctor_loader
 
-# ایمن‌سازی: تضمین می‌کند MSG همیشه dict باشد تا .get هرگز خطا ندهد
 if not isinstance(MSG, dict):
     MSG = {}
 
 
 def load_json(filename: str) -> Union[list, dict]:
-    """خواندن امن فایل JSON از پوشه data در روت پروژه."""
     try:
-        base_dir = os.path.dirname(
-            os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        )
+        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         file_path = os.path.join(base_dir, "data", filename)
-
         if not os.path.isfile(file_path):
-            print(f"JSON file not found: {file_path}")
             return []
-
         with open(file_path, "r", encoding="utf-8") as file:
             data = json.load(file)
-
-        if isinstance(data, (list, dict)):
-            return data
-
-        return []
-
-    except (json.JSONDecodeError, OSError) as error:
-        print(f"Error loading JSON file '{filename}': {error}")
+        return data if isinstance(data, (list, dict)) else []
+    except Exception:
         return []
 
 
 def _get_localized_field(item: dict, base_key: str, lang: str) -> str:
-    """دریافت مقدار فیلد چندزبانه با استفاده از زبان کاربر و کلیدهای جایگزین."""
-    keys = [
-        f"{base_key}_{lang}",
-        f"{base_key}_fa",
-        f"{base_key}_en",
-        f"{base_key}_ar",
-        base_key,
-    ]
-
+    keys = [f"{base_key}_{lang}", f"{base_key}_fa", f"{base_key}_en", f"{base_key}_ar", base_key]
     for key in keys:
         value = item.get(key)
         if value:
-            if isinstance(value, str):
-                return value
-            if isinstance(value, list):
-                return ", ".join(str(v) for v in value)
-            if isinstance(value, dict):
-                return ", ".join(f"{k}: {v}" for k, v in value.items())
+            if isinstance(value, str): return value
+            if isinstance(value, list): return ", ".join(str(v) for v in value)
+            if isinstance(value, dict): return ", ".join(f"{k}: {v}" for k, v in value.items())
             return str(value)
-
     return ""
 
 
 def _get_localized_list(item: dict, base_key: str, lang: str) -> list:
-    """دریافت فیلد چندزبانه که مقدار آن لیست است."""
-    keys = [
-        f"{base_key}_{lang}",
-        f"{base_key}_fa",
-        f"{base_key}_en",
-        f"{base_key}_ar",
-        base_key,
-    ]
+    keys = [f"{base_key}_{lang}", f"{base_key}_fa", f"{base_key}_en", f"{base_key}_ar", base_key]
     for key in keys:
         value = item.get(key)
-        if isinstance(value, list):
-            return value
+        if isinstance(value, list): return value
     return []
 
 
 def _safe_msg(key: str, default: str = "") -> str:
-    """دریافت امن یک کلید از MSG با fallback."""
     try:
         value = MSG.get(key, default)
-        if value is None:
-            return default
-        return str(value)
+        return str(value) if value is not None else default
     except Exception:
         return default
 
 
 def _safe_btn(lang: str, key: str, default: str = "") -> str:
-    """دریافت امن یک دکمه/عنوان از get_msg_btn با fallback."""
     try:
         value = get_msg_btn(lang, key)
-        if value is None:
-            return default
-        return str(value)
-    except Exception as error:
-        print(f"Error getting msg btn '{key}' for lang '{lang}': {error}")
+        return str(value) if value is not None else default
+    except Exception:
         return default
 
 
-async def _display(
-    update: Update,
-    context: ContextTypes.DEFAULT_TYPE,
-    text: str,
-    reply_markup: InlineKeyboardMarkup | None = None,
-) -> None:
-    """🎯 فیکس تکرار منو: نمایش محتوا روی «همان پیام فعلی» به‌جای پیام جدید.
-
-    ۱) ابتدا پیام فعلی ویرایش می‌شود (edit_message_text)
-    ۲) اگر ویرایش ممکن نبود، پیام قبلی حذف و پیام جدید ارسال می‌شود
-    ۳) اگر آن هم نشد، فقط پیام جدید ارسال می‌شود
-
-    نتیجه: در چت همیشه فقط «یک» پیام منو/بخش جابه‌جا می‌شود و با هر بار
-    زدن «بازگشت» منوی تکراری ساخته نمی‌شود.
-    """
+async def _display(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str, reply_markup: InlineKeyboardMarkup | None = None) -> None:
     chat_id = update.effective_chat.id if update.effective_chat else None
-    if chat_id is None:
-        return
+    if chat_id is None: return
     query = update.callback_query
     if query is not None and query.message is not None:
         try:
             await query.edit_message_text(text=text, reply_markup=reply_markup)
             return
         except Exception as exc:
-            # «Message is not modified» یعنی همان محتوای فعلی درست است — خطا نیست
-            if "not modified" in str(exc).lower():
-                return
-            # ویرایش نشد → پیام قبلی حذف شود تا منوی تکراری در چت نماند
+            if "not modified" in str(exc).lower(): return
             try:
-                await context.bot.delete_message(
-                    chat_id=chat_id, message_id=query.message.message_id
-                )
+                await context.bot.delete_message(chat_id=chat_id, message_id=query.message.message_id)
             except Exception:
                 pass
     await context.bot.send_message(chat_id=chat_id, text=text, reply_markup=reply_markup)
 
 
-async def _send_chunked(
-    update: Update,
-    context: ContextTypes.DEFAULT_TYPE,
-    chat_id: int,
-    texts: list[str],
-    back_markup: InlineKeyboardMarkup,
-    max_chars: int = 2800,
-) -> int:
-    """🆕 فیکس flood: چند آیتم را در پیام‌های چندتایی (تا max_chars) ادغام می‌کند.
-
-    قبلاً برای هر بیمارستان/آیتم یک پیام جدا ارسال می‌شد که با لیست‌های بزرگ،
-    ده‌ها پیام پشت‌سرهم می‌فرستاد و ربات به محدودیت flood می‌خورد.
-    🎯 فیکس تکرار منو: تکه‌ی اول روی همان پیام منو ویرایش می‌شود.
-    Returns: تعداد پیام‌های ارسال‌شده.
-    """
-    chunks: list[str] = []
-    current: list[str] = []
+async def _send_chunked(update: Update, context: ContextTypes.DEFAULT_TYPE, chat_id: int, texts: list[str], back_markup: InlineKeyboardMarkup, max_chars: int = 2800) -> int:
+    chunks = []
+    current = []
     current_len = 0
     for text in texts:
         if current and current_len + len(text) + 2 > max_chars:
@@ -179,8 +105,7 @@ async def _send_chunked(
             current, current_len = [], 0
         current.append(text)
         current_len += len(text) + 2
-    if current:
-        chunks.append("\n\n".join(current))
+    if current: chunks.append("\n\n".join(current))
 
     sent = 0
     total = len(chunks)
@@ -192,177 +117,80 @@ async def _send_chunked(
         else:
             await context.bot.send_message(chat_id=chat_id, text=chunk, reply_markup=markup)
         sent += 1
-        if not is_last:
-            await asyncio.sleep(0.35)  # جلوگیری از محدودیت flood بله
+        if not is_last: await asyncio.sleep(0.35)
     return sent
 
 
-async def _show_items(
-    update: Update,
-    context: ContextTypes.DEFAULT_TYPE,
-    lang: str,
-    filename: str,
-    empty_message: str = "اطلاعاتی یافت نشد.",
-) -> None:
-    """نمایش آیتم‌های یک فایل JSON با پیام‌های ادغام‌شده (فیکس flood)."""
-    if update.effective_chat is None:
-        return
-
+async def _show_items(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str, filename: str, empty_message: str = "اطلاعاتی یافت نشد.") -> None:
+    if update.effective_chat is None: return
     chat_id = update.effective_chat.id
     back_markup = get_back_keyboard(lang)
-
     try:
         items = load_json(filename)
-
-        if not isinstance(items, list):
-            items = []
-
-        texts: list[str] = []
+        if not isinstance(items, list): items = []
+        texts = []
         for item in items:
-            if not isinstance(item, dict):
-                continue
-
+            if not isinstance(item, dict): continue
             name = _get_localized_field(item, "name", lang)
             address = _get_localized_field(item, "address", lang)
             phone = str(item.get("phone", "")) if item.get("phone") else ""
-
-            message_lines = []
-            if name:
-                message_lines.append(f"نام: {name}")
-            if address:
-                message_lines.append(f"آدرس: {address}")
-            if phone:
-                message_lines.append(f"تلفن: {phone}")
-
-            if message_lines:
-                texts.append("\n".join(message_lines))
-
+            lines = []
+            if name: lines.append(f"نام: {name}")
+            if address: lines.append(f"آدرس: {address}")
+            if phone: lines.append(f"تلفن: {phone}")
+            if lines: texts.append("\n".join(lines))
         if not texts:
             await _display(update, context, empty_message, back_markup)
             return
-
         await _send_chunked(update, context, chat_id, texts, back_markup)
-
-    except Exception as error:
-        traceback.print_exc()
-        print(f"Error showing items from '{filename}': {error}")
-
-        await _display(
-            update,
-            context,
-            "خطا در دریافت اطلاعات. لطفاً دوباره تلاش کنید.",
-            back_markup,
-        )
+    except Exception:
+        await _display(update, context, "خطا در دریافت اطلاعات.", back_markup)
 
 
-async def show_hospitals(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str
-) -> None:
-    """نمایش لیست بیمارستان‌ها از فایل‌های hospitals.json و hospitals2.json."""
-    if update.effective_chat is None:
-        return
-
+async def show_hospitals(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    if update.effective_chat is None: return
     chat_id = update.effective_chat.id
-
     try:
-        hospitals: list[dict[str, Any]] = []
+        hospitals = []
         for fname in ("hospitals.json", "hospitals2.json"):
             data = load_json(fname)
-            if isinstance(data, list):
-                hospitals.extend(i for i in data if isinstance(i, dict))
-
+            if isinstance(data, list): hospitals.extend(i for i in data if isinstance(i, dict))
         if not hospitals:
             await _display(update, context, "اطلاعاتی یافت نشد.", get_back_keyboard(lang))
             return
-
-        texts: list[str] = []
-
-        for hospital in hospitals:
-            if not isinstance(hospital, dict):
-                continue
-
-            name = _get_localized_field(hospital, "name", lang)
-            ownership = _get_localized_field(hospital, "ownership", lang)
-            ipd_code = hospital.get("ipd_code", "")
-            has_ipd = hospital.get("has_ipd", False)
-            address = _get_localized_field(hospital, "address", lang)
-            specialties_list = _get_localized_list(hospital, "specialties", lang)
-            specialties = "، ".join(specialties_list) if specialties_list else ""
-            languages_list = _get_localized_list(hospital, "translator_languages", lang)
-            languages = "، ".join(languages_list) if languages_list else ""
-            phone = str(hospital.get("phone", "")) if hospital.get("phone") else ""
-            ipd_phone = str(hospital.get("ipd_direct_phone", "")) if hospital.get("ipd_direct_phone") else ""
-            website = str(hospital.get("website", "")) if hospital.get("website") else ""
-
-            message_lines = []
-
-            if name:
-                message_lines.append(f"🏥 نام: {name}")
-            if ownership:
-                message_lines.append(f"🏢 مالکیت: {ownership}")
-            if has_ipd:
-                message_lines.append(f"🩺 کد IPD: {ipd_code}")
-            if address:
-                message_lines.append(f"📍 آدرس: {address}")
-            if specialties:
-                message_lines.append(f"🔬 تخصص‌ها: {specialties}")
-            if languages:
-                message_lines.append(f"🗣 زبان‌های مترجم: {languages}")
-            if phone:
-                message_lines.append(f"📞 تلفن اصلی: {phone}")
-            if ipd_phone:
-                message_lines.append(f"📞 تلفن مستقیم IPD: {ipd_phone}")
-            if website:
-                message_lines.append(f"🌐 وب‌سایت: {website}")
-
-            if message_lines:
-                texts.append("\n".join(message_lines))
-
+        texts = []
+        for h in hospitals:
+            if not isinstance(h, dict): continue
+            name = _get_localized_field(h, "name", lang)
+            address = _get_localized_field(h, "address", lang)
+            phone = str(h.get("phone", "")) if h.get("phone") else ""
+            lines = []
+            if name: lines.append(f"🏥 نام: {name}")
+            if address: lines.append(f"📍 آدرس: {address}")
+            if phone: lines.append(f"📞 تلفن: {phone}")
+            if lines: texts.append("\n".join(lines))
         if texts:
             await _send_chunked(update, context, chat_id, texts, get_back_keyboard(lang))
         else:
             await _display(update, context, "اطلاعاتی یافت نشد.", get_back_keyboard(lang))
-
-    except Exception as error:
-        traceback.print_exc()
-        print(f"Error showing hospitals: {error}")
-
-        await _display(
-            update,
-            context,
-            "خطا در دریافت اطلاعات. لطفاً دوباره تلاش کنید.",
-            get_back_keyboard(lang),
-        )
+    except Exception:
+        await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
 
 
-async def show_hotels(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str
-) -> None:
-    await _show_items(update, context, lang, "hotels.json", empty_message="هتلی یافت نشد.")
+async def show_hotels(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    await _show_items(update, context, lang, "hotels.json", "هتلی یافت نشد.")
 
+async def show_motels(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    await _show_items(update, context, lang, "motels.json", "مهمان‌پذیری یافت نشد.")
 
-async def show_motels(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str
-) -> None:
-    await _show_items(update, context, lang, "motels.json", empty_message="مهمان‌پذیری یافت نشد.")
+async def show_tourist_houses(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    await _show_items(update, context, lang, "tourist_houses.json", "خانه مسافری یافت نشد.")
 
+async def show_transport(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    await _show_items(update, context, lang, "transport.json", "وسیله نقلیه‌ای یافت نشد.")
 
-async def show_tourist_houses(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str
-) -> None:
-    await _show_items(update, context, lang, "tourist_houses.json", empty_message="خانه مسافری یافت نشد.")
-async def show_transport(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str
-) -> None:
-    await _show_items(update, context, lang, "transport.json", empty_message="وسیله نقلیه‌ای یافت نشد.")
-
-
-async def show_patient_guide(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str
-) -> None:
-    """نمایش راهنمای بیمار از فایل patient_guide.json."""
-    if update.effective_chat is None:
-        return
+async def show_patient_guide(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    if update.effective_chat is None: return
     chat_id = update.effective_chat.id
     try:
         data = load_json("patient_guide.json")
@@ -370,89 +198,53 @@ async def show_patient_guide(
         if not items:
             await _display(update, context, "اطلاعاتی یافت نشد.", get_back_keyboard(lang))
             return
-        texts: list[str] = []
+        texts = []
         for item in items:
-            if not isinstance(item, dict):
-                continue
-            message_lines = []
+            if not isinstance(item, dict): continue
+            lines = []
             topic = _get_localized_field(item, "topic", lang)
-            if topic:
-                message_lines.append(f"📌 {topic}\n")
+            if topic: lines.append(f"📌 {topic}\n")
             visa_docs = _get_localized_list(item, "medical_visa_documents", lang)
             if visa_docs:
-                message_lines.append("🛂 مدارک ویزای پزشکی:")
-                for i, doc in enumerate(visa_docs, 1):
-                    message_lines.append(f"{i}. {doc}")
-                message_lines.append("")
+                lines.append("🛂 مدارک ویزای پزشکی:")
+                for i, doc in enumerate(visa_docs, 1): lines.append(f"{i}. {doc}")
             admission_docs = _get_localized_list(item, "hospital_admission_documents", lang)
             if admission_docs:
-                message_lines.append("🏥 مدارک پذیرش بیمارستان:")
-                for i, doc in enumerate(admission_docs, 1):
-                    message_lines.append(f"{i}. {doc}")
-                message_lines.append("")
+                lines.append("🏥 مدارک پذیرش بیمارستان:")
+                for i, doc in enumerate(admission_docs, 1): lines.append(f"{i}. {doc}")
             translator = _get_localized_field(item, "translator_requirement", lang)
-            if translator:
-                message_lines.append(f"🗣 الزام مترجم: {translator}\n")
-            if message_lines:
-                texts.append("\n".join(message_lines))
+            if translator: lines.append(f"🗣 الزام مترجم: {translator}\n")
+            if lines: texts.append("\n".join(lines))
         if texts:
             await _send_chunked(update, context, chat_id, texts, get_back_keyboard(lang))
         else:
             await _display(update, context, "اطلاعاتی یافت نشد.", get_back_keyboard(lang))
-    except Exception as error:
-        traceback.print_exc()
-        print(f"Error showing patient guide: {error}")
+    except Exception:
         await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
 
 
-async def show_complaints(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str, is_foreign: bool = False
-) -> None:
-    """نمایش شکایات (ایرانی یا خارجی) بر اساس انتخاب کاربر."""
+async def show_complaints(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str, is_foreign: bool = False) -> None:
     filename = "complaints_foreign.json" if is_foreign else "complaints_iranian.json"
-    await _show_items(
-        update, context, lang, filename,
-        empty_message="اطلاعاتی برای این بخش یافت نشد."
-    )
+    await _show_items(update, context, lang, filename, "اطلاعاتی برای این بخش یافت نشد.")
 
+async def show_support(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    await _show_items(update, context, lang, "support.json", "اطلاعاتی یافت نشد.")
 
-async def show_support(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str
-) -> None:
-    await _show_items(update, context, lang, "support.json", empty_message="اطلاعاتی یافت نشد.")
-
-
-async def show_taxi(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str
-) -> None:
-    """نمایش اپلیکیشن‌های درخواست خودرو (فقط اسنپ و تپسی)."""
-    if update.effective_chat is None:
-        return
-    chat_id = update.effective_chat.id
+async def show_taxi(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    if update.effective_chat is None: return
     try:
-        taxi_keyboard = InlineKeyboardMarkup([
+        kb = InlineKeyboardMarkup([
             [InlineKeyboardButton("اسنپ (Snapp)", url="https://snapp.ir")],
             [InlineKeyboardButton("تپسی (Tapsi)", url="https://tapsi.ir")],
             [InlineKeyboardButton(get_msg_btn(lang, "btn_back"), callback_data="back_main")]
         ])
-        await _display(
-            update,
-            context,
-            "برای درخواست خودرو، یکی از اپلیکیشن‌های زیر را انتخاب کنید:",
-            taxi_keyboard,
-        )
-    except Exception as error:
-        traceback.print_exc()
-        print(f"Error showing taxi: {error}")
+        await _display(update, context, "برای درخواست خودرو، یکی از اپلیکیشن‌های زیر را انتخاب کنید:", kb)
+    except Exception:
         await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
 
 
-async def show_charter(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str
-) -> None:
-    """نمایش متن منشور حقوق بیمار (تکه‌تکه شده)."""
-    if update.effective_chat is None:
-        return
+async def show_charter(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    if update.effective_chat is None: return
     chat_id = update.effective_chat.id
     try:
         title = _safe_btn(lang, "charter_title", "منشور حقوق بیمار")
@@ -460,289 +252,183 @@ async def show_charter(
         if not body:
             await _display(update, context, title, get_back_keyboard(lang))
             return
-        full_text = f"{title}\n\n{body}" if title else body
-        max_len = 3500
+        full = f"{title}\n\n{body}"
         chunks = []
-        remaining = full_text
-        while remaining:
-            if len(remaining) <= max_len:
-                chunks.append(remaining)
+        rem = full
+        while rem:
+            if len(rem) <= 3500:
+                chunks.append(rem)
                 break
-            split_at = remaining.rfind("\n", 0, max_len)
-            if split_at == -1:
-                split_at = max_len
-            chunks.append(remaining[:split_at])
-            remaining = remaining[split_at:].lstrip("\n")
-        if not chunks:
-            chunks = [title]
+            split = rem.rfind("\n", 0, 3500)
+            if split == -1: split = 3500
+            chunks.append(rem[:split])
+            rem = rem[split:].lstrip("\n")
         for idx, chunk in enumerate(chunks):
-            is_last = idx == len(chunks) - 1
-            markup = get_back_keyboard(lang) if is_last else None
-            if idx == 0:
-                # 🎯 فیکس تکرار منو: تکه‌ی اول روی همان پیام ویرایش می‌شود
-                await _display(update, context, chunk, markup)
-            else:
-                await context.bot.send_message(chat_id=chat_id, text=chunk, reply_markup=markup)
-    except Exception as error:
-        traceback.print_exc()
+            markup = get_back_keyboard(lang) if idx == len(chunks) - 1 else None
+            if idx == 0: await _display(update, context, chunk, markup)
+            else: await context.bot.send_message(chat_id=chat_id, text=chunk, reply_markup=markup)
+    except Exception:
         await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
 
 
-async def show_translator(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str
-) -> None:
-    """نمایش گزینه‌های اتصال به اپلیکیشن مترجم گوشی."""
-    if update.effective_chat is None:
-        return
-    chat_id = update.effective_chat.id
-
-    translator_keyboard = InlineKeyboardMarkup([
-        [InlineKeyboardButton("🌐 ترجمه با Google Translate (وب)", url="https://translate.google.com/")],
+async def show_translator(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    if update.effective_chat is None: return
+    kb = InlineKeyboardMarkup([
+        [InlineKeyboardButton("🌐 ترجمه با Google Translate", url="https://translate.google.com/")],
         [InlineKeyboardButton("📱 اپلیکیشن Google Translate", url="https://play.google.com/store/apps/details?id=com.google.android.apps.translate")],
-        [InlineKeyboardButton("🍎 اپلیکیشن Apple Translate (iOS)", url="https://apps.apple.com/us/app/translate/id1514844618")],
         [InlineKeyboardButton("🔙 بازگشت", callback_data="back_main")]
     ])
-
     text = (
         "🌐 مترجم همراه هوشمند\n\n"
         "برای ارتباط آسان با راننده تاکسی، فروشنده یا هر شخص دیگری، "
-        "کافیست روی یکی از لینک‌های زیر کلیک کنید. "
-        "این لینک‌ها شما را مستقیم به اپلیکیشن مترجم گوشی‌تان متصل می‌کنند.\n\n"
-        "💡 نکته: اگر اپلیکیشن Google Translate را روی گوشی خود دارید، "
-        "می‌توانید از دکمه «اپلیکیشن Google Translate» استفاده کنید تا سریع‌تر باز شود."
+        "روی یکی از لینک‌های زیر کلیک کنید."
     )
-
-    try:
-        # نکته: parse_mode عمداً استفاده نمی‌شود — Markdown قدیمی در بله خطای parse می‌داد.
-        # 🎯 فیکس تکرار منو: ویرایش همان پیام به‌جای پیام جدید
-        await _display(update, context, text, translator_keyboard)
-    except Exception as error:
-        traceback.print_exc()
-        await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
+    await _display(update, context, text, kb)
 
 
-async def show_deepseek(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str
-) -> None:
-    if update.effective_chat is None:
-        return
-    chat_id = update.effective_chat.id
+async def show_deepseek(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    if update.effective_chat is None: return
     try:
         title = _safe_btn(lang, "deepseek_title", "دستیار هوشمند DeepSeek")
-        deepseek_keyboard = InlineKeyboardMarkup([
+        kb = InlineKeyboardMarkup([
             [InlineKeyboardButton("🚀 رفتن به DeepSeek", url="https://chat.deepseek.com")],
-            [InlineKeyboardButton("🔙 بازگشت", callback_data="back_main")],
+            [InlineKeyboardButton("🔙 بازگشت", callback_data="back_main")]
         ])
-        await _display(update, context, title, deepseek_keyboard)
-    except Exception as error:
-        traceback.print_exc()
+        await _display(update, context, title, kb)
+    except Exception:
         await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
 
 
-async def show_file(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str
-) -> None:
-    if update.effective_chat is None:
-        return
-    chat_id = update.effective_chat.id
+async def show_file(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    if update.effective_chat is None: return
     try:
-        message_text = _safe_msg("pt_not_found", "پرونده‌ای یافت نشد.")
-        await _display(update, context, message_text, get_back_keyboard(lang))
-    except Exception as error:
-        traceback.print_exc()
+        msg = _safe_msg("pt_not_found", "پرونده‌ای یافت نشد.")
+        await _display(update, context, msg, get_back_keyboard(lang))
+    except Exception:
         await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
 
 
-async def show_appointments(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str
-) -> None:
-    """نمایش نوبت‌های بیمار (اگر نداشت، دکمه رزرو)."""
-    if update.effective_chat is None:
-        return
-    chat_id = update.effective_chat.id
+async def show_appointments(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    if update.effective_chat is None: return
     try:
-        message_text = _safe_msg("apt_none", "شما هنوز هیچ نوبتی ثبت نکرده‌اید.")
-        book_keyboard = InlineKeyboardMarkup([
+        msg = _safe_msg("apt_none", "شما هنوز هیچ نوبتی ثبت نکرده‌اید.")
+        kb = InlineKeyboardMarkup([
             [InlineKeyboardButton("📅 رزرو نوبت جدید", callback_data="start_booking")],
             [InlineKeyboardButton(get_msg_btn(lang, "btn_back"), callback_data="back_main")]
         ])
-        await _display(update, context, message_text, book_keyboard)
-    except Exception as error:
-        traceback.print_exc()
+        await _display(update, context, msg, kb)
+    except Exception:
         await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
 
 
-async def show_medication(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str
-) -> None:
-    if update.effective_chat is None:
-        return
-    chat_id = update.effective_chat.id
+async def show_medication(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    if update.effective_chat is None: return
     try:
-        remind_text = _safe_msg("remind_med", "")
-        info_text = "این بخش به زودی فعال می‌شود. برای یادآور دارو، فعلاً از پشتیبانی استفاده کنید: 190"
-        parts = [remind_text, info_text] if remind_text else [info_text]
+        remind = _safe_msg("remind_med", "")
+        info = "این بخش به زودی فعال می‌شود. برای یادآور دارو، فعلاً از پشتیبانی استفاده کنید: 190"
+        parts = [remind, info] if remind else [info]
         await _display(update, context, "\n\n".join(parts), get_back_keyboard(lang))
-    except Exception as error:
-        traceback.print_exc()
+    except Exception:
         await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
 
 
-async def show_emergency(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str
-) -> None:
-    """نمایش شماره‌های اضطراری از support.json."""
-    if update.effective_chat is None:
-        return
+async def show_emergency(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    if update.effective_chat is None: return
     chat_id = update.effective_chat.id
     try:
         items = load_json("support.json")
-        if not isinstance(items, list):
-            items = []
-        emergency_items = []
-        for item in items:
-            if not isinstance(item, dict):
-                continue
-            emergency_value = item.get("emergency_contact")
-            if emergency_value is None:
-                continue
-            if isinstance(emergency_value, str) and not emergency_value.strip():
-                continue
-            emergency_items.append(item)
-        if not emergency_items:
+        if not isinstance(items, list): items = []
+        em_items = [i for i in items if isinstance(i, dict) and i.get("emergency_contact")]
+        if not em_items:
             await _display(update, context, "اطلاعاتی یافت نشد.", get_back_keyboard(lang))
             return
-        texts: list[str] = []
-        for item in emergency_items:
-            center_name = _get_localized_field(item, "name", lang)
-            emergency = str(item.get("emergency_contact", ""))
-            if not center_name and not emergency:
-                continue
-            message_lines = []
-            if center_name:
-                message_lines.append(f"🏢 {center_name}")
-            if emergency:
-                message_lines.append(f"🚨 شماره اضطراری: {emergency}")
-            if message_lines:
-                texts.append("\n".join(message_lines))
+        texts = []
+        for item in em_items:
+            name = _get_localized_field(item, "name", lang)
+            em = str(item.get("emergency_contact", ""))
+            if not name and not em: continue
+            lines = []
+            if name: lines.append(f"🏢 {name}")
+            if em: lines.append(f"🚨 شماره اضطراری: {em}")
+            if lines: texts.append("\n".join(lines))
         if texts:
             await _send_chunked(update, context, chat_id, texts, get_back_keyboard(lang))
         else:
             await _display(update, context, "اطلاعاتی یافت نشد.", get_back_keyboard(lang))
-    except Exception as error:
-        traceback.print_exc()
+    except Exception:
         await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
 
 
-async def show_channel(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str
-) -> None:
-    """نمایش لینک کانال رسمی (لینک جدید)."""
-    if update.effective_chat is None:
-        return
-    chat_id = update.effective_chat.id
+async def show_channel(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    if update.effective_chat is None: return
     try:
-        channel_keyboard = InlineKeyboardMarkup([
+        kb = InlineKeyboardMarkup([
             [InlineKeyboardButton("📢 عضویت در کانال", url="https://ble.ir/shiraz_medical")],
-            [InlineKeyboardButton("🔙 بازگشت", callback_data="back_main")],
+            [InlineKeyboardButton("🔙 بازگشت", callback_data="back_main")]
         ])
-        await _display(
-            update,
-            context,
-            "برای عضویت در کانال رسمی شیراز مدیکال، روی لینک زیر کلیک کنید:",
-            channel_keyboard,
-        )
-    except Exception as error:
-        traceback.print_exc()
+        await _display(update, context, "برای عضویت در کانال رسمی شیراز مدیکال، روی لینک زیر کلیک کنید:", kb)
+    except Exception:
         await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
 
 
-async def show_invite(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str
-) -> None:
-    """نمایش لینک دعوت اختصاصی با user_id."""
-    if update.effective_chat is None:
-        return
-    chat_id = update.effective_chat.id
+async def show_invite(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    if update.effective_chat is None: return
     try:
         user_id = update.effective_user.id if update.effective_user else 0
-        invite_link = f"https://ble.ir/ShirazMedBot?start={user_id}"
+        link = f"https://ble.ir/ShirazMedBot?start={user_id}"
         text = (
             "🎁 با دعوت دوستان، ۱۰٪ تخفیف در نوبت بعدی بگیرید!\n\n"
-            f"لینک اختصاصی شما:\n{invite_link}"
+            f"لینک اختصاصی شما:\n{link}"
         )
-        # 🆕 فیکس: parse_mode حذف شد — بک‌تیک در برخی نسخه‌های API بله خطا می‌دهد
         await _display(update, context, text, get_back_keyboard(lang))
-    except Exception as error:
-        traceback.print_exc()
+    except Exception:
         await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
-async def show_hubs(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str
-) -> None:
-    """نمایش پایانه‌های حمل‌ونقل (ادغام transport.json و transport_hubs.json)."""
-    if update.effective_chat is None:
-        return
+
+
+async def show_hubs(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    if update.effective_chat is None: return
     chat_id = update.effective_chat.id
     try:
         hubs = load_json("transport_hubs.json")
         transport = load_json("transport.json")
-        
         all_items = []
-        if isinstance(hubs, list):
-            all_items.extend(hubs)
+        if isinstance(hubs, list): all_items.extend(hubs)
         if isinstance(transport, list):
             for item in transport:
-                if isinstance(item, dict):
-                    name = str(item.get("name_fa", ""))
-                    if "اسنپ" not in name and "تپسی" not in name:
-                        all_items.append(item)
-                        
+                if isinstance(item, dict) and "اسنپ" not in str(item.get("name_fa", "")) and "تپسی" not in str(item.get("name_fa", "")):
+                    all_items.append(item)
         if not all_items:
             await _display(update, context, "اطلاعاتی یافت نشد.", get_back_keyboard(lang))
             return
-
-        texts: list[str] = []
+        texts = []
         for item in all_items:
-            if not isinstance(item, dict):
-                continue
+            if not isinstance(item, dict): continue
             name = _get_localized_field(item, "name", lang)
-            address = _get_localized_field(item, "address", lang)
+            addr = _get_localized_field(item, "address", lang)
             phone = str(item.get("phone", "")) if item.get("phone") else ""
-
-            message_lines = []
-            if name: message_lines.append(f"📍 {name}")
-            if address: message_lines.append(f"🏠 آدرس: {address}")
-            if phone: message_lines.append(f"📞 تلفن: {phone}")
-
-            if message_lines:
-                texts.append("\n".join(message_lines))
-
+            lines = []
+            if name: lines.append(f"📍 {name}")
+            if addr: lines.append(f"🏠 آدرس: {addr}")
+            if phone: lines.append(f"📞 تلفن: {phone}")
+            if lines: texts.append("\n".join(lines))
         if texts:
             await _send_chunked(update, context, chat_id, texts, get_back_keyboard(lang))
         else:
             await _display(update, context, "اطلاعاتی یافت نشد.", get_back_keyboard(lang))
-    except Exception as error:
-        traceback.print_exc()
+    except Exception:
         await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
 
 
-async def main_menu_callback(
-    update: Update, context: ContextTypes.DEFAULT_TYPE
-) -> None:
-    """پاسخ به کلیک روی دکمه‌های منوی اصلی و نمایش بخش مربوطه."""
+async def main_menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     query = update.callback_query
-    if query is None or update.effective_chat is None:
-        return
-    try:
-        await query.answer()
-    except Exception:
-        pass
+    if query is None or update.effective_chat is None: return
+    try: await query.answer()
+    except Exception: pass
 
     lang = context.user_data.get("lang", "fa")
     data = query.data
 
     if data == "non_medical":
-        # 🎯 فیکس تکرار منو: ویرایش همان پیام به‌جای پیام جدید
         await _display(update, context, "منوی خدمات غیرپزشکی:", get_non_medical_keyboard(lang))
         return
     if data == "non_hospitals":
@@ -790,26 +476,14 @@ async def main_menu_callback(
     if data == "patient_guide":
         await show_patient_guide(update, context, lang)
         return
-        
-    # بخش حقوق بیمار و شکایات (تفکیک شده)
     if data == "rights":
-        await _display(
-            update,
-            context,
-            "لطفاً بخش مورد نظر را انتخاب کنید:",
-            get_patient_rights_keyboard(lang),
-        )
+        await _display(update, context, "لطفاً بخش مورد نظر را انتخاب کنید:", get_patient_rights_keyboard(lang))
         return
     if data == "charter":
         await show_charter(update, context, lang)
         return
     if data == "complaints_menu":
-        await _display(
-            update,
-            context,
-            "لطفاً نوع شکایت خود را انتخاب کنید:",
-            get_complaints_menu_keyboard(lang),
-        )
+        await _display(update, context, "لطفاً نوع شکایت خود را انتخاب کنید:", get_complaints_menu_keyboard(lang))
         return
     if data == "complaints_iranian":
         await show_complaints(update, context, lang, is_foreign=False)
@@ -817,8 +491,6 @@ async def main_menu_callback(
     if data == "complaints_foreign":
         await show_complaints(update, context, lang, is_foreign=True)
         return
-    # پایان بخش حقوق بیمار
-        
     if data == "support":
         await show_support(update, context, lang)
         return
@@ -849,7 +521,6 @@ async def main_menu_callback(
     if data == "invite":
         await show_invite(update, context, lang)
         return
-    # 🆕 فیکس: دکمه‌های «پزشکی» و «پکیج کامل» قبلاً مرده بودند (فقط پیام «به‌زودی»)
     if data == "medical":
         await show_medical_specialties(update, context, lang, page=0)
         return
@@ -857,170 +528,98 @@ async def main_menu_callback(
         await show_package(update, context, lang)
         return
 
-    # فال‌بک (اگر دکمه‌ای هندل نشد)
-    await _display(
-        update,
-        context,
-        "این بخش در نسخه‌های بعدی فعال می‌شود.",
-        get_back_keyboard(lang),
-    )
+    await _display(update, context, "این بخش در نسخه‌های بعدی فعال می‌شود.", get_back_keyboard(lang))
 
-# ---------------------------------------------------------------------------
-# 🆕 مرور پزشکان واقعی (دکمه «👨‍⚕️ پزشکی» منوی اصلی)
-# قبلاً این دکمه مرده بود و فقط پیام «به‌زودی» می‌داد — حالا تخصص‌ها و پزشکان
-# واقعی از data/doctors (۱۱۴ پزشک) با صفحه‌بندی نمایش داده می‌شوند.
-# ---------------------------------------------------------------------------
 
 MED_SPEC_PER_PAGE = 8
 
-
 def _medical_spec_keyboard(page: int) -> tuple[InlineKeyboardMarkup, int]:
+    from app.services import doctor_loader
     specialties = doctor_loader.load_specialties()
     total_pages = max(1, (len(specialties) + MED_SPEC_PER_PAGE - 1) // MED_SPEC_PER_PAGE)
     page = max(0, min(page, total_pages - 1))
     chunk = specialties[page * MED_SPEC_PER_PAGE:(page + 1) * MED_SPEC_PER_PAGE]
-
-    rows = [
-        [InlineKeyboardButton(f"{item['label']} ({item['count']})", callback_data=f"med_spec_{item['key']}_{page}")]
-        for item in chunk
-    ]
+    rows = [[InlineKeyboardButton(f"{item['label']} ({item['count']})", callback_data=f"med_spec_{item['key']}_{page}")] for item in chunk]
     nav = []
-    if page > 0:
-        nav.append(InlineKeyboardButton("▶️ قبلی", callback_data=f"med_page_{page - 1}"))
-    if page < total_pages - 1:
-        nav.append(InlineKeyboardButton("◀️ بعدی", callback_data=f"med_page_{page + 1}"))
-    if nav:
-        rows.append(nav)
+    if page > 0: nav.append(InlineKeyboardButton("▶️ قبلی", callback_data=f"med_page_{page - 1}"))
+    if page < total_pages - 1: nav.append(InlineKeyboardButton("◀️ بعدی", callback_data=f"med_page_{page + 1}"))
+    if nav: rows.append(nav)
     rows.append([InlineKeyboardButton(get_msg_btn("fa", "btn_back"), callback_data="back_main")])
     return InlineKeyboardMarkup(rows), len(specialties)
 
 
-async def show_medical_specialties(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str, page: int = 0
-) -> None:
-    if update.effective_chat is None:
-        return
+async def show_medical_specialties(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str, page: int = 0) -> None:
+    if update.effective_chat is None: return
     try:
-        keyboard, total = _medical_spec_keyboard(page)
-        await _display(
-            update,
-            context,
-            f"👨‍⚕️ تخصص‌های پزشکی شیراز ({total} تخصص):\n\nیکی را انتخاب کنید تا پزشکان آن نمایش داده شود:",
-            keyboard,
-        )
-    except Exception as error:
-        traceback.print_exc()
-        await _display(
-            update,
-            context,
-            "خطا در دریافت اطلاعات.",
-            get_back_keyboard(lang),
-        )
+        kb, total = _medical_spec_keyboard(page)
+        await _display(update, context, f"👨‍⚕️ تخصص‌های پزشکی شیراز ({total} تخصص):\n\nیکی را انتخاب کنید:", kb)
+    except Exception:
+        await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
 
 
 async def medical_browse_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """هندل صفحات تخصص‌ها (med_page_N) و لیست پزشکان تخصص (med_spec_KEY_PAGE)."""
+    from app.services import doctor_loader
     query = update.callback_query
-    if query is None or update.effective_chat is None:
-        return
-    try:
-        await query.answer()
-    except Exception:
-        pass
-
+    if query is None or update.effective_chat is None: return
+    try: await query.answer()
+    except Exception: pass
     lang = context.user_data.get("lang", "fa")
     data = query.data or ""
 
     if data.startswith("med_page_"):
+        try: page = int(data.replace("med_page_", ""))
+        except ValueError: page = 0
         try:
-            page = int(data.replace("med_page_", ""))
-        except ValueError:
-            page = 0
-        try:
-            keyboard, _ = _medical_spec_keyboard(page)
-            await query.edit_message_reply_markup(reply_markup=keyboard)
-        except Exception:
-            pass
+            kb, _ = _medical_spec_keyboard(page)
+            await query.edit_message_reply_markup(reply_markup=kb)
+        except Exception: pass
         return
 
     if data.startswith("med_spec_"):
         payload = data.replace("med_spec_", "")
         spec_key, _, page_raw = payload.rpartition("_")
-        try:
-            page = int(page_raw)
-        except ValueError:
-            page = 0
-
+        try: page = int(page_raw)
+        except ValueError: page = 0
         spec = doctor_loader.get_specialty(spec_key)
         doctors = doctor_loader.load_doctors(spec_key)
         if spec is None or not doctors:
-            await query.edit_message_text(
-                "اطلاعات این تخصص در دسترس نیست.",
-                reply_markup=get_back_keyboard(lang),
-            )
+            await query.edit_message_text("اطلاعات این تخصص در دسترس نیست.", reply_markup=get_back_keyboard(lang))
             return
-
         per_page = 12
         start = page * per_page
         chunk = doctors[start:start + per_page]
-
         lines = [f"👨‍⚕️ {spec['label']} — {len(doctors)} پزشک:\n"]
-        for index, doc in enumerate(chunk, start=start + 1):
-            lines.append(f"{index}. {doc['name_fa']}")
-        lines.append(
-            "\n💡 برای رزرو نوبت از دکمه «📅 رزرو نوبت» در منوی اصلی استفاده کنید."
-        )
-
+        for i, doc in enumerate(chunk, start=start + 1): lines.append(f"{i}. {doc['name_fa']}")
         rows = []
         nav = []
         total_pages = max(1, (len(doctors) + per_page - 1) // per_page)
-        if page > 0:
-            nav.append(InlineKeyboardButton("▶️ قبلی", callback_data=f"med_spec_{spec_key}_{page - 1}"))
-        if page < total_pages - 1:
-            nav.append(InlineKeyboardButton("◀️ بعدی", callback_data=f"med_spec_{spec_key}_{page + 1}"))
-        if nav:
-            rows.append(nav)
+        if page > 0: nav.append(InlineKeyboardButton("▶️ قبلی", callback_data=f"med_spec_{spec_key}_{page - 1}"))
+        if page < total_pages - 1: nav.append(InlineKeyboardButton("◀️ بعدی", callback_data=f"med_spec_{spec_key}_{page + 1}"))
+        if nav: rows.append(nav)
         rows.append([InlineKeyboardButton("🔙 بازگشت به تخصص‌ها", callback_data="med_back")])
-        await query.edit_message_text(
-            "\n".join(lines),
-            reply_markup=InlineKeyboardMarkup(rows),
-        )
+        await query.edit_message_text("\n".join(lines), reply_markup=InlineKeyboardMarkup(rows))
         return
 
     if data == "med_back":
         try:
-            await query.edit_message_text(
-                "👨‍⚕️ تخصص‌های پزشکی شیراز:",
-                reply_markup=_medical_spec_keyboard(0)[0],
-            )
-        except Exception:
-            pass
+            await query.edit_message_text("👨‍⚕️ تخصص‌های پزشکی شیراز:", reply_markup=_medical_spec_keyboard(0)[0])
+        except Exception: pass
         return
 
 
-async def show_package(
-    update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str
-) -> None:
-    """🆕 پیام مناسب برای دکمه «💎 پکیج کامل» (قبلاً مرده بود)."""
-    if update.effective_chat is None:
-        return
-    chat_id = update.effective_chat.id
+async def show_package(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    if update.effective_chat is None: return
     try:
-        package_keyboard = InlineKeyboardMarkup([
+        kb = InlineKeyboardMarkup([
             [InlineKeyboardButton("📅 رزرو نوبت", callback_data="start_booking")],
-            [InlineKeyboardButton(get_msg_btn(lang, "btn_back"), callback_data="back_main")],
+            [InlineKeyboardButton(get_msg_btn(lang, "btn_back"), callback_data="back_main")]
         ])
         text = (
             "💎 پکیج کامل گردشگری سلامت\n\n"
             "پکیج کامل شامل همه‌ی خدمات به‌صورت یکجا است:\n"
-            "• هماهنگی نوبت پزشک و بیمارستان\n"
-            "• اقامت (هتل / مهمان‌پذیر)\n"
-            "• ترانسفر فرودگاه و بین مراکز درمانی\n"
-            "• مترجم همراه\n\n"
-            "📞 برای سفارش پکیج، با پشتیبانی تماس بگیرید: 190\n"
-            "یا از دکمه زیر نوبت پزشک را رزرو کنید:"
+            "• هماهنگی نوبت پزشک و بیمارستان\n• اقامت\n• ترانسفر\n• مترجم همراه\n\n"
+            "📞 برای سفارش، با پشتیبانی تماس بگیرید: 190"
         )
-        await _display(update, context, text, package_keyboard)
-    except Exception as error:
-        traceback.print_exc()
+        await _display(update, context, text, kb)
+    except Exception:
         await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
