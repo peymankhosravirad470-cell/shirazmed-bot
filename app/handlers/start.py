@@ -17,7 +17,6 @@ from app.locales import get_msg_btn
 
 logger = logging.getLogger(__name__)
 
-# آیدی عددی ادمین (در لیارا به عنوان متغیر محیطی تنظیم شود)
 ADMIN_ID = os.environ.get("ADMIN_ID", "").strip()
 
 WELCOME_TEXTS = {
@@ -224,16 +223,19 @@ async def start_feedback_handler(update: Update, context: ContextTypes.DEFAULT_T
 
 
 async def feedback_yes_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """کاربر راضی بود."""
+    """کاربر راضی بود - نمایش پیام تشکر + دکمه بازگشت به منو."""
     query = update.callback_query
     if query is None:
         return
     await query.answer()
     lang = _get_lang(context)
     text = FEEDBACK_YES.get(lang, FEEDBACK_YES["fa"])
+    # ✅ دکمه بازگشت به منو اضافه شد
     await query.edit_message_text(
-        text=f"{text}\n\n{WELCOME_TEXTS.get(lang, WELCOME_TEXTS['fa'])}",
-        reply_markup=get_main_menu_keyboard(lang),
+        text=text,
+        reply_markup=InlineKeyboardMarkup([
+            [InlineKeyboardButton("🔙 بازگشت به منو", callback_data="back_main")]
+        ]),
     )
 
 
