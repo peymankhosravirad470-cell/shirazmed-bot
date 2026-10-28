@@ -103,6 +103,7 @@ MENU_CALLBACKS: tuple[str, ...] = (
     "complaints_iranian",
     "complaints_foreign",
     "support",
+    "site",
     "start_survey",
 )
 

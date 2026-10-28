@@ -234,6 +234,8 @@ MSG_BTN = {
     "btn_back": "🔙 Back",
     "btn_feedback": "💬 Feedback",
     "btn_change_lang": "🌐 Change Language",
+    "btn_site": "🌐 Website Address",
+
 
     "btn_hospitals": "🏥 Hospitals",
     "btn_hotels": "🏨 Hotels",

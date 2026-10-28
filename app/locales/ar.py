@@ -233,6 +233,8 @@ MSG_BTN = {
     "btn_back": "🔙 رجوع",
     "btn_feedback": "💬 ملاحظات",
     "btn_change_lang": "🌐 تغيير اللغة",
+    "btn_site": "🌐 رابط الموقع",
+
 
     "btn_hospitals": "🏥 المستشفيات",
     "btn_hotels": "🏨 الفنادق",

@@ -38,6 +38,9 @@ def get_main_menu_keyboard(lang: str) -> InlineKeyboardMarkup:
     
     # دکمه تغییر زبان
     rows.append([InlineKeyboardButton(get_msg_btn(lang, "btn_change_lang"), callback_data="change_language")])
+
+    # 🌐 دکمه «آدرس سایت» — انتهای منو (تنها دکمه جدید؛ سایر دکمه‌ها دست‌نخورده‌اند)
+    rows.append([InlineKeyboardButton(get_msg_btn(lang, "btn_site"), callback_data="site")])
     return InlineKeyboardMarkup(rows)
 
 

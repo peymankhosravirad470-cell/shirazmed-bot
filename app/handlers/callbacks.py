@@ -42,6 +42,16 @@ _T: dict[str, dict[str, str]] = {
     "prompt_rights": {"fa": "لطفاً بخش مورد نظر را انتخاب کنید:", "en": "Please choose a section:", "ar": "يرجى اختيار القسم المطلوب:"},
     "prompt_complaints": {"fa": "لطفاً نوع شکایت خود را انتخاب کنید:", "en": "Please choose your complaint type:", "ar": "يرجى اختيار نوع شكواك:"},
     "coming_soon": {"fa": "این بخش در نسخه‌های بعدی فعال می‌شود.", "en": "This section will be available in future versions.", "ar": "سيتم تفعيل هذا القسم في الإصدارات القادمة."},
+    # ── 🌐 دکمه «آدرس سایت» (تنها دکمه جدید منو) ──
+    # سایت آینده: https://medshiraz.ir (فعلاً بالا نیامده است)
+    # 🎯 وقتی سایت راه‌اندازی شد فقط: در app/keyboards/main.py دکمه را به
+    #    دکمه لینک‌دار (InlineKeyboardButton با پارامتر url) تبدیل کنید و
+    #    شاخه "site" را از main_menu_callback حذف کنید.
+    "site_soon": {
+        "fa": "🚧 سایت به زودی فعال می‌شود",
+        "en": "🚧 The website will be available soon",
+        "ar": "🚧 سيتم تفعيل الموقع قريباً",
+    },
     # ── برچسب فیلدهای داده ──
     "lbl_name": {"fa": "نام", "en": "Name", "ar": "الاسم"},
     "lbl_category": {"fa": "دسته‌بندی", "en": "Category", "ar": "الفئة"},
@@ -559,6 +569,12 @@ async def main_menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     lang = context.user_data.get("lang", "fa")
     data = query.data
+
+    # 🌐 دکمه «آدرس سایت» — تا راه‌اندازی https://medshiraz.ir فقط پیام «به زودی» می‌دهد.
+    # هیچ دکمه دیگری تغییر نکرده است.
+    if data == "site":
+        await _display(update, context, _t(lang, "site_soon"), get_back_keyboard(lang))
+        return
 
     if data == "non_medical":
         await _display(update, context, _t(lang, "menu_non_medical"), get_non_medical_keyboard(lang))
