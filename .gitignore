@@ -16,3 +16,7 @@ cache/
 # محیط مجازی و اسرار
 venv/
 .env
+
+# 🆕 داده‌های ران‌تایم جدید (ماندگاری زبان + یادآور دارو)
+data/bot_persistence.pkl
+data/medications.json
