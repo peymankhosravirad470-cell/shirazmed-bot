@@ -37,6 +37,11 @@ from app.handlers.survey import survey_conversation_handler
 from app.handlers.companion import companion_conversation_handler
 from app.handlers import meds
 from app.handlers.meds import meds_conversation_handler
+from app.handlers.doctor_reg import (
+    doctor_reg_conversation_handler,
+    admin_registration_action,
+    pending_command,
+)
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -140,6 +145,7 @@ async def reset_conversations_callback(update: Update, context: ContextTypes.DEF
             survey_conversation_handler,
             companion_conversation_handler,
             meds_conversation_handler,
+            doctor_reg_conversation_handler,
         ):
             try:
                 conv._conversations.pop(key, None)
@@ -268,6 +274,18 @@ def _register_handlers(application: Application) -> None:
     application.add_handler(booking_conversation_handler)
     application.add_handler(meds_conversation_handler)
 
+    # 🩺 ثبت‌نام پزشک — کاملاً مخفی:
+    #   ورود: فقط /doctor، /docreg یا لینک اختصاصی (?start=docreg)
+    #   هیچ دکمه‌ای به منوهای بیمار اضافه نشده است.
+    application.add_handler(doctor_reg_conversation_handler)
+    # 🩺 دکمه تایید/رد ادمین + دستور مخفی /pending (فقط در چت ادمین پاسخ می‌دهد)
+    application.add_handler(
+        CallbackQueryHandler(admin_registration_action, pattern=r"^dregadm_(ok|no)_\d+$")
+    )
+    application.add_handler(
+        CommandHandler("pending", pending_command, filters=PRIVATE_CHAT_ONLY)
+    )
+
     # دکمه‌های منو
     application.add_handler(
         CallbackQueryHandler(main_menu_callback, pattern=MENU_PATTERN)
@@ -293,7 +311,8 @@ def _register_handlers(application: Application) -> None:
         "Handlers registered: start, help, language, back_main, "
         "feedback_start/yes/no, survey_conversation, companion_conversation, "
         "booking_conversation, meds_conversation, med_menu, "
-        "main_menu (%d callbacks), feedback_text, conv-reset(group -1).",
+        "main_menu (%d callbacks), feedback_text, conv-reset(group -1), "
+        "doctor_reg(hidden), dregadm, pending.",
         len(MENU_CALLBACKS),
     )
 

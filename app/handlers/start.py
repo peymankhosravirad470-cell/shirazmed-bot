@@ -143,6 +143,11 @@ async def _edit_menu_message(update, context, text, reply_markup):
 async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if update.effective_chat is None:
         return
+    # 🩺 ثبت‌نام پزشک: لینک اختصاصی (?start=docreg) نباید منوی بیمار را بفرستد.
+    # فرم ثبت‌نام توسط doctor_reg_conversation_handler شروع می‌شود (ورود مخفی —
+    # بیمارها هیچ دکمه یا دستوری از آن نمی‌بینند).
+    if (context.args or []) and str(context.args[0]).strip().lower() == "docreg":
+        return
     lang = context.user_data.get("lang")
     if not lang:
         await context.bot.send_message(

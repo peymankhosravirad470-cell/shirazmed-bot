@@ -96,6 +96,15 @@ class Settings:
     public_base_url: str = field(
         default_factory=lambda: os.getenv("PUBLIC_BASE_URL", "https://shirazmedical.iran.liara.run").rstrip("/")
     )
+    # 🩺 ثبت‌نام پزشک: رمز ورود به فرم مخفی (پیش‌فرض موقت — بهتر است در لیارا تغییر داده شود)
+    doctor_reg_code: str = field(
+        default_factory=lambda: os.getenv("DOCTOR_REG_CODE", "SM1404")
+    )
+    # 🩺 کامیت خودکار پزشکان تاییدشده روی گیت‌هاب (اختیاری) — در صورت تنظیم،
+    # تایید ادمین همزمان روی گیت‌هاب هم کامیت می‌شود و دیپلوی خودکار لیارا داده را دائمی می‌کند.
+    github_token: str = field(default_factory=lambda: os.getenv("GITHUB_TOKEN", ""))
+    github_repo: str = field(default_factory=lambda: os.getenv("GITHUB_REPO", ""))
+    github_branch: str = field(default_factory=lambda: os.getenv("GITHUB_BRANCH", "main"))
 
     def __post_init__(self) -> None:
         """اعتبارسنجی نهاییِ ترکیب تنظیمات."""
@@ -127,6 +136,8 @@ class Settings:
         logger.info("TELEGRAM_BOT_TOKEN: %s", _mask(self.telegram_bot_token))
         logger.info("AVALAI_API_KEY: %s", _mask(self.avalai_api_key))
         logger.info("ZARINPAL_MERCHANT_ID: %s", _mask(self.zarinpal_merchant_id))
+        logger.info("DOCTOR_REG_CODE: %s", _mask(self.doctor_reg_code))
+        logger.info("GITHUB_TOKEN: %s | GITHUB_REPO: %s", _mask(self.github_token), self.github_repo or "(تنظیم نشده)")
 
 
 # ─── نمونه‌ی singleton — در کل پروژه از همین import شود ───
