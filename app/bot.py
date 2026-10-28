@@ -14,6 +14,7 @@ from telegram.ext import (
     CommandHandler,
     ContextTypes,
     MessageHandler,
+    PicklePersistence,
     filters,
 )
 
@@ -34,6 +35,8 @@ from app.handlers.callbacks import main_menu_callback, medical_browse_callback
 from app.handlers.booking import booking_conversation_handler
 from app.handlers.survey import survey_conversation_handler
 from app.handlers.companion import companion_conversation_handler
+from app.handlers import meds
+from app.handlers.meds import meds_conversation_handler
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -100,9 +103,50 @@ MENU_CALLBACKS: tuple[str, ...] = (
 
 MENU_PATTERN = rf"^({'|'.join(MENU_CALLBACKS)})$"
 
+# 🆕 الگوی ریست گفتگو: هر کلیک روی منو/بازگشت/زبان، هر گفتگوی نیمه‌کاره را
+# بی‌صدا تمام می‌کند تا کاربر داخل گفتگو گیر نکند و ربات «گیج» نشود.
+# (entry pointهای گفتگوها عمداً مستثنی هستند تا رزرو/همراه/نظرسنجی/افزودن دارو
+# همچنان شروع شوند.)
+_MENU_NO_ENTRY = [c for c in MENU_CALLBACKS if c not in ("start_booking", "start_companion", "start_survey")]
+_RESET_EXTRA = (
+    "back_main", "change_language", "start_feedback", "feedback_yes", "feedback_no",
+    "med_home", "med_list", "med_del", "noop_page",
+)
+RESET_CONV_PATTERN = rf"^({'|'.join(_MENU_NO_ENTRY + list(_RESET_EXTRA))}|med_del_\d+|med_page_\d+|med_spec_[a-z]+_\d+|med_back|lang_(fa|en|ar))$"
+
+PERSISTENCE_FILE = "data/bot_persistence.pkl"
+
 PRIVATE_CHAT_ONLY = filters.ChatType.PRIVATE
 
 USER_ERROR_MESSAGE = "خطایی رخ داد. لطفاً دوباره تلاش کنید."
+
+
+async def reset_conversations_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """🆕 پایان بی‌صدة گفتگوهای نیمه‌کاره هنگام ناوبری منو.
+
+    در گروه ‎-1‎ ثبت می‌شود تا «قبل از» ConversationHandlerها اجرا شود؛ بدون
+    این هندلر، اگر کاربر وسط رزرو نوبت منصرف می‌شد و به منو برمی‌گشت، گفتگوی
+    رزرو همچنان فعال می‌ماند و بعداً هر متن ساده‌ای که می‌فرستاد به‌عنوان
+    «نام بیمار» و... تفسیر می‌شد (رفتار گیج‌کننده‌ای که کاربر گزارش کرد).
+    """
+    try:
+        user = update.effective_user
+        chat = update.effective_chat
+        if user is None or chat is None:
+            return
+        key = (chat.id, user.id)
+        for conv in (
+            booking_conversation_handler,
+            survey_conversation_handler,
+            companion_conversation_handler,
+            meds_conversation_handler,
+        ):
+            try:
+                conv._conversations.pop(key, None)
+            except Exception:
+                pass
+    except Exception:
+        pass
 
 
 async def global_error_handler(
@@ -152,6 +196,18 @@ def _validate_settings() -> None:
 def _register_handlers(application: Application) -> None:
     application.add_error_handler(global_error_handler)
 
+    # 🆕 گروه ‎-1‎: ریست گفتگوهای نیمه‌کاره «قبل از» هر هندلر دیگر؛ چون
+    # ApplicationHandlerStop پرتاب نمی‌کنیم، هندلرهای گروه 0 هم همان آپدیت را
+    # به‌طور عادی پردازش می‌کنند (ناوبری منو سالم می‌ماند).
+    application.add_handler(
+        CallbackQueryHandler(reset_conversations_callback, pattern=RESET_CONV_PATTERN),
+        group=-1,
+    )
+    application.add_handler(
+        CommandHandler("start", reset_conversations_callback),
+        group=-1,
+    )
+
     application.add_handler(
         CommandHandler("start", start_handler, filters=PRIVATE_CHAT_ONLY)
     )
@@ -198,10 +254,19 @@ def _register_handlers(application: Application) -> None:
         )
     )
 
+    # 🆕 یادآور دارو — اکشن‌های ساده (لیست/حذف/خانه)
+    application.add_handler(
+        CallbackQueryHandler(
+            meds.med_menu_callback,
+            pattern=r"^med_(list|del|del_\d+|home)$",
+        )
+    )
+
     # ConversationHandlerها
     application.add_handler(survey_conversation_handler)
     application.add_handler(companion_conversation_handler)
     application.add_handler(booking_conversation_handler)
+    application.add_handler(meds_conversation_handler)
 
     # دکمه‌های منو
     application.add_handler(
@@ -227,7 +292,8 @@ def _register_handlers(application: Application) -> None:
     logger.info(
         "Handlers registered: start, help, language, back_main, "
         "feedback_start/yes/no, survey_conversation, companion_conversation, "
-        "booking_conversation, main_menu (%d callbacks), feedback_text.",
+        "booking_conversation, meds_conversation, med_menu, "
+        "main_menu (%d callbacks), feedback_text, conv-reset(group -1).",
         len(MENU_CALLBACKS),
     )
 
@@ -237,11 +303,19 @@ def build_application() -> Application:
 
     async def _post_init(application: Application) -> None:
         runtime.bind_application(application)
-        logger.info("Post-init: runtime bridge bound (payment callback active).")
+        meds.schedule_all(application)
+        logger.info("Post-init: runtime bridge bound + med reminders scheduled.")
+
+    # 🆕 ماندگاری داده‌ها: زبان انتخابی کاربر و وضعیت گفتگوها اکنون روی دیسک
+    # (data/ = دیسک لیارا) ذخیره می‌شود؛ پیش‌تر فقط در حافظه بود و با هر
+    # ری‌استارت/دیپلوی پاک می‌شد → مشتریِ عرب/انگلیسی پس از اولین کلیک،
+    # دوباره فارسی می‌دید. (رفع تداخل زبان)
+    persistence = PicklePersistence(filepath=PERSISTENCE_FILE)
 
     builder = ApplicationBuilder().token(settings.active_token)
     builder.base_url("https://tapi.bale.ai/bot")
     builder.base_file_url("https://tapi.bale.ai/file/bot")
+    builder.persistence(persistence)
     builder.post_init(_post_init)
     application = builder.build()
 

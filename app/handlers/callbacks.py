@@ -24,6 +24,13 @@ from app.keyboards.elderly import get_elderly_keyboard
 from app.locales import get_msg_btn
 from app.locales.fa import MSG
 from app.services import doctor_loader
+from app.handlers import meds
+
+# 🆕 برچسب‌های ناوبری مرور پزشکان (سه‌زبانه)
+_BROWSE_T: dict[str, dict[str, str]] = {
+    "prev": {"fa": "▶️ قبلی", "en": "▶️ Previous", "ar": "▶️ السابق"},
+    "next": {"fa": "◀️ بعدی", "en": "◀️ Next", "ar": "◀️ التالي"},
+}
 
 if not isinstance(MSG, dict):
     MSG = {}
@@ -358,18 +365,13 @@ async def show_appointments(update: Update, context: ContextTypes.DEFAULT_TYPE, 
 
 
 async def show_medication(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
-    """✅ اصلاح شد: حالا به جای پیام «به زودی»، فرم ثبت یادآور دارو نمایش می‌دهد."""
-    if update.effective_chat is None: return
-    try:
-        texts = {
-            "fa": "💊 یادآور دارو\n\nلطفاً نام دارو و ساعت مصرف را بنویسید تا برای شما یادآوری کنیم.\n\nمثال: «قرص فشار، ساعت ۸ صبح»",
-            "en": "💊 Medication Reminder\n\nPlease write the medication name and time so we can remind you.\n\nExample: «Blood pressure pill, 8 AM»",
-            "ar": "💊 تذكير بالدواء\n\nيرجى كتابة اسم الدواء ووقت تناوله حتى نذكرك.\n\nمثال: «حبة ضغط، الساعة 8 صباحاً»",
-        }
-        text = texts.get(lang, texts["fa"])
-        await _display(update, context, text, get_back_keyboard(lang))
-    except Exception:
-        await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
+    """✅ حالا منوی کامل یادآور دارو (افزودن/لیست/حذف + زمان‌بند واقعی) باز می‌شود.
+
+    🆕 قبلاً فقط یک پیام راهنمای بی‌اثر نمایش داده می‌شد و هیچ یادآوری وجود نداشت.
+    """
+    if update.effective_chat is None:
+        return
+    await meds.show_med_menu(update, context, lang)
 
 
 async def show_emergency(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
@@ -574,16 +576,20 @@ async def main_menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE)
 MED_SPEC_PER_PAGE = 8
 
 def _medical_spec_keyboard(page: int, lang: str = "fa") -> tuple[InlineKeyboardMarkup, int]:
-    """✅ اصلاح شد: حالا زبان کاربر را دریافت می‌کند و برچسب‌ها را از فایل ترجمه می‌خواند."""
+    """✅ کیبورد مرور تخصص‌ها — فقط تخصص‌های دارای پزشک، با برچسب سه‌زبانه.
+
+    🆕 فیکس: پیش‌تر همه ۵۰ تخصص (حتی ۴۷ تخصص خالی) با شمارنده (0) و برچسب
+    کلید انگلیسی خام مثل «internal» نمایش داده می‌شدند.
+    """
     from app.services import doctor_loader
     specialties = doctor_loader.load_specialties()
     total_pages = max(1, (len(specialties) + MED_SPEC_PER_PAGE - 1) // MED_SPEC_PER_PAGE)
     page = max(0, min(page, total_pages - 1))
     chunk = specialties[page * MED_SPEC_PER_PAGE:(page + 1) * MED_SPEC_PER_PAGE]
-    rows = [[InlineKeyboardButton(f"{item['label']} ({item['count']})", callback_data=f"med_spec_{item['key']}_{page}")] for item in chunk]
+    rows = [[InlineKeyboardButton(f"{doctor_loader.get_label(item['key'], lang)} ({item['count']})", callback_data=f"med_spec_{item['key']}_{page}")] for item in chunk]
     nav = []
-    if page > 0: nav.append(InlineKeyboardButton("▶️ قبلی", callback_data=f"med_page_{page - 1}"))
-    if page < total_pages - 1: nav.append(InlineKeyboardButton("◀️ بعدی", callback_data=f"med_page_{page + 1}"))
+    if page > 0: nav.append(InlineKeyboardButton(_BROWSE_T["prev"].get(lang) or _BROWSE_T["prev"]["fa"], callback_data=f"med_page_{page - 1}"))
+    if page < total_pages - 1: nav.append(InlineKeyboardButton(_BROWSE_T["next"].get(lang) or _BROWSE_T["next"]["fa"], callback_data=f"med_page_{page + 1}"))
     if nav: rows.append(nav)
     rows.append([InlineKeyboardButton(get_msg_btn(lang, "btn_back"), callback_data="back_main")])
     return InlineKeyboardMarkup(rows), len(specialties)
@@ -594,9 +600,9 @@ async def show_medical_specialties(update: Update, context: ContextTypes.DEFAULT
     try:
         kb, total = _medical_spec_keyboard(page, lang)
         texts = {
-            "fa": f"👨‍⚕️ تخصص‌های پزشکی شیراز ({total} تخصص):\n\nیکی را انتخاب کنید:",
-            "en": f"👨‍⚕️ Medical Specialties in Shiraz ({total} specialties):\n\nChoose one:",
-            "ar": f"👨‍⚕️ التخصصات الطبية في شيراز ({total} تخصص):\n\nاختر واحداً:",
+            "fa": f"👨‍⚕️ تخصص‌های فعال شیراز ({total} تخصص):\n\nیکی را انتخاب کنید:\n🔵 سایر تخصص‌ها به‌زودی اضافه می‌شوند.",
+            "en": f"👨‍⚕️ Active specialties in Shiraz ({total}):\n\nChoose one:\n🔵 More specialties are coming soon.",
+            "ar": f"👨‍⚕️ التخصصات النشطة في شيراز ({total}):\n\nاختر واحداً:\n🔵 سيتم إضافة المزيد قريباً.",
         }
         await _display(update, context, texts.get(lang, texts["fa"]), kb)
     except Exception:
@@ -634,22 +640,30 @@ async def medical_browse_callback(update: Update, context: ContextTypes.DEFAULT_
         per_page = 12
         start = page * per_page
         chunk = doctors[start:start + per_page]
-        lines = [f"👨‍⚕️ {spec['label']} — {len(doctors)} پزشک:\n"]
+        spec_label = doctor_loader.get_label(spec_key, lang)
+        doc_count_text = {
+            "fa": f"👨‍⚕️ {spec_label} — {len(doctors)} پزشک:\n",
+            "en": f"👨‍⚕️ {spec_label} — {len(doctors)} doctors:\n",
+            "ar": f"👨‍⚕️ {spec_label} — {len(doctors)} طبيب:\n",
+        }
+        lines = [doc_count_text.get(lang, doc_count_text["fa"])]
         for i, doc in enumerate(chunk, start=start + 1): lines.append(f"{i}. {doc['name_fa']}")
         rows = []
         nav = []
         total_pages = max(1, (len(doctors) + per_page - 1) // per_page)
-        if page > 0: nav.append(InlineKeyboardButton("▶️ قبلی", callback_data=f"med_spec_{spec_key}_{page - 1}"))
-        if page < total_pages - 1: nav.append(InlineKeyboardButton("◀️ بعدی", callback_data=f"med_spec_{spec_key}_{page + 1}"))
+        if page > 0: nav.append(InlineKeyboardButton(_BROWSE_T["prev"].get(lang) or _BROWSE_T["prev"]["fa"], callback_data=f"med_spec_{spec_key}_{page - 1}"))
+        if page < total_pages - 1: nav.append(InlineKeyboardButton(_BROWSE_T["next"].get(lang) or _BROWSE_T["next"]["fa"], callback_data=f"med_spec_{spec_key}_{page + 1}"))
         if nav: rows.append(nav)
-        rows.append([InlineKeyboardButton("🔙 بازگشت به تخصص‌ها", callback_data="med_back")])
+        back_labels = {"fa": "🔙 بازگشت به تخصص‌ها", "en": "🔙 Back to specialties", "ar": "🔙 رجوع إلى التخصصات"}
+        rows.append([InlineKeyboardButton(back_labels.get(lang, back_labels["fa"]), callback_data="med_back")])
         await query.edit_message_text("\n".join(lines), reply_markup=InlineKeyboardMarkup(rows))
         return
 
     if data == "med_back":
         try:
             kb, _ = _medical_spec_keyboard(0, lang)
-            await query.edit_message_text("👨‍⚕️ تخصص‌های پزشکی شیراز:", reply_markup=kb)
+            back_titles = {"fa": "👨‍⚕️ تخصص‌های فعال شیراز:", "en": "👨‍⚕️ Active specialties in Shiraz:", "ar": "👨‍⚕️ التخصصات النشطة في شيراز:"}
+            await query.edit_message_text(back_titles.get(lang, back_titles["fa"]), reply_markup=kb)
         except Exception: pass
         return
 
