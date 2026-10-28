@@ -108,10 +108,6 @@ MENU_CALLBACKS: tuple[str, ...] = (
 
 MENU_PATTERN = rf"^({'|'.join(MENU_CALLBACKS)})$"
 
-# 🆕 الگوی ریست گفتگو: هر کلیک روی منو/بازگشت/زبان، هر گفتگوی نیمه‌کاره را
-# بی‌صدا تمام می‌کند تا کاربر داخل گفتگو گیر نکند و ربات «گیج» نشود.
-# (entry pointهای گفتگوها عمداً مستثنی هستند تا رزرو/همراه/نظرسنجی/افزودن دارو
-# همچنان شروع شوند.)
 _MENU_NO_ENTRY = [c for c in MENU_CALLBACKS if c not in ("start_booking", "start_companion", "start_survey")]
 _RESET_EXTRA = (
     "back_main", "change_language", "start_feedback", "feedback_yes", "feedback_no",
@@ -127,13 +123,6 @@ USER_ERROR_MESSAGE = "خطایی رخ داد. لطفاً دوباره تلاش �
 
 
 async def reset_conversations_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """🆕 پایان بی‌صدة گفتگوهای نیمه‌کاره هنگام ناوبری منو.
-
-    در گروه ‎-1‎ ثبت می‌شود تا «قبل از» ConversationHandlerها اجرا شود؛ بدون
-    این هندلر، اگر کاربر وسط رزرو نوبت منصرف می‌شد و به منو برمی‌گشت، گفتگوی
-    رزرو همچنان فعال می‌ماند و بعداً هر متن ساده‌ای که می‌فرستاد به‌عنوان
-    «نام بیمار» و... تفسیر می‌شد (رفتار گیج‌کننده‌ای که کاربر گزارش کرد).
-    """
     try:
         user = update.effective_user
         chat = update.effective_chat
@@ -190,21 +179,9 @@ async def global_error_handler(
             )
 
 
-def _validate_settings() -> None:
-    token: Optional[str] = getattr(settings, "active_token", None)
-    if not token or not isinstance(token, str) or not token.strip():
-        raise RuntimeError(
-            "BOT_TOKEN (settings.active_token) is missing or empty. "
-            "Cannot start the bot."
-        )
-
-
 def _register_handlers(application: Application) -> None:
     application.add_error_handler(global_error_handler)
 
-    # 🆕 گروه ‎-1‎: ریست گفتگوهای نیمه‌کاره «قبل از» هر هندلر دیگر؛ چون
-    # ApplicationHandlerStop پرتاب نمی‌کنیم، هندلرهای گروه 0 هم همان آپدیت را
-    # به‌طور عادی پردازش می‌کنند (ناوبری منو سالم می‌ماند).
     application.add_handler(
         CallbackQueryHandler(reset_conversations_callback, pattern=RESET_CONV_PATTERN),
         group=-1,
@@ -222,63 +199,35 @@ def _register_handlers(application: Application) -> None:
     )
 
     application.add_handler(
-        CallbackQueryHandler(
-            select_language_handler,
-            pattern=LANGUAGE_PATTERN,
-        )
+        CallbackQueryHandler(select_language_handler, pattern=LANGUAGE_PATTERN)
     )
     application.add_handler(
-        CallbackQueryHandler(
-            change_language_handler,
-            pattern=CHANGE_LANGUAGE_PATTERN,
-        )
+        CallbackQueryHandler(change_language_handler, pattern=CHANGE_LANGUAGE_PATTERN)
     )
     application.add_handler(
-        CallbackQueryHandler(
-            back_to_main_handler,
-            pattern=BACK_TO_MAIN_PATTERN,
-        )
+        CallbackQueryHandler(back_to_main_handler, pattern=BACK_TO_MAIN_PATTERN)
     )
 
-    # هندلرهای نظرسنجی
     application.add_handler(
-        CallbackQueryHandler(
-            start_feedback_handler,
-            pattern=FEEDBACK_START_PATTERN,
-        )
+        CallbackQueryHandler(start_feedback_handler, pattern=FEEDBACK_START_PATTERN)
     )
     application.add_handler(
-        CallbackQueryHandler(
-            feedback_yes_handler,
-            pattern=FEEDBACK_YES_PATTERN,
-        )
+        CallbackQueryHandler(feedback_yes_handler, pattern=FEEDBACK_YES_PATTERN)
     )
     application.add_handler(
-        CallbackQueryHandler(
-            feedback_no_handler,
-            pattern=FEEDBACK_NO_PATTERN,
-        )
+        CallbackQueryHandler(feedback_no_handler, pattern=FEEDBACK_NO_PATTERN)
     )
 
-    # 🆕 یادآور دارو — اکشن‌های ساده (لیست/حذف/خانه)
     application.add_handler(
-        CallbackQueryHandler(
-            meds.med_menu_callback,
-            pattern=r"^med_(list|del|del_\d+|home)$",
-        )
+        CallbackQueryHandler(meds.med_menu_callback, pattern=r"^med_(list|del|del_\d+|home)$")
     )
 
-    # ConversationHandlerها
     application.add_handler(survey_conversation_handler)
     application.add_handler(companion_conversation_handler)
     application.add_handler(booking_conversation_handler)
     application.add_handler(meds_conversation_handler)
 
-    # 🩺 ثبت‌نام پزشک — کاملاً مخفی:
-    #   ورود: فقط /doctor، /docreg یا لینک اختصاصی (?start=docreg)
-    #   هیچ دکمه‌ای به منوهای بیمار اضافه نشده است.
     application.add_handler(doctor_reg_conversation_handler)
-    # 🩺 دکمه تایید/رد ادمین + دستور مخفی /pending (فقط در چت ادمین پاسخ می‌دهد)
     application.add_handler(
         CallbackQueryHandler(admin_registration_action, pattern=r"^dregadm_(ok|no)_\d+$")
     )
@@ -286,12 +235,10 @@ def _register_handlers(application: Application) -> None:
         CommandHandler("pending", pending_command, filters=PRIVATE_CHAT_ONLY)
     )
 
-    # دکمه‌های منو
     application.add_handler(
         CallbackQueryHandler(main_menu_callback, pattern=MENU_PATTERN)
     )
 
-    # مرور پزشکان
     application.add_handler(
         CallbackQueryHandler(
             medical_browse_callback,
@@ -299,12 +246,8 @@ def _register_handlers(application: Application) -> None:
         )
     )
 
-    # ✅ هندلر متن نظر ناراضی (باید در انتها باشد تا مزاحم ConversationHandlerها نشود)
     application.add_handler(
-        MessageHandler(
-            filters.TEXT & ~filters.COMMAND,
-            feedback_text_handler,
-        )
+        MessageHandler(filters.TEXT & ~filters.COMMAND, feedback_text_handler)
     )
 
     logger.info(
@@ -317,28 +260,49 @@ def _register_handlers(application: Application) -> None:
     )
 
 
-def build_application() -> Application:
-    _validate_settings()
+def build_application(platform: str = "bale") -> Application:
+    """ساخت اپلیکیشن برای بله یا تلگرام.
+
+    🆕 پشتیبانی دو-پلتفرمی: بله همیشه فعال است (توکن آن اجباری است)؛ تلگرام
+    فقط وقتی فعال می‌شود که هم TELEGRAM_BOT_TOKEN و هم TELEGRAM_BRIDGE_URL در
+    env تنظیم شده باشند (چون تلگرام از ایران فیلتر است و نیاز به پل خارجی دارد).
+    """
+    if platform == "bale":
+        token = settings.bale_bot_token
+        base_url = "https://tapi.bale.ai/bot"
+        base_file_url = "https://tapi.bale.ai/file/bot"
+    elif platform == "telegram":
+        token = settings.telegram_bot_token
+        base_url = settings.telegram_bridge_url or None
+        base_file_url = settings.telegram_bridge_file_url or None
+    else:
+        raise RuntimeError(f"پلتفرم نامعتبر: {platform!r} (مقادیر مجاز: bale, telegram)")
+
+    if not token or not token.strip():
+        raise RuntimeError(
+            f"توکن برای پلتفرم '{platform}' در env تنظیم نشده. "
+            f"{'BALE_BOT_TOKEN' if platform == 'bale' else 'TELEGRAM_BOT_TOKEN'} را بررسی کنید."
+        )
 
     async def _post_init(application: Application) -> None:
         runtime.bind_application(application)
         meds.schedule_all(application)
-        logger.info("Post-init: runtime bridge bound + med reminders scheduled.")
+        logger.info("Post-init (%s): runtime bridge bound + med reminders scheduled.", platform)
 
-    # 🆕 ماندگاری داده‌ها: زبان انتخابی کاربر و وضعیت گفتگوها اکنون روی دیسک
-    # (data/ = دیسک لیارا) ذخیره می‌شود؛ پیش‌تر فقط در حافظه بود و با هر
-    # ری‌استارت/دیپلوی پاک می‌شد → مشتریِ عرب/انگلیسی پس از اولین کلیک،
-    # دوباره فارسی می‌دید. (رفع تداخل زبان)
-    persistence = PicklePersistence(filepath=PERSISTENCE_FILE)
+    # 🆕 فایل persistence جدا برای هر پلتفرم تا داده‌ی کاربران بله و تلگرام قاطی نشود
+    persistence_file = f"data/bot_persistence_{platform}.pkl"
+    persistence = PicklePersistence(filepath=persistence_file)
 
-    builder = ApplicationBuilder().token(settings.active_token)
-    builder.base_url("https://tapi.bale.ai/bot")
-    builder.base_file_url("https://tapi.bale.ai/file/bot")
+    builder = ApplicationBuilder().token(token)
+    if base_url:
+        builder.base_url(base_url)
+    if base_file_url:
+        builder.base_file_url(base_file_url)
     builder.persistence(persistence)
     builder.post_init(_post_init)
     application = builder.build()
 
     _register_handlers(application)
 
-    logger.info("Application built successfully.")
+    logger.info("Application built successfully for platform=%s.", platform)
     return application
