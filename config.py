@@ -105,6 +105,13 @@ class Settings:
     github_token: str = field(default_factory=lambda: os.getenv("GITHUB_TOKEN", ""))
     github_repo: str = field(default_factory=lambda: os.getenv("GITHUB_REPO", ""))
     github_branch: str = field(default_factory=lambda: os.getenv("GITHUB_BRANCH", "main"))
+    # 🌉 پل تلگرام (اختیاری): آدرس سرویس واسط ارسال پیام/فایل به تلگرام
+    telegram_bridge_url: str = field(
+        default_factory=lambda: os.getenv("TELEGRAM_BRIDGE_URL", "")
+    )
+    telegram_bridge_file_url: str = field(
+        default_factory=lambda: os.getenv("TELEGRAM_BRIDGE_FILE_URL", "")
+    )
 
     def __post_init__(self) -> None:
         """اعتبارسنجی نهاییِ ترکیب تنظیمات."""
