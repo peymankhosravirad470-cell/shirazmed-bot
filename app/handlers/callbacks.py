@@ -24,6 +24,7 @@ from app.keyboards.elderly import get_elderly_keyboard
 from app.locales import get_msg, get_msg_btn
 from app.services import doctor_loader
 from app.handlers import meds
+from app.handlers import chunks as chunk_tracker
 
 # 🆕 برچسب‌های ناوبری مرور پزشکان (سه‌زبانه)
 _BROWSE_T: dict[str, dict[str, str]] = {
@@ -183,7 +184,7 @@ def _safe_btn(lang: str, key: str, default: str = "") -> str:
         return default
 
 
-async def _display(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str, reply_markup: InlineKeyboardMarkup | None = None) -> None:
+async def _display(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str, reply_markup: InlineKeyboardMarkup | None = None) -> int | None:
     """🎯 فیکس تکرار منو: نمایش محتوا روی «همان پیام فعلی» به‌جای پیام جدید.
 
     ۱) ابتدا پیام فعلی ویرایش می‌شود (edit_message_text)
@@ -194,44 +195,77 @@ async def _display(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str
     (نسخه قبلی که پیام‌ها را در _sent_messages ردیابی و اول پاک می‌کرد، باعث
     می‌شد edit_message_text روی پیام حذف‌شده شکست بخورد و با هر کلیک یک
     پیام جدید ساخته شود — دقیقاً همان باگ تکثیر منو.)
+
+    🧹 فیکس بقایای لیست چندپیامی: در ابتدای هر نمایش، تکه‌های «غیر آخرِ»
+    لیست قبلی (که در chunk_tracker ثبت شده‌اند) از چت حذف می‌شوند تا
+    کاربر هم‌زمان لیست قدیمی و منوی جدید را نبیند.
+
+    Returns: message_id پیامی که متن نهایی روی آن است (برای ردیابی تکه‌ها)
+    یا None اگر chat نامعلوم بود.
     """
     chat_id = update.effective_chat.id if update.effective_chat else None
-    if chat_id is None: return
+    if chat_id is None:
+        return None
+    # 🧹 پاک‌سازی بقایای لیست‌های چندپیامی قبلی — قبل از هر نمایش
+    await chunk_tracker.cleanup(context, chat_id)
     query = update.callback_query
     if query is not None and query.message is not None:
         try:
-            await query.edit_message_text(text=text, reply_markup=reply_markup)
-            return
+            edited = await query.edit_message_text(text=text, reply_markup=reply_markup)
+            return getattr(edited, "message_id", None) or query.message.message_id
         except Exception as exc:
-            if "not modified" in str(exc).lower(): return
+            if "not modified" in str(exc).lower():
+                return query.message.message_id
             try:
                 await context.bot.delete_message(chat_id=chat_id, message_id=query.message.message_id)
             except Exception:
                 pass
-    await context.bot.send_message(chat_id=chat_id, text=text, reply_markup=reply_markup)
+    sent = await context.bot.send_message(chat_id=chat_id, text=text, reply_markup=reply_markup)
+    return getattr(sent, "message_id", None)
 
 
 async def _send_chunked(update: Update, context: ContextTypes.DEFAULT_TYPE, chat_id: int, texts: list[str], back_markup: InlineKeyboardMarkup, max_chars: int = 2800) -> int:
-    """ادغام آیتم‌ها در پیام‌های چندتایی (فیکس flood) + ویرایش تکه اول روی همان پیام."""
-    chunks = []
-    current = []
+    """ادغام آیتم‌ها در پیام‌های چندتایی (فیکس flood) + ویرایش تکه اول روی همان پیام.
+
+    🧹 فیکس بقایای لیست چندپیامی: همه تکه‌های «غیر از آخرین» در chunk_tracker
+    ثبت می‌شوند (message_id) تا در نخستین ناوبری بعدی — بازگشت به منو، کلیک
+    بخش دیگر، تغییر زبان یا شروع پیشنهادات — از چت حذف شوند. آخرین تکه
+    (نشانگرِ دارای کیبورد) ثبت نمی‌شود چون خودش با کلیک بعدی ویرایش می‌شود؛
+    بنابراین هیچ‌وقت پیامی که باید بماند حذف نمی‌شود.
+    """
+    parts: list[str] = []
+    current: list[str] = []
     current_len = 0
     for text in texts:
         if current and current_len + len(text) + 2 > max_chars:
-            chunks.append("\n\n".join(current))
+            parts.append("\n\n".join(current))
             current, current_len = [], 0
         current.append(text)
         current_len += len(text) + 2
-    if current: chunks.append("\n\n".join(current))
+    if current: parts.append("\n\n".join(current))
+
+    # 🧹 ترتیب مهم است: reset را اینجا انجام نمی‌دهیم؛ تکه اول با _display
+    # نمایش داده می‌شود که در ابتدای خودش cleanupِ لیست «قبلی» را انجام می‌دهد —
+    # بعد از آن فهرست ردیابی نو شروع می‌شود.
     sent = 0
-    total = len(chunks)
-    for index, chunk in enumerate(chunks):
+    total = len(parts)
+    for index, chunk in enumerate(parts):
         is_last = index == total - 1
         markup = back_markup if is_last else None
         if index == 0:
-            await _display(update, context, chunk, markup)
+            fallback_id = None
+            q = update.callback_query
+            if q is not None and q.message is not None:
+                fallback_id = q.message.message_id
+            mid = await _display(update, context, chunk, markup)
+            # فهرست قبلی در _display پاک شد → از همین لحظه ردیابی نو
+            chunk_tracker.reset_tracked(context)
+            if not is_last:
+                chunk_tracker.track(context, mid or fallback_id)
         else:
-            await context.bot.send_message(chat_id=chat_id, text=chunk, reply_markup=markup)
+            msg = await context.bot.send_message(chat_id=chat_id, text=chunk, reply_markup=markup)
+            if not is_last:
+                chunk_tracker.track(context, getattr(msg, "message_id", None))
         sent += 1
         if not is_last: await asyncio.sleep(0.35)
     return sent
@@ -712,7 +746,7 @@ async def show_medical_specialties(update: Update, context: ContextTypes.DEFAULT
         }
         await _display(update, context, texts.get(lang, texts["fa"]), kb)
     except Exception:
-        await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
+        await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))
 
 
 async def medical_browse_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:

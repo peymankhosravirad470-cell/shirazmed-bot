@@ -11,6 +11,7 @@ from app.keyboards.main import (
     get_language_keyboard,
     get_main_menu_keyboard,
 )
+from app.handlers import chunks as chunk_tracker
 from config import settings
 
 logger = logging.getLogger(__name__)
@@ -125,6 +126,9 @@ async def _edit_menu_message(update, context, text, reply_markup):
     chat_id = update.effective_chat.id if update.effective_chat else None
     if chat_id is None:
         return
+    # 🧹 فیکس بقایای لیست چندپیامی: قبل از ویرایش پیام فعلی (بازگشت به منو،
+    # تغییر زبان، شروع پیشنهادات و…)، تکه‌های غیر آخرِ لیست قبلی حذف می‌شوند.
+    await chunk_tracker.cleanup(context, chat_id)
     query = update.callback_query
     if query is not None and query.message is not None:
         try:
