@@ -158,10 +158,17 @@ async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     )
 
 
+HELP_TEXTS = {
+    "fa": "راهنمای ربات:\n\nاز دکمه‌های منوی اصلی استفاده کنید. برای تغییر زبان، دکمه «🌐 تغییر زبان» را بزنید.",
+    "en": "Bot guide:\n\nUse the main menu buttons. To change the language, tap the \"🌐 Change Language\" button.",
+    "ar": "دليل الروبوت:\n\nاستخدم أزرار القائمة الرئيسية. لتغيير اللغة، اضغط زر «🌐 تغيير اللغة».",
+}
+
+
 async def help_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     lang = _get_lang(context)
     await update.message.reply_text(
-        text="راهنمای ربات:\n\nاز منوی اصلی استفاده کنید.",
+        text=HELP_TEXTS.get(lang, HELP_TEXTS["fa"]),
         reply_markup=get_main_menu_keyboard(lang),
     )
 

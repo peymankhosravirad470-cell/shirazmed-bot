@@ -24,6 +24,26 @@ DOCTORS_DIR = os.path.join(_BASE_DIR, "data", "doctors")
 
 _cache: dict[str, Any] = {"mtime": 0.0, "specialties": []}
 
+# 🆕 برچسب سه‌زبانه تخصص‌هایی که واقعاً پزشک دارند (بقیه با specialty_fa یا کلید نمایش داده می‌شوند)
+SPEC_LABELS_I18N: dict[str, dict[str, str]] = {
+    "cardio": {"fa": "قلب و عروق", "en": "Cardiology", "ar": "أمراض القلب والأوعية الدموية"},
+    "derma": {"fa": "پوست و مو", "en": "Dermatology", "ar": "الجلدية"},
+    "dental": {"fa": "دندانپزشکی", "en": "Dentistry", "ar": "طب الأسنان"},
+    "internal": {"fa": "داخلی", "en": "Internal Medicine", "ar": "الباطنية"},
+    "ortho": {"fa": "ارتوپدی", "en": "Orthopedics", "ar": "جراحة العظام"},
+    "gastro": {"fa": "گوارش و کبد", "en": "Gastroenterology", "ar": "الجهاز الهضمي والكبد"},
+    "neuro": {"fa": "مغز و اعصاب", "en": "Neurology", "ar": "الأعصاب"},
+    "obgyn": {"fa": "زنان و زایمان", "en": "Obstetrics & Gynecology", "ar": "النساء والتوليد"},
+    "pediatric": {"fa": "اطفال", "en": "Pediatrics", "ar": "طب الأطفال"},
+    "psy": {"fa": "روانشناسی", "en": "Psychology", "ar": "علم النفس"},
+    "psychiatry": {"fa": "روانپزشکی", "en": "Psychiatry", "ar": "الطب النفسي"},
+    "urology": {"fa": "ارولوژی", "en": "Urology", "ar": "المسالك البولية"},
+    "ent": {"fa": "گوش، حلق و بینی", "en": "ENT", "ar": "الأنف والأذن والحنجرة"},
+    "ophtha": {"fa": "چشم‌پزشکی", "en": "Ophthalmology", "ar": "طب العيون"},
+    "nutrition": {"fa": "تغذیه", "en": "Nutrition", "ar": "التغذية"},
+    "physio": {"fa": "فیزیوتراپی", "en": "Physiotherapy", "ar": "العلاج الطبيعي"},
+}
+
 
 def _dir_mtime() -> float:
     """بزرگ‌ترین mtime فایل‌های تخصص را برمی‌گرداند (برای باطل‌کردن کش)."""
@@ -60,15 +80,19 @@ def _load_all() -> list[dict[str, Any]]:
                 continue
             if not isinstance(doctors, list):
                 continue
+            active = [
+                d for d in doctors
+                if isinstance(d, dict) and d.get("name_fa") and d.get("status", "active") == "active"
+            ]
             label = ""
-            for doc in doctors:
-                if isinstance(doc, dict) and doc.get("specialty_fa"):
+            for doc in active:
+                if doc.get("specialty_fa"):
                     label = str(doc["specialty_fa"]).strip()
                     break
             specialties.append({
                 "key": key,
                 "label": label or key,
-                "count": len([d for d in doctors if isinstance(d, dict)]),
+                "count": len(active),
             })
     except OSError as error:
         logger.error("خطا در لیست‌کردن تخصص‌ها: %s", error)
@@ -80,8 +104,21 @@ def _load_all() -> list[dict[str, Any]]:
 
 
 def load_specialties() -> list[dict[str, Any]]:
-    """لیست تخصص‌ها: [{key, label, count}] مرتب بر اساس نام فارسی."""
-    return _load_all()
+    """لیست تخصص‌های «دارای پزشک فعال»: [{key, label, count}] مرتب بر اساس نام.
+
+    🆕 فیکس: تخصص‌های بدون پزشک (۴۷ فایل خالی) حذف شدند؛ پیش‌تر همه ۵۰ تخصص
+    با شمارندهٔ (0) نمایش داده می‌شدند و کاربر روی گزینه‌های مرده کلیک می‌کرد.
+    """
+    return [s for s in _load_all() if s["count"] > 0]
+
+
+def get_label(key: str, lang: str = "fa") -> str:
+    """🆕 برچسب تخصص به زبان کاربر؛ در نبود ترجمه، نام فارسی/کلید."""
+    item = get_specialty(key)
+    i18n = SPEC_LABELS_I18N.get(key, {})
+    if i18n.get(lang):
+        return i18n[lang]
+    return (item or {}).get("label") or i18n.get("fa") or key
 
 
 def get_specialty(key: str) -> dict[str, Any] | None:

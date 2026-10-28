@@ -18,33 +18,94 @@ logger = logging.getLogger(__name__)
 ASK_IS_COMPANION, ASK_NAME, ASK_PHONE = range(3)
 
 
-def _back_to_menu_keyboard():
-    """✅ دکمه بازگشت به منو."""
+def _get_lang(context: ContextTypes.DEFAULT_TYPE) -> str:
+    """🆕 زبان کاربر از user_data."""
+    lang = context.user_data.get("lang", "fa")
+    return lang if lang in ("fa", "en", "ar") else "fa"
+
+
+# 🆕 متن‌های سه‌زبانه ثبت همراه بیمار (قبلاً همه فارسی بود)
+_T: dict[str, dict[str, str]] = {
+    "btn_back_menu": {"fa": "🔙 بازگشت به منو", "en": "🔙 Back to Menu", "ar": "🔙 العودة إلى القائمة"},
+    "btn_yes": {"fa": "بله، مایل هستم", "en": "Yes, I would like that", "ar": "نعم، أرغب في ذلك"},
+    "btn_no": {"fa": "خیر، نیازی نیست", "en": "No, not needed", "ar": "لا، ليس ضرورياً"},
+    "btn_cancel": {"fa": "لغو", "en": "Cancel", "ar": "إلغاء"},
+    "intro": {
+        "fa": "🤝 همراه بیمار\n\nآیا مایل هستید شخص دیگری (مثلاً یکی از اعضای خانواده یا دوستان) در جریان روند درمان شما قرار بگیرد و ما اطلاعات را با او به اشتراک بگذاریم؟",
+        "en": "🤝 Patient Companion\n\nWould you like another person (e.g., a family member or friend) to be informed about your treatment process, so we can share the information with them?",
+        "ar": "🤝 مرافق المريض\n\nهل ترغب في أن يكون شخص آخر (مثل أحد أفراد العائلة أو الأصدقاء) على اطّلاع بمراحل علاجك، لنشاركه المعلومات؟",
+    },
+    "no_needed": {
+        "fa": "بسیار خب. در صورت نیاز در آینده می‌توانید از این بخش استفاده کنید.",
+        "en": "Very well. You can use this section later if needed.",
+        "ar": "حسناً. يمكنك استخدام هذا القسم لاحقاً عند الحاجة.",
+    },
+    "cancelled": {
+        "fa": "فرآیند ثبت همراه بیمار لغو شد.",
+        "en": "The patient companion registration was cancelled.",
+        "ar": "تم إلغاء عملية تسجيل مرافق المريض.",
+    },
+    "ask_name": {
+        "fa": "لطفاً نام و نام خانوادگی همراه خود را وارد کنید:\n\n🚪 برای لغو، دستور /cancel را بفرستید.",
+        "en": "Please enter your companion's full name:\n\n🚪 To cancel, send /cancel.",
+        "ar": "يرجى إدخال الاسم الكامل لمرافقك:\n\n🚪 للإلغاء، أرسل الأمر /cancel.",
+    },
+    "name_too_short": {
+        "fa": "نام وارد شده بسیار کوتاه است. لطفاً نام کامل را وارد کنید:",
+        "en": "The name is too short. Please enter the full name:",
+        "ar": "الاسم قصير جداً. يرجى إدخال الاسم الكامل:",
+    },
+    "ask_phone": {
+        "fa": "لطفاً شماره تماس همراه خود را وارد کنید (مثال: 09123456789):\n\n🚪 برای لغو، دستور /cancel را بفرستید:",
+        "en": "Please enter your companion's phone number (e.g., 09123456789):\n\n🚪 To cancel, send /cancel:",
+        "ar": "يرجى إدخال رقم هاتف مرافقك (مثال: 09123456789):\n\n🚪 للإلغاء، أرسل الأمر /cancel:",
+    },
+    "invalid_phone": {
+        "fa": "شماره وارد شده معتبر نیست. لطفاً دوباره وارد کنید:",
+        "en": "The phone number is not valid. Please enter it again:",
+        "ar": "رقم الهاتف المُدخل غير صالح. يرجى إدخاله مرة أخرى:",
+    },
+    "success": {
+        "fa": "✅ اطلاعات همراه شما با موفقیت ثبت شد.\nدر صورت نیاز، پیام اطلاع‌رسانی برای شماره {phone} ارسال خواهد شد.",
+        "en": "✅ Your companion's information was registered successfully.\nIf needed, a notification message will be sent to {phone}.",
+        "ar": "✅ تم تسجيل معلومات مرافقك بنجاح.\nعند الحاجة، سيتم إرسال رسالة إشعار إلى {phone}.",
+    },
+}
+
+
+def _t(lang: str, key: str, **kw: object) -> str:
+    text = _T.get(key, {}).get(lang) or _T.get(key, {}).get("fa", key)
+    if kw:
+        try:
+            text = text.format(**kw)
+        except Exception:
+            pass
+    return text
+
+
+def _back_to_menu_keyboard(lang: str = "fa"):
+    """✅ دکمه بازگشت به منو (سه‌زبانه)."""
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton("🔙 بازگشت به منو", callback_data="back_main")]
+        [InlineKeyboardButton(_t(lang, "btn_back_menu"), callback_data="back_main")]
     ])
 
 
 async def start_companion(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """شروع فرآیند ثبت همراه بیمار."""
     query = update.callback_query
-    if query is not None:
-        await query.answer()
+    if query is None:
+        return ConversationHandler.END
+    await query.answer()
+    lang = _get_lang(context)
 
-        keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("بله، مایل هستم", callback_data="comp_yes")],
-            [InlineKeyboardButton("خیر، نیازی نیست", callback_data="comp_no")],
-            [InlineKeyboardButton("لغو", callback_data="comp_cancel")],
-        ])
+    keyboard = InlineKeyboardMarkup([
+        [InlineKeyboardButton(_t(lang, "btn_yes"), callback_data="comp_yes")],
+        [InlineKeyboardButton(_t(lang, "btn_no"), callback_data="comp_no")],
+        [InlineKeyboardButton(_t(lang, "btn_cancel"), callback_data="comp_cancel")],
+    ])
 
-        await query.edit_message_text(
-            "🤝 همراه بیمار\n\n"
-            "آیا مایل هستید شخص دیگری (مثلاً یکی از اعضای خانواده یا دوستان) "
-            "در جریان روند درمان شما قرار بگیرد و ما اطلاعات را با او به اشتراک بگذاریم؟",
-            reply_markup=keyboard,
-        )
-        return ASK_IS_COMPANION
-    return ConversationHandler.END
+    await query.edit_message_text(_t(lang, "intro"), reply_markup=keyboard)
+    return ASK_IS_COMPANION
 
 
 async def receive_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -52,11 +113,12 @@ async def receive_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     query = update.callback_query
     if query is None: return ASK_IS_COMPANION
     await query.answer()
+    lang = _get_lang(context)
 
     if query.data == "comp_no":
         await query.edit_message_text(
-            "بسیار خب. در صورت نیاز در آینده می‌توانید از این بخش استفاده کنید.",
-            reply_markup=_back_to_menu_keyboard(),
+            _t(lang, "no_needed"),
+            reply_markup=_back_to_menu_keyboard(lang),
         )
         context.user_data.pop("companion_name", None)
         return ConversationHandler.END
@@ -64,17 +126,13 @@ async def receive_choice(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     if query.data == "comp_cancel":
         context.user_data.pop("companion_name", None)
         await query.edit_message_text(
-            "فرآیند ثبت همراه بیمار لغو شد.",
-            reply_markup=_back_to_menu_keyboard(),
+            _t(lang, "cancelled"),
+            reply_markup=_back_to_menu_keyboard(lang),
         )
         return ConversationHandler.END
-    
+
     # اگر بله را زد، نام همراه را می‌پرسیم
-    await query.edit_message_text(
-        "لطفاً نام و نام خانوادگی همراه خود را وارد کنید:\n\n"
-        "🚪 برای لغو، دستور /cancel را بفرستید.",
-        reply_markup=None
-    )
+    await query.edit_message_text(_t(lang, "ask_name"), reply_markup=None)
     return ASK_NAME
 
 
@@ -85,12 +143,12 @@ async def receive_companion_name(update: Update, context: ContextTypes.DEFAULT_T
     
     name = update.message.text.strip()
     if len(name) < 3:
-        await update.message.reply_text("نام وارد شده بسیار کوتاه است. لطفاً نام کامل را وارد کنید:")
+        await update.message.reply_text(_t(_get_lang(context), "name_too_short"))
         return ASK_NAME
-        
+
     context.user_data["companion_name"] = name
-    
-    await update.message.reply_text("لطفاً شماره تماس همراه خود را وارد کنید (مثال: 09123456789):\n\n🚪 برای لغو، دستور /cancel را بفرستید:")
+
+    await update.message.reply_text(_t(_get_lang(context), "ask_phone"))
     return ASK_PHONE
 
 
@@ -101,7 +159,7 @@ async def receive_companion_phone(update: Update, context: ContextTypes.DEFAULT_
     
     phone = update.message.text.strip()
     if not phone.replace("+", "").replace("-", "").isdigit() or len(phone) < 10:
-        await update.message.reply_text("شماره وارد شده معتبر نیست. لطفاً دوباره وارد کنید:")
+        await update.message.reply_text(_t(_get_lang(context), "invalid_phone"))
         return ASK_PHONE
         
     comp_name = context.user_data.get("companion_name", "همراه")
@@ -120,10 +178,10 @@ async def receive_companion_phone(update: Update, context: ContextTypes.DEFAULT_
     logger.info("----------------------------------------")
     
     # ✅ نمایش پیام موفقیت به کاربر + دکمه بازگشت به منو
+    lang = _get_lang(context)
     await update.message.reply_text(
-        "✅ اطلاعات همراه شما با موفقیت ثبت شد.\n"
-        f"در صورت نیاز، پیام اطلاع‌رسانی برای شماره {phone} ارسال خواهد شد.",
-        reply_markup=_back_to_menu_keyboard(),
+        _t(lang, "success", phone=phone),
+        reply_markup=_back_to_menu_keyboard(lang),
     )
     
     # پاکسازی داده‌های موقت
@@ -134,16 +192,17 @@ async def receive_companion_phone(update: Update, context: ContextTypes.DEFAULT_
 async def cancel_companion(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """لغو فرآیند (دستور /cancel یا هر دستور دیگر)."""
     context.user_data.pop("companion_name", None)
+    lang = _get_lang(context)
     if update.message is not None:
         await update.message.reply_text(
-            "فرآیند ثبت همراه بیمار لغو شد.",
-            reply_markup=_back_to_menu_keyboard(),
+            _t(lang, "cancelled"),
+            reply_markup=_back_to_menu_keyboard(lang),
         )
     if update.callback_query is not None:
         try:
             await update.callback_query.edit_message_text(
-                "فرآیند ثبت همراه بیمار لغو شد.",
-                reply_markup=_back_to_menu_keyboard(),
+                _t(lang, "cancelled"),
+                reply_markup=_back_to_menu_keyboard(lang),
             )
         except Exception:
             pass

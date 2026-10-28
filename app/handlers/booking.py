@@ -69,6 +69,137 @@ MSG_ALREADY_CONFIRMED = "این نوبت قبلاً ثبت شده است."
 
 
 # ---------------------------------------------------------------------------
+# 🆕 متن‌های سه‌زبانه رزرو نوبت
+# ---------------------------------------------------------------------------
+
+_BT: dict[str, dict[str, str]] = {
+    "cancelled": {
+        "fa": "فرآیند رزرو نوبت لغو شد.",
+        "en": "The appointment booking was cancelled.",
+        "ar": "تم إلغاء عملية حجز الموعد.",
+    },
+    "payment_failed": {
+        "fa": "خطا در ایجاد لینک پرداخت. نوبت شما لغو شد.\nلطفاً دوباره تلاش کنید یا با پشتیبانی تماس بگیرید.",
+        "en": "Error creating the payment link. Your appointment was cancelled.\nPlease try again or contact support.",
+        "ar": "خطأ في إنشاء رابط الدفع. تم إلغاء موعدك.\nيرجى المحاولة مرة أخرى أو التواصل مع الدعم.",
+    },
+    "slot_taken": {
+        "fa": "خطا در ثبت نوبت رخ داد.\nاحتمالاً این ساعت همین الان توسط کاربر دیگری رزرو شده است.\nلطفاً دوباره از منو نوبت بگیرید.",
+        "en": "Error registering the appointment.\nThis time slot has probably just been taken by another user.\nPlease book again from the menu.",
+        "ar": "حدث خطأ أثناء تسجيل الموعد.\nمن المحتمل أن هذه الفترة الزمنية تم حجزها للتو من قبل مستخدم آخر.\nيرجى الحجز مرة أخرى من القائمة.",
+    },
+    "already_confirmed": {
+        "fa": "این نوبت قبلاً ثبت شده است.",
+        "en": "This appointment has already been confirmed.",
+        "ar": "تم تأكيد هذا الموعد بالفعل.",
+    },
+    "ask_name": {
+        "fa": "لطفاً نام و نام خانوادگی بیمار را وارد کنید:",
+        "en": "Please enter the patient's full name:",
+        "ar": "يرجى إدخال الاسم الكامل للمريض:",
+    },
+    "name_too_short": {
+        "fa": "نام وارد شده خیلی کوتاه است.\nلطفاً نام و نام خانوادگی کامل وارد کنید:",
+        "en": "The name is too short.\nPlease enter the full name:",
+        "ar": "الاسم قصير جداً.\nيرجى إدخال الاسم الكامل:",
+    },
+    "ask_national_code": {
+        "fa": "لطفاً کد ملی ۱۰ رقمی بیمار را وارد کنید:",
+        "en": "Please enter the patient's 10-digit national code:",
+        "ar": "يرجى إدخال الرمز الوطني المكوّن من 10 أرقام للمريض:",
+    },
+    "invalid_national_code": {
+        "fa": "کد ملی وارد شده معتبر نیست.\nلطفاً یک کد ملی {n} رقمی وارد کنید:",
+        "en": "The national code is not valid.\nPlease enter a {n}-digit national code:",
+        "ar": "الرمز الوطني المُدخل غير صالح.\nيرجى إدخال رمز وطني مكوّن من {n} أرقام:",
+    },
+    "no_doctors": {
+        "fa": "متأسفانه لیست پزشکان در دسترس نیست.\nلطفاً بعداً تلاش کنید یا با پشتیبانی تماس بگیرید.",
+        "en": "Unfortunately the doctors list is unavailable.\nPlease try again later or contact support.",
+        "ar": "للأسف قائمة الأطباء غير متوفرة.\nيرجى المحاولة لاحقاً أو التواصل مع الدعم.",
+    },
+    "ask_spec": {
+        "fa": "لطفاً تخصص مورد نظر را انتخاب کنید:\n\n🔵 سایر تخصص‌ها به‌زودی اضافه می‌شوند.",
+        "en": "Please choose the specialty:\n\n🔵 More specialties are coming soon.",
+        "ar": "يرجى اختيار التخصص:\n\n🔵 سيتم إضافة المزيد من التخصصات قريباً.",
+    },
+    "invalid_spec": {
+        "fa": "تخصص انتخاب‌شده معتبر نیست. لطفاً دوباره تلاش کنید.",
+        "en": "The selected specialty is not valid. Please try again.",
+        "ar": "التخصص المختار غير صالح. يرجى المحاولة مرة أخرى.",
+    },
+    "doctors_found": {
+        "fa": "تخصص انتخابی: {spec}\n\n{total} پزشک یافت شد. لطفاً پزشک مورد نظر را انتخاب کنید:",
+        "en": "Selected specialty: {spec}\n\n{total} doctors found. Please choose a doctor:",
+        "ar": "التخصص المختار: {spec}\n\nتم العثور على {total} طبيباً. يرجى اختيار الطبيب:",
+    },
+    "invalid_doctor": {
+        "fa": "پزشک انتخاب‌شده معتبر نیست. لطفاً دوباره تلاش کنید.",
+        "en": "The selected doctor is not valid. Please try again.",
+        "ar": "الطبيب المختار غير صالح. يرجى المحاولة مرة أخرى.",
+    },
+    "ask_date": {
+        "fa": "پزشک انتخابی: {name}\n\nلطفاً تاریخ نوبت را انتخاب کنید (۱۴ روز آینده):",
+        "en": "Selected doctor: {name}\n\nPlease choose the appointment date (next 14 days):",
+        "ar": "الطبيب المختار: {name}\n\nيرجى اختيار تاريخ الموعد (الـ14 يوماً القادمة):",
+    },
+    "no_times_that_day": {
+        "fa": "برای این تاریخ ساعت خالی وجود ندارد.\nلطفاً تاریخ دیگری انتخاب کنید:",
+        "en": "No available times for this date.\nPlease choose another date:",
+        "ar": "لا توجد أوقات متاحة لهذا التاريخ.\nيرجى اختيار تاريخ آخر:",
+    },
+    "ask_time": {
+        "fa": "تاریخ انتخابی: {date}\n\nلطفاً ساعت نوبت را انتخاب کنید:",
+        "en": "Selected date: {date}\n\nPlease choose the appointment time:",
+        "ar": "التاريخ المختار: {date}\n\nيرجى اختيار وقت الموعد:",
+    },
+    "time_gone_no_alt": {
+        "fa": "این ساعت دیگر در دسترس نیست و ساعت خالی دیگری هم برای این تاریخ وجود ندارد.\nلطفاً تاریخ دیگری انتخاب کنید:",
+        "en": "This time is no longer available and there are no other free times on this date.\nPlease choose another date:",
+        "ar": "هذا الوقت لم يعد متاحاً ولا توجد أوقات فارغة أخرى في هذا التاريخ.\nيرجى اختيار تاريخ آخر:",
+    },
+    "time_gone": {
+        "fa": "این ساعت دیگر در دسترس نیست.\nلطفاً ساعت دیگری انتخاب کنید:",
+        "en": "This time is no longer available.\nPlease choose another time:",
+        "ar": "هذا الوقت لم يعد متاحاً.\nيرجى اختيار وقت آخر:",
+    },
+    "incomplete_info": {
+        "fa": "اطلاعات نوبت ناقص است. لطفاً دوباره از منو نوبت بگیرید.",
+        "en": "Appointment information is incomplete. Please book again from the menu.",
+        "ar": "معلومات الموعد غير مكتملة. يرجى الحجز مرة أخرى من القائمة.",
+    },
+    "summary": {
+        "fa": "خلاصه نوبت:\n\n👤 نام بیمار: {name}\n🆔 کد ملی: {code}\n👨‍⚕️ پزشک: {doctor}\n📅 تاریخ: {date}\n⏰ ساعت: {time}\n💰 مبلغ: {amount}\n\nآیا از ثبت این نوبت مطمئن هستید؟",
+        "en": "Appointment summary:\n\n👤 Patient: {name}\n🆔 National code: {code}\n👨‍⚕️ Doctor: {doctor}\n📅 Date: {date}\n⏰ Time: {time}\n💰 Amount: {amount}\n\nAre you sure you want to confirm this appointment?",
+        "ar": "ملخص الموعد:\n\n👤 اسم المريض: {name}\n🆔 الرمز الوطني: {code}\n👨‍⚕️ الطبيب: {doctor}\n📅 التاريخ: {date}\n⏰ الوقت: {time}\n💰 المبلغ: {amount}\n\nهل أنت متأكد من تأكيد هذا الموعد؟",
+    },
+    "btn_confirm": {"fa": "تأیید و پرداخت", "en": "Confirm & Pay", "ar": "تأكيد والدفع"},
+    "btn_back_main": {"fa": "بازگشت به منوی اصلی", "en": "Back to Main Menu", "ar": "العودة إلى القائمة الرئيسية"},
+    "toman": {"fa": "تومان", "en": "Toman", "ar": "تومان"},
+    "reserved_pending": {
+        "fa": "نوبت شما موقتاً رزرو شد ✅\n👨‍⚕️ پزشک: {doctor}\n📅 تاریخ: {date} — ساعت {time}\n💰 مبلغ: {amount}\n\nبرای قطعی شدن نوبت، در ۱۵ دقیقه آینده پرداخت را انجام دهید:\n{link}\n\nپس از پرداخت به‌صورت خودکار تأیید و رسید برای شما ارسال می‌شود. 💙",
+        "en": "Your appointment is tentatively reserved ✅\n👨‍⚕️ Doctor: {doctor}\n📅 Date: {date} — Time: {time}\n💰 Amount: {amount}\n\nTo finalize the appointment, please pay within 15 minutes:\n{link}\n\nAfter payment it will be confirmed automatically and a receipt will be sent to you. 💙",
+        "ar": "تم حجز موعدك مبدئياً ✅\n👨‍⚕️ الطبيب: {doctor}\n📅 التاريخ: {date} — الوقت: {time}\n💰 المبلغ: {amount}\n\nلإتمام تأكيد الموعد، يرجى الدفع خلال 15 دقيقة:\n{link}\n\nبعد الدفع سيتم التأكيد تلقائياً وإرسال الإيصال إليك. 💙",
+    },
+    "nav_prev": {"fa": "▶️ قبلی", "en": "▶️ Previous", "ar": "▶️ السابق"},
+    "nav_next": {"fa": "◀️ بعدی", "en": "◀️ Next", "ar": "◀️ التالي"},
+    "day_prev": {"fa": "▶️ روزهای قبل", "en": "▶️ Previous days", "ar": "▶️ الأيام السابقة"},
+    "day_next": {"fa": "روزهای بعد ◀️", "en": "Next days ◀️", "ar": "الأيام التالية ◀️"},
+    "page_of": {"fa": "صفحه {p} از {n}", "en": "Page {p} of {n}", "ar": "صفحة {p} من {n}"},
+}
+
+
+def _t(lang: str, key: str, **kw: object) -> str:
+    text = _BT.get(key, {}).get(lang) or _BT.get(key, {}).get(DEFAULT_LANG, key)
+    if kw:
+        try:
+            text = text.format(**kw)
+        except Exception:
+            pass
+    return text
+
+
+# ---------------------------------------------------------------------------
 # داده‌های رزرو
 # ---------------------------------------------------------------------------
 
@@ -147,32 +278,35 @@ def _cancel_keyboard(lang: str) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup([[InlineKeyboardButton(_safe_btn(lang, "btn_back", "بازگشت"), callback_data="booking_cancel")]])
 
 
-def _build_specialty_keyboard(page: int) -> InlineKeyboardMarkup:
-    """کیبورد صفحه‌بندی‌شده‌ی تخصص‌ها — از ۱۱۴ پزشک واقعی data/doctors."""
+def _build_specialty_keyboard(page: int, lang: str = DEFAULT_LANG) -> InlineKeyboardMarkup:
+    """کیبورد صفحه‌بندی‌شده‌ی تخصص‌ها — فقط تخصص‌های دارای پزشک، سه‌زبانه."""
     specialties = doctor_loader.load_specialties()
     total_pages = max(1, (len(specialties) + SPEC_PER_PAGE - 1) // SPEC_PER_PAGE)
     page = max(0, min(page, total_pages - 1))
     chunk = specialties[page * SPEC_PER_PAGE:(page + 1) * SPEC_PER_PAGE]
 
     rows = [
-        [InlineKeyboardButton(f"{item['label']} ({item['count']})", callback_data=f"bk_specpick_{item['key']}")]
+        [InlineKeyboardButton(
+            f"{doctor_loader.get_label(item['key'], lang)} ({item['count']})",
+            callback_data=f"bk_specpick_{item['key']}",
+        )]
         for item in chunk
     ]
     nav = []
     if page > 0:
-        nav.append(InlineKeyboardButton("▶️ قبلی", callback_data=f"bk_spec_{page - 1}"))
+        nav.append(InlineKeyboardButton(_t(lang, "nav_prev"), callback_data=f"bk_spec_{page - 1}"))
     if page < total_pages - 1:
-        nav.append(InlineKeyboardButton("◀️ بعدی", callback_data=f"bk_spec_{page + 1}"))
+        nav.append(InlineKeyboardButton(_t(lang, "nav_next"), callback_data=f"bk_spec_{page + 1}"))
     if nav:
         rows.append(nav)
     if total_pages > 1:
-        rows.append([InlineKeyboardButton(f"صفحه {page + 1} از {total_pages}", callback_data="noop_page")])
-    rows.append([InlineKeyboardButton(_safe_btn(DEFAULT_LANG, "btn_back", "بازگشت"), callback_data="booking_cancel")])
+        rows.append([InlineKeyboardButton(_t(lang, "page_of", p=page + 1, n=total_pages), callback_data="noop_page")])
+    rows.append([InlineKeyboardButton(_safe_btn(lang, "btn_back", "بازگشت"), callback_data="booking_cancel")])
     return InlineKeyboardMarkup(rows)
 
 
-def _build_doctor_keyboard(spec_key: str, page: int) -> tuple[InlineKeyboardMarkup, int]:
-    """کیبورد صفحه‌بندی‌شده‌ی پزشکان یک تخصص واقعی."""
+def _build_doctor_keyboard(spec_key: str, page: int, lang: str = DEFAULT_LANG) -> tuple[InlineKeyboardMarkup, int]:
+    """کیبورد صفحه‌بندی‌شده‌ی پزشکان یک تخصص واقعی (سه‌زبانه)."""
     doctors = doctor_loader.load_doctors(spec_key)
     total_pages = max(1, (len(doctors) + DOC_PER_PAGE - 1) // DOC_PER_PAGE)
     page = max(0, min(page, total_pages - 1))
@@ -184,14 +318,14 @@ def _build_doctor_keyboard(spec_key: str, page: int) -> tuple[InlineKeyboardMark
     ]
     nav = []
     if page > 0:
-        nav.append(InlineKeyboardButton("▶️ قبلی", callback_data=f"bk_docpage_{spec_key}_{page - 1}"))
+        nav.append(InlineKeyboardButton(_t(lang, "nav_prev"), callback_data=f"bk_docpage_{spec_key}_{page - 1}"))
     if page < total_pages - 1:
-        nav.append(InlineKeyboardButton("◀️ بعدی", callback_data=f"bk_docpage_{spec_key}_{page + 1}"))
+        nav.append(InlineKeyboardButton(_t(lang, "nav_next"), callback_data=f"bk_docpage_{spec_key}_{page + 1}"))
     if nav:
         rows.append(nav)
     if total_pages > 1:
-        rows.append([InlineKeyboardButton(f"صفحه {page + 1} از {total_pages}", callback_data="noop_page")])
-    rows.append([InlineKeyboardButton(_safe_btn(DEFAULT_LANG, "btn_back", "بازگشت"), callback_data="bk_reselect_spec")])
+        rows.append([InlineKeyboardButton(_t(lang, "page_of", p=page + 1, n=total_pages), callback_data="noop_page")])
+    rows.append([InlineKeyboardButton(_safe_btn(lang, "btn_back", "بازگشت"), callback_data="bk_reselect_spec")])
     return InlineKeyboardMarkup(rows), len(doctors)
 
 
@@ -205,9 +339,9 @@ def _build_date_keyboard(lang: str, page: int) -> InlineKeyboardMarkup:
     rows = [[InlineKeyboardButton(label, callback_data=f"bk_date_{iso}")] for iso, label in chunk]
     nav = []
     if page > 0:
-        nav.append(InlineKeyboardButton("▶️ روزهای قبل", callback_data=f"bk_datepage_{page - 1}"))
+        nav.append(InlineKeyboardButton(_t(lang, "day_prev"), callback_data=f"bk_datepage_{page - 1}"))
     if page < total_pages - 1:
-        nav.append(InlineKeyboardButton("روزهای بعد ◀️", callback_data=f"bk_datepage_{page + 1}"))
+        nav.append(InlineKeyboardButton(_t(lang, "day_next"), callback_data=f"bk_datepage_{page + 1}"))
     if nav:
         rows.append(nav)
     rows.append([InlineKeyboardButton(_safe_btn(lang, "btn_back", "بازگشت"), callback_data="booking_cancel")])
@@ -221,22 +355,21 @@ def _build_time_keyboard(lang: str, available_times: list[str]) -> InlineKeyboar
 
 
 def _build_summary(data: BookingData, lang: str) -> str:
-    return "\n".join([
-        "خلاصه نوبت:",
-        f"نام بیمار: {data.name}",
-        f"کد ملی: {data.national_code}",
-        f"پزشک: {data.doctor_name}",
-        f"تاریخ: {format_jalali(data.date)}",
-        f"ساعت: {data.time}",
-        f"مبلغ: {APPOINTMENT_AMOUNT:,} تومان",
-        "",
-        "آیا از ثبت این نوبت مطمئن هستید؟",
-    ])
+    return _t(
+        lang,
+        "summary",
+        name=data.name,
+        code=data.national_code,
+        doctor=data.doctor_name,
+        date=format_jalali(data.date),
+        time=data.time,
+        amount=f"{APPOINTMENT_AMOUNT:,} {_t(lang, 'toman')}",
+    )
 
 
 def _build_confirm_keyboard(lang: str) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton("تأیید و پرداخت", callback_data="booking_confirm")],
+        [InlineKeyboardButton(_t(lang, "btn_confirm"), callback_data="booking_confirm")],
         [InlineKeyboardButton(_safe_btn(lang, "btn_back", "بازگشت"), callback_data="booking_cancel")],
     ])
 
@@ -244,7 +377,7 @@ def _build_confirm_keyboard(lang: str) -> InlineKeyboardMarkup:
 def _error_keyboard(lang: str) -> InlineKeyboardMarkup:
     """کیبورد خطا شامل دکمه بازگشت به منوی اصلی"""
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton("بازگشت به منوی اصلی", callback_data="back_main")]
+        [InlineKeyboardButton(_t(lang, "btn_back_main"), callback_data="back_main")]
     ])
 
 
@@ -287,7 +420,7 @@ async def start_booking(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
     if update.callback_query is not None: await _safe_answer(update.callback_query)
     lang = _get_lang(context)
     BookingData().clear_from(context)
-    prompt = "لطفاً نام و نام خانوادگی بیمار را وارد کنید:"
+    prompt = _t(lang, "ask_name")
     keyboard = _cancel_keyboard(lang)
     if update.message is not None:
         await update.message.reply_text(prompt, reply_markup=keyboard)
@@ -303,12 +436,12 @@ async def receive_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
     lang = _get_lang(context)
     name = update.message.text.strip()
     if len(name) < MIN_NAME_LENGTH:
-        await update.message.reply_text("نام وارد شده خیلی کوتاه است.\nلطفاً نام و نام خانوادگی کامل وارد کنید:", reply_markup=_cancel_keyboard(lang))
+        await update.message.reply_text(_t(lang, "name_too_short"), reply_markup=_cancel_keyboard(lang))
         return ASK_NAME
     data = BookingData.from_context(context)
     data.name = name
     data.save_to(context)
-    await update.message.reply_text("لطفاً کد ملی ۱۰ رقمی بیمار را وارد کنید:", reply_markup=_cancel_keyboard(lang))
+    await update.message.reply_text(_t(lang, "ask_national_code"), reply_markup=_cancel_keyboard(lang))
     return ASK_NATIONAL_CODE
 
 
@@ -317,7 +450,10 @@ async def receive_national_code(update: Update, context: ContextTypes.DEFAULT_TY
     lang = _get_lang(context)
     national_code = update.message.text.strip()
     if not national_code.isdigit() or len(national_code) != NATIONAL_CODE_LENGTH:
-        await update.message.reply_text(f"کد ملی وارد شده معتبر نیست.\nلطفاً یک کد ملی {NATIONAL_CODE_LENGTH} رقمی وارد کنید:", reply_markup=_cancel_keyboard(lang))
+        await update.message.reply_text(
+            _t(lang, "invalid_national_code", n=NATIONAL_CODE_LENGTH),
+            reply_markup=_cancel_keyboard(lang),
+        )
         return ASK_NATIONAL_CODE
     data = BookingData.from_context(context)
     data.national_code = national_code
@@ -327,12 +463,12 @@ async def receive_national_code(update: Update, context: ContextTypes.DEFAULT_TY
     count = len(doctor_loader.load_specialties())
     if count == 0:
         await update.message.reply_text(
-            "متأسفانه لیست پزشکان در دسترس نیست.\nلطفاً بعداً تلاش کنید یا با پشتیبانی تماس بگیرید.",
+            _t(lang, "no_doctors"),
             reply_markup=_error_keyboard(lang),
         )
         data.clear_from(context)
         return ConversationHandler.END
-    await update.message.reply_text("لطفاً تخصص مورد نظر را انتخاب کنید:", reply_markup=_build_specialty_keyboard(0))
+    await update.message.reply_text(_t(lang, "ask_spec"), reply_markup=_build_specialty_keyboard(0, lang))
     return SELECT_SPEC
 
 
@@ -343,7 +479,7 @@ async def select_spec_page(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     await _safe_answer(query)
     page = int(query.data.replace("bk_spec_", "")) if query.data.startswith("bk_spec_") else 0
     try:
-        await query.edit_message_reply_markup(reply_markup=_build_specialty_keyboard(page))
+        await query.edit_message_reply_markup(reply_markup=_build_specialty_keyboard(page, _get_lang(context)))
     except Exception:
         pass
     return SELECT_SPEC
@@ -359,7 +495,7 @@ async def select_spec(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
 
     spec = doctor_loader.get_specialty(spec_key)
     if spec is None:
-        await query.edit_message_text("تخصص انتخاب‌شده معتبر نیست. لطفاً دوباره تلاش کنید.", reply_markup=_cancel_keyboard(lang))
+        await query.edit_message_text(_t(lang, "invalid_spec"), reply_markup=_cancel_keyboard(lang))
         return SELECT_SPEC
 
     data = BookingData.from_context(context)
@@ -369,8 +505,8 @@ async def select_spec(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
     data.doctor_name = ""
     data.save_to(context)
 
-    keyboard, total = _build_doctor_keyboard(spec_key, 0)
-    text = f"تخصص انتخابی: {spec['label']}\n\n{total} پزشک یافت شد. لطفاً پزشک مورد نظر را انتخاب کنید:"
+    keyboard, total = _build_doctor_keyboard(spec_key, 0, lang)
+    text = _t(lang, "doctors_found", spec=doctor_loader.get_label(spec_key, lang), total=total)
     await query.edit_message_text(text, reply_markup=keyboard)
     return SELECT_DOCTOR
 
@@ -383,7 +519,7 @@ async def select_doctor_page(update: Update, context: ContextTypes.DEFAULT_TYPE)
     parts = query.data.replace("bk_docpage_", "", 1).rsplit("_", 1)
     spec_key, page = parts[0], int(parts[1]) if len(parts) == 2 else 0
     try:
-        keyboard, _ = _build_doctor_keyboard(spec_key, page)
+        keyboard, _ = _build_doctor_keyboard(spec_key, page, _get_lang(context))
         await query.edit_message_reply_markup(reply_markup=keyboard)
     except Exception:
         pass
@@ -399,7 +535,7 @@ async def reselect_spec(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
     data.spec_key = ""
     data.save_to(context)
     try:
-        await query.edit_message_text("لطفاً تخصص مورد نظر را انتخاب کنید:", reply_markup=_build_specialty_keyboard(0))
+        await query.edit_message_text(_t(_get_lang(context), "ask_spec"), reply_markup=_build_specialty_keyboard(0, _get_lang(context)))
     except Exception:
         pass
     return SELECT_SPEC
@@ -417,12 +553,12 @@ async def select_doctor(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
     try:
         index = int(index_raw)
     except ValueError:
-        await query.edit_message_text("پزشک انتخاب‌شده معتبر نیست. لطفاً دوباره تلاش کنید.", reply_markup=_cancel_keyboard(lang))
+        await query.edit_message_text(_t(lang, "invalid_doctor"), reply_markup=_cancel_keyboard(lang))
         return SELECT_DOCTOR
 
     doctors = doctor_loader.load_doctors(spec_key)
     if not (0 <= index < len(doctors)):
-        await query.edit_message_text("پزشک انتخاب‌شده معتبر نیست. لطفاً دوباره تلاش کنید.", reply_markup=_cancel_keyboard(lang))
+        await query.edit_message_text(_t(lang, "invalid_doctor"), reply_markup=_cancel_keyboard(lang))
         return SELECT_DOCTOR
 
     doctor = doctors[index]
@@ -436,7 +572,7 @@ async def select_doctor(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
     data.save_to(context)
 
     await query.edit_message_text(
-        f"پزشک انتخابی: {data.doctor_name}\n\nلطفاً تاریخ نوبت را انتخاب کنید (۱۴ روز آینده):",
+        _t(lang, "ask_date", name=data.doctor_name),
         reply_markup=_build_date_keyboard(lang, 0),
     )
     return SELECT_DATE
@@ -469,12 +605,12 @@ async def select_date(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
     data = BookingData.from_context(context)
     available_times = get_available_times(date, data.doctor_key)
     if not available_times:
-        await query.edit_message_text("برای این تاریخ ساعت خالی وجود ندارد.\nلطفاً تاریخ دیگری انتخاب کنید:", reply_markup=_build_date_keyboard(lang, 0))
+        await query.edit_message_text(_t(lang, "no_times_that_day"), reply_markup=_build_date_keyboard(lang, 0))
         return SELECT_DATE
     data.date = date
     data.save_to(context)
     await query.edit_message_text(
-        f"تاریخ انتخابی: {format_jalali(date)}\n\nلطفاً ساعت نوبت را انتخاب کنید:",
+        _t(lang, "ask_time", date=format_jalali(date)),
         reply_markup=_build_time_keyboard(lang, available_times),
     )
     return SELECT_TIME
@@ -490,9 +626,9 @@ async def select_time(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
     if not is_time_available(data.date, slot, data.doctor_key):
         available_times = get_available_times(data.date, data.doctor_key)
         if not available_times:
-            await query.edit_message_text("این ساعت دیگر در دسترس نیست و ساعت خالی دیگری هم برای این تاریخ وجود ندارد.\nلطفاً تاریخ دیگری انتخاب کنید:", reply_markup=_build_date_keyboard(lang, 0))
+            await query.edit_message_text(_t(lang, "time_gone_no_alt"), reply_markup=_build_date_keyboard(lang, 0))
             return SELECT_DATE
-        await query.edit_message_text("این ساعت دیگر در دسترس نیست.\nلطفاً ساعت دیگری انتخاب کنید:", reply_markup=_build_time_keyboard(lang, available_times))
+        await query.edit_message_text(_t(lang, "time_gone"), reply_markup=_build_time_keyboard(lang, available_times))
         return SELECT_TIME
     data.time = slot
     data.save_to(context)
@@ -508,11 +644,11 @@ async def confirm_booking(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     lang = _get_lang(context)
 
     if data.confirmed:
-        await query.edit_message_text(MSG_ALREADY_CONFIRMED, reply_markup=_error_keyboard(lang))
+        await query.edit_message_text(_t(lang, "already_confirmed"), reply_markup=_error_keyboard(lang))
         return ConversationHandler.END
 
     if not data.is_complete():
-        await query.edit_message_text("اطلاعات نوبت ناقص است. لطفاً دوباره از منو نوبت بگیرید.", reply_markup=_error_keyboard(lang))
+        await query.edit_message_text(_t(lang, "incomplete_info"), reply_markup=_error_keyboard(lang))
         data.clear_from(context)
         return ConversationHandler.END
 
@@ -538,7 +674,7 @@ async def confirm_booking(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     }
 
     if not add_appointment(appointment):
-        await query.edit_message_text(MSG_SLOT_TAKEN, reply_markup=_error_keyboard(lang))
+        await query.edit_message_text(_t(lang, "slot_taken"), reply_markup=_error_keyboard(lang))
         data.clear_from(context)
         return ConversationHandler.END
 
@@ -570,17 +706,15 @@ async def confirm_booking(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         # 🆕 فیکس: رسید دیگر قبل از پرداخت ارسال نمی‌شود — بعد از verify در
         # app/health.py پیام موفقیت + رسید متن + PDF ارسال می‌شود.
         await query.edit_message_text(
-            "\n".join([
-                "نوبت شما موقتاً رزرو شد ✅",
-                f"👨‍⚕️ پزشک: {data.doctor_name}",
-                f"📅 تاریخ: {format_jalali(data.date)} — ساعت {data.time}",
-                f"💰 مبلغ: {APPOINTMENT_AMOUNT:,} تومان",
-                "",
-                "برای قطعی شدن نوبت، در ۱۵ دقیقه آینده پرداخت را انجام دهید:",
-                payment_link,
-                "",
-                "پس از پرداخت به‌صورت خودکار تأیید و رسید برای شما ارسال می‌شود. 💙",
-            ]),
+            _t(
+                lang,
+                "reserved_pending",
+                doctor=data.doctor_name,
+                date=format_jalali(data.date),
+                time=data.time,
+                amount=f"{APPOINTMENT_AMOUNT:,} {_t(lang, 'toman')}",
+                link=payment_link,
+            ),
             reply_markup=None,
         )
 
@@ -590,24 +724,25 @@ async def confirm_booking(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
             cancel_appointment(date=data.date, time=data.time, user_id=user_id)
         except Exception as cancel_error:
             logger.error("Error cancelling pending appointment: %s", cancel_error)
-        await query.edit_message_text(MSG_PAYMENT_FAILED, reply_markup=_error_keyboard(lang))
+        await query.edit_message_text(_t(lang, "payment_failed"), reply_markup=_error_keyboard(lang))
 
     data.clear_from(context)
     return ConversationHandler.END
 
 
 async def cancel_booking(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    lang = _get_lang(context)
     query = update.callback_query
     if query is not None:
         await _safe_answer(query)
         try:
-            await query.edit_message_text(MSG_BOOKING_CANCELLED, reply_markup=None)
+            await query.edit_message_text(_t(lang, "cancelled"), reply_markup=None)
         except Exception:
             pass
         BookingData().clear_from(context)
         return ConversationHandler.END
     if update.message is not None:
-        await update.message.reply_text(MSG_BOOKING_CANCELLED, reply_markup=None)
+        await update.message.reply_text(_t(lang, "cancelled"), reply_markup=None)
         BookingData().clear_from(context)
         return ConversationHandler.END
     BookingData().clear_from(context)
