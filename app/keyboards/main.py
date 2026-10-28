@@ -42,6 +42,16 @@ def get_main_menu_keyboard(lang: str) -> InlineKeyboardMarkup:
 
 
 def get_back_keyboard(lang: str) -> InlineKeyboardMarkup:
+    """دکمه بازگشت به منو + دکمه پیشنهادات کنار هم (الگوی استاندارد کل ربات).
+
+    ✅ این کیبورد در همه بخش‌هایی که کاربر به منوی اصلی برمی‌گردد استفاده
+    می‌شود؛ طبق الگوی منوی غیرپزشکی، کنار هر دکمه بازگشت، دکمه «💬 پیشنهادات»
+    هم قرار می‌گیرد. برچسب‌ها از locale سه‌زبانه خوانده می‌شوند (btn_back و
+    btn_feedback در هر سه زبان تعریف شده‌اند).
+    """
     return InlineKeyboardMarkup(
-        [[InlineKeyboardButton(get_msg_btn(lang, "btn_back"), callback_data="back_main")]]
+        [[
+            InlineKeyboardButton(get_msg_btn(lang, "btn_back"), callback_data="back_main"),
+            InlineKeyboardButton(get_msg_btn(lang, "btn_feedback"), callback_data="start_feedback"),
+        ]]
     )

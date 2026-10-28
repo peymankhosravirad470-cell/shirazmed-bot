@@ -58,6 +58,7 @@ _TEXTS: dict[str, dict[str, str]] = {
         "menu_btn_list": {"fa": "📋 داروهای من", "en": "📋 My Medications", "ar": "📋 أدويتي"},
         "menu_btn_del": {"fa": "🗑 حذف دارو", "en": "🗑 Delete Medication", "ar": "🗑 حذف الدواء"},
         "btn_back": {"fa": "🔙 بازگشت به منو", "en": "🔙 Back to Menu", "ar": "🔙 العودة إلى القائمة"},
+        "btn_feedback": {"fa": "💬 پیشنهادات", "en": "💬 Feedback", "ar": "💬 ملاحظات"},
         "ask_name": {
             "fa": "💊 نام دارو را بنویسید:\n\nمثال: «قرص فشار»",
             "en": "💊 Please write the medication name:\n\nExample: \"Blood pressure pill\"",
@@ -134,6 +135,14 @@ def _t(lang: str, key: str) -> str:
 
 def _kb(lang: str, rows: list[list[tuple[str, str]]]) -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup([[InlineKeyboardButton(t, callback_data=d) for (t, d) in row] for row in rows])
+
+
+def _back_feedback_kb(lang: str, back_callback: str = "back_main") -> InlineKeyboardMarkup:
+    """🆕 الگوی استاندارد پایان اکشن: بازگشت + پیشنهادات کنار هم."""
+    return _kb(lang, [[
+        (_t(lang, "btn_back"), back_callback),
+        (_t(lang, "btn_feedback"), "start_feedback"),
+    ]])
 
 
 def _get_lang(context: ContextTypes.DEFAULT_TYPE) -> str:
@@ -313,7 +322,7 @@ async def show_med_menu(update: Update, context: ContextTypes.DEFAULT_TYPE, lang
     kb = _kb(lang, [
         [( _t(lang, "menu_btn_add"), "med_add")],
         [(_t(lang, "menu_btn_list"), "med_list"), (_t(lang, "menu_btn_del"), "med_del")],
-        [(_t(lang, "btn_back"), "back_main")],
+        [(_t(lang, "btn_back"), "back_main"), (_t(lang, "btn_feedback"), "start_feedback")],
     ])
     await _display(update, context, _t(lang, "menu_title"), kb)
 
@@ -354,7 +363,7 @@ async def med_menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         items = get_chat_meds(chat_id)
         if not items:
             await _display(update, context, _t(lang, "list_empty"),
-                           _kb(lang, [[(_t(lang, "btn_back"), "med_home")]]))
+                           _back_feedback_kb(lang, "med_home"))
             return
         lines = [_t(lang, "list_title")]
         for i, med in enumerate(items, 1):
@@ -362,7 +371,7 @@ async def med_menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) 
             lines.append(f"{i}. 💊 {med.get('name', '')}\n   ⏰ {times}")
         kb = _kb(lang, [
             [(_t(lang, "menu_btn_add"), "med_add")],
-            [(_t(lang, "list_back"), "med_home")],
+            [(_t(lang, "list_back"), "med_home"), (_t(lang, "btn_feedback"), "start_feedback")],
         ])
         await _display(update, context, "\n".join(lines), kb)
         return
@@ -371,11 +380,11 @@ async def med_menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         items = get_chat_meds(chat_id)
         if not items:
             await _display(update, context, _t(lang, "del_empty"),
-                           _kb(lang, [[(_t(lang, "btn_back"), "med_home")]]))
+                           _back_feedback_kb(lang, "med_home"))
             return
         rows = [[(f"💊 {med.get('name', '')} ({'، '.join(med.get('times', []))})", f"med_del_{i}")]
                 for i, med in enumerate(items)]
-        rows.append([(_t(lang, "list_back"), "med_home")])
+        rows.append([(_t(lang, "list_back"), "med_home"), (_t(lang, "btn_feedback"), "start_feedback")])
         await _display(update, context, _t(lang, "del_title"), _kb(lang, rows))
         return
 
@@ -391,17 +400,17 @@ async def med_menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) 
             unschedule_chat(context.job_queue, chat_id)
             schedule_chat_jobs(context.job_queue, chat_id, items)
             await _display(update, context, _t(lang, "deleted").format(name=removed.get("name", "")),
-                           _kb(lang, [[(_t(lang, "btn_back"), "med_home")]]))
+                           _back_feedback_kb(lang, "med_home"))
         else:
             await _display(update, context, _t(lang, "del_empty"),
-                           _kb(lang, [[(_t(lang, "btn_back"), "med_home")]]))
+                           _back_feedback_kb(lang, "med_home"))
         return
 
     if data == "med_home":
         kb = _kb(lang, [
             [(_t(lang, "menu_btn_add"), "med_add")],
             [(_t(lang, "menu_btn_list"), "med_list"), (_t(lang, "menu_btn_del"), "med_del")],
-            [(_t(lang, "btn_back"), "back_main")],
+            [(_t(lang, "btn_back"), "back_main"), (_t(lang, "btn_feedback"), "start_feedback")],
         ])
         await _display(update, context, _t(lang, "menu_title"), kb)
         return
@@ -424,7 +433,7 @@ async def med_add_entry(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
     chat_id = update.effective_chat.id if update.effective_chat else 0
     if len(get_chat_meds(chat_id)) >= 10:
         await _display(update, context, _t(lang, "limit"),
-                       _kb(lang, [[(_t(lang, "btn_back"), "med_home")]]))
+                       _back_feedback_kb(lang, "med_home"))
         return ConversationHandler.END
     await _display(update, context, _t(lang, "ask_name"), None)
     return ASK_MED_NAME
@@ -465,7 +474,7 @@ async def receive_med_times(update: Update, context: ContextTypes.DEFAULT_TYPE) 
 
     await update.message.reply_text(
         _t(lang, "saved").format(name=name, times="، ".join(times)),
-        reply_markup=_kb(lang, [[(_t(lang, "btn_back"), "back_main")]]),
+        reply_markup=_back_feedback_kb(lang),
     )
     return ConversationHandler.END
 
@@ -474,7 +483,8 @@ async def med_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     context.user_data.pop("med_name", None)
     lang = _get_lang(context)
     if update.message is not None:
-        await update.message.reply_text(_t(lang, "cancelled"))
+        # 🆕 فیکس: قبلاً بدون دکمه ارسال می‌شد و کاربر گیر می‌کرد
+        await update.message.reply_text(_t(lang, "cancelled"), reply_markup=_back_feedback_kb(lang))
     return ConversationHandler.END
 
 

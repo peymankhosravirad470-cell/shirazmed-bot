@@ -70,6 +70,8 @@ _T: dict[str, dict[str, str]] = {
         "en": "✅ Your companion's information was registered successfully.\nIf needed, a notification message will be sent to {phone}.",
         "ar": "✅ تم تسجيل معلومات مرافقك بنجاح.\nعند الحاجة، سيتم إرسال رسالة إشعار إلى {phone}.",
     },
+    # 🆕 الگوی استاندارد: کنار دکمه بازگشت، دعوت به ثبت نظر هم باشد
+    "btn_feedback": {"fa": "💬 پیشنهادات", "en": "💬 Feedback", "ar": "💬 ملاحظات"},
 }
 
 
@@ -84,9 +86,12 @@ def _t(lang: str, key: str, **kw: object) -> str:
 
 
 def _back_to_menu_keyboard(lang: str = "fa"):
-    """✅ دکمه بازگشت به منو (سه‌زبانه)."""
+    """✅ دکمه بازگشت به منو + پیشنهادات (سه‌زبانه) — الگوی استاندارد کل ربات."""
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton(_t(lang, "btn_back_menu"), callback_data="back_main")]
+        [
+            InlineKeyboardButton(_t(lang, "btn_back_menu"), callback_data="back_main"),
+            InlineKeyboardButton(_t(lang, "btn_feedback"), callback_data="start_feedback"),
+        ]
     ])
 
 

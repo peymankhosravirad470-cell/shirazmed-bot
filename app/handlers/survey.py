@@ -64,11 +64,26 @@ _T: dict[str, dict[str, str]] = {
         "en": "The survey was cancelled.",
         "ar": "تم إلغاء الاستبيان.",
     },
+    # 🆕 الگوی استاندارد پایان هر اکشن: بازگشت به منو + دعوت به ثبت نظر کنار هم
+    "btn_back_menu": {"fa": "🔙 بازگشت به منو", "en": "🔙 Back to Menu", "ar": "🔙 العودة إلى القائمة"},
+    "btn_feedback": {"fa": "💬 پیشنهادات", "en": "💬 Feedback", "ar": "💬 ملاحظات"},
 }
 
 
 def _t(lang: str, key: str) -> str:
     return _T.get(key, {}).get(lang) or _T.get(key, {}).get("fa", key)
+
+
+def _back_feedback_keyboard(lang: str = "fa") -> InlineKeyboardMarkup:
+    """🆕 کیبورد پایان جریان: بازگشت به منو + پیشنهادات (دو دکمه کنار هم).
+
+    قبلاً بعد از ثبت نارضایتی و بعد از پاسخ «راضی بودم» هیچ دکمه‌ای
+    ارسال نمی‌شد (reply_markup=None) و کاربر گیر می‌کرد.
+    """
+    return InlineKeyboardMarkup([[
+        InlineKeyboardButton(_t(lang, "btn_back_menu"), callback_data="back_main"),
+        InlineKeyboardButton(_t(lang, "btn_feedback"), callback_data="start_feedback"),
+    ]])
 
 
 def _get_survey_keyboard(lang: str = "fa") -> InlineKeyboardMarkup:
@@ -108,7 +123,8 @@ async def handle_satisfaction(update: Update, context: ContextTypes.DEFAULT_TYPE
     lang = _get_lang(context)
 
     if data == "survey_yes":
-        await query.edit_message_text(_t(lang, "thanks_happy"), reply_markup=None)
+        # 🆕 فیکس: قبلاً reply_markup=None بود و کاربر بعد از «راضی بودم» گیر می‌کرد
+        await query.edit_message_text(_t(lang, "thanks_happy"), reply_markup=_back_feedback_keyboard(lang))
         return ConversationHandler.END
 
     elif data == "survey_no":
@@ -142,7 +158,7 @@ async def receive_reason(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     lang = _get_lang(context)
     if settings.admin_chat_id is None:
         logger.warning("ADMIN_CHAT_ID تنظیم نشده است؛ پیام نارضایتی برای ادمین ارسال نشد.")
-        await update.message.reply_text(_t(lang, "thanks_feedback"), reply_markup=None)
+        await update.message.reply_text(_t(lang, "thanks_feedback"), reply_markup=_back_feedback_keyboard(lang))
         return ConversationHandler.END
 
     try:
@@ -151,10 +167,10 @@ async def receive_reason(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
             text=admin_message,
             parse_mode="HTML",
         )
-        await update.message.reply_text(_t(lang, "thanks_feedback"), reply_markup=None)
+        await update.message.reply_text(_t(lang, "thanks_feedback"), reply_markup=_back_feedback_keyboard(lang))
     except Exception as error:
         logger.error(f"Error sending survey to admin: {error}")
-        await update.message.reply_text(_t(lang, "send_error"), reply_markup=None)
+        await update.message.reply_text(_t(lang, "send_error"), reply_markup=_back_feedback_keyboard(lang))
 
     return ConversationHandler.END
 

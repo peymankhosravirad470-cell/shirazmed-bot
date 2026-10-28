@@ -221,6 +221,9 @@ async def back_to_main_handler(update: Update, context: ContextTypes.DEFAULT_TYP
     if query is None:
         return
     await query.answer()
+    # 🎯 پاک‌سازی پرچم کهنه: بازگشت به منو یعنی کاربر از ثبت نظر منصرف شده؛
+    # در غیر این صورت متن بعدی‌اش بی‌اجازه به‌عنوان نظر ارسال می‌شد.
+    context.user_data["awaiting_feedback"] = False
     lang = _get_lang(context)
     await _edit_menu_message(
         update,
@@ -245,25 +248,39 @@ async def start_feedback_handler(update: Update, context: ContextTypes.DEFAULT_T
     )
 
 
+def _back_feedback_keyboard(lang: str) -> InlineKeyboardMarkup:
+    """🆕 الگوی استاندارد: بازگشت به منو + دعوت به ثبت نظر کنار هم."""
+    back_labels = {
+        "fa": "🔙 بازگشت به منو",
+        "en": "🔙 Back to Menu",
+        "ar": "🔙 العودة إلى القائمة",
+    }
+    feedback_labels = {
+        "fa": "💬 پیشنهادات",
+        "en": "💬 Feedback",
+        "ar": "💬 ملاحظات",
+    }
+    return InlineKeyboardMarkup([[
+        InlineKeyboardButton(back_labels.get(lang, back_labels["fa"]), callback_data="back_main"),
+        InlineKeyboardButton(feedback_labels.get(lang, feedback_labels["fa"]), callback_data="start_feedback"),
+    ]])
+
+
 async def feedback_yes_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """کاربر راضی بود - نمایش پیام تشکر + دکمه بازگشت به منو."""
     query = update.callback_query
     if query is None:
         return
     await query.answer()
+    # 🎯 پاک‌سازی پرچم کهنه: اگر قبلاً «ناراضی» زده بود ولی متنی نفرستاده بود،
+    # پرچم فعال می‌ماند و متن بعدی‌اش بی‌اجازه به‌عنوان نظر ثبت می‌شد.
+    context.user_data["awaiting_feedback"] = False
     lang = _get_lang(context)
-    back_labels = {
-        "fa": "🔙 بازگشت به منو",
-        "en": "🔙 Back to Menu",
-        "ar": "🔙 العودة إلى القائمة",
-    }
     await _edit_menu_message(
         update,
         context,
         text=FEEDBACK_YES.get(lang, FEEDBACK_YES["fa"]),
-        reply_markup=InlineKeyboardMarkup([
-            [InlineKeyboardButton(back_labels.get(lang, back_labels["fa"]), callback_data="back_main")]
-        ]),
+        reply_markup=_back_feedback_keyboard(lang),
     )
 
 
@@ -275,18 +292,11 @@ async def feedback_no_handler(update: Update, context: ContextTypes.DEFAULT_TYPE
     await query.answer()
     lang = _get_lang(context)
     context.user_data["awaiting_feedback"] = True
-    back_labels = {
-        "fa": "🔙 بازگشت",
-        "en": "🔙 Back",
-        "ar": "🔙 رجوع",
-    }
     await _edit_menu_message(
         update,
         context,
         text=FEEDBACK_NO.get(lang, FEEDBACK_NO["fa"]),
-        reply_markup=InlineKeyboardMarkup([[
-            InlineKeyboardButton(back_labels.get(lang, back_labels["fa"]), callback_data="back_main")
-        ]]),
+        reply_markup=_back_feedback_keyboard(lang),
     )
 
 

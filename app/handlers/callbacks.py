@@ -21,8 +21,7 @@ from app.keyboards.tourism import (
 )
 from app.keyboards.paramedical import get_paramedical_keyboard
 from app.keyboards.elderly import get_elderly_keyboard
-from app.locales import get_msg_btn
-from app.locales.fa import MSG
+from app.locales import get_msg, get_msg_btn
 from app.services import doctor_loader
 from app.handlers import meds
 
@@ -32,8 +31,71 @@ _BROWSE_T: dict[str, dict[str, str]] = {
     "next": {"fa": "◀️ بعدی", "en": "◀️ Next", "ar": "◀️ التالي"},
 }
 
-if not isinstance(MSG, dict):
-    MSG = {}
+# 🌐 متن‌های سه‌زبانه همه بخش‌ها — قبلاً تیتر منوها، برچسب فیلدها (نام/آدرس/تلفن و…)
+# و پیام‌های خطا فارسی هاردکد بودند و برای کاربر عرب/انگلیسی تداخل زبان ایجاد می‌کرد.
+_T: dict[str, dict[str, str]] = {
+    # ── تیتر زیرمنوها ──
+    "menu_non_medical": {"fa": "منوی خدمات غیرپزشکی:", "en": "Non-Medical Services:", "ar": "قائمة الخدمات غير الطبية:"},
+    "menu_tourism": {"fa": "منوی گردشگری:", "en": "Tourism:", "ar": "قائمة السياحة:"},
+    "menu_paramedical": {"fa": "منوی پیراپزشکی:", "en": "Paramedical Services:", "ar": "قائمة الخدمات المساندة:"},
+    "menu_elderly": {"fa": "منوی خانه سالمندان:", "en": "Nursing Homes:", "ar": "قائمة دور المسنين:"},
+    "prompt_rights": {"fa": "لطفاً بخش مورد نظر را انتخاب کنید:", "en": "Please choose a section:", "ar": "يرجى اختيار القسم المطلوب:"},
+    "prompt_complaints": {"fa": "لطفاً نوع شکایت خود را انتخاب کنید:", "en": "Please choose your complaint type:", "ar": "يرجى اختيار نوع شكواك:"},
+    "coming_soon": {"fa": "این بخش در نسخه‌های بعدی فعال می‌شود.", "en": "This section will be available in future versions.", "ar": "سيتم تفعيل هذا القسم في الإصدارات القادمة."},
+    # ── برچسب فیلدهای داده ──
+    "lbl_name": {"fa": "نام", "en": "Name", "ar": "الاسم"},
+    "lbl_category": {"fa": "دسته‌بندی", "en": "Category", "ar": "الفئة"},
+    "lbl_district": {"fa": "منطقه", "en": "District", "ar": "المنطقة"},
+    "lbl_address": {"fa": "آدرس", "en": "Address", "ar": "العنوان"},
+    "lbl_visiting_hours": {"fa": "ساعت بازدید", "en": "Visiting hours", "ar": "ساعات الزيارة"},
+    "lbl_ticket": {"fa": "قیمت بلیط", "en": "Ticket price", "ar": "سعر التذكرة"},
+    "lbl_duration": {"fa": "مدت بازدید", "en": "Visit duration", "ar": "مدة الزيارة"},
+    "lbl_season": {"fa": "بهترین فصل", "en": "Best season", "ar": "أفضل موسم"},
+    "lbl_phone": {"fa": "تلفن", "en": "Phone", "ar": "الهاتف"},
+    "lbl_amenities": {"fa": "امکانات", "en": "Amenities", "ar": "المرافق"},
+    "lbl_emergency": {"fa": "شماره اضطراری", "en": "Emergency number", "ar": "رقم الطوارئ"},
+    # ── راهنمای بیمار ──
+    "guide_visa": {"fa": "مدارک ویزای پزشکی:", "en": "Medical visa documents:", "ar": "وثائق التأشيرة الطبية:"},
+    "guide_admission": {"fa": "مدارک پذیرش بیمارستان:", "en": "Hospital admission documents:", "ar": "وثائق القبول في المستشفى:"},
+    "guide_translator": {"fa": "الزام مترجم", "en": "Translator requirement", "ar": "اشتراط المترجم"},
+    # ── پیام‌های خالی / خطا ──
+    "empty_generic": {"fa": "اطلاعاتی یافت نشد.", "en": "No information found.", "ar": "لم يتم العثور على معلومات."},
+    "empty_hotels": {"fa": "هتلی یافت نشد.", "en": "No hotels found.", "ar": "لم يتم العثور على فنادق."},
+    "empty_motels": {"fa": "مهمان‌پذیری یافت نشد.", "en": "No motels found.", "ar": "لم يتم العثور على موتيلات."},
+    "empty_houses": {"fa": "خانه مسافری یافت نشد.", "en": "No guest houses found.", "ar": "لم يتم العثور على بيوت ضيافة."},
+    "empty_transport": {"fa": "وسیله نقلیه‌ای یافت نشد.", "en": "No transport found.", "ar": "لم يتم العثور على وسائل نقل."},
+    "empty_section": {"fa": "اطلاعاتی برای این بخش یافت نشد.", "en": "No information found for this section.", "ar": "لا توجد معلومات لهذا القسم."},
+    "err_generic": {"fa": "خطا در دریافت اطلاعات.", "en": "Error retrieving information.", "ar": "خطأ في استرجاع المعلومات."},
+    "spec_unavailable": {"fa": "اطلاعات این تخصص در دسترس نیست.", "en": "Information for this specialty is unavailable.", "ar": "معلومات هذا التخصص غير متوفرة."},
+    # ── تاکسی ──
+    "taxi_text": {"fa": "برای درخواست خودرو، یکی از اپلیکیشن‌های زیر را انتخاب کنید:", "en": "To request a ride, choose one of the apps below:", "ar": "لطلب سيارة، اختر أحد التطبيقات التالية:"},
+    # ── مترجم ──
+    "translator_text": {"fa": "🌐 مترجم همراه هوشمند\n\nبرای ارتباط آسان با راننده تاکسی، فروشنده یا هر شخص دیگری، روی یکی از لینک‌های زیر کلیک کنید.", "en": "🌐 Smart Companion Translator\n\nTo communicate easily with a taxi driver, shopkeeper, or anyone else, tap one of the links below.", "ar": "🌐 المترجم المرافق الذكي\n\nللتواصل بسهولة مع سائق التاكسي أو البائع أو أي شخص آخر، اضغط على أحد الروابط التالية."},
+    "translator_btn_web": {"fa": "🌐 ترجمه با Google Translate", "en": "🌐 Translate with Google Translate", "ar": "🌐 الترجمة عبر Google Translate"},
+    "translator_btn_app": {"fa": "📱 اپلیکیشن Google Translate", "en": "📱 Google Translate app", "ar": "📱 تطبيق Google Translate"},
+    # ── دعوت دوستان ──
+    "invite_text": {"fa": "🎁 با دعوت دوستان، ۱۰٪ تخفیف در نوبت بعدی بگیرید!\n\nلینک اختصاصی شما:\n{link}", "en": "🎁 Invite friends and get 10% off your next appointment!\n\nYour personal link:\n{link}", "ar": "🎁 ادعُ أصدقاءك واحصل على خصم 10% في موعدك القادم!\n\nرابطك الخاص:\n{link}"},
+    # ── کانال ──
+    "channel_text": {"fa": "برای عضویت در کانال رسمی شیراز مدیکال، روی لینک زیر کلیک کنید:", "en": "To join the official Shiraz Medical channel, tap the link below:", "ar": "للانضمام إلى قناة شيراز الطبية الرسمية، اضغط على الرابط التالي:"},
+    "channel_btn": {"fa": "📢 عضویت در کانال", "en": "📢 Join the Channel", "ar": "📢 الانضمام للقناة"},
+    # ── نوبت‌ها / پکیج ──
+    "apt_book_new": {"fa": "📅 رزرو نوبت جدید", "en": "📅 Book New Appointment", "ar": "📅 حجز موعد جديد"},
+    "package_text": {"fa": "💎 پکیج کامل گردشگری سلامت\n\nپکیج کامل شامل همه‌ی خدمات به‌صورت یکجا است:\n• هماهنگی نوبت پزشک و بیمارستان\n• اقامت\n• ترانسفر\n• مترجم همراه\n\n📞 برای سفارش، با پشتیبانی تماس بگیرید: 190", "en": "💎 Complete Health Tourism Package\n\nThe full package includes all services in one place:\n• Doctor & hospital appointment coordination\n• Accommodation\n• Transfer\n• Companion translator\n\n📞 To order, contact support: 190", "ar": "💎 باقة السياحة العلاجية الكاملة\n\nتشمل الباقة الكاملة جميع الخدمات في مكان واحد:\n• تنسيق موعد الطبيب والمستشفى\n• الإقامة\n• النقل\n• مترجم مرافق\n\n📞 للطلب، تواصل مع الدعم: 190"},
+    # ── تیترهای پیش‌فرض (fallback) ──
+    "charter_title_fb": {"fa": "منشور حقوق بیمار", "en": "Patient Rights Charter", "ar": "ميثاق حقوق المريض"},
+    "deepseek_title_fb": {"fa": "دستیار هوشمند DeepSeek", "en": "DeepSeek AI Assistant", "ar": "مساعد DeepSeek الذكي"},
+}
+
+
+def _t(lang: str, key: str, **kw: object) -> str:
+    """متن سه‌زبانه از _T؛ اگر زبان موجود نبود → فارسی (رفتار مستند)."""
+    text = _T.get(key, {}).get(lang) or _T.get(key, {}).get("fa", key)
+    if kw:
+        try:
+            text = text.format(**kw)
+        except Exception:
+            pass
+    return text
 
 
 def load_json(filename: str) -> Union[list, dict]:
@@ -50,7 +112,18 @@ def load_json(filename: str) -> Union[list, dict]:
 
 
 def _get_localized_field(item: dict, base_key: str, lang: str) -> str:
-    keys = [f"{base_key}_{lang}", f"{base_key}_fa", f"{base_key}_en", f"{base_key}_ar", base_key]
+    """🌐 ترتیب fallback (مستند): زبان کاربر ← فارسی ← انگلیسی ← عربی ← مقدار خام.
+
+    🆕 فیکس: قبلاً کلید پایه با پسوند _fa پاس داده می‌شد (مثل name_fa) و کلید
+    زبانِ کاربر به شکل name_fa_en ساخته می‌شد که هرگز وجود نداشت — یعنی حتی
+    اگر ترجمه انگلیسی/عربی در دیتا بود، همیشه فارسی نمایش داده می‌شد.
+    حالا پسوند _fa از کلید پایه حذف و کلیدهای درست ساخته می‌شوند.
+    """
+    stem = base_key[:-3] if base_key.endswith("_fa") else base_key
+    keys: list[str] = []
+    for k in (f"{stem}_{lang}", f"{stem}_fa", f"{stem}_en", f"{stem}_ar", base_key, stem):
+        if k not in keys:
+            keys.append(k)
     for key in keys:
         value = item.get(key)
         if value:
@@ -62,19 +135,34 @@ def _get_localized_field(item: dict, base_key: str, lang: str) -> str:
 
 
 def _get_localized_list(item: dict, base_key: str, lang: str) -> list:
-    keys = [f"{base_key}_{lang}", f"{base_key}_fa", f"{base_key}_en", f"{base_key}_ar", base_key]
+    """🌐 همان ترتیب fallback فیلد، برای لیست‌ها (با فیکس پسوند _fa)."""
+    stem = base_key[:-3] if base_key.endswith("_fa") else base_key
+    keys: list[str] = []
+    for k in (f"{stem}_{lang}", f"{stem}_fa", f"{stem}_en", f"{stem}_ar", base_key, stem):
+        if k not in keys:
+            keys.append(k)
     for key in keys:
         value = item.get(key)
         if isinstance(value, list): return value
     return []
 
 
-def _safe_msg(key: str, default: str = "") -> str:
+def _msg(lang: str, key: str, default: str = "") -> str:
+    """🆕 خواندن پیام از locale «زبان خود کاربر» (قبلاً همیشه fa.MSG خوانده می‌شد
+    و متن‌هایی مثل منشور اخلاقی و «پرونده» برای کاربر عرب/انگلیسی فارسی می‌ماند).
+    اگر کلید در زبان کاربر نبود → فارسی → در غیر این صورت default."""
     try:
-        value = MSG.get(key, default)
-        return str(value) if value is not None else default
+        value = get_msg(lang, key)
     except Exception:
+        value = None
+    if value is None or value == key or not str(value).strip():
+        try:
+            value = get_msg("fa", key)
+        except Exception:
+            value = None
+    if value is None or value == key:
         return default
+    return str(value)
 
 
 def _safe_btn(lang: str, key: str, default: str = "") -> str:
@@ -139,7 +227,16 @@ async def _send_chunked(update: Update, context: ContextTypes.DEFAULT_TYPE, chat
     return sent
 
 
-async def _show_items(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str, filename: str, empty_message: str = "اطلاعاتی یافت نشد.") -> None:
+async def _show_items(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str, filename: str, empty_message: str = "") -> None:
+    """نمایش آیتم‌های JSON با برچسب‌های سه‌زبانه.
+
+    🌐 رفتار fallback داده (مستند): برای هر فیلد (اسم/آدرس و…) به این ترتیب
+    جستجو می‌شود: مقدار زبان کاربر ← فارسی ← انگلیسی ← عربی ← مقدار خام.
+    دیتای فعلی (بیمارستان‌ها/هتل‌ها/…) فقط name_fa/address_fa دارد؛ در نتیجه
+    برای کاربر انگلیسی/عربی «نام و آدرس به فارسی» نمایش داده می‌شود — این
+    رفتار عمدی و مستند است؛ برچسب‌ها (نام:/آدرس:/تلفن:) اما همیشه به زبان
+    خود کاربر هستند.
+    """
     if update.effective_chat is None: return
     chat_id = update.effective_chat.id
     back_markup = get_back_keyboard(lang)
@@ -171,24 +268,24 @@ async def _show_items(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: 
             amenities = _get_localized_list(item, "amenities_fa", lang)
             amenities_str = "، ".join(amenities) if amenities else ""
             lines = []
-            if name: lines.append(f"🏛️ نام: {name}")
-            if category: lines.append(f"📌 دسته‌بندی: {category}")
-            if district: lines.append(f"📍 منطقه: {district}")
-            if address: lines.append(f"📍 آدرس: {address}")
-            if visiting_hours: lines.append(f"⏰ ساعت بازدید: {visiting_hours}")
-            if ticket_price: lines.append(f"🎫 قیمت بلیط: {ticket_price}")
-            if duration: lines.append(f"⏳ مدت بازدید: {duration}")
-            if best_season: lines.append(f"🌤️ بهترین فصل: {best_season}")
-            if phone: lines.append(f"📞 تلفن: {phone}")
-            if amenities_str: lines.append(f"✨ امکانات: {amenities_str}")
+            if name: lines.append(f"🏛️ {_t(lang, 'lbl_name')}: {name}")
+            if category: lines.append(f"📌 {_t(lang, 'lbl_category')}: {category}")
+            if district: lines.append(f"📍 {_t(lang, 'lbl_district')}: {district}")
+            if address: lines.append(f"📍 {_t(lang, 'lbl_address')}: {address}")
+            if visiting_hours: lines.append(f"⏰ {_t(lang, 'lbl_visiting_hours')}: {visiting_hours}")
+            if ticket_price: lines.append(f"🎫 {_t(lang, 'lbl_ticket')}: {ticket_price}")
+            if duration: lines.append(f"⏳ {_t(lang, 'lbl_duration')}: {duration}")
+            if best_season: lines.append(f"🌤️ {_t(lang, 'lbl_season')}: {best_season}")
+            if phone: lines.append(f"📞 {_t(lang, 'lbl_phone')}: {phone}")
+            if amenities_str: lines.append(f"✨ {_t(lang, 'lbl_amenities')}: {amenities_str}")
             if lines:
                 texts.append("\n".join(lines))
         if not texts:
-            await _display(update, context, empty_message, back_markup)
+            await _display(update, context, empty_message or _t(lang, "empty_generic"), back_markup)
             return
         await _send_chunked(update, context, chat_id, texts, back_markup)
     except Exception:
-        await _display(update, context, "خطا در دریافت اطلاعات.", back_markup)
+        await _display(update, context, _t(lang, "err_generic"), back_markup)
 async def show_hospitals(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
     if update.effective_chat is None: return
     chat_id = update.effective_chat.id
@@ -198,7 +295,7 @@ async def show_hospitals(update: Update, context: ContextTypes.DEFAULT_TYPE, lan
             data = load_json(fname)
             if isinstance(data, list): hospitals.extend(i for i in data if isinstance(i, dict))
         if not hospitals:
-            await _display(update, context, "اطلاعاتی یافت نشد.", get_back_keyboard(lang))
+            await _display(update, context, _t(lang, "empty_generic"), get_back_keyboard(lang))
             return
         texts = []
         for h in hospitals:
@@ -207,29 +304,29 @@ async def show_hospitals(update: Update, context: ContextTypes.DEFAULT_TYPE, lan
             address = _get_localized_field(h, "address_fa", lang) or _get_localized_field(h, "address", lang)
             phone = str(h.get("phone", "")) if h.get("phone") else ""
             lines = []
-            if name: lines.append(f"🏥 نام: {name}")
-            if address: lines.append(f"📍 آدرس: {address}")
-            if phone: lines.append(f"📞 تلفن: {phone}")
+            if name: lines.append(f"🏥 {name}")
+            if address: lines.append(f"📍 {_t(lang, 'lbl_address')}: {address}")
+            if phone: lines.append(f"📞 {_t(lang, 'lbl_phone')}: {phone}")
             if lines: texts.append("\n".join(lines))
         if texts:
             await _send_chunked(update, context, chat_id, texts, get_back_keyboard(lang))
         else:
-            await _display(update, context, "اطلاعاتی یافت نشد.", get_back_keyboard(lang))
+            await _display(update, context, _t(lang, "empty_generic"), get_back_keyboard(lang))
     except Exception:
-        await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
+        await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))
 
 
 async def show_hotels(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
-    await _show_items(update, context, lang, "hotels.json", "هتلی یافت نشد.")
+    await _show_items(update, context, lang, "hotels.json", _t(lang, "empty_hotels"))
 
 async def show_motels(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
-    await _show_items(update, context, lang, "motels.json", "مهمان‌پذیری یافت نشد.")
+    await _show_items(update, context, lang, "motels.json", _t(lang, "empty_motels"))
 
 async def show_tourist_houses(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
-    await _show_items(update, context, lang, "tourist_houses.json", "خانه مسافری یافت نشد.")
+    await _show_items(update, context, lang, "tourist_houses.json", _t(lang, "empty_houses"))
 
 async def show_transport(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
-    await _show_items(update, context, lang, "transport.json", "وسیله نقلیه‌ای یافت نشد.")
+    await _show_items(update, context, lang, "transport.json", _t(lang, "empty_transport"))
 
 async def show_patient_guide(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
     if update.effective_chat is None: return
@@ -238,7 +335,7 @@ async def show_patient_guide(update: Update, context: ContextTypes.DEFAULT_TYPE,
         data = load_json("patient_guide.json")
         items = [data] if isinstance(data, dict) else data if isinstance(data, list) else []
         if not items:
-            await _display(update, context, "اطلاعاتی یافت نشد.", get_back_keyboard(lang))
+            await _display(update, context, _t(lang, "empty_generic"), get_back_keyboard(lang))
             return
         texts = []
         for item in items:
@@ -248,29 +345,29 @@ async def show_patient_guide(update: Update, context: ContextTypes.DEFAULT_TYPE,
             if topic: lines.append(f"📌 {topic}\n")
             visa_docs = _get_localized_list(item, "medical_visa_documents_fa", lang)
             if visa_docs:
-                lines.append("🛂 مدارک ویزای پزشکی:")
+                lines.append(f"🛂 {_t(lang, 'guide_visa')}")
                 for i, doc in enumerate(visa_docs, 1): lines.append(f"{i}. {doc}")
             admission_docs = _get_localized_list(item, "hospital_admission_documents_fa", lang)
             if admission_docs:
-                lines.append("🏥 مدارک پذیرش بیمارستان:")
+                lines.append(f"🏥 {_t(lang, 'guide_admission')}")
                 for i, doc in enumerate(admission_docs, 1): lines.append(f"{i}. {doc}")
             translator = _get_localized_field(item, "translator_requirement_fa", lang)
-            if translator: lines.append(f"🗣 الزام مترجم: {translator}\n")
+            if translator: lines.append(f"🗣 {_t(lang, 'guide_translator')}: {translator}\n")
             if lines: texts.append("\n".join(lines))
         if texts:
             await _send_chunked(update, context, chat_id, texts, get_back_keyboard(lang))
         else:
-            await _display(update, context, "اطلاعاتی یافت نشد.", get_back_keyboard(lang))
+            await _display(update, context, _t(lang, "empty_generic"), get_back_keyboard(lang))
     except Exception:
-        await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
+        await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))
 
 
 async def show_complaints(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str, is_foreign: bool = False) -> None:
     filename = "complaints_foreign.json" if is_foreign else "complaints_iranian.json"
-    await _show_items(update, context, lang, filename, "اطلاعاتی برای این بخش یافت نشد.")
+    await _show_items(update, context, lang, filename, _t(lang, "empty_section"))
 
 async def show_support(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
-    await _show_items(update, context, lang, "support.json", "اطلاعاتی یافت نشد.")
+    await _show_items(update, context, lang, "support.json", _t(lang, "empty_generic"))
 
 async def show_taxi(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
     if update.effective_chat is None: return
@@ -278,19 +375,21 @@ async def show_taxi(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: st
         kb = InlineKeyboardMarkup([
             [InlineKeyboardButton("اسنپ (Snapp)", url="https://snapp.ir")],
             [InlineKeyboardButton("تپسی (Tapsi)", url="https://tapsi.ir")],
-            [InlineKeyboardButton(get_msg_btn(lang, "btn_back"), callback_data="back_main")]
+            *get_back_keyboard(lang).inline_keyboard,
         ])
-        await _display(update, context, "برای درخواست خودرو، یکی از اپلیکیشن‌های زیر را انتخاب کنید:", kb)
+        await _display(update, context, _t(lang, "taxi_text"), kb)
     except Exception:
-        await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
+        await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))
 
 
 async def show_charter(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
     if update.effective_chat is None: return
     chat_id = update.effective_chat.id
     try:
-        title = _safe_btn(lang, "charter_title", "منشور حقوق بیمار")
-        body = _safe_msg("charter_body", "")
+        # 🌐 قبلاً title از MSG_BTN خوانده می‌شد (کلید در MSG است، نه MSG_BTN) و body
+        # همیشه از fa.MSG — یعنی حتی برای کاربر عرب/انگلیسی فارسی نشان داده می‌شد.
+        title = _msg(lang, "charter_title", "") or _t(lang, "charter_title_fb")
+        body = _msg(lang, "charter_body", "")
         if not body:
             await _display(update, context, title, get_back_keyboard(lang))
             return
@@ -311,57 +410,52 @@ async def show_charter(update: Update, context: ContextTypes.DEFAULT_TYPE, lang:
             else: 
                 await context.bot.send_message(chat_id=chat_id, text=chunk, reply_markup=markup)
     except Exception:
-        await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
+        await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))
 
 
 async def show_translator(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
     if update.effective_chat is None: return
     kb = InlineKeyboardMarkup([
-        [InlineKeyboardButton("🌐 ترجمه با Google Translate", url="https://translate.google.com/")],
-        [InlineKeyboardButton("📱 اپلیکیشن Google Translate", url="https://play.google.com/store/apps/details?id=com.google.android.apps.translate")],
-        [InlineKeyboardButton("🔙 بازگشت", callback_data="back_main")]
+        [InlineKeyboardButton(_t(lang, "translator_btn_web"), url="https://translate.google.com/")],
+        [InlineKeyboardButton(_t(lang, "translator_btn_app"), url="https://play.google.com/store/apps/details?id=com.google.android.apps.translate")],
+        *get_back_keyboard(lang).inline_keyboard,
     ])
-    text = (
-        "🌐 مترجم همراه هوشمند\n\n"
-        "برای ارتباط آسان با راننده تاکسی، فروشنده یا هر شخص دیگری، "
-        "روی یکی از لینک‌های زیر کلیک کنید."
-    )
-    await _display(update, context, text, kb)
+    await _display(update, context, _t(lang, "translator_text"), kb)
 
 
 async def show_deepseek(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
     if update.effective_chat is None: return
     try:
-        title = _safe_btn(lang, "deepseek_title", "دستیار هوشمند DeepSeek")
+        title = _msg(lang, "deepseek_title", "") or _t(lang, "deepseek_title_fb")
         kb = InlineKeyboardMarkup([
-            [InlineKeyboardButton("🚀 رفتن به DeepSeek", url="https://chat.deepseek.com")],
-            [InlineKeyboardButton("🔙 بازگشت", callback_data="back_main")]
+            [InlineKeyboardButton(_safe_btn(lang, "btn_deepseek_go", "🚀 DeepSeek"), url="https://chat.deepseek.com")],
+            *get_back_keyboard(lang).inline_keyboard,
         ])
         await _display(update, context, title, kb)
     except Exception:
-        await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
+        await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))
 
 
 async def show_file(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
     if update.effective_chat is None: return
     try:
-        msg = _safe_msg("pt_not_found", "پرونده‌ای یافت نشد.")
+        msg = _msg(lang, "pt_not_found", _t(lang, "empty_generic"))
         await _display(update, context, msg, get_back_keyboard(lang))
     except Exception:
-        await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
+        await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))
 
 
 async def show_appointments(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
     if update.effective_chat is None: return
     try:
-        msg = _safe_msg("apt_none", "شما هنوز هیچ نوبتی ثبت نکرده‌اید.")
+        msg = _msg(lang, "apt_none", _t(lang, "empty_generic"))
         kb = InlineKeyboardMarkup([
-            [InlineKeyboardButton("📅 رزرو نوبت جدید", callback_data="start_booking")],
-            [InlineKeyboardButton(get_msg_btn(lang, "btn_back"), callback_data="back_main")]
+            [InlineKeyboardButton(_t(lang, "apt_book_new"), callback_data="start_booking")],
+            *get_back_keyboard(lang).inline_keyboard,
         ])
         await _display(update, context, msg, kb)
     except Exception:
-        await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
+        await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))
 
 
 async def show_medication(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
@@ -382,7 +476,7 @@ async def show_emergency(update: Update, context: ContextTypes.DEFAULT_TYPE, lan
         if not isinstance(items, list): items = []
         em_items = [i for i in items if isinstance(i, dict) and i.get("emergency_contact")]
         if not em_items:
-            await _display(update, context, "اطلاعاتی یافت نشد.", get_back_keyboard(lang))
+            await _display(update, context, _t(lang, "empty_generic"), get_back_keyboard(lang))
             return
         texts = []
         for item in em_items:
@@ -391,26 +485,26 @@ async def show_emergency(update: Update, context: ContextTypes.DEFAULT_TYPE, lan
             if not name and not em: continue
             lines = []
             if name: lines.append(f"🏢 {name}")
-            if em: lines.append(f"🚨 شماره اضطراری: {em}")
+            if em: lines.append(f"🚨 {_t(lang, 'lbl_emergency')}: {em}")
             if lines: texts.append("\n".join(lines))
         if texts:
             await _send_chunked(update, context, chat_id, texts, get_back_keyboard(lang))
         else:
-            await _display(update, context, "اطلاعاتی یافت نشد.", get_back_keyboard(lang))
+            await _display(update, context, _t(lang, "empty_generic"), get_back_keyboard(lang))
     except Exception:
-        await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
+        await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))
 
 
 async def show_channel(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
     if update.effective_chat is None: return
     try:
         kb = InlineKeyboardMarkup([
-            [InlineKeyboardButton("📢 عضویت در کانال", url="https://ble.ir/shiraz_medical")],
-            [InlineKeyboardButton("🔙 بازگشت", callback_data="back_main")]
+            [InlineKeyboardButton(_t(lang, "channel_btn"), url="https://ble.ir/shiraz_medical")],
+            *get_back_keyboard(lang).inline_keyboard,
         ])
-        await _display(update, context, "برای عضویت در کانال رسمی شیراز مدیکال، روی لینک زیر کلیک کنید:", kb)
+        await _display(update, context, _t(lang, "channel_text"), kb)
     except Exception:
-        await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
+        await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))
 
 
 async def show_invite(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
@@ -418,13 +512,9 @@ async def show_invite(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: 
     try:
         user_id = update.effective_user.id if update.effective_user else 0
         link = f"https://ble.ir/ShirazMedBot?start={user_id}"
-        text = (
-            "🎁 با دعوت دوستان، ۱۰٪ تخفیف در نوبت بعدی بگیرید!\n\n"
-            f"لینک اختصاصی شما:\n{link}"
-        )
-        await _display(update, context, text, get_back_keyboard(lang))
+        await _display(update, context, _t(lang, "invite_text", link=link), get_back_keyboard(lang))
     except Exception:
-        await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
+        await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))
 
 
 async def show_hubs(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
@@ -440,7 +530,7 @@ async def show_hubs(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: st
                 if isinstance(item, dict) and "اسنپ" not in str(item.get("name_fa", "")) and "تپسی" not in str(item.get("name_fa", "")):
                     all_items.append(item)
         if not all_items:
-            await _display(update, context, "اطلاعاتی یافت نشد.", get_back_keyboard(lang))
+            await _display(update, context, _t(lang, "empty_generic"), get_back_keyboard(lang))
             return
         texts = []
         for item in all_items:
@@ -450,15 +540,15 @@ async def show_hubs(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: st
             phone = str(item.get("phone", "")) if item.get("phone") else ""
             lines = []
             if name: lines.append(f"📍 {name}")
-            if addr: lines.append(f"🏠 آدرس: {addr}")
-            if phone: lines.append(f"📞 تلفن: {phone}")
+            if addr: lines.append(f"🏠 {_t(lang, 'lbl_address')}: {addr}")
+            if phone: lines.append(f"📞 {_t(lang, 'lbl_phone')}: {phone}")
             if lines: texts.append("\n".join(lines))
         if texts:
             await _send_chunked(update, context, chat_id, texts, get_back_keyboard(lang))
         else:
-            await _display(update, context, "اطلاعاتی یافت نشد.", get_back_keyboard(lang))
+            await _display(update, context, _t(lang, "empty_generic"), get_back_keyboard(lang))
     except Exception:
-        await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
+        await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))
 
 
 async def main_menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -471,7 +561,7 @@ async def main_menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE)
     data = query.data
 
     if data == "non_medical":
-        await _display(update, context, "منوی خدمات غیرپزشکی:", get_non_medical_keyboard(lang))
+        await _display(update, context, _t(lang, "menu_non_medical"), get_non_medical_keyboard(lang))
         return
     if data == "non_hospitals":
         await show_hospitals(update, context, lang)
@@ -489,7 +579,7 @@ async def main_menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE)
         await show_transport(update, context, lang)
         return
     if data == "tourism":
-        await _display(update, context, "منوی گردشگری:", get_tourism_keyboard(lang))
+        await _display(update, context, _t(lang, "menu_tourism"), get_tourism_keyboard(lang))
         return
     if data == "tour_city":
         await _show_items(update, context, lang, "leisure_city.json")
@@ -498,13 +588,13 @@ async def main_menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE)
         await _show_items(update, context, lang, "leisure_outside.json")
         return
     if data == "paramedical":
-        await _display(update, context, "منوی پیراپزشکی:", get_paramedical_keyboard(lang))
+        await _display(update, context, _t(lang, "menu_paramedical"), get_paramedical_keyboard(lang))
         return
     if data in ("para_physio", "para_lab", "para_radiology", "para_nursing", "para_injection", "para_trad_med", "para_occupational", "para_speech", "para_orthotics"):
         await _show_items(update, context, lang, "paramedical.json")
         return
     if data == "elderly":
-        await _display(update, context, "منوی خانه سالمندان:", get_elderly_keyboard(lang))
+        await _display(update, context, _t(lang, "menu_elderly"), get_elderly_keyboard(lang))
         return
     if data == "elderly_all":
         await _show_items(update, context, lang, "elderly_homes.json")
@@ -519,13 +609,13 @@ async def main_menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE)
         await show_patient_guide(update, context, lang)
         return
     if data == "rights":
-        await _display(update, context, "لطفاً بخش مورد نظر را انتخاب کنید:", get_patient_rights_keyboard(lang))
+        await _display(update, context, _t(lang, "prompt_rights"), get_patient_rights_keyboard(lang))
         return
     if data == "charter":
         await show_charter(update, context, lang)
         return
     if data == "complaints_menu":
-        await _display(update, context, "لطفاً نوع شکایت خود را انتخاب کنید:", get_complaints_menu_keyboard(lang))
+        await _display(update, context, _t(lang, "prompt_complaints"), get_complaints_menu_keyboard(lang))
         return
     if data == "complaints_iranian":
         await show_complaints(update, context, lang, is_foreign=False)
@@ -570,7 +660,7 @@ async def main_menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE)
         await show_package(update, context, lang)
         return
 
-    await _display(update, context, "این بخش در نسخه‌های بعدی فعال می‌شود.", get_back_keyboard(lang))
+    await _display(update, context, _t(lang, "coming_soon"), get_back_keyboard(lang))
 
 
 MED_SPEC_PER_PAGE = 8
@@ -635,7 +725,7 @@ async def medical_browse_callback(update: Update, context: ContextTypes.DEFAULT_
         spec = doctor_loader.get_specialty(spec_key)
         doctors = doctor_loader.load_doctors(spec_key)
         if spec is None or not doctors:
-            await query.edit_message_text("اطلاعات این تخصص در دسترس نیست.", reply_markup=get_back_keyboard(lang))
+            await query.edit_message_text(_t(lang, "spec_unavailable"), reply_markup=get_back_keyboard(lang))
             return
         per_page = 12
         start = page * per_page
@@ -672,15 +762,9 @@ async def show_package(update: Update, context: ContextTypes.DEFAULT_TYPE, lang:
     if update.effective_chat is None: return
     try:
         kb = InlineKeyboardMarkup([
-            [InlineKeyboardButton("📅 رزرو نوبت", callback_data="start_booking")],
-            [InlineKeyboardButton(get_msg_btn(lang, "btn_back"), callback_data="back_main")]
+            [InlineKeyboardButton(get_msg_btn(lang, "btn_book"), callback_data="start_booking")],
+            *get_back_keyboard(lang).inline_keyboard,
         ])
-        text = (
-            "💎 پکیج کامل گردشگری سلامت\n\n"
-            "پکیج کامل شامل همه‌ی خدمات به‌صورت یکجا است:\n"
-            "• هماهنگی نوبت پزشک و بیمارستان\n• اقامت\n• ترانسفر\n• مترجم همراه\n\n"
-            "📞 برای سفارش، با پشتیبانی تماس بگیرید: 190"
-        )
-        await _display(update, context, text, kb)
+        await _display(update, context, _t(lang, "package_text"), kb)
     except Exception:
-        await _display(update, context, "خطا در دریافت اطلاعات.", get_back_keyboard(lang))
+        await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))

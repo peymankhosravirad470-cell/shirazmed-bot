@@ -55,17 +55,8 @@ SPEC_PER_PAGE: int = 8     # تخصص در هر صفحه
 DOC_PER_PAGE: int = 6      # پزشک در هر صفحه
 DATE_PER_PAGE: int = 7     # تاریخ در هر صفحه (۲ صفحه)
 
-MSG_BOOKING_CANCELLED = "فرآیند رزرو نوبت لغو شد."
-MSG_PAYMENT_FAILED = (
-    "خطا در ایجاد لینک پرداخت. نوبت شما لغو شد.\n"
-    "لطفاً دوباره تلاش کنید یا با پشتیبانی تماس بگیرید."
-)
-MSG_SLOT_TAKEN = (
-    "خطا در ثبت نوبت رخ داد.\n"
-    "احتمالاً این ساعت همین الان توسط کاربر دیگری رزرو شده است.\n"
-    "لطفاً دوباره از منو نوبت بگیرید."
-)
-MSG_ALREADY_CONFIRMED = "این نوبت قبلاً ثبت شده است."
+# 🧹 پاکسازی: ثابت‌های مرده MSG_BOOKING_CANCELLED/MSG_PAYMENT_FAILED/MSG_SLOT_TAKEN/
+# MSG_ALREADY_CONFIRMED حذف شدند — نسخه سه‌زبانه‌شان در _BT استفاده می‌شود.
 
 
 # ---------------------------------------------------------------------------
@@ -186,6 +177,9 @@ _BT: dict[str, dict[str, str]] = {
     "day_prev": {"fa": "▶️ روزهای قبل", "en": "▶️ Previous days", "ar": "▶️ الأيام السابقة"},
     "day_next": {"fa": "روزهای بعد ◀️", "en": "Next days ◀️", "ar": "الأيام التالية ◀️"},
     "page_of": {"fa": "صفحه {p} از {n}", "en": "Page {p} of {n}", "ar": "صفحة {p} من {n}"},
+    # 🆕 الگوی استاندارد پایان اکشن: بازگشت به منو + پیشنهادات کنار هم
+    "btn_back_menu": {"fa": "🔙 بازگشت به منو", "en": "🔙 Back to Menu", "ar": "🔙 العودة إلى القائمة"},
+    "btn_feedback": {"fa": "💬 پیشنهادات", "en": "💬 Feedback", "ar": "💬 ملاحظات"},
 }
 
 
@@ -375,10 +369,19 @@ def _build_confirm_keyboard(lang: str) -> InlineKeyboardMarkup:
 
 
 def _error_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """کیبورد خطا شامل دکمه بازگشت به منوی اصلی"""
+    """کیبورد پایان جریان/خطا: بازگشت به منوی اصلی + پیشنهادات کنار هم."""
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton(_t(lang, "btn_back_main"), callback_data="back_main")]
+        [
+            InlineKeyboardButton(_t(lang, "btn_back_main"), callback_data="back_main"),
+            InlineKeyboardButton(_t(lang, "btn_feedback"), callback_data="start_feedback"),
+        ]
     ])
+
+
+def _end_keyboard(lang: str) -> InlineKeyboardMarkup:
+    """🆕 کیبورد پایان موفق جریان رزرو (بعد از ساخت لینک پرداخت یا لغو):
+    کاربر دیگر گیر نمی‌افتد و همیشه دکمه بازگشت + پیشنهادات دارد."""
+    return _error_keyboard(lang)
 
 
 async def _request_payment_safe(*, user_id: int, amount: int, description: str, callback_url: str, extra: dict) -> dict[str, Any]:
@@ -705,6 +708,7 @@ async def confirm_booking(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
 
         # 🆕 فیکس: رسید دیگر قبل از پرداخت ارسال نمی‌شود — بعد از verify در
         # app/health.py پیام موفقیت + رسید متن + PDF ارسال می‌شود.
+        # 🆕 فیکس دوم: قبلاً reply_markup=None بود و کاربر بدون هیچ دکمه‌ای می‌ماند.
         await query.edit_message_text(
             _t(
                 lang,
@@ -715,7 +719,7 @@ async def confirm_booking(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
                 amount=f"{APPOINTMENT_AMOUNT:,} {_t(lang, 'toman')}",
                 link=payment_link,
             ),
-            reply_markup=None,
+            reply_markup=_end_keyboard(lang),
         )
 
     except Exception as error:
@@ -736,13 +740,14 @@ async def cancel_booking(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     if query is not None:
         await _safe_answer(query)
         try:
-            await query.edit_message_text(_t(lang, "cancelled"), reply_markup=None)
+            # 🆕 فیکس: قبلاً reply_markup=None بود و کاربر بعد از لغو گیر می‌کرد
+            await query.edit_message_text(_t(lang, "cancelled"), reply_markup=_end_keyboard(lang))
         except Exception:
             pass
         BookingData().clear_from(context)
         return ConversationHandler.END
     if update.message is not None:
-        await update.message.reply_text(_t(lang, "cancelled"), reply_markup=None)
+        await update.message.reply_text(_t(lang, "cancelled"), reply_markup=_end_keyboard(lang))
         BookingData().clear_from(context)
         return ConversationHandler.END
     BookingData().clear_from(context)

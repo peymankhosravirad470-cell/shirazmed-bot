@@ -35,8 +35,69 @@ from app.services.receipt import generate_receipt_pdf, generate_receipt_text
 
 logger = logging.getLogger(__name__)
 
+# 🌐 متن‌های سه‌زبانه صفحه پرداخت و پیام‌های بعد پرداخت.
+# قبلاً همه فارسی هاردکد بود؛ حالا زبان کاربر از user_data خوانده می‌شود
+# (همان که در ربات انتخاب کرده) و اگر در دسترس نبود، فارسی (رفتار مستند).
+_HT: dict[str, dict[str, str]] = {
+    "page_invalid_title": {"fa": "درخواست نامعتبر", "en": "Invalid Request", "ar": "طلب غير صالح"},
+    "page_invalid_user": {"fa": "شناسه کاربر معتبر نیست.", "en": "The user ID is not valid.", "ar": "معرّف المستخدم غير صالح."},
+    "page_invalid_authority": {"fa": "شناسه تراکنش (Authority) یافت نشد.", "en": "Transaction authority not found.", "ar": "لم يتم العثور على معرّف المعاملة."},
+    "page_nok_title": {"fa": "پرداخت ناموفق", "en": "Payment Failed", "ar": "فشل الدفع"},
+    "page_nok_body": {"fa": "پرداخت انجام نشد یا لغو شد. می‌توانید دوباره تلاش کنید.", "en": "Payment was not completed or was cancelled. You can try again.", "ar": "لم يتم الدفع أو تم إلغاؤه. يمكنك المحاولة مرة أخرى."},
+    "page_notfound_title": {"fa": "تراکنش یافت نشد", "en": "Transaction Not Found", "ar": "لم يتم العثور على المعاملة"},
+    "page_notfound_body": {"fa": "تراکنشی با این شناسه ثبت نشده است.", "en": "No transaction registered with this ID.", "ar": "لم يتم تسجيل أي معاملة بهذا المعرّف."},
+    "page_already_title": {"fa": "قبلاً تأیید شده", "en": "Already Verified", "ar": "تم التحقق مسبقاً"},
+    "page_already_body": {"fa": "این پرداخت قبلاً تأیید و ثبت شده بود.", "en": "This payment had already been verified and recorded.", "ar": "كان هذا الدفع قد تم التحقق منه وتسجيله مسبقاً."},
+    "page_verifyfail_title": {"fa": "تأیید ناموفق", "en": "Verification Failed", "ar": "فشل التحقق"},
+    "page_verifyfail_body": {"fa": "تأیید پرداخت نزد درگاه ناموفق بود.", "en": "Payment verification with the gateway failed.", "ar": "فشل التحقق من الدفع لدى بوابة الدفع."},
+    "page_ok_title": {"fa": "پرداخت موفق", "en": "Payment Successful", "ar": "تم الدفع بنجاح"},
+    "page_ok_body": {"fa": "پرداخت شما تأیید شد و نوبت شما قطعی گردید.\nرسید کامل در ربات برای شما ارسال شد.", "en": "Your payment was verified and your appointment is confirmed.\nThe full receipt has been sent to you in the bot.", "ar": "تم التحقق من دفعتك وتأكيد موعدك.\nتم إرسال الإيصال الكامل لك في البوت."},
+    "page_ref": {"fa": "کد رهگیری", "en": "Tracking code", "ar": "رمز التتبع"},
+    "page_error_title": {"fa": "خطای سرور", "en": "Server Error", "ar": "خطأ في الخادم"},
+    "page_error_body": {"fa": "خطایی در پردازش پرداخت رخ داد.", "en": "An error occurred while processing the payment.", "ar": "حدث خطأ أثناء معالجة الدفع."},
+    "msg_nok": {"fa": "❌ پرداخت ناموفق یا لغو شد.\n\nنوبت شما آزاد شد. اگر مایل باشید می‌توانید دوباره از منوی اصلی رزرو کنید.", "en": "❌ Payment failed or was cancelled.\n\nYour appointment slot has been released. You can book again from the main menu.", "ar": "❌ فشل الدفع أو تم إلغاؤه.\n\nتم تحرير موعدك. يمكنك الحجز مرة أخرى من القائمة الرئيسية."},
+    "msg_verify_failed": {"fa": "❌ تأیید پرداخت ناموفق بود.\n\nجزئیات: {error}\nدر صورت کسر وجه، مبلغ حداکثر تا ۷۲ ساعت به حساب شما بازمی‌گردد.\nبرای پیگیری با پشتیبانی تماس بگیرید.", "en": "❌ Payment verification failed.\n\nDetails: {error}\nIf the amount was deducted, it will be refunded within 72 hours at the latest.\nContact support for follow-up.", "ar": "❌ فشل التحقق من الدفع.\n\nالتفاصيل: {error}\nفي حال خصم المبلغ، سيُعاد إليك خلال 72 ساعة كحد أقصى.\nتواصل مع الدعم للمتابعة."},
+    "msg_success_head": {"fa": "✅ پرداخت شما با موفقیت تأیید شد!", "en": "✅ Your payment was successfully verified!", "ar": "✅ تم التحقق من دفعتك بنجاح!"},
+    "msg_ref": {"fa": "💳 کد رهگیری بانکی", "en": "💳 Bank tracking code", "ar": "💳 رمز التتبع البنكي"},
+    "msg_doctor": {"fa": "👨‍⚕️ پزشک", "en": "👨‍⚕️ Doctor", "ar": "👨‍⚕️ الطبيب"},
+    "msg_date": {"fa": "📅 تاریخ", "en": "📅 Date", "ar": "📅 التاريخ"},
+    "msg_time": {"fa": "⏰ ساعت", "en": "⏰ Time", "ar": "⏰ الوقت"},
+    "msg_amount": {"fa": "💰 مبلغ", "en": "💰 Amount", "ar": "💰 المبلغ"},
+    "msg_arrive": {"fa": "لطفاً ۱۵ دقیقه قبل از نوبت در مطب حاضر باشید.", "en": "Please arrive at the clinic 15 minutes before your appointment.", "ar": "يرجى الحضور إلى العيادة قبل موعدك بـ 15 دقيقة."},
+    "msg_brand": {"fa": "💙 شیراز مدیکال", "en": "💙 Shiraz Medical", "ar": "💙 شيراز الطبية"},
+    "msg_toman": {"fa": "تومان", "en": "Toman", "ar": "تومان"},
+    "pdf_caption": {"fa": "🧾 رسید نهایی نوبت شما", "en": "🧾 Your final appointment receipt", "ar": "🧾 إيصال موعدك النهائي"},
+}
+
+
+def _ht(lang: str, key: str, **kw: object) -> str:
+    text = _HT.get(key, {}).get(lang) or _HT.get(key, {}).get("fa", key)
+    if kw:
+        try:
+            text = text.format(**kw)
+        except Exception:
+            pass
+    return text
+
+
+def _user_lang(user_id: int) -> str:
+    """زبان کاربر از user_data ربات (همان که در ربات انتخاب کرده).
+
+    اگر Application هنوز bind نشده یا زبان ثبت نشده باشد → فارسی.
+    """
+    try:
+        app = runtime.get_application()
+        if app is not None:
+            ud = app.user_data.get(int(user_id), {})
+            if isinstance(ud, dict):
+                lang = ud.get("lang", "fa")
+                return lang if lang in ("fa", "en", "ar") else "fa"
+    except Exception:
+        pass
+    return "fa"
+
 PAGE_TMPL = """<!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="{lang}" dir="{dir}">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title}</title>
 <style>
@@ -48,8 +109,9 @@ body{{font-family:Tahoma,Vazirmatn,sans-serif;background:#f1f5f9;display:flex;al
 <body><div class="card"><div class="icon">{icon}</div><h1>{title}</h1><p>{body}</p>{extra}</div></body></html>"""
 
 
-def _page(icon: str, title: str, body: str, color: str = "#0e7490", extra: str = "") -> str:
-    return PAGE_TMPL.format(icon=icon, title=title, body=body, color=color, extra=extra)
+def _page(icon: str, title: str, body: str, color: str = "#0e7490", extra: str = "", lang: str = "fa") -> str:
+    direction = "ltr" if lang == "en" else "rtl"
+    return PAGE_TMPL.format(icon=icon, title=title, body=body, color=color, extra=extra, lang=lang, dir=direction)
 
 
 def _handle_payment_callback(query: dict) -> tuple[int, str]:
@@ -61,25 +123,25 @@ def _handle_payment_callback(query: dict) -> tuple[int, str]:
     try:
         user_id = int(user_id_raw)
     except (TypeError, ValueError):
-        return 400, _page("❓", "درخواست نامعتبر", "شناسه کاربر معتبر نیست.", "#dc2626")
+        return 400, _page("❓", _ht("fa", "page_invalid_title"), _ht("fa", "page_invalid_user"), "#dc2626", lang="fa")
+
+    # 🌐 زبان کاربر (برای صفحه و پیام‌ها) — در صورت نبود → فارسی
+    lang = _user_lang(user_id)
 
     if not authority:
-        return 400, _page("❓", "درخواست نامعتبر", "شناسه تراکنش (Authority) یافت نشد.", "#dc2626")
+        return 400, _page("❓", _ht(lang, "page_invalid_title"), _ht(lang, "page_invalid_authority"), "#dc2626", lang=lang)
 
     # ─── پرداخت ناموفق / لغو شده توسط کاربر ───
     if status != "OK":
         logger.info("Payment NOK for user %s authority=%s", user_id, authority)
         _release_pending_slot(user_id, authority)
-        runtime.schedule_coroutine(_notify_user(user_id, (
-            "❌ پرداخت ناموفق یا لغو شد.\n\n"
-            "نوبت شما آزاد شد. اگر مایل باشید می‌توانید دوباره از منوی اصلی رزرو کنید."
-        )))
-        return 200, _page("⚠️", "پرداخت ناموفق", "پرداخت انجام نشد یا لغو شد. می‌توانید دوباره تلاش کنید.", "#dc2626")
+        runtime.schedule_coroutine(_notify_user(user_id, _ht(lang, "msg_nok")))
+        return 200, _page("⚠️", _ht(lang, "page_nok_title"), _ht(lang, "page_nok_body"), "#dc2626", lang=lang)
 
     # ─── پرداخت موفق: verify نزد زرین‌پال ───
     tx_amount = _get_tx_amount(user_id, authority)
     if tx_amount is None:
-        return 400, _page("❓", "تراکنش یافت نشد", "تراکنشی با این شناسه ثبت نشده است.", "#dc2626")
+        return 400, _page("❓", _ht(lang, "page_notfound_title"), _ht(lang, "page_notfound_body"), "#dc2626", lang=lang)
 
     result = verify_payment(user_id, authority, tx_amount)
 
@@ -88,15 +150,10 @@ def _handle_payment_callback(query: dict) -> tuple[int, str]:
         if "قبلاً تایید" in error or "قبلاً تأیید" in error:
             # code 101 — قبلاً verify شده؛ بی‌ضرر است
             logger.info("Payment already verified user=%s authority=%s", user_id, authority)
-            return 200, _page("ℹ️", "قبلاً تأیید شده", "این پرداخت قبلاً تأیید و ثبت شده بود.", "#0e7490")
+            return 200, _page("ℹ️", _ht(lang, "page_already_title"), _ht(lang, "page_already_body"), "#0e7490", lang=lang)
         logger.warning("verify failed user=%s authority=%s error=%s", user_id, authority, error)
-        runtime.schedule_coroutine(_notify_user(user_id, (
-            "❌ تأیید پرداخت ناموفق بود.\n\n"
-            f"جزئیات: {error}\n"
-            "در صورت کسر وجه، مبلغ حداکثر تا ۷۲ ساعت به حساب شما بازمی‌گردد.\n"
-            "برای پیگیری با پشتیبانی تماس بگیرید."
-        )))
-        return 200, _page("⚠️", "تأیید ناموفق", "تأیید پرداخت نزد درگاه ناموفق بود.", "#dc2626")
+        runtime.schedule_coroutine(_notify_user(user_id, _ht(lang, "msg_verify_failed", error=error)))
+        return 200, _page("⚠️", _ht(lang, "page_verifyfail_title"), _ht(lang, "page_verifyfail_body"), "#dc2626", lang=lang)
 
     ref_id = str(result.get("ref_id", ""))
 
@@ -114,14 +171,13 @@ def _handle_payment_callback(query: dict) -> tuple[int, str]:
     jalali = format_jalali(date) if date else ""
     runtime.schedule_coroutine(_send_success_package(
         user_id, ref_id=ref_id, doctor_name=doctor_name, jalali=jalali, time=time,
-        amount=tx_amount, authority=authority,
+        amount=tx_amount, authority=authority, lang=lang,
     ))
 
-    extra_html = f'<div class="ref">کد رهگیری: {ref_id}</div>' if ref_id else ""
+    extra_html = f'<div class="ref">{_ht(lang, "page_ref")}: {ref_id}</div>' if ref_id else ""
     return 200, _page(
-        "✅", "پرداخت موفق",
-        "پرداخت شما تأیید شد و نوبت شما قطعی گردید.\nرسید کامل در ربات برای شما ارسال شد.",
-        "#16a34a", extra_html,
+        "✅", _ht(lang, "page_ok_title"), _ht(lang, "page_ok_body"),
+        "#16a34a", extra_html, lang=lang,
     )
 
 
@@ -174,27 +230,27 @@ async def _notify_user(user_id: int, text: str) -> None:
 
 async def _send_success_package(
     user_id: int, *, ref_id: str, doctor_name: str, jalali: str, time: str,
-    amount: int, authority: str,
+    amount: int, authority: str, lang: str = "fa",
 ) -> None:
-    """پیام موفقیت + رسید متن + رسید PDF (پس از verify — نه قبل از پرداخت!)."""
+    """پیام موفقیت + رسید متن + رسید PDF (پس از verify — نه قبل از پرداخت!).
+
+    🌐 پیام‌ها به زبان کاربر؛ رسید PDF فعلاً فارسی است (مستند در گزارش بازبینی).
+    """
     app = runtime.get_application()
     if app is None:
         return
     try:
-        lines = [
-            "✅ پرداخت شما با موفقیت تأیید شد!",
-            "",
-            f"💳 کد رهگیری بانکی: {ref_id}",
-        ]
+        lines = [_ht(lang, "msg_success_head"), ""]
+        lines.append(f"{_ht(lang, 'msg_ref')}: {ref_id}")
         if doctor_name:
-            lines.append(f"👨‍⚕️ پزشک: {doctor_name}")
+            lines.append(f"{_ht(lang, 'msg_doctor')}: {doctor_name}")
         if jalali:
-            lines.append(f"📅 تاریخ: {jalali}")
+            lines.append(f"{_ht(lang, 'msg_date')}: {jalali}")
         if time:
-            lines.append(f"⏰ ساعت: {time}")
+            lines.append(f"{_ht(lang, 'msg_time')}: {time}")
         if amount:
-            lines.append(f"💰 مبلغ: {amount:,} تومان")
-        lines += ["", "لطفاً ۱۵ دقیقه قبل از نوبت در مطب حاضر باشید.", "💙 شیراز مدیکال"]
+            lines.append(f"{_ht(lang, 'msg_amount')}: {amount:,} {_ht(lang, 'msg_toman')}")
+        lines += ["", _ht(lang, "msg_arrive"), _ht(lang, "msg_brand")]
         await app.bot.send_message(chat_id=user_id, text="\n".join(lines))
 
         appointment = {
@@ -211,7 +267,7 @@ async def _send_success_package(
         with open(pdf_path, "rb") as pdf_file:
             await app.bot.send_document(
                 chat_id=user_id, document=pdf_file,
-                filename=os.path.basename(pdf_path), caption="🧾 رسید نهایی نوبت شما",
+                filename=os.path.basename(pdf_path), caption=_ht(lang, "pdf_caption"),
             )
     except Exception as error:  # pragma: no cover
         logger.error("خطا در ارسال بسته‌ی موفقیت به %s: %s", user_id, error)
@@ -233,7 +289,7 @@ class _HealthHandler(BaseHTTPRequestHandler):
             except Exception as error:  # pragma: no cover
                 logger.error("خطای هندل callback پرداخت: %s", error)
                 traceback.print_exc()
-                self._respond(500, _page("⚠️", "خطای سرور", "خطایی در پردازش پرداخت رخ داد.", "#dc2626"))
+                self._respond(500, _page("⚠️", _ht("fa", "page_error_title"), _ht("fa", "page_error_body"), "#dc2626", lang="fa"))
             return
         self._respond(404, "Not Found")
 

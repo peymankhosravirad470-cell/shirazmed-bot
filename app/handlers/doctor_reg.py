@@ -41,6 +41,7 @@ from telegram.ext import (
 )
 
 from config import settings
+from app.locales import get_msg_btn
 from app.services.doctor_loader import DOCTORS_DIR
 
 logger = logging.getLogger(__name__)
@@ -381,6 +382,21 @@ def _cancel_button_row() -> list[InlineKeyboardButton]:
     return [InlineKeyboardButton("❌ لغو", callback_data="dreg_cancel")]
 
 
+def _end_keyboard(context: ContextTypes.DEFAULT_TYPE) -> InlineKeyboardMarkup:
+    """🆕 پایان جریان ثبت‌نام: بازگشت به منو + پیشنهادات (الگوی استاندارد کل ربات).
+
+    این فلو برای دکترهای ایرانی است و فارسی است؛ اما اگر کاربر زبان دیگری
+    انتخاب کرده باشد، برچسب‌ها از locale سه‌زبانه خوانده می‌شود (fallback: فارسی).
+    """
+    lang = context.user_data.get("lang", "fa") if context.user_data else "fa"
+    if lang not in ("fa", "en", "ar"):
+        lang = "fa"
+    return InlineKeyboardMarkup([[
+        InlineKeyboardButton(get_msg_btn(lang, "btn_back"), callback_data="back_main"),
+        InlineKeyboardButton(get_msg_btn(lang, "btn_feedback"), callback_data="start_feedback"),
+    ]])
+
+
 def _degree_keyboard() -> InlineKeyboardMarkup:
     rows = []
     pair: list[InlineKeyboardButton] = []
@@ -478,7 +494,8 @@ async def receive_code(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
             context.user_data.pop("dreg_attempts", None)
             await update.message.reply_text(
                 "⛔ تعداد تلاش‌های اشتباه بیش از حد مجاز بود.\n"
-                "دوباره با دستور /doctor شروع کنید و اگر رمز را نمی‌دانید با مدیر کلینیک تماس بگیرید."
+                "دوباره با دستور /doctor شروع کنید و اگر رمز را نمی‌دانید با مدیر کلینیک تماس بگیرید.",
+                reply_markup=_end_keyboard(context),
             )
             return ConversationHandler.END
         await update.message.reply_text(
@@ -493,7 +510,8 @@ async def receive_code(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
     if _has_pending(chat_id):
         await update.message.reply_text(
             "ℹ️ شما قبلاً یک درخواست ثبت‌نام ارسال کرده‌اید که در انتظار تایید مدیر است.\n"
-            "لطفاً صبور باشید؛ نتیجه از همین ربات به شما اعلام می‌شود."
+            "لطفاً صبور باشید؛ نتیجه از همین ربات به شما اعلام می‌شود.",
+            reply_markup=_end_keyboard(context),
         )
         return ConversationHandler.END
 
@@ -652,7 +670,10 @@ async def confirm_registration(update: Update, context: ContextTypes.DEFAULT_TYP
 
     data = dict(context.user_data.get("dreg", {}))
     if not data.get("name") or not data.get("spec_key"):
-        await query.edit_message_text("❌ اطلاعات کامل نیست. لطفاً دوباره با /doctor شروع کنید.")
+        await query.edit_message_text(
+            "❌ اطلاعات کامل نیست. لطفاً دوباره با /doctor شروع کنید.",
+            reply_markup=_end_keyboard(context),
+        )
         return ConversationHandler.END
 
     user = update.effective_user
@@ -705,7 +726,8 @@ async def confirm_registration(update: Update, context: ContextTypes.DEFAULT_TYP
         "✅ درخواست شما ارسال شد!\n\n"
         "مدیر کلینیک اطلاعات شما را بررسی می‌کند و پس از تایید، نام شما در بخش "
         f"«{record['spec_fa']}» ربات نمایش داده می‌شود.\n\n"
-        "سپاس از همکاری شما 🌷"
+        "سپاس از همکاری شما 🌷",
+        reply_markup=_end_keyboard(context),
     )
     logger.info("درخواست ثبت‌نام پزشک #%s از chat %s ذخیره شد.", record_id, chat_id)
     return ConversationHandler.END
@@ -719,11 +741,13 @@ async def cancel_registration(update: Update, context: ContextTypes.DEFAULT_TYPE
         if update.callback_query is not None:
             try:
                 await update.callback_query.answer()
-                await update.callback_query.edit_message_text("ثبت‌نام لغو شد.")
+                await update.callback_query.edit_message_text(
+                    "ثبت‌نام لغو شد.", reply_markup=_end_keyboard(context),
+                )
                 return ConversationHandler.END
             except Exception:  # noqa: BLE001
                 pass
-        await message.reply_text("ثبت‌نام لغو شد.")
+        await message.reply_text("ثبت‌نام لغو شد.", reply_markup=_end_keyboard(context))
     return ConversationHandler.END
 
 
