@@ -17,10 +17,13 @@
 
 from __future__ import annotations
 
+import json
 import logging
 import os
+import tempfile
 import threading
 import traceback
+from datetime import datetime
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qs, urlparse
 
@@ -340,7 +343,18 @@ class _HealthHandler(BaseHTTPRequestHandler):
     def do_GET(self) -> None:  # noqa: N802 (امضای الزامی http.server)
         parsed = urlparse(self.path)
         if parsed.path in ("/", "/health"):
-            self._respond(200, "OK")
+            # 🐛 رگرسیون کرش لیارا (۱۴۰۴/۰۸/۰۸): «ذخیره‌سازی یادآور انجام نشد» ریشه
+            # دیسکی داشت که از بیرون دیده نمی‌شد. حالا /health وضعیت واقعی
+            # نوشتنِ دیسک را گزارش می‌کند (بدون هیچ داده‌ی کاربر — فقط مجوز/اندازه).
+            try:
+                body = json.dumps(
+                    {"status": "ok", "storage": storage_diagnostics()},
+                    ensure_ascii=False,
+                )
+                self._respond(200, body, content_type="application/json; charset=utf-8")
+            except Exception as error:  # pragma: no cover — سلامت هرگز نباید ۵۰۰ بدهد
+                logger.error("storage diagnostics failed: %s", error)
+                self._respond(200, "OK")
             return
         if parsed.path == "/payment/callback":
             try:
@@ -363,6 +377,61 @@ class _HealthHandler(BaseHTTPRequestHandler):
 
     def log_message(self, format: str, *args: object) -> None:  # noqa: A002
         return
+
+
+def _probe_writable(directory: str) -> tuple[bool, str | None]:
+    """آزمون واقعی نوشتن در یک پوشه (ساخت + حذف فایل موقت) — بدون هیچ داده‌ی کاربر."""
+    try:
+        os.makedirs(directory, exist_ok=True)
+        fd, tmp = tempfile.mkstemp(dir=directory, prefix=".probe-", suffix=".tmp")
+        try:
+            os.write(fd, b"probe")
+        finally:
+            os.close(fd)
+        os.unlink(tmp)
+        return True, None
+    except OSError as error:
+        return False, f"{type(error).__name__}: {error.strerror or error}"
+
+
+def storage_diagnostics() -> dict:
+    """🩺 تشخیص دیسک برای خطای «ذخیره‌سازی یادآور انجام نشد».
+
+    عمداً فقط متادیتا: مسیرها، مجوز نوشتن، errno، اندازه/زمان فایل داروها —
+    هیچ محتوایی از داده‌ی کاربران (نام دارو/شناسه) در پاسخ نیست.
+    """
+    from config import DATA_DIR as data_dir
+    from app.handlers import meds as meds_mod
+
+    info: dict = {
+        "cwd": os.getcwd(),
+        "data_dir": data_dir,
+    }
+    ok, err = _probe_writable(data_dir)
+    info["data_dir_writable"] = ok
+    if err:
+        info["data_dir_error"] = err
+
+    fallback_dir = meds_mod.FALLBACK_DIR
+    info["fallback_dir"] = fallback_dir
+    ok, err = _probe_writable(fallback_dir)
+    info["fallback_writable"] = ok
+    if err:
+        info["fallback_error"] = err
+
+    meds_file = meds_mod.MEDS_FILE
+    try:
+        if os.path.isfile(meds_file):
+            stat = os.stat(meds_file)
+            info["meds_file_exists"] = True
+            info["meds_file_size"] = stat.st_size
+            info["meds_file_mtime"] = datetime.fromtimestamp(stat.st_mtime).isoformat(timespec="seconds")
+        else:
+            info["meds_file_exists"] = False
+    except OSError as error:
+        info["meds_file_exists"] = None
+        info["meds_file_error"] = f"{type(error).__name__}: {error.strerror or error}"
+    return info
 
 
 def start_health_server() -> None:

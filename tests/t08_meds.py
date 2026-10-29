@@ -2,6 +2,7 @@
 """T08 — یادآور دارو (بخش H): «8 pm»→20:00، قرنطینه فایل خراب، حذف فقط همان دارو،
 بازسازی بعد از ری‌استارت، نبود JobQueue → پیام صریح به کاربر، منطقه زمانی."""
 import asyncio
+import json
 import os
 import sys
 from datetime import datetime
@@ -76,6 +77,9 @@ async def main() -> int:
     meds_file = meds.MEDS_FILE
     if os.path.isfile(meds_file):
         os.remove(meds_file)
+    # 🧪 ایزوله‌سازی مسیر پشتیبان (نوشتن اتمی + fallback جدید) تا داده‌های اشتراکی
+    # sandbox (/tmp/shirazmed_data) نتیجه‌ی سوت را نشکند؛ هر سوت در subprocess جدا است.
+    meds.FALLBACK_MEDS_FILE = os.path.join(tmp_dir(), "medications.json")
     uid = 801
     REC.reset()
     await process(make_start_update(uid, "/start"))
@@ -278,6 +282,130 @@ async def main() -> int:
     r.check("لاگ شکست ذخیره بدون نام دارو (حریم خصوصی داده سلامتی)",
             "قرص محرمانه تست" not in _logtext and "meds save failed" in _logtext,
             _logtext[:150])
+
+    # ── 🐛 رگرسیون کرش لیارا ۱۴۰۴/۰۸/۰۸ (نوبت دوم): «ذخیره‌سازی یادآور انجام نشد» ──
+    # بازسازی‌شده با traceback کامل: (A) دیسک غیرقابل‌نوشتن، (B) tmp سرگردان
+    # بدون مجوز. ریشه‌ای رفع شد: نوشتن اتمی mkstemp + مسیر پشتیبان + خواندن
+    # تازه‌ترین نسخه‌ی سالم.
+    from app.health import _probe_writable, storage_diagnostics  # noqa: E402
+
+    real_primary = meds.MEDS_FILE
+    real_fallback = meds.FALLBACK_MEDS_FILE
+    # ⚠️ tmp_dir() یک پوشه مشترک برمی‌گرداند — مسیر اصلی و پشتیبان باید «جدا» باشند
+    prim_dir = os.path.join(tmp_dir(), "prim_storage")
+    fb_dir = os.path.join(tmp_dir(), "fallback_storage")
+    os.makedirs(prim_dir, exist_ok=True)
+    os.makedirs(fb_dir, exist_ok=True)
+    root_user = hasattr(os, "geteuid") and os.geteuid() == 0
+    try:
+        meds.MEDS_FILE = os.path.join(prim_dir, "medications.json")
+        meds.FALLBACK_MEDS_FILE = os.path.join(fb_dir, "medications.json")
+
+        # (A) دیسک اصلی غیرقابل‌نوشتن ولی فایل قدیمی خواندنی (شرط واقعی لیارا)
+        write_json(meds.MEDS_FILE, {"9101": {"name": "قرص قدیمی", "time": "08:00"}})
+        if root_user:
+            r.check("(A) در محیط root صرف‌نظر شد (chmod روی root اثر ندارد)", True)
+        else:
+            os.chmod(prim_dir, 0o555)
+            texts = await flow_add_med_direct(9101, "قرص کمر", "23:43")
+            r.check("(A) دیسک غیرقابل‌نوشتن → ثبت 23:43 از مسیر پشتیبان موفق",
+                    any("23:43" in t and "فعال شد" in t for t in texts),
+                    str(texts[-1][:70] if texts else "NO"))
+            fb_data = read_json(meds.FALLBACK_MEDS_FILE) if os.path.isfile(meds.FALLBACK_MEDS_FILE) else {}
+            r.check("(A) فایل پشتیبان ساخته شد و داروی جدید در آن است",
+                    "9101" in fb_data and any(m.get("name") == "قرص کمر" for m in fb_data.get("9101", [])),
+                    str(fb_data)[:100])
+            r.check("(A) خواندن تازه‌ترین نسخه → داروی جدید دیده می‌شود",
+                    any(m.get("name") == "قرص کمر" for m in meds.get_chat_meds(9101)),
+                    str(meds.get_chat_meds(9101))[:100])
+            r.check("(A) داروی قدیمی از فایل اصلی هم حفظ شد (اتلاف داده ممنوع)",
+                    any(m.get("name") == "قرص قدیمی" for m in meds.get_chat_meds(9101)),
+                    str(meds.get_chat_meds(9101))[:100])
+            # خودترمیمی: بعد از رفع مشکل دیسک، نوشتن بعدی دوباره روی مسیر اصلی
+            os.chmod(prim_dir, 0o755)
+            await flow_add_med_direct(9101, "قرص آهن", "13:00")
+            r.check("(A) خودترمیمی: پس از رفع دیسک، نوشتن روی مسیر اصلی ادامه می‌یابد",
+                    "9101" in (read_json(meds.MEDS_FILE) if os.path.isfile(meds.MEDS_FILE) else {}),
+                    "primary not healed")
+
+        # (B) tmp سرگردان بدون مجوز → دیگر ثبت را نمی‌شکند (mkstemp نام یکتا)
+        write_json(meds.MEDS_FILE, {"9102": []})
+        trap = meds.MEDS_FILE + ".tmp"
+        with open(trap, "w", encoding="utf-8") as f:
+            f.write("leftover")
+        os.chmod(trap, 0o444)
+        try:
+            texts = await flow_add_med_direct(9102, "قرص کمر", "23:43")
+            r.check("(B) tmp سرگردان بدون مجوز → ثبت موفق (نوشتن اتمی mkstemp)",
+                    any("23:43" in t and "فعال شد" in t for t in texts),
+                    str(texts[-1][:70] if texts else "NO"))
+        finally:
+            os.chmod(trap, 0o644)
+
+        # (C) هر دو مسیر شکست بخورد → پیام صادقانه «ذخیره نشد» (نه موفقیت کاذب)
+        if root_user:
+            r.check("(C) در محیط root صرف‌نظر شد", True)
+        else:
+            os.chmod(prim_dir, 0o555)
+            os.chmod(fb_dir, 0o555)
+            try:
+                texts = await flow_add_med_direct(9103, "قرص کمر", "15:00")
+                r.check("(C) هر دو مسیر خراب → پیام صادقانه «ذخیره نشد»",
+                        any("ذخیره" in t and "نش" in t for t in texts) and not any("فعال شد" in t for t in texts),
+                        str(texts[-1][:70] if texts else "NO"))
+            finally:
+                os.chmod(prim_dir, 0o755)
+                os.chmod(fb_dir, 0o755)
+    finally:
+        meds.MEDS_FILE = real_primary
+        meds.FALLBACK_MEDS_FILE = real_fallback
+
+    # ── 🆕 درخواست مستقیم کاربر: پارس «بدون دونقطه» (2323 / 23,23 / 23،23) ──
+    r.check("«2323» → 23:23 (فشرده ۴رقمی)", meds.parse_times("2323") == ["23:23"], str(meds.parse_times("2323")))
+    r.check("«23,23» → 23:23 (ویرگول لاتین)", meds.parse_times("23,23") == ["23:23"], str(meds.parse_times("23,23")))
+    r.check("«23،23» → 23:23 (ویرگول فارسی)", meds.parse_times("23،23") == ["23:23"], str(meds.parse_times("23،23")))
+    r.check("«23.23» → 23:23 (نقطه)", meds.parse_times("23.23") == ["23:23"], str(meds.parse_times("23.23")))
+    r.check("«23, 23» → 23:23 (ویرگول + فاصله)", meds.parse_times("23, 23") == ["23:23"], str(meds.parse_times("23, 23")))
+    r.check("«۲۳،۲۳» → 23:23 (ارقام فارسی)", meds.parse_times("۲۳،۲۳") == ["23:23"], str(meds.parse_times("۲۳،۲۳")))
+    r.check("«8,5» → 08:05 (دقیقه تک‌رقمی)", meds.parse_times("8,5") == ["08:05"], str(meds.parse_times("8,5")))
+    r.check("«8:5» → 08:05", meds.parse_times("8:5") == ["08:05"], str(meds.parse_times("8:5")))
+    r.check("«15:00.» → 15:00 (نقطه انتهایی)", meds.parse_times("15:00.") == ["15:00"], str(meds.parse_times("15:00.")))
+    r.check("«8,5 و 9» → [08:05, 09:00] (ترکیبی)", meds.parse_times("8,5 و 9") == ["08:05", "09:00"], str(meds.parse_times("8,5 و 9")))
+    r.check("«8:00، 21:30» → دو ساعت (جداکننده لیست حفظ شد)", meds.parse_times("8:00، 21:30") == ["08:00", "21:30"], str(meds.parse_times("8:00، 21:30")))
+    r.check("«12 pm 12 am» → [00:00, 12:00] (رگرسیون پسوند)", meds.parse_times("12 pm 12 am") == ["00:00", "12:00"], str(meds.parse_times("12 pm 12 am")))
+    r.check("«2368» → رد (دقیقه نامعتبر)", meds.parse_times("2368") == [], str(meds.parse_times("2368")))
+    r.check("«25,00» → رد (ساعت نامعتبر)", meds.parse_times("25,00") == [], str(meds.parse_times("25,00")))
+
+    # سناریوی کامل واقعی کاربر با قالب جدید: «قرص کمر» + «23,23»
+    write_json(meds_file, {})
+    texts = await flow_add_med_direct(9104, "قرص کمر", "23,23")
+    r.check("جریان واقعی: «قرص کمر» + «23,23» → ثبت 23:23",
+            any("23:23" in t for t in texts), str(texts[-1][:70] if texts else "NO"))
+    data = read_json(meds_file)
+    r.check("23:23 در فایل ذخیره شد", {"name": "قرص کمر", "times": ["23:23"]} in data.get("9104", []), str(data.get("9104")))
+
+    # ── 🩺 تشخیص دیسک در /health (ریشه‌یابی آینده بدون حدس — بدون داده کاربر) ──
+    diag = storage_diagnostics()
+    r.check("تشخیص دیسک: کلیدهای اصلی موجود",
+            all(k in diag for k in ("data_dir", "data_dir_writable", "fallback_writable", "meds_file_exists")),
+            str(sorted(diag)))
+    r.check("تشخیص دیسک: هیچ محتوای دارویی در خروجی نیست",
+            "name" not in str(diag.get("meds_file_exists")) and "times" not in json.dumps(diag, default=str),
+            str(diag)[:120])
+    ok_dir = os.path.join(tmp_dir(), "probe_ok")
+    ok, err = _probe_writable(ok_dir)
+    r.check("پروب نوشتن: پوشه سالم → True", ok is True and err is None, f"{ok} {err}")
+    if root_user:
+        r.check("پروب نوشتن: حالت فقط-خواندنی در root صرف‌نظر شد", True)
+    else:
+        ro_dir = os.path.join(tmp_dir(), "probe_ro")
+        os.makedirs(ro_dir, exist_ok=True)
+        os.chmod(ro_dir, 0o555)
+        try:
+            ok2, err2 = _probe_writable(ro_dir)
+            r.check("پروب نوشتن: پوشه فقط-خواندنی → False + پیام خطا", ok2 is False and err2 is not None, f"{ok2} {err2}")
+        finally:
+            os.chmod(ro_dir, 0o755)
 
     return r.finish("T08 meds")
 

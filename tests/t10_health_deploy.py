@@ -33,7 +33,19 @@ def main() -> int:
     try:
         with urllib.request.urlopen(f"http://127.0.0.1:{port}/health", timeout=5) as resp:
             body = resp.read().decode()
-            r.check("GET /health → 200 OK", resp.status == 200 and body == "OK", f"{resp.status} {body}")
+            # 🐛 رگرسیون لیارا: /health حالا JSON تشخیص دیسک می‌دهد (بدون داده کاربر)
+            r.check("GET /health → 200 + JSON", resp.status == 200, f"{resp.status} {body[:80]}")
+            health_json = None
+            try:
+                import json as _json
+                health_json = _json.loads(body)
+            except Exception:
+                pass
+            r.check("/health ساختار JSON معتبر با تشخیص دیسک",
+                    isinstance(health_json, dict) and health_json.get("status") == "ok"
+                    and isinstance(health_json.get("storage"), dict)
+                    and "data_dir_writable" in health_json["storage"],
+                    str(body[:120]))
         try:
             urllib.request.urlopen(f"http://127.0.0.1:{port}/nope", timeout=5)
             status404 = 200

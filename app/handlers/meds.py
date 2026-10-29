@@ -19,6 +19,7 @@ import json
 import logging
 import os
 import re
+import tempfile
 import time as _time_mod
 import traceback
 from datetime import timedelta, timezone as _dt_timezone
@@ -43,11 +44,25 @@ ASK_MED_NAME, ASK_MED_TIMES = range(2)
 # 🆕 ممیزی (بخش J): مسیر فایل داروها از config.DATA_DIR (env: DATA_DIR)
 MEDS_FILE = os.path.join(DATA_DIR, "medications.json")
 
+# 🐛 رگرسیون کرش واقعی لیارا (۱۴۰۴/۰۸/۰۸ — بازسازی‌شده با traceback کامل):
+# ثبت ساعت دارو با «ذخیره‌سازی انجام نشد» شکست می‌خورد چون:
+#   A) دیسک پایدار غیرقابل‌نوشتن است (مجوز روت/سهمیه/فقط-خواندنی) — بازسازی شد
+#   B) فایل medications.json.tmp سرگردان از نوشتنِ نیمه‌کاره‌ی قبلی، open(w) را
+#      با PermissionError قفل می‌کند — بازسازی شد
+# راه‌حل ریشه‌ای: نوشتن اتمی با نام tmp یکتا (mkstemp) + انتقال خودکار به
+# «مسیر پشتیبان» در شکست مسیر اصلی + خواندنِ «تازه‌ترین نسخه‌ی سالم».
+# مسیر پشتیبان با env قابل تغییر است: MEDS_FALLBACK_DIR
+FALLBACK_DIR = os.path.abspath(
+    os.getenv("MEDS_FALLBACK_DIR", os.path.join(tempfile.gettempdir(), "shirazmed_data"))
+)
+FALLBACK_MEDS_FILE = os.path.join(FALLBACK_DIR, "medications.json")
+
 # الگوی ساعت مجاز:
 #   «8» / «08» فقط ساعت  |  «8:00» / «8.00» ساعت:دقیقه  |  «0830» فشرده ۴رقمی
 # نکته: «85» یا «999» عمداً رد می‌شوند (بدون دو نقطه فقط ۱-۲ رقم ساعت یا ۴ رقم کامل).
 _TIME_BARE = re.compile(r"^([01]?\d|2[0-3])$")
-_TIME_COLON = re.compile(r"^([01]?\d|2[0-3])[:.]([0-5]\d)$")
+# دقیقه تک‌رقمی هم قبول («8:5» → 08:05) — بخشی از درخواست «ساعت بدون دونقطه»
+_TIME_COLON = re.compile(r"^([01]?\d|2[0-3])[:.]([0-5]?\d)$")
 _TIME_COMPACT = re.compile(r"^([01]\d|2[0-3])([0-5]\d)$")
 
 _PERSIAN_DIGITS = str.maketrans("۰۱۲۳۴۵۶۷۸۹", "0123456789")
@@ -79,9 +94,9 @@ _TEXTS: dict[str, dict[str, str]] = {
             "ar": "⏰ الآن أرسل وقت أو أوقات التناول (افصل بينها بمسافة أو فاصلة):\n\nمثال: «8:00، 21:30»",
         },
         "invalid_time": {
-            "fa": "⚠️ ساعت وارد شده معتبر نیست.\n\nاین قالب‌ها کافی‌ست: «8» یا «8:00» یا «0830» — با فاصله یا ویرگول جدا کنید.\n\nمثال: 8، 14:30، 21:00",
-            "en": "⚠️ The time isn't valid.\n\nAny of these formats works: «8» or «8:00» or «0830» — separate multiple times with spaces or commas.\n\nExample: 8, 14:30, 21:00",
-            "ar": "⚠️ الوقت المُدخل غير صالح.\n\nأي من هذه الصيغ تكفي: «8» أو «8:00» أو «0830» — افصل بين الأوقات بمسافة أو فاصلة.\n\nمثال: 8، 14:30، 21:00",
+            "fa": "⚠️ ساعت وارد شده معتبر نیست.\n\nاین قالب‌ها کافی‌ست: «8» یا «8:00» یا «0830» یا «2323» یا «23,23» — با فاصله یا ویرگول جدا کنید.\n\nمثال: 8، 14:30، 21:00، 2215",
+            "en": "⚠️ The time isn't valid.\n\nAny of these formats works: «8» or «8:00» or «0830» or «2323» or «23,23» — separate multiple times with spaces or commas.\n\nExample: 8, 14:30, 21:00, 2215",
+            "ar": "⚠️ الوقت المُدخل غير صالح.\n\nأي من هذه الصيغ تكفي: «8» أو «8:00» أو «0830» أو «2323» أو «23,23» — افصل بين الأوقات بمسافة أو فاصلة.\n\nمثال: 8، 14:30، 21:00، 2215",
         },
         "saved": {
             "fa": "✅ تمام! یادآور «{name}» فعال شد.\n\n⏰ ساعت‌ها: {times}\n\nاز این به بعد هر روز سر این ساعت‌ها بهت یادآوری می‌کنیم — دیگه هیچ دوزی از قلم نمی‌افته 💙",
@@ -177,43 +192,105 @@ def _get_lang(context: ContextTypes.DEFAULT_TYPE) -> str:
 # ذخیره‌سازی
 # ---------------------------------------------------------------------------
 
-def _load_meds() -> dict[str, list[dict[str, Any]]]:
-    """خواندن داروها.
+def _read_meds_file(path: str) -> dict[str, list[dict[str, Any]]] | None:
+    """یک فایل دارو را می‌خواند؛ فایل خراب قرنطینه و None برمی‌گرداند (هرگز raise نمی‌کند).
 
-    🆕 ممیزی (بخش H): اگر فایل موجود ولی خراب باشد، دیگر بی‌صدا {} برنمی‌گردیم —
-    چون اولین نوشتن بعدی «همه‌ی داروهای بقیه‌ی کاربران را پاک می‌کرد». فایل خراب
-    به‌نام با پسوند .corrupt-<timestamp> قرنطینه می‌شود تا دست‌نخورده بماند و
-    در لاگ امن ثبت شود.
-
-    🐛 رگرسیون v49 (کرش واقعی لیارا): «همه» خطاهای خواندن گرفته می‌شوند، نه فقط
-    JSONDecodeError/OSError — مثلاً UnicodeDecodeError (بایت غیر UTF-8 در دیسک
-    پایدار) قبلاً از except عبور می‌کرد و منو/ثبت را با «خطای غیرمنتظره» می‌کُشت.
+    🐛 رگرسیون v49: «همه» خطاهای خواندن گرفته می‌شوند — مثلاً UnicodeDecodeError
+    (بایت غیر UTF-8 در دیسک پایدار) قبلاً از except عبور می‌کرد و منو/ثبت را
+    با «خطای غیرمنتظره» می‌کُشت.
     """
-    if not os.path.isfile(MEDS_FILE):
-        return {}
     try:
-        with open(MEDS_FILE, "r", encoding="utf-8") as f:
+        with open(path, "r", encoding="utf-8") as f:
             data = json.load(f)
-        return data if isinstance(data, dict) else {}
+        return data if isinstance(data, dict) else None
     except Exception as error:
-        quarantine = f"{MEDS_FILE}.corrupt-{int(_time_mod.time())}"
+        quarantine = f"{path}.corrupt-{int(_time_mod.time())}"
         try:
-            os.replace(MEDS_FILE, quarantine)
+            os.replace(path, quarantine)
             logger.error(
                 "فایل داروها خراب بود و برای جلوگیری از از دست رفتن داده‌ها قرنطینه شد: %s (خطا: %s)",
                 quarantine, error,
             )
         except OSError:
-            logger.error("فایل داروها خراب است و حتی قرنطینه هم ممکن نشد: %s", error)
-        return {}
+            logger.error("فایل داروها خراب است و حتی قرنطینه هم ممکن نشد: %s (خطا: %s)", path, error)
+        return None
 
 
-def _save_meds(data: dict[str, list[dict[str, Any]]]) -> None:
-    os.makedirs(os.path.dirname(MEDS_FILE), exist_ok=True)
-    tmp = MEDS_FILE + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=1)
-    os.replace(tmp, MEDS_FILE)
+def _load_meds() -> dict[str, list[dict[str, Any]]]:
+    """خواندن داروها از «تازه‌ترین نسخه‌ی سالم» بین مسیر اصلی و مسیر پشتیبان.
+
+    🐛 رگرسیون کرش لیارا: وقتی دیسک اصلی غیرقابل‌نوشتن می‌شود، ذخیره به مسیر
+    پشتیبان می‌رود؛ خواندن هم باید همان نسخه‌ی تازه را ببیند — وگرنه داروی
+    ثبت‌شده در لیست نمایش داده نمی‌شد. پس هر دو مسیر سنجیده می‌شوند و نسخه‌ای
+    که mtime تازه‌تری دارد و سالم است برنده است (خودترمیمی بعد از رفع مشکل دیسک:
+    نوشتن بعدی روی مسیر اصلی، دوباره تازه‌ترین می‌شود).
+
+    🆕 ممیزی (بخش H): فایل خراب به‌نام با پسوند .corrupt-<timestamp> قرنطینه
+    می‌شود تا دست‌نخورده بماند (حفظ داده برای بازیابی دستی) و در لاگ امن ثبت شود.
+    """
+    best: dict[str, list[dict[str, Any]]] | None = None
+    best_mtime = -1.0
+    for path in (MEDS_FILE, FALLBACK_MEDS_FILE):
+        try:
+            if not os.path.isfile(path):
+                continue
+            mtime = os.path.getmtime(path)
+        except OSError:
+            continue
+        data = _read_meds_file(path)
+        if data is None:
+            continue
+        if mtime > best_mtime:
+            best, best_mtime = data, mtime
+    return best if best is not None else {}
+
+
+def _atomic_write(path: str, payload: str) -> None:
+    """نوشتن اتمی با نام tmp «یکتا» (mkstemp).
+
+    🐛 تله‌ی واقعی لیارا: کد قبلی نام ثابت medications.json.tmp را باز می‌کرد؛
+    اگر از نوشتن نیمه‌کاره‌ای قبلی فایلی بدون مجوز مانده بود، open(w) با
+    PermissionError می‌مرد و ثبت دارو برای همیشه می‌شکست. نام یکتا این تله را
+    برای همیشه از بین می‌برد.
+    """
+    directory = os.path.dirname(path)
+    fd, tmp = tempfile.mkstemp(dir=directory, prefix=".meds-", suffix=".tmp")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            f.write(payload)
+        os.replace(tmp, path)
+    finally:
+        try:
+            if os.path.exists(tmp):
+                os.unlink(tmp)
+        except OSError:
+            pass
+
+
+def _save_meds(data: dict[str, list[dict[str, Any]]]) -> str:
+    """ذخیره روی مسیر اصلی؛ در شکست (مجوز/سهمیه/فقط-خواندنی) روی مسیر پشتیبان.
+
+    خروجی: مسیری که واقعاً نوشته شد. اگر هر دو مسیر شکست بخورند OSError با
+    جزئیات errno پرتاب می‌شود — تا کاربر پیام صادقانه ببیند و traceback کامل
+    (بدون نام دارو — داده سلامتی) در لاگ بیفتد.
+    """
+    payload = json.dumps(data, ensure_ascii=False, indent=1)
+    errors: list[str] = []
+    for target in (MEDS_FILE, FALLBACK_MEDS_FILE):
+        try:
+            os.makedirs(os.path.dirname(target), exist_ok=True)
+            _atomic_write(target, payload)
+            if target != MEDS_FILE:
+                logger.error(
+                    "ذخیره‌سازی داروها روی مسیر اصلی ممکن نشد — روی مسیر پشتیبان نوشته شد: %s | جزئیات: %s",
+                    target, " | ".join(errors),
+                )
+            return target
+        except OSError as error:
+            errors.append(
+                f"{type(error).__name__}: {error.strerror or error} (dir={os.path.dirname(target)})"
+            )
+    raise OSError("meds save failed on primary+fallback: " + " | ".join(errors))
 
 
 def _normalize_items(value: Any) -> list[dict[str, Any]]:
@@ -294,11 +371,20 @@ def _normalize_time(raw: str) -> str | None:
         # پسوند را از متن حذف کن تا الگوهای ساعت تمیز تطبیق کنند
         t = re.sub(r"(?i)(pm|am|بعدازظهر|بعد الظهر|عصر|صبح|بامداد|شب|ظهر)", "", t).strip()
 
+    # 🆕 درخواست کاربر (۱۴۰۴/۰۸/۰۸): نقطه/ویرگولِ انتهایی مزاحم نباشد («15:00.» → «15:00»)
+    t = t.strip(" .،,؛;")
+
     m = _TIME_COLON.match(t) or _TIME_BARE.match(t) or _TIME_COMPACT.match(t)
+    if not m:
+        # 🆕 درخواست کاربر: ویرگول (لاتین/فارسی) به‌جای دونقطه هم قبول است:
+        # «23,23» / «23،23» / «8,5» → 23:23 / 23:23 / 08:05
+        collapsed = t.replace("،", ":").replace(",", ":").replace(".", ":")
+        if collapsed != t:
+            m = _TIME_COLON.match(collapsed)
     if not m:
         return None
     hour = int(m.group(1))
-    minute = m.group(2) if m.lastindex and m.lastindex >= 2 else "00"
+    minute = (m.group(2) if m.lastindex and m.lastindex >= 2 else "00").zfill(2)
     if period == "pm" and hour < 12:
         hour += 12
     elif period == "am" and hour == 12:
@@ -321,6 +407,21 @@ def parse_times(text: str) -> list[str]:
     text = text.replace("بعد الظهر", "بعدازظهر")
     # پسوندها را با فاصله از اطراف جدا کن تا توکن مستقل شوند («8pm» → «8 pm»)
     text = _PERIOD_WORD_RE.sub(r" \1 ", text)
+
+    # 🆕 درخواست مستقیم کاربر (۱۴۰۴/۰۸/۰۸): «23,23» / «23،23» / «8,5» — ویرگولِ
+    # بین «رقم و رقم» یعنی جداکننده‌ی ساعت:دقیقه، نه جداکننده‌ی لیست. در این حالت
+    # اول «کل ورودی» به‌عنوان یک ساعت امتحان می‌شود؛ اگر معتبر بود همان برگردانده
+    # می‌شود. (گارد: فقط وقتی الگوی رقم‌ویرگول‌رقم هست، تا «12 pm 12 am» و
+    # «8:00، 21:30» که جداکننده‌ی لیست دارند خراب نشوند.)
+    if re.search(r"\d\s*[،,]\s*\d", text):
+        whole = re.sub(r"\s+", "", text)
+        single = _normalize_time(whole) if whole else None
+        if single is not None:
+            return [single]
+        # 🆕 کل ورودی یک ساعت نبود؛ اما ویرگولِ بین رقم‌هایی که «جفت ساعت:دقیقه»
+        # می‌سازند و به زمانِ دونقطه‌دار چسبیده نیستند → دونقطه حساب می‌شود
+        # («8,5 و 9» → 08:05 و 09:00 | «8:00، 21:30» همچنان دو ساعت جدا).
+        text = re.sub(r"(?<![:.\d])(\d{1,2})\s*[،,]\s*(\d{1,2})(?![:.\d])", r"\1:\2", text)
     parts = [p for p in re.split(r"[،,؛;\s]+", text.strip()) if p]
 
     out: list[str] = []
@@ -567,7 +668,15 @@ async def med_menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         items = get_chat_meds(chat_id)
         if 0 <= idx < len(items):
             removed = items.pop(idx)
-            _set_chat_meds(chat_id, items)
+            try:
+                # 🐛 رگرسیون لیارا: شکست نوشتن روی دیسک (مجوز/سهمیه) هرگز نباید
+                # به «خطای غیرمنتظره» سراسری تبدیل شود — پیام صادقانه + لاگ امن.
+                _set_chat_meds(chat_id, items)
+            except Exception:
+                logger.error("meds delete save failed for chat=%s\n%s", chat_id, traceback.format_exc())
+                await _display(update, context, _t(lang, "save_failed"),
+                               _back_feedback_kb(lang, "med_home"))
+                return
             unschedule_chat(context.job_queue, chat_id)
             schedule_chat_jobs(context.job_queue, chat_id, items)
             await _display(update, context, _t(lang, "deleted").format(name=removed.get("name", "")),
