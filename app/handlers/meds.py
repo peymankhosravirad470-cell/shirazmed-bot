@@ -332,19 +332,27 @@ def unschedule_chat(job_queue: Any, chat_id: int | str) -> None:
         logger.warning("unschedule_chat failed: %s", error)
 
 
-def schedule_chat_jobs(job_queue: Any, chat_id: int | str, items: list[dict[str, Any]]) -> None:
-    """همه ساعت‌های یک کاربر را (پس از حذف قبلی‌ها) زمان‌بندی می‌کند."""
+def schedule_chat_jobs(job_queue: Any, chat_id: int | str, items: list[dict[str, Any]]) -> int:
+    """همه ساعت‌های یک کاربر را (پس از حذف قبلی‌ها) زمان‌بندی می‌کند.
+
+    🆕 v49 (الزام مأموریت): تعداد jobهای «واقعاً ساخته‌شده» برمی‌گردد تا
+    فراخواننده بتواند شکستِ بی‌صدای زمان‌بندی را تشخیص دهد و به کاربر پیام
+    موفقیت کاذب ندهد. انتظار: مجموع همه ساعت‌های همه داروها.
+    """
     if job_queue is None:
         logger.warning("JobQueue در دسترس نیست؛ یادآوری دارو غیرفعال ماند.")
-        return
+        return 0
     unschedule_chat(job_queue, chat_id)
     try:
         tz = _configured_tzinfo()
     except Exception as error:
         logger.warning("timezone load failed: %s", error)
-        return
+        return 0
+    scheduled = 0
+    expected = 0
     for idx, med in enumerate(items):
         for hhmm in med.get("times", []):
+            expected += 1
             try:
                 hh, mm = hhmm.split(":")
                 from datetime import time as dtime
@@ -356,8 +364,10 @@ def schedule_chat_jobs(job_queue: Any, chat_id: int | str, items: list[dict[str,
                     name=f"{_job_prefix(chat_id)}{idx}_{hhmm}",
                     data={"chat_id": int(chat_id), "name": med.get("name", "")},
                 )
+                scheduled += 1
             except Exception as error:
                 logger.warning("scheduling %s %s failed: %s", chat_id, hhmm, error)
+    return scheduled
 
 
 async def _send_reminder(context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -575,10 +585,12 @@ async def receive_med_times(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     items = get_chat_meds(chat_id)
     items.append({"name": name, "times": times})
     _set_chat_meds(chat_id, items)
-    # 🩺 سخت‌سازی (تسک ۵ + ممیزی H): هیچ خطای زمان‌بندی نباید ثبت دارو را برای
-    # کاربر شکست بدهد؛ اما اگر JobQueue در دسترس نیست، «به خود کاربر» صریح
-    # گفته می‌شود که دارو ذخیره شده ولی یادآوری فعال نیست.
+    # 🩺 سخت‌سازی (تسک ۵ + ممیزی H + الزام مأموریت v49): هیچ خطای زمان‌بندی
+    # نباید ثبت دارو را برای کاربر شکست بدهد؛ اما «موفقیت کاذب» هم ممنوع است —
+    # اگر تعداد jobهای واقعاً ساخته‌شده کمتر از ساعت‌های ثبت‌شده بود، به خود
+    # کاربر صریح گفته می‌شود که ذخیره انجام شده ولی یادآوری فعال نشده است.
     job_queue_ok = False
+    expected_jobs = sum(len(m.get("times", [])) for m in items)
     try:
         jq = getattr(context, "job_queue", None)
         if jq is None:
@@ -587,8 +599,14 @@ async def receive_med_times(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                 "دارو ذخیره شد ولی یادآوری زمان‌بندی نشد: chat=%s", chat_id,
             )
         else:
-            schedule_chat_jobs(jq, chat_id, items)
-            job_queue_ok = True
+            scheduled = schedule_chat_jobs(jq, chat_id, items)
+            if scheduled >= expected_jobs and expected_jobs > 0:
+                job_queue_ok = True
+            else:
+                logger.error(
+                    "زمان‌بندی ناقص: chat=%s انتظار=%d ساخته‌شده=%d — به کاربر صادقانه اعلام می‌شود.",
+                    chat_id, expected_jobs, scheduled,
+                )
     except Exception:
         logger.error("schedule_chat_jobs failed for chat=%s\n%s", chat_id, traceback.format_exc())
 

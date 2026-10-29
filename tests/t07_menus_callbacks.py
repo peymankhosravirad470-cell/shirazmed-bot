@@ -7,7 +7,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from tests.helpers import (  # noqa: E402
-    REC, Result, build_app, kb_rows, make_cb_update, make_start_update, process,
+    REC, Result, build_app, kb_rows, make_cb_update, make_start_update, make_text_update, process,
 )
 
 from app.bot import MENU_CALLBACKS  # noqa: E402
@@ -54,31 +54,91 @@ async def main() -> int:
     await process(make_cb_update(uid, "med_back"))
     r.check("med_back → بازگشت به تخصص‌ها", True)
 
-    # ── بیمارستان‌ها: دکمه‌های مسیریاب سه‌اپ با نام مکان (Bug1 re-verify) ──
+    # ── بیمارستان‌ها (v49): هر مکان پیام مستقل + یک ردیف ۴ دکمه (گوگل/نشان/بلد/ویز) ──
     REC.reset()
     await process(make_cb_update(uid, "non_hospitals"))
-    all_rows = []
-    for kb in REC.keyboards():
-        for row in kb_rows(kb):
-            all_rows.append(row)
-    nav_rows = [(t, u) for row in all_rows for (t, u) in row if "مسیریاب" in t]
-    r.check("دکمه‌های مسیریاب ≥ 7×3 (۳ اپ برای هر بیمارستان)", len(nav_rows) >= 21, f"{len(nav_rows)}")
-    google = [t for t, u in nav_rows if "گوگل" in t or "Google" in t]
-    neshan = [t for t, u in nav_rows if "نشان" in t]
-    balad = [t for t, u in nav_rows if "بلد" in t]
-    r.check("هر سه اپ: گوگل/نشان/بلد", len(google) >= 7 and len(neshan) >= 7 and len(balad) >= 7, f"{len(google)}/{len(neshan)}/{len(balad)}")
-    labels_set = {t for t, _ in nav_rows}
-    r.check("لیبل‌ها منحصربه‌فرد و شامل نام بیمارستان (بدون ۹ دکمه‌ی یکسان)", len(labels_set) == len(nav_rows), f"{len(labels_set)}/{len(nav_rows)}")
     import json as _json
-    hospitals = _json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "hospitals.json"), encoding="utf-8"))
-    missing_names = [h["name_fa"][:12] for h in hospitals if not any(h["name_fa"][:12] in t for t in labels_set)]
-    r.check("نام هر بیمارستان در لیبل دکمه‌ها هست", not missing_names, str(missing_names))
-    urls = [u for _, u in nav_rows]
-    r.check("URL گوگل‌مپ استاندارد", all(("google.com/maps" in u) or ("neshan.org" in u) or ("balad.ir" in u) for u in urls))
-    neshan_ok = all(("neshan.org/maps/search/" in u) or ("neshan.org/maps/@" in u) for u in [u for _, u in nav_rows if "نشان" in _])
-    balad_ok = all(("balad.ir/search?query=" in u) or ("balad.ir/location?" in u) for u in [u for _, u in nav_rows if "بلد" in _])
-    r.check("فرمت URL نشان درست", neshan_ok)
-    r.check("فرمت URL بلد درست", balad_ok)
+    from urllib.parse import quote as _q, quote_plus as _qp, unquote as _uq, unquote_plus as _uqp
+    _DATA = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data")
+    hospitals = _json.load(open(os.path.join(_DATA, "hospitals.json"), encoding="utf-8"))
+
+    def nav_rows_of(markup):
+        return [row for row in kb_rows(markup)
+                if any(("گوگل" in t or "نشان" in t or "بلد" in t or "Waze" in t) for (t, u) in row)]
+
+    hosp_msgs = [m for m in REC.sent_to(uid) if "🏥" in str(m.get("text") or "")]
+    r.check("هر بیمارستان در پیام مستقل خودش (v49)", len(hosp_msgs) >= len(hospitals), f"{len(hosp_msgs)}/{len(hospitals)}")
+
+    def verify_places(msgs, names, label):
+        """برای هر پیام: دقیقاً یک ردیف ۴ دکمه، عنوان فقط آیکون+نام اپ،
+        و مقصد هر ۴ لینک از «همان مکانِ همان پیام"."""
+        problems = []
+        for m in msgs:
+            rows = nav_rows_of(m.get("reply_markup"))
+            if len(rows) != 1 or len(rows[0]) != 4:
+                problems.append(f"چیدمان {len(rows)}×{[len(x) for x in rows]}")
+                continue
+            titles = [t for (t, u) in rows[0]]
+            apps = [any(a in t for a in ("گوگل", "Google")) for t in titles].count(True)
+            if apps != 1 or not any("نشان" in t for t in titles) or not any("بلد" in t for t in titles) or not any("Waze" in t for t in titles):
+                problems.append(f"عنوان‌ها: {titles}")
+            # عنوان نباید نام مکان را تکرار کند
+            text = str(m.get("text") or "")
+            name_line = [ln for ln in text.splitlines() if ("🏥" in ln or "🏨" in ln or "🏛️" in ln or "📍" in ln)][0] if [ln for ln in text.splitlines() if ("🏥" in ln or "🏨" in ln or "🏛️" in ln or "📍" in ln)] else ""
+            place_hint = name_line.replace("🏥", "").replace("🏨", "").replace("🏛️", "").replace("📍", "").strip()
+            if place_hint and any(place_hint[:10] in t for t in titles):
+                problems.append(f"نام مکان در عنوان دکمه: {titles[0]}")
+        return problems
+
+    probs = verify_places(hosp_msgs, [h.get("name_fa", "") for h in hospitals], "hospitals")
+    r.check("دقیقاً یک ردیف ۴ دکمه + عنوان فقط نام اپ (بدون نام مکان)", not probs, "; ".join(probs[:3]))
+
+    # مقصد هر ۴ لینک = همان بیمارستانِ همان پیام (نام در کوئری هر ۴ لینک)
+    dest_bad = []
+    for m in hosp_msgs:
+        text = str(m.get("text") or "")
+        name_line = [ln for ln in text.splitlines() if "🏥" in ln]
+        hosp_name = name_line[0].replace("🏥", "").strip() if name_line else ""
+        if not hosp_name:
+            continue
+        expected_q = f"{hosp_name} شیراز"
+        for row in nav_rows_of(m.get("reply_markup")):
+            if len(row) != 4:
+                continue
+            for (t, u) in row:
+                uq = _uqp(u)  # هم %XX و هم + را به فاصله برمی‌گرداند
+                if not (hosp_name in uq or expected_q in uq):
+                    dest_bad.append(f"{hosp_name[:14]} ← {u[:55]}")
+    r.check("مقصد هر ۴ دکمه همان بیمارستانِ همان پیام", not dest_bad, "; ".join(dest_bad[:3]))
+
+    # فرمت استاندارد هر ۴ لینک
+    fmt_bad = []
+    for m in hosp_msgs:
+        for row in nav_rows_of(m.get("reply_markup")):
+            if len(row) != 4:
+                continue
+            ug, un, ub, uw = row[0][1], row[1][1], row[2][1], row[3][1]
+            if not ug.startswith("https://www.google.com/maps/search/?api=1&query="): fmt_bad.append(ug[:45])
+            if not (un.startswith("https://neshan.org/maps/search/") or un.startswith("https://neshan.org/maps/@")): fmt_bad.append(un[:45])
+            if not (ub.startswith("https://balad.ir/search?query=") or ub.startswith("https://balad.ir/location?")): fmt_bad.append(ub[:45])
+            if not (uw.startswith("https://waze.com/ul?q=") and uw.endswith("&navigate=yes")): fmt_bad.append(uw[:45])
+    r.check("فرمت استاندارد هر ۴ لینک (گوگل/نشان/بلد/ویز)", not fmt_bad, str(fmt_bad[:3]))
+
+    # ── هتل‌ها (تست پذیرش مأموریت): همان قواعد چهاراپ ──
+    REC.reset()
+    await process(make_cb_update(uid, "non_hotels"))
+    hotel_msgs = [m for m in REC.sent_to(uid) if "🏛️" in str(m.get("text") or "")]
+    r.check("هتل‌ها هم پیام مستقل با ۴ دکمه دارند", len(hotel_msgs) >= 5, str(len(hotel_msgs)))
+    hprobs = verify_places(hotel_msgs, [], "hotels")
+    r.check("هتل‌ها: چیدمان و عنوان درست", not hprobs, "; ".join(hprobs[:3]))
+
+    # ── جاذبه گردشگری (تست پذیرش مأموریت): tour_city → leisure_city.json ──
+    REC.reset()
+    await process(make_cb_update(uid, "tour_city"))
+    city_msgs = [m for m in REC.sent_to(uid) if "🏛️" in str(m.get("text") or "")]
+    r.check("جاذبه‌های گردشگری پیام مستقل با ۴ دکمه دارند", len(city_msgs) >= 5, str(len(city_msgs)))
+    cprobs = verify_places(city_msgs, [], "tour_city")
+    r.check("جاذبه‌ها: چیدمان و عنوان درست", not cprobs, "; ".join(cprobs[:3]))
 
     # ── مراکز حمل‌ونقل (hubs) — قبلاً هرگز فرودگاه را نشان نمی‌داد (بخش G) ──
     REC.reset()
@@ -88,8 +148,8 @@ async def main() -> int:
     r.check("فرودگاه شیراز نمایش داده می‌شود", "دستغیب" in joined or "فرودگاه" in joined, joined[:120])
     r.check("راه‌آهن شیراز نمایش داده می‌شود", "راه‌آهن" in joined)
     r.check("پایانه‌ها نمایش داده می‌شوند", "کرندیش" in joined or "امیرکبیر" in joined)
-    hub_nav = [t for kb in REC.keyboards() for row in kb_rows(kb) for (t, u) in row if "مسیریاب" in t]
-    r.check("دکمه‌های مسیریاب برای مراکز حمل‌ونقل", len(hub_nav) >= 12, f"{len(hub_nav)}")
+    hub_nav_rows = [row for kb in REC.keyboards() for row in kb_rows(kb) if len(row) == 4 and any("Waze" in t for (t, u) in row)]
+    r.check("ردیف ۴ دکمه مسیریاب برای مراکز حمل‌ونقل", len(hub_nav_rows) >= 4, f"{len(hub_nav_rows)}")
 
     # ── بیمه‌ها: فیلدهای کامل + دکمه‌های مسیریاب ──
     REC.reset()
@@ -120,8 +180,8 @@ async def main() -> int:
     texts = REC.sent_texts()
     r.check("back_main → منوی اصلی", any("خوش آمدید" in t for t in texts))
 
-    # ── سه‌زبانه: کل منو در عربی و انگلیسی ──
-    for lang_code, sample in (("lang_en", "warm welcome"), ("lang_ar", "أهلاً")):
+    # ── سه‌زبانه: کل منو در عربی و انگلیسی (متن خوش‌آمد جدید v49) ──
+    for lang_code, sample in (("lang_en", "Welcome to Shiraz Medical"), ("lang_ar", "أهلاً بك في شيراز ميديكال")):
         REC.reset()
         await process(make_cb_update(uid, "change_language"))
         await process(make_cb_update(uid, lang_code))
@@ -131,6 +191,41 @@ async def main() -> int:
         await process(make_cb_update(uid, "non_hospitals"))
         texts = REC.sent_texts()
         r.check(f"بخش بیمارستان‌ها در {lang_code} با برچسب {lang_code}", any(("Address" if lang_code == "lang_en" else "العنوان") in t for t in texts), str(texts[-1][:50] if texts else ""))
+
+    # ── 🆕 v49: ثبت همراه بیمار — پیام نهایی باید دکمه بازگشت داشته باشد ──
+    # (بازگشت به فارسی — بخش سه‌زبانه قبلی زبان را عربی کرده بود)
+    REC.reset()
+    await process(make_cb_update(uid, "change_language"))
+    await process(make_cb_update(uid, "lang_fa"))
+    REC.reset()
+    await process(make_cb_update(uid, "start_companion"))
+    await process(make_cb_update(uid, "comp_yes"))
+    await process(make_text_update(uid, "علی رضایی"))
+    await process(make_text_update(uid, "09123456789"))
+    texts = REC.sent_texts()
+    r.check("همراه بیمار: پیام موفقیت نمایش داده شد", any("ثبت شد" in t for t in texts), str(texts[-1][:60] if texts else "NO"))
+    last_kb = REC.keyboards()[-1] if REC.keyboards() else None
+    last_labels = [b[0] for row in kb_rows(last_kb) for b in row]
+    r.check("همراه بیمار: پیام نهایی دکمه «بازگشت به منو» دارد", any("بازگشت به منو" in l for l in last_labels), str(last_labels))
+    r.check("همراه بیمار: ثبت فقط یک‌بار (یک پیام موفقیت)", sum(1 for t in texts if "ثبت شد" in t) == 1, str([t[:40] for t in texts if "ثبت شد" in t]))
+    # کلیک بازگشت → منوی اصلی
+    REC.reset()
+    await process(make_cb_update(uid, "back_main"))
+    texts = REC.sent_texts()
+    r.check("همراه بیمار: بازگشت → منوی اصلی", any("خوش آمدید" in t for t in texts), str(texts[-1][:50] if texts else "NO"))
+
+    # ── 🆕 v49: نظرسنجی — مسیر لغو در مرحله «نوشتن علت» کار می‌کند ──
+    REC.reset()
+    await process(make_cb_update(uid, "start_survey"))
+    await process(make_cb_update(uid, "survey_no"))
+    kb = REC.keyboards()[-1] if REC.keyboards() else None
+    labels = [b[1] for row in kb_rows(kb) for b in row]
+    r.check("نظرسنجی: مرحله علت، دکمه لغو دارد (callback survey_cancel)", "survey_cancel" in labels, str(labels))
+    await process(make_cb_update(uid, "survey_cancel"))
+    texts = REC.sent_texts()
+    last_kb = REC.keyboards()[-1] if REC.keyboards() else None
+    last_labels = [b[0] for row in kb_rows(last_kb) for b in row]
+    r.check("نظرسنجی: پیام لغو دکمه بازگشت دارد", any("بازگشت به منو" in l for l in last_labels), str(last_labels))
 
     return r.finish("T07 menus+callbacks")
 

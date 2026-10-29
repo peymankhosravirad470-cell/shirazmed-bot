@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 # ─── ثابت‌های پروژه ───
 PROJECT_NAME = "Shiraz Medical Bot"
-VERSION = "48"
+VERSION = "49"
 
 # 🆕 ممیزی (بخش J): مسیر واحد داده — روی لیارا دیسک پایدار در /app/data mount
 # شده و WORKDIR هم /app است؛ بنابراین همه‌ی مسیرهای ذخیره‌سازی باید از همین

@@ -89,6 +89,44 @@ async def main() -> int:
     data = read_json(meds_file)
     r.check("فایل دارو درست نوشته شد", data[str(uid)][0]["times"] == ["06:00", "20:00"], str(data))
 
+    # ── 🆕 v49: سناریوهای اجباری مأموریت (قرص کمر / 15:00 و مشتقات) ──
+    async def flow_add_med(user, med_name, time_text):
+        REC.reset()
+        await process(make_start_update(user, "/start"))
+        await process(make_cb_update(user, "lang_fa"))
+        await process(make_cb_update(user, "medication"))
+        await process(make_cb_update(user, "med_add"))
+        await process(make_text_update(user, med_name))
+        await process(make_text_update(user, time_text))
+        return REC.sent_texts()
+
+    # ۱) نام «قرص کمر» + ساعت «15:00» → ثبت موفق یک یادآور (سناریوی اصلی گزارش)
+    texts = await flow_add_med(811, "قرص کمر", "15:00")
+    r.check("قرص کمر + 15:00 → ثبت موفق یک یادآور", any("قرص کمر" in t and "15:00" in t for t in texts), str(texts[-1][:80] if texts else "NO"))
+    data = read_json(meds_file)
+    r.check("قرص کمر با ساعت 15:00 در فایل ذخیره شد", {"name": "قرص کمر", "times": ["15:00"]} in data.get("811", []), str(data.get("811")))
+
+    # ۲) «08:00, 15:00» → دو ساعت (پشتیبانی چندساعت حفظ شود)
+    texts = await flow_add_med(812, "قرص کمر", "08:00, 15:00")
+    r.check("قرص کمر + 08:00, 15:00 → دو ساعت", any("08:00" in t and "15:00" in t for t in texts), str(texts[-1][:80] if texts else "NO"))
+    data = read_json(meds_file)
+    r.check("دو ساعت در فایل ذخیره شد", data.get("812", [{}])[0].get("times") == ["08:00", "15:00"], str(data.get("812")))
+
+    # ۳) «25:90» → رد ورودی + پیام اعتبارسنجی روشن (بدون crash)
+    texts = await flow_add_med(813, "قرص کمر", "25:90")
+    r.check("25:90 → رد با پیام روشن (نه خطای غیرمنتظره)", any("ساعت" in t for t in texts) and not any("غیرمنتظره" in t for t in texts), str(texts[-1][:80] if texts else "NO"))
+    # بعد از رد، ورودی معتبر پذیرفته می‌شود (حالت گفتگو حفظ شده)
+    REC.reset()
+    await process(make_text_update(813, "15:00"))
+    texts = REC.sent_texts()
+    r.check("پس از رد، 15:00 پذیرفته می‌شود", any("15:00" in t for t in texts), str(texts[-1][:60] if texts else "NO"))
+
+    # ۴) ساعت خالی/فاصله → راهنما، بدون crash
+    texts = await flow_add_med(814, "قرص کمر", "   ")
+    r.check("ورودی خالی → پیام راهنما بدون crash", any("ساعت" in t for t in texts) and not any("غیرمنتظره" in t for t in texts), str(texts[-1][:80] if texts else "NO"))
+
+    # ۵) شکست زمان‌بندی/ذخیره → بدون پیام موفقیت کاذب (پوشش پایین‌تر هم هست)
+
     # حذف فقط همان دارو (بخش H)
     write_json(meds_file, {str(uid): [
         {"name": "قرص فشار", "times": ["06:00", "20:00"]},

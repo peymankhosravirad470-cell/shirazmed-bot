@@ -67,6 +67,7 @@ _T: dict[str, dict[str, str]] = {
     # 🆕 الگوی استاندارد پایان هر اکشن: بازگشت به منو + دعوت به ثبت نظر کنار هم
     "btn_back_menu": {"fa": "🔙 بازگشت به منو", "en": "🔙 Back to Menu", "ar": "🔙 العودة إلى القائمة"},
     "btn_feedback": {"fa": "💬 پیشنهادات", "en": "💬 Feedback", "ar": "💬 ملاحظات"},
+    "btn_cancel": {"fa": "🚪 لغو", "en": "🚪 Cancel", "ar": "🚪 إلغاء"},
 }
 
 
@@ -84,6 +85,15 @@ def _back_feedback_keyboard(lang: str = "fa") -> InlineKeyboardMarkup:
         InlineKeyboardButton(_t(lang, "btn_back_menu"), callback_data="back_main"),
         InlineKeyboardButton(_t(lang, "btn_feedback"), callback_data="start_feedback"),
     ]])
+
+
+def _cancel_keyboard(lang: str = "fa") -> InlineKeyboardMarkup:
+    """🆕 v49 — دکمه لغو برای مراحلی که کاربر باید «متن» بنویسد.
+
+    fallback از قبل callbackِ survey_cancel را می‌شناخت ولی هیچ دکمه‌ای آن را
+    صادر نمی‌کرد — یعنی مسیر لغو مرده بود. حالا دکمه واقعی داریم.
+    """
+    return InlineKeyboardMarkup([[InlineKeyboardButton(_t(lang, "btn_cancel"), callback_data="survey_cancel")]])
 
 
 def _get_survey_keyboard(lang: str = "fa") -> InlineKeyboardMarkup:
@@ -128,7 +138,10 @@ async def handle_satisfaction(update: Update, context: ContextTypes.DEFAULT_TYPE
         return ConversationHandler.END
 
     elif data == "survey_no":
-        await query.edit_message_text(_t(lang, "ask_reason"), reply_markup=None)
+        # 🆕 v49 (الزام مأموریت — بررسی مسیرهای لغو): قبلاً reply_markup=None بود
+        # و کاربر نه راهنمای لغو می‌دید و نه دکمه‌ای؛ فقط می‌توانست متن بنویسد.
+        # حالا دکمه «لغو» کنار مرحله نوشتن علت هست (callback: survey_cancel).
+        await query.edit_message_text(_t(lang, "ask_reason"), reply_markup=_cancel_keyboard(lang))
         return ASK_REASON
 
     return ASK_SATISFACTION
@@ -186,9 +199,17 @@ async def _reply_tracked(update: Update, context: ContextTypes.DEFAULT_TYPE, tex
 
 
 async def cancel_survey(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    """لغو نظرسنجی (در صورت نیاز)."""
+    """لغو نظرسنجی — 🆕 v49: پیام لغو هم «دکمه بازگشت» دارد (قبلاً بدون دکمه
+    می‌رفت و کاربر گیر می‌کرد)."""
+    lang = _get_lang(context)
+    if update.callback_query is not None:
+        try:
+            await update.callback_query.edit_message_text(_t(lang, "cancelled"), reply_markup=_back_feedback_keyboard(lang))
+            return ConversationHandler.END
+        except Exception:
+            pass
     if update.message is not None:
-        await _reply_tracked(update, context, _t(_get_lang(context), "cancelled"))
+        await _reply_tracked(update, context, _t(lang, "cancelled"), _back_feedback_keyboard(lang))
     return ConversationHandler.END
 
 
