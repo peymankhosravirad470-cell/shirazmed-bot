@@ -6,7 +6,29 @@ on:
       - main
 
 jobs:
+  # ممیزی (بخش J): قبل از deploy، آزمون‌های خودکار باید موفق شوند.
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install "python-telegram-bot[job-queue]==21.9" requests jdatetime reportlab arabic-reshaper python-bidi
+
+      - name: Compile all Python files
+        run: python -m compileall -q .
+
+      - name: Run mandatory test suite (token-free)
+        run: python tests/run_all.py
+
   deploy:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

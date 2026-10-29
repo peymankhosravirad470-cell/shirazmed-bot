@@ -1,0 +1,32 @@
+name: Syntax & Import & Data Check
+
+on:
+  push:
+    branches: [ main, fix/* ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install "python-telegram-bot[job-queue]==21.9" requests jdatetime reportlab arabic-reshaper python-bidi
+
+      - name: Compile all Python files (syntax)
+        run: python -m compileall -q .
+
+      # ممیزی (بخش J): حداقل بررسی نحو، importها و آزمون‌های خودکار
+      - name: Import smoke test (main modules)
+        run: python tests/t01_syntax_imports.py
+
+      - name: JSON data validation
+        run: python tests/t02_json_data.py
