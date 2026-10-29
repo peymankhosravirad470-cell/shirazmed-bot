@@ -157,6 +157,14 @@ async def reset_conversations_callback(update: Update, context: ContextTypes.DEF
         if user is None or chat is None:
             return
         key = (chat.id, user.id)
+        # 🧹 تسک ۳: قبل از هر ناوبری، پرامپت‌های ردیابی‌شده‌ی گفتگوها (نام/
+        # کد ملی/ساعت دارو/…) و تکه‌های لیست قبلی حذف شوند تا «پیام قدیمی
+        # بالای منوی جدید» نماند. شکست پاک‌سازی نباید مسیر را بشکند.
+        try:
+            from app.handlers import chunks as chunk_tracker
+            await chunk_tracker.cleanup(context, chat.id)
+        except Exception:
+            pass
         for conv in (
             booking_conversation_handler,
             survey_conversation_handler,

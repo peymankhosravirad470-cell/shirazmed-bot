@@ -12,10 +12,21 @@ from telegram.ext import (
     filters,
 )
 
+from app.handlers import chunks as chunk_tracker  # 🆕 تسک ۳: ردیابی پرامپت‌ها
+
 logger = logging.getLogger(__name__)
 
 # مراحل گفتگو
 ASK_IS_COMPANION, ASK_NAME, ASK_PHONE = range(3)
+
+
+async def _reply_tracked(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str,
+                         reply_markup=None) -> None:
+    """🆕 تسک ۳: پاسخ‌های متنی گفتگو ردیابی‌شده ارسال شوند تا با ناوبری پاک شوند."""
+    chat_id = update.effective_chat.id if update.effective_chat else None
+    if chat_id is None or update.message is None:
+        return
+    await chunk_tracker.send_tracked(context, chat_id, text, reply_markup)
 
 
 def _get_lang(context: ContextTypes.DEFAULT_TYPE) -> str:
@@ -148,12 +159,12 @@ async def receive_companion_name(update: Update, context: ContextTypes.DEFAULT_T
     
     name = update.message.text.strip()
     if len(name) < 3:
-        await update.message.reply_text(_t(_get_lang(context), "name_too_short"))
+        await _reply_tracked(update, context, _t(_get_lang(context), "name_too_short"))
         return ASK_NAME
 
     context.user_data["companion_name"] = name
 
-    await update.message.reply_text(_t(_get_lang(context), "ask_phone"))
+    await _reply_tracked(update, context, _t(_get_lang(context), "ask_phone"))
     return ASK_PHONE
 
 
@@ -164,7 +175,7 @@ async def receive_companion_phone(update: Update, context: ContextTypes.DEFAULT_
     
     phone = update.message.text.strip()
     if not phone.replace("+", "").replace("-", "").isdigit() or len(phone) < 10:
-        await update.message.reply_text(_t(_get_lang(context), "invalid_phone"))
+        await _reply_tracked(update, context, _t(_get_lang(context), "invalid_phone"))
         return ASK_PHONE
         
     comp_name = context.user_data.get("companion_name", "همراه")
@@ -184,7 +195,7 @@ async def receive_companion_phone(update: Update, context: ContextTypes.DEFAULT_
     
     # ✅ نمایش پیام موفقیت به کاربر + دکمه بازگشت به منو
     lang = _get_lang(context)
-    await update.message.reply_text(
+    await _reply_tracked(update, context,
         _t(lang, "success", phone=phone),
         reply_markup=_back_to_menu_keyboard(lang),
     )
@@ -199,7 +210,7 @@ async def cancel_companion(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     context.user_data.pop("companion_name", None)
     lang = _get_lang(context)
     if update.message is not None:
-        await update.message.reply_text(
+        await _reply_tracked(update, context,
             _t(lang, "cancelled"),
             reply_markup=_back_to_menu_keyboard(lang),
         )

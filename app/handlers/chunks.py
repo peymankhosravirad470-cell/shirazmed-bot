@@ -74,3 +74,32 @@ async def cleanup(context: ContextTypes.DEFAULT_TYPE, chat_id: int) -> None:
             logger.debug("chunk delete skipped (%s): %s", mid, result)
     if ud is not None:
         ud.pop(_KEY, None)
+
+
+async def send_tracked(context: ContextTypes.DEFAULT_TYPE, chat_id: int, text: str,
+                       reply_markup=None, parse_mode=None):
+    """🆕 تسک ۳ — ارسال پیام «ردیابی‌شده» برای پرامپت‌های گفتگوها.
+
+    🐛 مشکل: پیام‌های پرامپت گفتگوها (نام/کد ملی/ساعت دارو/…) با reply_text
+    مستقیم ارسال می‌شدند و هیچ‌جا ثبت نمی‌شدند؛ وقتی کاربر وسط گفتگو روی
+    «بازگشت به منو» یا هر دکمه‌ی دیگری می‌زد، همه‌ی آن پیام‌ها بالای منوی
+    جدید باقی می‌مانند — همان باگ «پیام قدیمی بالای منوی جدید».
+
+    ✅ راه‌حل: این helper پیام را می‌فرستد و message_id آن را در همان فهرست
+    chunk_tracker ثبت می‌کند؛ سپس reset_conversations_callback (گروه -۱) که
+    روی هر کلیک منو اجرا می‌شود، آنها را قبل از نمایش منوی جدید حذف می‌کند.
+    شکست ارسال/ردیابی هرگز مسیر را نمی‌شکند (value بازگشتی ممکن است None باشد).
+    """
+    sent = None
+    try:
+        kwargs = {}
+        if reply_markup is not None:
+            kwargs["reply_markup"] = reply_markup
+        if parse_mode is not None:
+            kwargs["parse_mode"] = parse_mode
+        sent = await context.bot.send_message(chat_id=chat_id, text=text, **kwargs)
+    except Exception as error:  # noqa: BLE001 — ارسال ناموفق نباید کرش کند
+        logger.warning("send_tracked failed (chat=%s): %s", chat_id, error)
+    if sent is not None:
+        track(context, getattr(sent, "message_id", None))
+    return sent

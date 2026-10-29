@@ -158,7 +158,7 @@ async def receive_reason(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     lang = _get_lang(context)
     if settings.admin_chat_id is None:
         logger.warning("ADMIN_CHAT_ID تنظیم نشده است؛ پیام نارضایتی برای ادمین ارسال نشد.")
-        await update.message.reply_text(_t(lang, "thanks_feedback"), reply_markup=_back_feedback_keyboard(lang))
+        await _reply_tracked(update, context, _t(lang, "thanks_feedback"), _back_feedback_keyboard(lang))
         return ConversationHandler.END
 
     try:
@@ -167,18 +167,28 @@ async def receive_reason(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
             text=admin_message,
             parse_mode="HTML",
         )
-        await update.message.reply_text(_t(lang, "thanks_feedback"), reply_markup=_back_feedback_keyboard(lang))
+        await _reply_tracked(update, context, _t(lang, "thanks_feedback"), _back_feedback_keyboard(lang))
     except Exception as error:
         logger.error(f"Error sending survey to admin: {error}")
-        await update.message.reply_text(_t(lang, "send_error"), reply_markup=_back_feedback_keyboard(lang))
+        await _reply_tracked(update, context, _t(lang, "send_error"), _back_feedback_keyboard(lang))
 
     return ConversationHandler.END
+
+
+async def _reply_tracked(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str,
+                         reply_markup=None) -> None:
+    """🆕 تسک ۳: پاسخ‌های متنی گفتگو ردیابی‌شده ارسال شوند تا با ناوبری پاک شوند."""
+    from app.handlers import chunks as chunk_tracker
+    chat_id = update.effective_chat.id if update.effective_chat else None
+    if chat_id is None or update.message is None:
+        return
+    await chunk_tracker.send_tracked(context, chat_id, text, reply_markup)
 
 
 async def cancel_survey(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """لغو نظرسنجی (در صورت نیاز)."""
     if update.message is not None:
-        await update.message.reply_text(_t(_get_lang(context), "cancelled"))
+        await _reply_tracked(update, context, _t(_get_lang(context), "cancelled"))
     return ConversationHandler.END
 
 

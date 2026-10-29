@@ -19,6 +19,7 @@ import json
 import logging
 import os
 import re
+import traceback
 from typing import Any
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
@@ -38,8 +39,12 @@ ASK_MED_NAME, ASK_MED_TIMES = range(2)
 _BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 MEDS_FILE = os.path.join(_BASE_DIR, "data", "medications.json")
 
-# الگوی ساعت مجاز: 8، 08:00، 8:5؟ نه — دقیقه دو رقمی؛ 8:00 یا 8.00
-_TIME_RE = re.compile(r"^([01]?\d|2[0-3])[:.]([0-5]\d)$")
+# الگوی ساعت مجاز:
+#   «8» / «08» فقط ساعت  |  «8:00» / «8.00» ساعت:دقیقه  |  «0830» فشرده ۴رقمی
+# نکته: «85» یا «999» عمداً رد می‌شوند (بدون دو نقطه فقط ۱-۲ رقم ساعت یا ۴ رقم کامل).
+_TIME_BARE = re.compile(r"^([01]?\d|2[0-3])$")
+_TIME_COLON = re.compile(r"^([01]?\d|2[0-3])[:.]([0-5]\d)$")
+_TIME_COMPACT = re.compile(r"^([01]\d|2[0-3])([0-5]\d)$")
 
 _PERSIAN_DIGITS = str.maketrans("۰۱۲۳۴۵۶۷۸۹", "0123456789")
 _ARABIC_DIGITS = str.maketrans("٠١٢٣٤٥٦٧٨٩", "0123456789")
@@ -70,9 +75,9 @@ _TEXTS: dict[str, dict[str, str]] = {
             "ar": "⏰ الآن أرسل وقت أو أوقات التناول (افصل بينها بمسافة أو فاصلة):\n\nمثال: «8:00، 21:30»",
         },
         "invalid_time": {
-            "fa": "⚠️ ساعت وارد شده معتبر نیست. لطفاً با قالب «ساعت:دقیقه» بفرستید:\n\nمثال: 8:00، 14:30، 21:00",
-            "en": "⚠️ The entered time is not valid. Please use \"hour:minute\" format:\n\nExample: 8:00, 14:30, 21:00",
-            "ar": "⚠️ الوقت المُدخل غير صالح. يرجى استخدام صيغة «ساعة:دقيقة»:\n\nمثال: 8:00، 14:30، 21:00",
+            "fa": "⚠️ ساعت وارد شده معتبر نیست.\n\nاین قالب‌ها کافی‌ست: «8» یا «8:00» یا «0830» — با فاصله یا ویرگول جدا کنید.\n\nمثال: 8، 14:30، 21:00",
+            "en": "⚠️ The time isn't valid.\n\nAny of these formats works: «8» or «8:00» or «0830» — separate multiple times with spaces or commas.\n\nExample: 8, 14:30, 21:00",
+            "ar": "⚠️ الوقت المُدخل غير صالح.\n\nأي من هذه الصيغ تكفي: «8» أو «8:00» أو «0830» — افصل بين الأوقات بمسافة أو فاصلة.\n\nمثال: 8، 14:30، 21:00",
         },
         "saved": {
             "fa": "✅ تمام! یادآور «{name}» فعال شد.\n\n⏰ ساعت‌ها: {times}\n\nاز این به بعد هر روز سر این ساعت‌ها بهت یادآوری می‌کنیم — دیگه هیچ دوزی از قلم نمی‌افته 💙",
@@ -185,16 +190,25 @@ def _set_chat_meds(chat_id: int | str, items: list[dict[str, Any]]) -> None:
 
 
 def _normalize_time(raw: str) -> str | None:
+    """ورودی آزاد ساعت → «HH:MM»؛ فقط ساعت (مثل «8» یا «۹») هم پذیرفته می‌شود."""
     t = raw.strip().translate(_PERSIAN_DIGITS).translate(_ARABIC_DIGITS)
-    m = _TIME_RE.match(t)
-    if not m:
-        return None
-    return f"{int(m.group(1)):02d}:{m.group(2)}"
+    if m := _TIME_COLON.match(t):
+        return f"{int(m.group(1)):02d}:{m.group(2)}"
+    if m := _TIME_BARE.match(t):
+        return f"{int(m.group(1)):02d}:00"  # فقط ساعت وارد شده → دقیقه صفر
+    if m := _TIME_COMPACT.match(t):
+        return f"{int(m.group(1)):02d}:{m.group(2)}"  # «0830» → 08:30
+    return None
 
 
 def parse_times(text: str) -> list[str]:
-    """ورودی آزاد کاربر → لیست ساعت یکتا و مرتب‌شده."""
-    parts = [p for p in re.split(r"[،,;\s]+", text.strip()) if p]
+    """ورودی آزاد کاربر → لیست ساعت یکتا و مرتب‌شده.
+
+    🆕 فیکس: کلمات اضافی مثل «صبح/عصر/ساعت/بعدازظهر» حذف می‌شوند تا ورودی‌های
+    طبیعی مثل «ساعت ۸ صبح» یا «8 و 21» رد نشوند (قبلاً خطای معتبر نیست می‌داد).
+    """
+    text = re.sub(r"(?i)(ساعت|صبح|ظهر|عصر|شب|بامداد|am|pm)", " ", text)
+    parts = [p for p in re.split(r"[،,؛;\s]+", text.strip()) if p]
     out: list[str] = []
     for p in parts:
         t = _normalize_time(p)
@@ -445,13 +459,13 @@ async def receive_med_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -
     lang = _get_lang(context)
     name = update.message.text.strip()
     if len(name) < 2:
-        await update.message.reply_text(_t(lang, "ask_name"))
+        await _reply_tracked(update, context, _t(lang, "ask_name"))
         return ASK_MED_NAME
     if len(name) > 60:
-        await update.message.reply_text(_t(lang, "too_long"))
+        await _reply_tracked(update, context, _t(lang, "too_long"))
         return ASK_MED_NAME
     context.user_data["med_name"] = name
-    await update.message.reply_text(_t(lang, "ask_times"))
+    await _reply_tracked(update, context, _t(lang, "ask_times"))
     return ASK_MED_TIMES
 
 
@@ -461,7 +475,7 @@ async def receive_med_times(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     lang = _get_lang(context)
     times = parse_times(update.message.text)
     if not times:
-        await update.message.reply_text(_t(lang, "invalid_time"))
+        await _reply_tracked(update, context, _t(lang, "invalid_time"))
         return ASK_MED_TIMES
     chat_id = update.effective_chat.id
     name = context.user_data.get("med_name", "💊")
@@ -470,9 +484,20 @@ async def receive_med_times(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     items = get_chat_meds(chat_id)
     items.append({"name": name, "times": times})
     _set_chat_meds(chat_id, items)
-    schedule_chat_jobs(context.job_queue, chat_id, items)
+    # 🩺 سخت‌سازی (تسک ۵): هیچ خطای زمان‌بندی نباید ثبت دارو را برای کاربر شکست بدهد؛
+    # خطای کامل با traceback در لاگ می‌رود تا منشا دقیق مشخص باشد.
+    try:
+        jq = getattr(context, "job_queue", None)
+        if jq is None:
+            logger.error(
+                "JobQueue در دسترس نیست (APScheduler نصب نیست یا job_queue به بیلدر داده نشده). "
+                "دارو ذخیره شد ولی یادآوری زمان‌بندی نشد: chat=%s", chat_id,
+            )
+        schedule_chat_jobs(jq, chat_id, items)
+    except Exception:
+        logger.error("schedule_chat_jobs failed for chat=%s\n%s", chat_id, traceback.format_exc())
 
-    await update.message.reply_text(
+    await _reply_tracked(update, context,
         _t(lang, "saved").format(name=name, times="، ".join(times)),
         reply_markup=_back_feedback_kb(lang),
     )
@@ -484,8 +509,18 @@ async def med_cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     lang = _get_lang(context)
     if update.message is not None:
         # 🆕 فیکس: قبلاً بدون دکمه ارسال می‌شد و کاربر گیر می‌کرد
-        await update.message.reply_text(_t(lang, "cancelled"), reply_markup=_back_feedback_kb(lang))
+        await _reply_tracked(update, context, _t(lang, "cancelled"), reply_markup=_back_feedback_kb(lang))
     return ConversationHandler.END
+
+
+async def _reply_tracked(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str,
+                         reply_markup=None) -> None:
+    """🆕 تسک ۳: پاسخ‌های متنی گفتگو ردیابی‌شده ارسال شوند تا با ناوبری پاک شوند."""
+    from app.handlers import chunks as chunk_tracker
+    chat_id = update.effective_chat.id if update.effective_chat else None
+    if chat_id is None or update.message is None:
+        return
+    await chunk_tracker.send_tracked(context, chat_id, text, reply_markup)
 
 
 meds_conversation_handler = ConversationHandler(

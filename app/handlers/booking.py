@@ -39,7 +39,7 @@ logger = logging.getLogger(__name__)
 # ثابت‌ها
 # ---------------------------------------------------------------------------
 
-ASK_NAME, ASK_NATIONAL_CODE, SELECT_SPEC, SELECT_DOCTOR, SELECT_DATE, SELECT_TIME, CONFIRM_BOOKING = range(7)
+ASK_NAME, ASK_NATIONAL_CODE, CONFIRM_IDENTITY, SELECT_SPEC, SELECT_DOCTOR, SELECT_DATE, SELECT_TIME, CONFIRM_BOOKING = range(8)
 
 SUPPORTED_LANGS: tuple[str, ...] = ("fa", "en", "ar")
 DEFAULT_LANG: str = "fa"
@@ -100,15 +100,23 @@ _BT: dict[str, dict[str, str]] = {
         "ar": "يرجى إدخال الرمز الوطني المكوّن من 10 أرقام للمريض:",
     },
     "invalid_national_code": {
-        "fa": "کد ملی وارد شده معتبر نیست.\nلطفاً یک کد ملی {n} رقمی وارد کنید:",
-        "en": "The national code is not valid.\nPlease enter a {n}-digit national code:",
-        "ar": "الرمز الوطني المُدخل غير صالح.\nيرجى إدخال رمز وطني مكوّن من {n} أرقام:",
+        "fa": "کد ملی وارد شده معتبر نیست.\n\nکد ملی باید ۱۰ رقم باشد و رقم آخر با الگوریتم استاندارد (چک‌دیجیت) بخواند. لطفاً دوباره وارد کنید:",
+        "en": "The national code is not valid.\n\nIt must be 10 digits and pass the standard check-digit algorithm. Please enter it again:",
+        "ar": "الرمز الوطني المُدخل غير صالح.\n\nيجب أن يتكوّن من 10 أرقام ويجتاز خوارزمية الرقم القياسي. يرجى إدخاله مرة أخرى:",
     },
     "no_doctors": {
         "fa": "😔 الان نتونستیم لیست پزشکان رو باز کنیم.\nچند لحظه بعد دوباره امتحان کن — اگه نشد، پشتیبانی پای کاره 💙",
         "en": "😔 We couldn't load the doctors list right now.\nPlease try again in a moment — if it doesn't work, support is here for you 💙",
         "ar": "لم نتمكن من فتح قائمة الأطباء الآن.\nيرجى المحاولة بعد قليل — وإن لم ينجح الأمر، فالدعم موجود من أجلك 💙",
     },
+    # 🆕 تسک ۲ — تاییدیه نام + کد ملی (بدون سرویس استعلام رسمی، حداقل خطای تایپی را می‌گیرد)
+    "identity_confirm": {
+        "fa": "🔎 لطفاً اطلاعات بیمار را چک کنید:\n\n👤 نام: {name}\n🆔 کد ملی: {code}\n\nهمین اطلاعات درسته؟",
+        "en": "🔎 Please double-check the patient details:\n\n👤 Name: {name}\n🆔 National code: {code}\n\nIs this correct?",
+        "ar": "🔎 يرجى التحقق من بيانات المريض:\n\n👤 الاسم: {name}\n🆔 الرمز الوطني: {code}\n\nهل هذه المعلومات صحيحة؟",
+    },
+    "btn_id_yes": {"fa": "✅ بله، درست است", "en": "✅ Yes, it's correct", "ar": "✅ نعم، صحيحة"},
+    "btn_id_edit": {"fa": "✏️ اصلاح می‌کنم", "en": "✏️ Let me fix it", "ar": "✏️ سأصححها"},
     "ask_spec": {
         "fa": "لطفاً تخصص مورد نظر را انتخاب کنید:\n\n🔵 سایر تخصص‌ها به‌زودی اضافه می‌شوند.",
         "en": "Please choose the specialty:\n\n🔵 More specialties are coming soon.",
@@ -191,6 +199,33 @@ def _t(lang: str, key: str, **kw: object) -> str:
         except Exception:
             pass
     return text
+
+
+def _is_valid_national_code(code: str) -> bool:
+    """🆕 تسک ۲ — اعتبارسنجی ساختاری کد ملی ایران (الگوریتم چک‌دیجیت استاندارد).
+
+    ⚠️ محدودیت مهم (مستند برای گزارش): این بررسی فقط «فرمت» را تأیید می‌کند،
+    نه اینکه کد واقعاً متعلق به این شخص باشد — تطابق نام/کد ملی بدون سرویس
+    استعلام رسمی (ثبت‌احوال/شاهکار، پولی و قراردادی) فنی امکان‌پذیر نیست.
+    """
+    if not code.isdigit() or len(code) != NATIONAL_CODE_LENGTH:
+        return False
+    if len(set(code)) == 1:  # همه رقم‌ها یکسان (۰۰۰۰۰۰۰۰۰۰ و…) نامعتبر است
+        return False
+    digits = [int(d) for d in code]
+    control = digits[9]
+    total = sum(digits[i] * (10 - i) for i in range(9)) % 11
+    return control == total if total < 2 else control == 11 - total
+
+
+async def _send_tracked(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str,
+                        reply_markup: InlineKeyboardMarkup | None = None) -> None:
+    """🆕 تسک ۳ — پرامپت‌های گفتگو به‌صورت ردیابی‌شده ارسال شوند تا با ناوبری بعدی پاک شوند."""
+    from app.handlers import chunks as chunk_tracker
+    chat_id = update.effective_chat.id if update.effective_chat else None
+    if chat_id is None:
+        return
+    await chunk_tracker.send_tracked(context, chat_id, text, reply_markup)
 
 
 # ---------------------------------------------------------------------------
@@ -439,40 +474,71 @@ async def receive_name(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
     lang = _get_lang(context)
     name = update.message.text.strip()
     if len(name) < MIN_NAME_LENGTH:
-        await update.message.reply_text(_t(lang, "name_too_short"), reply_markup=_cancel_keyboard(lang))
+        await _send_tracked(update, context, _t(lang, "name_too_short"), _cancel_keyboard(lang))
         return ASK_NAME
     data = BookingData.from_context(context)
     data.name = name
     data.save_to(context)
-    await update.message.reply_text(_t(lang, "ask_national_code"), reply_markup=_cancel_keyboard(lang))
+    await _send_tracked(update, context, _t(lang, "ask_national_code"), _cancel_keyboard(lang))
     return ASK_NATIONAL_CODE
 
 
 async def receive_national_code(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     if update.message is None or update.message.text is None: return ASK_NATIONAL_CODE
     lang = _get_lang(context)
-    national_code = update.message.text.strip()
-    if not national_code.isdigit() or len(national_code) != NATIONAL_CODE_LENGTH:
-        await update.message.reply_text(
-            _t(lang, "invalid_national_code", n=NATIONAL_CODE_LENGTH),
-            reply_markup=_cancel_keyboard(lang),
-        )
+    national_code = update.message.text.strip().translate(str.maketrans("۰۱۲۳۴۵۶۷۸۹", "0123456789"))
+    # 🆕 تسک ۲(الف): اعتبارسنجی ساختاری با چک‌دیجیت استاندارد — کد جعلی/غلطِ فرمت رد می‌شود
+    if not _is_valid_national_code(national_code):
+        await _send_tracked(update, context, _t(lang, "invalid_national_code", n=NATIONAL_CODE_LENGTH), _cancel_keyboard(lang))
         return ASK_NATIONAL_CODE
     data = BookingData.from_context(context)
     data.national_code = national_code
     data.save_to(context)
 
-    # 🆕 فیکس: به‌جای ۳ پزشک فیک، تخصص‌های واقعی از data/doctors نمایش داده می‌شوند
+    # 🆕 تسک ۲(ب): تاییدیه نمایشی نام + کد ملی — حداقل خطای تایپی/بی‌دقتی را می‌گیرد.
+    # ⚠️ این «تضمین هویت» نیست؛ استعلام واقعی فقط با سرویس رسمی ممکن است.
+    rows = [
+        [InlineKeyboardButton(_t(lang, "btn_id_yes"), callback_data="bk_id_ok")],
+        [InlineKeyboardButton(_t(lang, "btn_id_edit"), callback_data="bk_id_edit")],
+        [InlineKeyboardButton(_safe_btn(lang, "btn_back", "بازگشت"), callback_data="booking_cancel")],
+    ]
+    await _send_tracked(update, context,
+                        _t(lang, "identity_confirm", name=data.name, code=national_code),
+                        InlineKeyboardMarkup(rows))
+    return CONFIRM_IDENTITY
+
+
+async def identity_confirm_yes(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """🆕 تسک ۲(ب): کاربر نام/کد ملی را تایید کرد → ادامه به انتخاب تخصص."""
+    query = update.callback_query
+    if query is not None:
+        await _safe_answer(query)
+    lang = _get_lang(context)
+    data = BookingData.from_context(context)
+    if not data.name or not data.national_code:
+        await _send_tracked(update, context, _t(lang, "ask_name"), _cancel_keyboard(lang))
+        return ASK_NAME
     count = len(doctor_loader.load_specialties())
     if count == 0:
-        await update.message.reply_text(
-            _t(lang, "no_doctors"),
-            reply_markup=_error_keyboard(lang),
-        )
+        await _send_tracked(update, context, _t(lang, "no_doctors"), _error_keyboard(lang))
         data.clear_from(context)
         return ConversationHandler.END
-    await update.message.reply_text(_t(lang, "ask_spec"), reply_markup=_build_specialty_keyboard(0, lang))
+    await _send_tracked(update, context, _t(lang, "ask_spec"), _build_specialty_keyboard(0, lang))
     return SELECT_SPEC
+
+
+async def identity_confirm_edit(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """🆕 تسک ۲(ب): کاربر گفت اشتباه است → دوباره از نام شروع می‌شود."""
+    query = update.callback_query
+    if query is not None:
+        await _safe_answer(query)
+    lang = _get_lang(context)
+    data = BookingData.from_context(context)
+    data.name = ""
+    data.national_code = ""
+    data.save_to(context)
+    await _send_tracked(update, context, _t(lang, "ask_name"), _cancel_keyboard(lang))
+    return ASK_NAME
 
 
 async def select_spec_page(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -763,6 +829,11 @@ booking_conversation_handler = ConversationHandler(
     states={
         ASK_NAME: [MessageHandler(filters.TEXT & ~filters.COMMAND, receive_name)],
         ASK_NATIONAL_CODE: [MessageHandler(filters.TEXT & ~filters.COMMAND, receive_national_code)],
+        # 🆕 تسک ۲: تاییدیه نام/کد ملی
+        CONFIRM_IDENTITY: [
+            CallbackQueryHandler(identity_confirm_yes, pattern=r"^bk_id_ok$"),
+            CallbackQueryHandler(identity_confirm_edit, pattern=r"^bk_id_edit$"),
+        ],
         SELECT_SPEC: [
             CallbackQueryHandler(select_spec_page, pattern=r"^bk_spec_\d+$"),
             CallbackQueryHandler(select_spec, pattern=r"^bk_specpick_[a-z]+$"),

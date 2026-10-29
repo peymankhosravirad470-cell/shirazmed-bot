@@ -65,6 +65,14 @@ _T: dict[str, dict[str, str]] = {
     "lbl_phone": {"fa": "تلفن", "en": "Phone", "ar": "الهاتف"},
     "lbl_amenities": {"fa": "امکانات", "en": "Amenities", "ar": "المرافق"},
     "lbl_emergency": {"fa": "شماره اضطراری", "en": "Emergency number", "ar": "رقم الطوارئ"},
+    # 🆕 برچسب‌های بیمه (تسک ۱ — نمایش کامل فیلدهای insurances.json)
+    "lbl_type": {"fa": "نوع", "en": "Type", "ar": "النوع"},
+    "lbl_coverage": {"fa": "پوشش ویزیت عمومی", "en": "GP visit coverage", "ar": "تغطية زيارة الطبيب العام"},
+    "lbl_support_phone": {"fa": "پشتیبانی ۲۴ساعته", "en": "24h support", "ar": "الدعم على مدار الساعة"},
+    "lbl_website": {"fa": "وبسایت", "en": "Website", "ar": "الموقع الإلكتروني"},
+    "lbl_offices": {"fa": "دفاتر در شیراز", "en": "Offices in Shiraz", "ar": "المكاتب في شيراز"},
+    # 🆕 دکمه مسیریاب (تسک ۴)
+    "lbl_map": {"fa": "🗺️ مسیریاب (گوگل‌مپ)", "en": "🗺️ Directions (Google Maps)", "ar": "🗺️ الاتجاهات (خرائط جوجل)"},
     # ── راهنمای بیمار ──
     "guide_visa": {"fa": "مدارک ویزای پزشکی:", "en": "Medical visa documents:", "ar": "وثائق التأشيرة الطبية:"},
     "guide_admission": {"fa": "مدارک پذیرش بیمارستان:", "en": "Hospital admission documents:", "ar": "وثائق القبول في المستشفى:"},
@@ -244,7 +252,7 @@ async def _display(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str
     return getattr(sent, "message_id", None)
 
 
-async def _send_chunked(update: Update, context: ContextTypes.DEFAULT_TYPE, chat_id: int, texts: list[str], back_markup: InlineKeyboardMarkup, max_chars: int = 2800) -> int:
+async def _send_chunked(update: Update, context: ContextTypes.DEFAULT_TYPE, chat_id: int, texts: list[str], back_markup: InlineKeyboardMarkup, max_chars: int = 2800, item_buttons: list[list[InlineKeyboardButton]] | None = None) -> int:
     """ادغام آیتم‌ها در پیام‌های چندتایی (فیکس flood) + ویرایش تکه اول روی همان پیام.
 
     🧹 فیکس بقایای لیست چندپیامی: همه تکه‌های «غیر از آخرین» در chunk_tracker
@@ -252,17 +260,31 @@ async def _send_chunked(update: Update, context: ContextTypes.DEFAULT_TYPE, chat
     بخش دیگر، تغییر زبان یا شروع پیشنهادات — از چت حذف شوند. آخرین تکه
     (نشانگرِ دارای کیبورد) ثبت نمی‌شود چون خودش با کلیک بعدی ویرایش می‌شود؛
     بنابراین هیچ‌وقت پیامی که باید بماند حذف نمی‌شود.
+
+    🆕 تسک ۴: item_buttons هم‌طول texts است؛ هر آیتم می‌تواند دکمه‌های خودش را
+    (مثل مسیریاب گوگل‌مپ) داشته باشد که به کیبوردِ «تکه‌ی حاوی همان آیتم»
+    اضافه می‌شوند.
     """
     parts: list[str] = []
     current: list[str] = []
     current_len = 0
-    for text in texts:
+    # نگاشت شماره آیتم → شماره تکه (برای چینش دکمه‌های هر تکه)
+    item_chunk: list[int] = []
+    for index, text in enumerate(texts):
         if current and current_len + len(text) + 2 > max_chars:
             parts.append("\n\n".join(current))
             current, current_len = [], 0
         current.append(text)
         current_len += len(text) + 2
+        item_chunk.append(len(parts))  # تا قبل از بستن تکه، شماره تکه فعلی
     if current: parts.append("\n\n".join(current))
+
+    # دکمه‌های هر تکه از آیتم‌های همان تکه جمع می‌شود
+    chunk_buttons: list[list[InlineKeyboardButton]] = [[] for _ in parts]
+    if item_buttons:
+        for idx, buttons in enumerate(item_buttons):
+            if idx < len(item_chunk) and buttons:
+                chunk_buttons[item_chunk[idx]].extend(buttons)
 
     # 🧹 ترتیب مهم است: reset را اینجا انجام نمی‌دهیم؛ تکه اول با _display
     # نمایش داده می‌شود که در ابتدای خودش cleanupِ لیست «قبلی» را انجام می‌دهد —
@@ -271,7 +293,13 @@ async def _send_chunked(update: Update, context: ContextTypes.DEFAULT_TYPE, chat
     total = len(parts)
     for index, chunk in enumerate(parts):
         is_last = index == total - 1
-        markup = back_markup if is_last else None
+        rows = []
+        if chunk_buttons[index]:
+            # هر آیتم یک ردیف دکمه تا در موبایل شلوغ نشود
+            rows.extend([[b] for b in chunk_buttons[index]])
+        if is_last and back_markup is not None:
+            rows.extend(back_markup.inline_keyboard)
+        markup = InlineKeyboardMarkup(rows) if rows else None
         if index == 0:
             fallback_id = None
             q = update.callback_query
@@ -291,6 +319,36 @@ async def _send_chunked(update: Update, context: ContextTypes.DEFAULT_TYPE, chat
     return sent
 
 
+# 🆕 تسک ۴ — دکمه مسیریاب گوگل‌مپ (InlineKeyboardButton با url، نه callback_data)
+_MAP_CITY = {"fa": "شیراز", "en": "Shiraz", "ar": "شيراز"}
+
+
+def _maps_query(item: dict, lang: str) -> str:
+    """کوئری مپ: مختصات اگر موجود (دقیق‌تر)، وگرنه نام + شهر."""
+    lat, lng = item.get("lat"), item.get("lng")
+    if lat is not None and lng is not None:
+        try:
+            return f"{float(lat)},{float(lng)}"
+        except (TypeError, ValueError):
+            pass
+    name = _get_localized_field(item, "name_fa", lang) or _get_localized_field(item, "name", lang) or ""
+    address = _get_localized_field(item, "address_fa", lang) or _get_localized_field(item, "address", lang) or ""
+    base = name or address
+    if not base:
+        return ""
+    return f"{base} {_MAP_CITY.get(lang, 'شیراز')}"
+
+
+def _maps_button(item: dict, lang: str) -> list[InlineKeyboardButton]:
+    """دکمه «مسیریاب» برای آیتم‌های دارای آدرس/نام؛ بدون آدرس → بدون دکمه."""
+    query = _maps_query(item, lang)
+    if not query:
+        return []
+    from urllib.parse import quote_plus
+    url = f"https://www.google.com/maps/search/?api=1&query={quote_plus(query)}"
+    return [InlineKeyboardButton(_t(lang, "lbl_map"), url=url)]
+
+
 async def _show_items(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str, filename: str, empty_message: str = "") -> None:
     """نمایش آیتم‌های JSON با برچسب‌های سه‌زبانه.
 
@@ -308,6 +366,7 @@ async def _show_items(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: 
         items = load_json(filename)
         if not isinstance(items, list): items = []
         texts = []
+        btns: list[list[InlineKeyboardButton]] = []
         for item in items:
             if not isinstance(item, dict): continue
             name = ""
@@ -344,10 +403,14 @@ async def _show_items(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: 
             if amenities_str: lines.append(f"✨ {_t(lang, 'lbl_amenities')}: {amenities_str}")
             if lines:
                 texts.append("\n".join(lines))
+                # 🆕 تسک ۴: دکمه مسیریاب برای آیتم‌های دارای نام/آدرس
+                btns.append(_maps_button(item, lang))
+            else:
+                btns.append([])
         if not texts:
             await _display(update, context, empty_message or _t(lang, "empty_generic"), back_markup)
             return
-        await _send_chunked(update, context, chat_id, texts, back_markup)
+        await _send_chunked(update, context, chat_id, texts, back_markup, item_buttons=btns)
     except Exception:
         await _display(update, context, _t(lang, "err_generic"), back_markup)
 async def show_hospitals(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
@@ -362,6 +425,7 @@ async def show_hospitals(update: Update, context: ContextTypes.DEFAULT_TYPE, lan
             await _display(update, context, _t(lang, "empty_generic"), get_back_keyboard(lang))
             return
         texts = []
+        btns: list[list[InlineKeyboardButton]] = []
         for h in hospitals:
             if not isinstance(h, dict): continue
             name = _get_localized_field(h, "name_fa", lang) or _get_localized_field(h, "name", lang)
@@ -371,9 +435,13 @@ async def show_hospitals(update: Update, context: ContextTypes.DEFAULT_TYPE, lan
             if name: lines.append(f"🏥 {name}")
             if address: lines.append(f"📍 {_t(lang, 'lbl_address')}: {address}")
             if phone: lines.append(f"📞 {_t(lang, 'lbl_phone')}: {phone}")
-            if lines: texts.append("\n".join(lines))
+            if lines: 
+                texts.append("\n".join(lines))
+                btns.append(_maps_button(h, lang))
+            else:
+                btns.append([])
         if texts:
-            await _send_chunked(update, context, chat_id, texts, get_back_keyboard(lang))
+            await _send_chunked(update, context, chat_id, texts, get_back_keyboard(lang), item_buttons=btns)
         else:
             await _display(update, context, _t(lang, "empty_generic"), get_back_keyboard(lang))
     except Exception:
@@ -382,6 +450,52 @@ async def show_hospitals(update: Update, context: ContextTypes.DEFAULT_TYPE, lan
 
 async def show_hotels(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
     await _show_items(update, context, lang, "hotels.json", _t(lang, "empty_hotels"))
+
+
+async def show_insurances(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    """🆕 تسک ۱ — نمایش «کامل» فیلدهای واقعی insurances.json.
+
+    باگ قبلی: مسیر insurance به _show_items می‌رفت که فقط name/address/category/
+    phone را می‌شناسد؛ فایل بیمه‌ها نه address دارد و نه phone (به‌جایش
+    main_phone_fa است) → فقط «نام» نمایش داده می‌شد و پوشش/تلفن/وبسایت/نوع/
+    دفاتر شیراز حذف می‌شدند. این تابع همه‌ی فیلدهای واقعی فایل را سه‌زبانه
+    با fallback مستند (زبان کاربر ← فارسی) نمایش می‌دهد.
+    """
+    if update.effective_chat is None:
+        return
+    chat_id = update.effective_chat.id
+    back_markup = get_back_keyboard(lang)
+    try:
+        items = load_json("insurances.json")
+        if not isinstance(items, list):
+            items = []
+        texts = []
+        for item in items:
+            if not isinstance(item, dict):
+                continue
+            name = _get_localized_field(item, "name_fa", lang)
+            itype = _get_localized_field(item, "type_fa", lang)
+            coverage = _get_localized_field(item, "coverage_gp_visit_fa", lang)
+            main_phone = _get_localized_field(item, "main_phone_fa", lang)
+            support = _get_localized_field(item, "support_phone_24h_fa", lang)
+            website = _get_localized_field(item, "website_fa", lang)
+            offices = _get_localized_field(item, "shiraz_offices_fa", lang)
+            lines = []
+            if name: lines.append(f"🏥 {_t(lang, 'lbl_name')}: {name}")
+            if itype: lines.append(f"📌 {_t(lang, 'lbl_type')}: {itype}")
+            if coverage: lines.append(f"💰 {_t(lang, 'lbl_coverage')}: {coverage}")
+            if main_phone: lines.append(f"📞 {_t(lang, 'lbl_phone')}: {main_phone}")
+            if support: lines.append(f"🆘 {_t(lang, 'lbl_support_phone')}: {support}")
+            if website: lines.append(f"🌐 {_t(lang, 'lbl_website')}: {website}")
+            if offices: lines.append(f"📍 {_t(lang, 'lbl_offices')}: {offices}")
+            if lines:
+                texts.append("\n".join(lines))
+        if not texts:
+            await _display(update, context, _t(lang, "empty_generic"), back_markup)
+            return
+        await _send_chunked(update, context, chat_id, texts, back_markup)
+    except Exception:
+        await _display(update, context, _t(lang, "err_generic"), back_markup)
 
 async def show_motels(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
     await _show_items(update, context, lang, "motels.json", _t(lang, "empty_motels"))
@@ -673,7 +787,7 @@ async def main_menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE)
         await show_hubs(update, context, lang)
         return
     if data == "insurance":
-        await _show_items(update, context, lang, "insurances.json")
+        await show_insurances(update, context, lang)
         return
     if data == "patient_guide":
         await show_patient_guide(update, context, lang)
