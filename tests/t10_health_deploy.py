@@ -151,6 +151,49 @@ def main() -> int:
                 secret_hits.append(os.path.relpath(path, ROOT))
     r.check("هیچ توکن واقعی هاردکد نشده", not secret_hits, str(secret_hits))
 
+    # ── 🐛 رگرسیون v49 (کرش لیارا): «settings.DATA_DIR» وجود نداشت و کانتینر
+    # حلقه‌ی کرش شد. دو گارد: (۱) استاتیک — هر settings.X در کد باید واقعاً روی
+    # Settings باشد؛ (۲) دود واقعی — main() باید تا run_polling برسد. ──
+    import re as _re
+    import config as _config
+    _s = _config.settings
+    _bad_refs, _checked = [], 0
+    for _root, _dirs, _files in os.walk(ROOT):
+        _dirs[:] = [d for d in _dirs if d not in (".git", "__pycache__", "tests", "data", "scripts")]
+        for _name in _files:
+            if not _name.endswith(".py"):
+                continue
+            _path = os.path.join(_root, _name)
+            for _i, _line in enumerate(open(_path, encoding="utf-8", errors="ignore"), 1):
+                _stripped = _line.strip()
+                if _stripped.startswith("#"):
+                    continue
+                for _attr in _re.findall(r"settings\.([A-Za-z_]\w*)", _line):
+                    _checked += 1
+                    if not hasattr(_s, _attr):
+                        _bad_refs.append(f"{os.path.relpath(_path, ROOT)}:{_i} settings.{_attr}")
+    r.check(f"گارد استاتیک: {_checked} ارجاع settings.X همگی معتبر", not _bad_refs, str(_bad_refs))
+
+    import main as _main_mod
+    import telegram.ext as _tgext
+    _poll_calls: list[dict] = []
+
+    def _fake_run_polling(self, **kw):  # noqa: ANN001, ANN003
+        _poll_calls.append(kw)
+
+    _err = ""
+    try:
+        from unittest.mock import patch as _patch
+        with _patch.object(_main_mod, "start_health_server", lambda: None), \
+             _patch.object(_tgext.Application, "run_polling", _fake_run_polling):
+            _main_mod.main()
+    except Exception as _exc:  # هر استثنا اینجا = همان باگ کرش استارت‌آپ است
+        _err = f"{type(_exc).__name__}: {_exc}"
+    r.check("main() تا run_polling بدون کرش اجرا شد (رگرسیون DATA_DIR)", bool(_poll_calls), _err)
+    r.check("run_polling با drop_pending_updates=False صدا زده شد",
+            bool(_poll_calls) and _poll_calls[0].get("drop_pending_updates") is False,
+            str(_poll_calls[:1]))
+
     return r.finish("T10 health+deploy")
 
 

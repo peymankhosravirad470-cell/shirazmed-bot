@@ -9,6 +9,7 @@ from telegram import Update
 
 from app.bot import build_application
 from app.health import start_health_server
+import config
 from config import settings
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(name)s | %(message)s")
@@ -17,7 +18,9 @@ logger = logging.getLogger(__name__)
 
 def main() -> None:
     """راه‌اندازی و اجرای ربات با polling (آپدیت‌های تأییدنشده‌ی حین ری‌استارت هم پاسخ می‌گیرند)."""
-    os.makedirs(settings.DATA_DIR, exist_ok=True)
+    # 🐛 رگرسیون v49: DATA_DIR ثابتِ ماژول config است، نه ویژگی Settings —
+    # «settings.DATA_DIR» AttributeError می‌داد و کانتینر لیارا حلقه‌ی کرش می‌شد.
+    os.makedirs(config.DATA_DIR, exist_ok=True)
     try:
         # 🆕 ممیزی (بخش J): بوت‌استرپ داده‌ی استاتیک روی دیسک پایدار — فایل‌های
         # غایب از data_seed کپی می‌شوند (هیچ‌وقت بازنویسی نمی‌کند).
