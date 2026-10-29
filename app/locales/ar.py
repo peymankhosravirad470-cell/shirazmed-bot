@@ -210,7 +210,7 @@ MSG_BTN = {
     "btn_sos": "🚨 طارئ",
     "btn_invite": "🎁 دعوة الأصدقاء",
     "btn_help": "🆘 حقوق المريض",
-    "btn_channel": "📢 الانضمام إلى القناة",
+    "btn_channel": "💬 غرفة النقاش",
 
     "btn_taxi": "🚕 طلب سيارة أجرة",
     "btn_snapp": "🚗 سناب",
@@ -282,9 +282,11 @@ MSG_BTN = {
     "appointments": "📅 مواعيدي",
     "medication": "💊 تذكير بالدواء",
     "emergency": "🚨 طارئ",
-    "channel": "📢 الانضمام إلى القناة",
+    "channel": "💬 غرفة النقاش",
     "invite": "🎁 دعوة الأصدقاء",
     "rights": "⚖️ حقوق المريض",
+    "patient_guide": "📖 دليل المريض",
+    "support": "🤝 مراكز الدعم",
 }
 
 INSURANCE_FIELD_LABELS = {

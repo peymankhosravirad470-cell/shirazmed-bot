@@ -24,6 +24,7 @@ SUITES = [
     ("T09 /start ریست + بازیابی", "t09_start_reset.py"),
     ("T10 health + استقرار + پلتفرم", "t10_health_deploy.py"),
     ("T11 امنیت لاگ + سه‌زبانه", "t11_security_i18n.py"),
+    ("T12 شش مورد محدوده نهایی", "t12_scope_six.py"),
 ]
 
 

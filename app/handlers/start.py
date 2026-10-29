@@ -176,17 +176,23 @@ def _feedback_keyboard(lang: str) -> InlineKeyboardMarkup:
     ])
 
 
-async def _edit_menu_message(update, context, text, reply_markup):
+async def _edit_menu_message(update, context, text, reply_markup, is_main_menu: bool = False):
     chat_id = update.effective_chat.id if update.effective_chat else None
     if chat_id is None:
         return
     # 🧹 فیکس بقایای لیست چندپیامی: قبل از ویرایش پیام فعلی (بازگشت به منو،
     # تغییر زبان، شروع پیشنهادات و…)، تکه‌های غیر آخرِ لیست قبلی حذف می‌شوند.
     await chunk_tracker.cleanup(context, chat_id)
+    # 🧹 فیکس «منوی قدیمی»: اگر پیامِ در حال ویرایش، منوی اصلیِ ردیابی‌شده‌ی قبلی
+    # نباشد، آن منوی قدیمی حذف می‌شود تا هرگز دو منوی زنده هم‌زمان در چت نماند.
     query = update.callback_query
+    if is_main_menu and query is not None and query.message is not None:
+        await _forget_stale_menu(context, chat_id, keep_id=query.message.message_id)
     if query is not None and query.message is not None:
         try:
             await query.edit_message_text(text=text, reply_markup=reply_markup)
+            if is_main_menu:
+                context.chat_data["menu_msg_id"] = query.message.message_id
             return
         except Exception as exc:
             if "not modified" in str(exc).lower():
@@ -195,7 +201,26 @@ async def _edit_menu_message(update, context, text, reply_markup):
                 await context.bot.delete_message(chat_id=chat_id, message_id=query.message.message_id)
             except Exception:
                 pass
-    await context.bot.send_message(chat_id=chat_id, text=text, reply_markup=reply_markup)
+    sent = await context.bot.send_message(chat_id=chat_id, text=text, reply_markup=reply_markup)
+    if is_main_menu:
+        context.chat_data["menu_msg_id"] = sent.message_id
+
+
+async def _forget_stale_menu(context, chat_id: int, keep_id: int | None = None) -> None:
+    """🧹 فیکس «منوی قدیمی» (درخواست مستقیم کاربر): حذف منوی اصلی قدیمی.
+
+    قبلاً هر /start یک «منوی جدید» می‌فرستاد و منوهای قبلی با دکمه‌های زنده‌شان
+    در چت می‌ماندند؛ کاربر ناخواسته دکمه‌ی منوی قدیمی را می‌زد (مثلاً وسط
+    گفتگوی رزرو، «غیرپزشکی»ی منوی قدیمی بالا می‌آمد). حالا فقط آخرین منو زنده است.
+    """
+    old_id = (context.chat_data or {}).get("menu_msg_id")
+    if old_id is not None and old_id != keep_id:
+        try:
+            await context.bot.delete_message(chat_id=chat_id, message_id=old_id)
+        except Exception:
+            pass
+    if keep_id is None:
+        context.chat_data.pop("menu_msg_id", None)
 
 
 async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -214,11 +239,23 @@ async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
             reply_markup=get_language_keyboard(),
         )
         return
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id,
+    await send_main_menu(context, update.effective_chat.id, lang)
+
+
+async def send_main_menu(context: ContextTypes.DEFAULT_TYPE, chat_id: int, lang: str) -> None:
+    """🧹 فیکس «منوی قدیمی»: ارسال منوی اصلی با حذف منوی قبلی.
+
+    درخواست مستقیم کاربر: بعد از /start و بازگشت به منوی اصلی، «منوی قدیمی
+    نباید دوباره ظاهر شود» — پس منوی قبلی (اگر در چت مانده) حذف می‌شود و فقط
+    آخرین منو با دکمه‌های زنده باقی می‌ماند.
+    """
+    await _forget_stale_menu(context, chat_id)
+    sent = await context.bot.send_message(
+        chat_id=chat_id,
         text=WELCOME_TEXTS.get(lang, WELCOME_TEXTS["fa"]),
         reply_markup=get_main_menu_keyboard(lang),
     )
+    context.chat_data["menu_msg_id"] = sent.message_id
 
 
 HELP_TEXTS = {
@@ -230,9 +267,11 @@ HELP_TEXTS = {
 
 async def help_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     lang = _get_lang(context)
+    if update.effective_chat is None:
+        return
+    await send_main_menu(context, update.effective_chat.id, lang)
     await update.message.reply_text(
         text=HELP_TEXTS.get(lang, HELP_TEXTS["fa"]),
-        reply_markup=get_main_menu_keyboard(lang),
     )
 
 
@@ -251,6 +290,7 @@ async def select_language_handler(update: Update, context: ContextTypes.DEFAULT_
         context,
         WELCOME_TEXTS.get(lang, WELCOME_TEXTS["fa"]),
         get_main_menu_keyboard(lang),
+        is_main_menu=True,
     )
 
 
@@ -288,6 +328,7 @@ async def back_to_main_handler(update: Update, context: ContextTypes.DEFAULT_TYP
         context,
         WELCOME_TEXTS.get(lang, WELCOME_TEXTS["fa"]),
         get_main_menu_keyboard(lang),
+        is_main_menu=True,
     )
 
 
@@ -390,7 +431,8 @@ async def feedback_text_handler(update: Update, context: ContextTypes.DEFAULT_TY
             logger.error(f"Error sending feedback: {e}")
     else:
         logger.warning("ADMIN_CHAT_ID تنظیم نشده است؛ نظر ناراضی برای ادمین ارسال نشد.")
-    await update.message.reply_text(
-        text=f"{FEEDBACK_THANKS.get(lang, FEEDBACK_THANKS['fa'])}\n\n{WELCOME_TEXTS.get(lang, WELCOME_TEXTS['fa'])}",
-        reply_markup=get_main_menu_keyboard(lang),
-    )
+    # 🧹 فیکس «منوی قدیمی»: تشکر + منوی بعد از ثبت نظر هم از مسیر استاندارد می‌رود
+    # تا منوی قبلی حذف و فقط یک منوی زنده بماند.
+    if update.effective_chat is not None:
+        await update.message.reply_text(text=FEEDBACK_THANKS.get(lang, FEEDBACK_THANKS["fa"]))
+        await send_main_menu(context, update.effective_chat.id, lang)

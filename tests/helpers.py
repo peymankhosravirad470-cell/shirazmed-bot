@@ -23,6 +23,9 @@ _TMP = tempfile.mkdtemp(prefix="smtest_")
 os.environ.setdefault("BALE_BOT_TOKEN", "TEST:FAKE_TOKEN_FOR_TESTS")
 os.environ["DATA_DIR"] = os.path.join(_TMP, "data")
 os.environ["DATA_SEED_DIR"] = os.path.join(_TMP, "seed")
+# 🧹 ایزولاسیون: مسیر پشتیبان مشترک (/tmp/shirazmed_data) بین اجرای سوئیت‌ها
+# نباید state نشت بدهد (نوبت paid باقی‌مانده → «اسلات اشغال» کاذب در سوت بعدی).
+os.environ["MEDS_FALLBACK_DIR"] = os.path.join(_TMP, "fallback_data")
 os.environ.setdefault("ADMIN_CHAT_ID", "111")
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)

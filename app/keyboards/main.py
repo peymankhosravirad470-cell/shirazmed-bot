@@ -19,6 +19,10 @@ def get_main_menu_keyboard(lang: str) -> InlineKeyboardMarkup:
         "medical", "non_medical", "tourism", "paramedical", "elderly", "package",
         "hubs", "taxi", "insurance", "translator", "charter", "deepseek",
         "file", "appointments", "medication", "emergency", "channel", "invite", "rights",
+        # 🆕 اتصال داده‌های موجود (درخواست کاربر ۱۴۰۴/۰۸/۰۸): راهنمای بیمار
+        # (patient_guide.json با ۲۹ راهنما) و مراکز پشتیبانی (support.json با ۸
+        # مرکز) از قبل هندلر داشتند ولی «هیچ دکمه‌ای» به آن‌ها وصل نبود.
+        "patient_guide", "support",
     ]
     
     # چیدمان: ۲ دکمه در هر ردیف با استفاده از get_msg_btn (که زبان را در نظر می‌گیرد)

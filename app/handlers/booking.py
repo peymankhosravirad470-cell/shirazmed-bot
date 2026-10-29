@@ -27,6 +27,7 @@ from app.services.booking import (
     format_jalali,
     get_available_times,
     get_next_14_days_display,
+    is_slot_taken_by_real_booking,
     is_time_available,
 )
 from app.services.payment import request_payment
@@ -78,6 +79,13 @@ _BT: dict[str, dict[str, str]] = {
         "fa": "اه، این ساعت همین الان توسط نفر دیگری پر شد! 😔\n\nلطفاً تاریخ یا ساعت دیگری انتخاب کن — گزینه‌های خوبی هنوز مونده 💙",
         "en": "Oh — this slot was just taken by someone else! 😔\n\nPlease pick another date or time — there are still plenty of good options 💙",
         "ar": "آه، تم حجز هذه الفترة للتو من قبل شخص آخر! 😔\n\nيرجى اختيار تاريخ أو وقت آخر — لا تزال هناك خيارات جيدة متاحة 💙",
+    },
+    # 🆕 فیکس ثبت نوبت: پیام صادقانه برای شکست ذخیره‌سازی — قبلاً خطای دیسک
+    # با پیام دروغین «اسلات پر شد» به کاربر نمایش داده می‌شد.
+    "save_failed": {
+        "fa": "⚠️ متأسفانه ثبت نوبت انجام نشد و هیچ رزروی برای شما ثبت نشد.\n\nلطفاً چند لحظه بعد دوباره امتحان کنید — اگر تکرار شد، ما را در جریان بگذارید 💙",
+        "en": "⚠️ Unfortunately the booking couldn't be saved and nothing was reserved.\n\nPlease try again in a moment — if it repeats, let us know 💙",
+        "ar": "⚠️ للأسف لم يتم حفظ الحجز ولم يُسجّل أي موعد.\n\nيرجى المحاولة بعد قليل — وإذا تكرر الأمر، فأخبرنا بذلك 💙",
     },
     "already_confirmed": {
         "fa": "این نوبت قبلاً قطعی شده؛ همه‌چیز سر جاش است ✅",
@@ -743,7 +751,18 @@ async def confirm_booking(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     }
 
     if not add_appointment(appointment):
-        await query.edit_message_text(_t(lang, "slot_taken"), reply_markup=_error_keyboard(lang))
+        # 🆕 فیکس ثبت نوبت: تفکیک صادقانه‌ی علت False شدن —
+        # ۱) اسلات واقعاً توسط نوبت معتبر دیگری اشغال شده → پیام «اسلات پر شد»
+        # ۲) ذخیره‌سازی شکست خورده (دیسک/مجوز) → پیام صادقانه‌ی خطای ذخیره‌سازی؛
+        #    دیگر هیچ‌وقت خطای سیستم به شکل «یکی دیگر رزرو کرد» نمایش داده نمی‌شود.
+        if is_slot_taken_by_real_booking(data.date, data.time, data.doctor_key):
+            await query.edit_message_text(_t(lang, "slot_taken"), reply_markup=_error_keyboard(lang))
+        else:
+            logger.error(
+                "ثبت نوبت شکست خورد (ذخیره‌سازی) — chat=%s date=%s doctor=%s",
+                user_id, data.date, data.doctor_key,
+            )
+            await query.edit_message_text(_t(lang, "save_failed"), reply_markup=_error_keyboard(lang))
         data.clear_from(context)
         return ConversationHandler.END
 

@@ -99,6 +99,13 @@ class Settings:
     public_base_url: str = field(
         default_factory=lambda: os.getenv("PUBLIC_BASE_URL", "https://shirazmedical.iran.liara.run").rstrip("/")
     )
+    # 🆕 تالار گفتگو (درخواست کاربر ۱۴۰۴/۰۸/۰۸): دکمه‌ی «عضویت در کانال» به
+    # «💬 تالار گفتگو» تغییر کرد. لینک از env خوانده می‌شود؛ پیش‌فرض همان لینکی
+    # است که از قبل در پروژه وجود داشت (ble.ir/shiraz_medical) — هیچ لینک جدیدی
+    # جعل نشده است. اگر آدرس تالار واقعی فرق دارد، با FORUM_URL تنظیم کنید.
+    forum_url: str = field(
+        default_factory=lambda: os.getenv("FORUM_URL", "https://ble.ir/shiraz_medical").strip()
+    )
     # 🩺 ثبت‌نام پزشک: رمز ورود به فرم مخفی.
     # 🔒 امنیت (ممیزی ۱۴۰۴): هیچ پیش‌فرض قابل‌استفادی در کد عمومی وجود ندارد —
     # اگر DOCTOR_REG_CODE در env تنظیم نشده باشد، ثبت‌نام پزشک «غیرفعال» است و

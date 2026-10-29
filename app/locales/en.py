@@ -211,7 +211,7 @@ MSG_BTN = {
     "btn_sos": "🚨 Emergency",
     "btn_invite": "🎁 Invite Friends",
     "btn_help": "🆘 Patient Rights",
-    "btn_channel": "📢 Join Channel",
+    "btn_channel": "💬 Discussion Forum",
 
     "btn_taxi": "🚕 Request Taxi",
     "btn_snapp": "🚗 Snapp",
@@ -283,9 +283,11 @@ MSG_BTN = {
     "appointments": "📅 My Appointments",
     "medication": "💊 Medication Reminder",
     "emergency": "🚨 Emergency",
-    "channel": "📢 Join Channel",
+    "channel": "💬 Discussion Forum",
     "invite": "🎁 Invite Friends",
     "rights": "⚖️ Patient Rights",
+    "patient_guide": "📖 Patient Guide",
+    "support": "🤝 Support Centers",
 }
 
 INSURANCE_FIELD_LABELS = {

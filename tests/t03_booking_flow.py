@@ -55,6 +55,12 @@ async def main() -> int:
     r.check("فقط یک رکورد در فایل", len(winners) == 1, str(len(winners)))
 
     # ── بخش D: fail-closed — فایل خراب نباید «همه آزاد» بدهد ──
+    # 🆕 نکته: اگر «نسخه‌ی سالمِ پشتیبان» موجود باشد، داده‌ی واقعی از پشتیبان
+    # خوانده می‌شود (خود-ترمیمی — تازه‌ترین سالم برنده). سناریوی fail-closed
+    # یعنی «هیچ نسخه‌ی سالمی موجود نیست» → پس پشتیبان حذف می‌شود.
+    fb_path = getattr(bs, "FALLBACK_APPOINTMENTS_FILE", None)
+    if fb_path and os.path.isfile(fb_path):
+        os.remove(fb_path)
     path = os.path.join(base, "data", "appointments.json")
     with open(path, "w", encoding="utf-8") as fh:
         fh.write("{corrupt!!")

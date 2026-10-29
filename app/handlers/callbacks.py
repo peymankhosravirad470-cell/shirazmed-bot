@@ -25,6 +25,7 @@ from app.locales import get_msg, get_msg_btn
 from app.services import doctor_loader
 from app.handlers import meds
 from app.handlers import chunks as chunk_tracker
+from config import settings
 
 # 🆕 برچسب‌های ناوبری مرور پزشکان (سه‌زبانه)
 _BROWSE_T: dict[str, dict[str, str]] = {
@@ -64,6 +65,22 @@ _T: dict[str, dict[str, str]] = {
     "lbl_season": {"fa": "بهترین فصل", "en": "Best season", "ar": "أفضل موسم"},
     "lbl_phone": {"fa": "تلفن", "en": "Phone", "ar": "الهاتف"},
     "lbl_amenities": {"fa": "امکانات", "en": "Amenities", "ar": "المرافق"},
+    # 🆕 برچسب‌های فیلدهای واقعی بیمارستان‌ها (نمایش کامل — درخواست کاربر)
+    "lbl_ownership": {"fa": "نوع مالکیت", "en": "Ownership", "ar": "نوع الملكية"},
+    "lbl_specialties": {"fa": "تخصص‌ها", "en": "Specialties", "ar": "التخصصات"},
+    "lbl_ipd": {"fa": "بخش بیماران بین‌المللی (IPD) دارد", "en": "International Patient Department (IPD)", "ar": "يوجد قسم للمرضى الدوليين (IPD)"},
+    "lbl_ipd_code": {"fa": "کد IPD", "en": "IPD code", "ar": "رمز IPD"},
+    "lbl_translator_langs": {"fa": "زبان‌های مترجم", "en": "Translator languages", "ar": "لغات المترجم"},
+    "lbl_ipd_phone": {"fa": "تلفن مستقیم IPD", "en": "IPD direct phone", "ar": "هاتف IPD المباشر"},
+    # 🆕 برچسب‌های فیلدهای واقعی هتل/مهمان‌پذیر/خانه مسافر (نمایش کامل)
+    "lbl_star": {"fa": "درجه هتل", "en": "Star rating", "ar": "تصنيف الفندق"},
+    "lbl_quality": {"fa": "درجه کیفیت", "en": "Quality grade", "ar": "درجة الجودة"},
+    "lbl_license": {"fa": "وضعیت مجوز", "en": "License status", "ar": "حالة الترخيص"},
+    "lbl_distance_hospitals": {"fa": "فاصله تا بیمارستان‌ها", "en": "Distance to hospitals", "ar": "المسافة إلى المستشفيات"},
+    "lbl_has_translator": {"fa": "مترجم دارد", "en": "Has translator", "ar": "يوجد مترجم"},
+    "lbl_languages": {"fa": "زبان‌ها", "en": "Languages spoken", "ar": "اللغات"},
+    "lbl_reviews": {"fa": "خلاصه نظرات", "en": "Reviews summary", "ar": "ملخص المراجعات"},
+    "lbl_satisfaction": {"fa": "امتیاز رضایت بیماران", "en": "Patient satisfaction score", "ar": "درجة رضا المرضى"},
     "lbl_emergency": {"fa": "شماره اضطراری", "en": "Emergency number", "ar": "رقم الطوارئ"},
     # 🆕 ممیزی (بخش G) — برچسب‌های مراکز حمل‌ونقل (فرودگاه/راه‌آهن/پایانه‌ها)
     "lbl_distance": {"fa": "فاصله تا مرکز شهر", "en": "Distance to city center", "ar": "المسافة إلى مركز المدينة"},
@@ -73,6 +90,8 @@ _T: dict[str, dict[str, str]] = {
     "lbl_tips": {"fa": "نکات مهم", "en": "Important tips", "ar": "نصائح مهمة"},
     # 🆕 برچسب‌های بیمه (تسک ۱ — نمایش کامل فیلدهای insurances.json)
     "lbl_type": {"fa": "نوع", "en": "Type", "ar": "النوع"},
+    "lbl_email": {"fa": "ایمیل", "en": "Email", "ar": "البريد الإلكتروني"},
+    "lbl_services": {"fa": "خدمات", "en": "Services", "ar": "الخدمات"},
     "lbl_coverage": {"fa": "پوشش ویزیت عمومی", "en": "GP visit coverage", "ar": "تغطية زيارة الطبيب العام"},
     "lbl_support_phone": {"fa": "پشتیبانی ۲۴ساعته", "en": "24h support", "ar": "الدعم على مدار الساعة"},
     "lbl_website": {"fa": "وبسایت", "en": "Website", "ar": "الموقع الإلكتروني"},
@@ -90,6 +109,12 @@ _T: dict[str, dict[str, str]] = {
     "guide_visa": {"fa": "مدارک ویزای پزشکی:", "en": "Medical visa documents:", "ar": "وثائق التأشيرة الطبية:"},
     "guide_admission": {"fa": "مدارک پذیرش بیمارستان:", "en": "Hospital admission documents:", "ar": "وثائق القبول في المستشفى:"},
     "guide_translator": {"fa": "الزام مترجم", "en": "Translator requirement", "ar": "اشتراط المترجم"},
+    # 🆕 برچسب‌های بخش‌های کامل راهنمای بیمار (نمایش کامل — درخواست کاربر)
+    "lbl_city": {"fa": "شهر", "en": "City", "ar": "المدينة"},
+    "guide_steps": {"fa": "مراحل اداری و اجرایی:", "en": "Administrative steps:", "ar": "الخطوات الإدارية:"},
+    "guide_costs": {"fa": "هزینه‌ها و پرداخت", "en": "Costs & payment", "ar": "التكاليف والدفع"},
+    "guide_authorities": {"fa": "مراجع رسمی:", "en": "Official authorities:", "ar": "الجهات الرسمية:"},
+    "guide_links": {"fa": "سامانه‌های رسمی:", "en": "Official systems:", "ar": "الأنظمة الرسمية:"},
     # ── پیام‌های خالی / خطا ──
     "empty_generic": {"fa": "اطلاعاتی یافت نشد.", "en": "No information found.", "ar": "لم يتم العثور على معلومات."},
     "empty_hotels": {"fa": "هتلی یافت نشد.", "en": "No hotels found.", "ar": "لم يتم العثور على فنادق."},
@@ -111,9 +136,20 @@ _T: dict[str, dict[str, str]] = {
     "translator_btn_app": {"fa": "📱 اپلیکیشن Google Translate", "en": "📱 Google Translate app", "ar": "📱 تطبيق Google Translate"},
     # ── دعوت دوستان ──
     "invite_text": {"fa": "🎁 با دعوت دوستان، ۱۰٪ تخفیف در نوبت بعدی بگیرید!\n\nلینک اختصاصی شما:\n{link}", "en": "🎁 Invite friends and get 10% off your next appointment!\n\nYour personal link:\n{link}", "ar": "🎁 ادعُ أصدقاءك واحصل على خصم 10% في موعدك القادم!\n\nرابطك الخاص:\n{link}"},
-    # ── کانال ──
-    "channel_text": {"fa": "برای عضویت در کانال رسمی شیراز مدیکال، روی لینک زیر کلیک کنید:", "en": "To join the official Shiraz Medical channel, tap the link below:", "ar": "للانضمام إلى قناة شيراز الطبية الرسمية، اضغط على الرابط التالي:"},
-    "channel_btn": {"fa": "📢 عضویت در کانال", "en": "📢 Join the Channel", "ar": "📢 الانضمام للقناة"},
+    # ── تالار گفتگو (قبلاً: عضویت در کانال — درخواست مستقیم کاربر ۱۴۰۴/۰۸/۰۸) ──
+    "channel_text": {
+        "fa": "💬 به تالار گفتگو خوش آمدید!\n\nاینجا می‌توانید با سایر بیماران و مسافران درمانی گفت‌وگو کنید، تجربه‌تان را به اشتراک بگذارید و از تجربه‌ی دیگران استفاده کنید:",
+        "en": "💬 Welcome to the Discussion Forum!\n\nHere you can chat with other patients and medical travelers, share your experience, and learn from others:",
+        "ar": "💬 أهلاً بك في غرفة النقاش!\n\nهنا يمكنك الدردشة مع المرضى والمسافرين العلاجيين الآخرين ومشاركة تجربتك والاستفادة من تجارب الآخرين:",
+    },
+    "channel_btn": {"fa": "💬 ورود به تالار گفتگو", "en": "💬 Open Discussion Forum", "ar": "💬 الدخول إلى غرفة النقاش"},
+    # ⚠️ اگر لینک تالار گفتگو تنظیم نشده باشد (FORUM_URL خالی)، این پیام صادقانه
+    # نمایش داده می‌شود — هیچ لینک ساختگی‌ای به کاربر نشان داده نمی‌شود.
+    "channel_missing": {
+        "fa": "💬 تالار گفتگو هنوز راه‌اندازی نشده است.\n\nلینک تالار هنوز تنظیم نشده — به‌زودی از همین دکمه در دسترس قرار می‌گیرد 💙",
+        "en": "💬 The discussion forum isn't set up yet.\n\nThe forum link isn't configured — it will be available here soon 💙",
+        "ar": "💬 غرفة النقاش لم تُنشأ بعد.\n\nلم يتم إعداد رابط المنتدى — سيكون متاحاً هنا قريباً 💙",
+    },
     # ── نوبت‌ها / پکیج ──
     "apt_book_new": {"fa": "📅 رزرو نوبت جدید", "en": "📅 Book New Appointment", "ar": "📅 حجز موعد جديد"},
     "package_text": {"fa": "💎 پکیج کامل گردشگری سلامت\n\nپکیج کامل شامل همه‌ی خدمات به‌صورت یکجا است:\n• هماهنگی نوبت پزشک و بیمارستان\n• اقامت\n• ترانسفر\n• مترجم همراه\n\n📞 برای سفارش، با پشتیبانی تماس بگیرید: 190", "en": "💎 Complete Health Tourism Package\n\nThe full package includes all services in one place:\n• Doctor & hospital appointment coordination\n• Accommodation\n• Transfer\n• Companion translator\n\n📞 To order, contact support: 190", "ar": "💎 باقة السياحة العلاجية الكاملة\n\nتشمل الباقة الكاملة جميع الخدمات في مكان واحد:\n• تنسيق موعد الطبيب والمستشفى\n• الإقامة\n• النقل\n• مترجم مرافق\n\n📞 للطلب، تواصل مع الدعم: 190"},
@@ -460,16 +496,39 @@ async def _show_items(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: 
             phone = str(item.get("phone", "")) if item.get("phone") else ""
             amenities = _get_localized_list(item, "amenities_fa", lang)
             amenities_str = "، ".join(amenities) if amenities else ""
+            # 🆕 نمایش «کامل» فیلدهای واقعی هتل/مهمان‌پذیر/خانه مسافر —
+            # هر فیلد فقط وقتی نمایش داده می‌شود که واقعاً در داده موجود باشد؛
+            # هیچ مقداری جعل یا حدس زده نمی‌شود (درخواست کاربر ۱۴۰۴/۰۸/۰۸).
+            star = _get_localized_field(item, "star_rating_fa", lang)
+            quality = _get_localized_field(item, "quality_grade_fa", lang)
+            license_status = _get_localized_field(item, "license_status_fa", lang)
+            dist_hospitals = _get_localized_field(item, "distance_to_hospitals_fa", lang)
+            dist_center = _get_localized_field(item, "distance_to_city_center_fa", lang)
+            has_translator = _get_localized_field(item, "has_translator_fa", lang)
+            languages = _get_localized_list(item, "languages_spoken_fa", lang)
+            languages_str = "، ".join(languages) if languages else ""
+            reviews = _get_localized_field(item, "reviews_summary_fa", lang)
+            satisfaction = item.get("patient_satisfaction_score")
             lines = []
             if name: lines.append(f"🏛️ {_t(lang, 'lbl_name')}: {name}")
             if category: lines.append(f"📌 {_t(lang, 'lbl_category')}: {category}")
+            if star: lines.append(f"⭐ {_t(lang, 'lbl_star')}: {star}")
+            if quality: lines.append(f"🏅 {_t(lang, 'lbl_quality')}: {quality}")
+            if license_status: lines.append(f"📄 {_t(lang, 'lbl_license')}: {license_status}")
             if district: lines.append(f"📍 {_t(lang, 'lbl_district')}: {district}")
             if address: lines.append(f"📍 {_t(lang, 'lbl_address')}: {address}")
+            if dist_hospitals: lines.append(f"🚑 {_t(lang, 'lbl_distance_hospitals')}: {dist_hospitals}")
+            if dist_center: lines.append(f"📏 {_t(lang, 'lbl_distance')}: {dist_center}")
+            if has_translator: lines.append(f"🗣 {_t(lang, 'lbl_has_translator')}: {has_translator}")
+            if languages_str: lines.append(f"🌐 {_t(lang, 'lbl_languages')}: {languages_str}")
             if visiting_hours: lines.append(f"⏰ {_t(lang, 'lbl_visiting_hours')}: {visiting_hours}")
             if ticket_price: lines.append(f"🎫 {_t(lang, 'lbl_ticket')}: {ticket_price}")
             if duration: lines.append(f"⏳ {_t(lang, 'lbl_duration')}: {duration}")
             if best_season: lines.append(f"🌤️ {_t(lang, 'lbl_season')}: {best_season}")
             if phone: lines.append(f"📞 {_t(lang, 'lbl_phone')}: {phone}")
+            if satisfaction not in (None, ""):
+                lines.append(f"💙 {_t(lang, 'lbl_satisfaction')}: {satisfaction}")
+            if reviews: lines.append(f"💬 {_t(lang, 'lbl_reviews')}: {reviews}")
             if amenities_str: lines.append(f"✨ {_t(lang, 'lbl_amenities')}: {amenities_str}")
             if lines:
                 texts.append("\n".join(lines))
@@ -486,36 +545,58 @@ async def show_hospitals(update: Update, context: ContextTypes.DEFAULT_TYPE, lan
     chat_id = update.effective_chat.id
     try:
         hospitals = []
-        # 🆕 Bug1-fix: hospitals2.json نسخه‌ی کپی hospitals.json بود (هر ۷ آیتم
-        # تکراری) → لیست هر بیمارستان ۲ بار + دکمه‌های مسیریاب تکراری نمایش
-        # داده می‌شد. با dedupe بر اساس id (fallback: نام) فقط اولین نسخه می‌ماند.
-        seen_ids: set[str] = set()
+        # 🆕 فیکس «فقط ۷ بیمارستان» (درخواست مستقیم کاربر ۱۴۰۴/۰۸/۰۸):
+        # hospitals2.json همان idهای hospitals.json را دارد (hosp-01..07) ولی
+        # نام بیمارستان‌هایش «متفاوت» است (۷ بیمارستان دیگر). dedupe قبلی بر اساس
+        # id بود → هر ۷ بیمارستانِ فایل دوم به‌اشتباه «تکراری» حذف می‌شد.
+        # حالا dedupe بر اساس نام است؛ در نتیجه هر ۱۴ بیمارستان نمایش داده می‌شود.
+        seen_names: set[str] = set()
         for fname in ("hospitals.json", "hospitals2.json"):
             data = load_json(fname)
             if isinstance(data, list):
                 for i in data:
                     if not isinstance(i, dict):
                         continue
-                    key = str(i.get("id") or i.get("name_fa") or id(i))
-                    if key in seen_ids:
+                    key = str(i.get("name_fa") or i.get("id") or id(i)).strip().lower()
+                    if key in seen_names:
                         continue
-                    seen_ids.add(key)
+                    seen_names.add(key)
                     hospitals.append(i)
         if not hospitals:
             await _display(update, context, _t(lang, "empty_generic"), get_back_keyboard(lang))
             return
         texts = []
         btns: list[list[list[InlineKeyboardButton]]] = []
+        # 🆕 نمایش «کامل» فیلدهای واقعی بیمارستان‌ها (قبلاً فقط نام/آدرس/تلفن)
         for h in hospitals:
             if not isinstance(h, dict): continue
             name = _get_localized_field(h, "name_fa", lang) or _get_localized_field(h, "name", lang)
             address = _get_localized_field(h, "address_fa", lang) or _get_localized_field(h, "address", lang)
             phone = str(h.get("phone", "")) if h.get("phone") else ""
+            ownership = _get_localized_field(h, "ownership_fa", lang)
+            specialties = _get_localized_list(h, "specialties_fa", lang)
+            specialties_str = "، ".join(specialties) if specialties else ""
+            translator_langs = _get_localized_list(h, "translator_languages_fa", lang)
+            translator_str = "، ".join(translator_langs) if translator_langs else ""
+            ipd_direct = str(h.get("ipd_direct_phone", "")) if h.get("ipd_direct_phone") else ""
+            website = str(h.get("website", "")) if h.get("website") else ""
+            has_ipd = bool(h.get("has_ipd"))
+            ipd_code = str(h.get("ipd_code", "")) if h.get("ipd_code") else ""
             lines = []
             if name: lines.append(f"🏥 {name}")
+            if ownership: lines.append(f"🏛 {_t(lang, 'lbl_ownership')}: {ownership}")
+            if has_ipd:
+                ipd_line = f"🌐 {_t(lang, 'lbl_ipd')}"
+                if ipd_code:
+                    ipd_line += f" ({_t(lang, 'lbl_ipd_code')}: {ipd_code})"
+                lines.append(ipd_line)
+            if specialties_str: lines.append(f"🩺 {_t(lang, 'lbl_specialties')}: {specialties_str}")
+            if translator_str: lines.append(f"🗣 {_t(lang, 'lbl_translator_langs')}: {translator_str}")
             if address: lines.append(f"📍 {_t(lang, 'lbl_address')}: {address}")
             if phone: lines.append(f"📞 {_t(lang, 'lbl_phone')}: {phone}")
-            if lines: 
+            if ipd_direct: lines.append(f"☎️ {_t(lang, 'lbl_ipd_phone')}: {ipd_direct}")
+            if website: lines.append(f"🌐 {_t(lang, 'lbl_website')}: {website}")
+            if lines:
                 texts.append("\n".join(lines))
                 # 🆕 Bug1: ۳ دکمه‌ی مسیریاب با نام بیمارستان در لیبل
                 btns.append(_map_rows(h, lang))
@@ -593,6 +674,10 @@ async def show_patient_guide(update: Update, context: ContextTypes.DEFAULT_TYPE,
     chat_id = update.effective_chat.id
     try:
         data = load_json("patient_guide.json")
+        # 📌 ساختار واقعی فایل: «یک» راهنمای جامع (dict تخت با ~۲۹ فیلد سه‌زبانه).
+        # 🆕 نمایش «کامل» فیلدها (درخواست کاربر ۱۴۰۴/۰۸/۰۸): قدم‌های اداری، هزینه‌ها،
+        # مراجع رسمی، لینک‌های سامانه‌ها و زبان‌های پشتیبانی — قبلاً فقط ۳ بخش اول
+        # نمایش داده می‌شد و بقیه‌ی داده‌ی واقعی حذف می‌شد.
         items = [data] if isinstance(data, dict) else data if isinstance(data, list) else []
         if not items:
             await _display(update, context, _t(lang, "empty_generic"), get_back_keyboard(lang))
@@ -602,6 +687,8 @@ async def show_patient_guide(update: Update, context: ContextTypes.DEFAULT_TYPE,
             if not isinstance(item, dict): continue
             lines = []
             topic = _get_localized_field(item, "topic_fa", lang) or _get_localized_field(item, "topic", lang)
+            city = _get_localized_field(item, "city_fa", lang)
+            if city: lines.append(f"🏙 {_t(lang, 'lbl_city')}: {city}")
             if topic: lines.append(f"📌 {topic}\n")
             visa_docs = _get_localized_list(item, "medical_visa_documents_fa", lang)
             if visa_docs:
@@ -613,6 +700,34 @@ async def show_patient_guide(update: Update, context: ContextTypes.DEFAULT_TYPE,
                 for i, doc in enumerate(admission_docs, 1): lines.append(f"{i}. {doc}")
             translator = _get_localized_field(item, "translator_requirement_fa", lang)
             if translator: lines.append(f"🗣 {_t(lang, 'guide_translator')}: {translator}\n")
+            steps = _get_localized_list(item, "administrative_steps_fa", lang)
+            if steps:
+                lines.append(f"🗂 {_t(lang, 'guide_steps')}")
+                for s in steps:
+                    if isinstance(s, dict) and s.get("title"):
+                        desc = str(s.get("description", "") or "")
+                        lines.append(f"{s.get('step', '•')}. {s['title']}" + (f" — {desc}" if desc else ""))
+                lines.append("")
+            costs = _get_localized_field(item, "costs_and_payment_fa", lang)
+            if costs: lines.append(f"💰 {_t(lang, 'guide_costs')}: {costs}\n")
+            authorities = _get_localized_list(item, "official_authorities_fa", lang)
+            if authorities:
+                lines.append(f"🏛 {_t(lang, 'guide_authorities')}")
+                for a in authorities:
+                    if isinstance(a, dict) and a.get("organization"):
+                        role = str(a.get("role", "") or "")
+                        lines.append(f"• {a['organization']}" + (f" — {role}" if role else ""))
+                lines.append("")
+            links = _get_localized_list(item, "official_system_links", lang)
+            if links:
+                lines.append(f"🔗 {_t(lang, 'guide_links')}")
+                for l in links:
+                    if isinstance(l, dict) and l.get("name_fa"):
+                        lines.append(f"• {l['name_fa']}" + (f" — {l.get('url', '')}" if l.get("url") else ""))
+                lines.append("")
+            langs = _get_localized_list(item, "languages_supported_fa", lang)
+            if langs:
+                lines.append(f"🌐 {_t(lang, 'lbl_languages')}: {'، '.join(str(x) for x in langs)}")
             if lines: texts.append("\n".join(lines))
         if texts:
             await _send_chunked(update, context, chat_id, texts, get_back_keyboard(lang))
@@ -627,7 +742,54 @@ async def show_complaints(update: Update, context: ContextTypes.DEFAULT_TYPE, la
     await _show_items(update, context, lang, filename, _t(lang, "empty_section"))
 
 async def show_support(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
-    await _show_items(update, context, lang, "support.json", _t(lang, "empty_generic"))
+    """🆕 اتصال کامل support.json (درخواست کاربر ۱۴۰۴/۰۸/۰۸).
+
+    کد قبلی support.json را به _show_items می‌داد که فقط name/address/category/
+    phone را می‌شناسد؛ فایل support نه address دارد و نه category (به‌جایش
+    type/ساعت کاری/خدمات/زبان‌ها/ایمیل/تماس اضطراری) → تقریباً همه‌چیز حذف
+    می‌شد. حالا همه‌ی فیلدهای واقعی فایل سه‌زبانه نمایش داده می‌شود — بدون حدس.
+    """
+    if update.effective_chat is None: return
+    chat_id = update.effective_chat.id
+    back_markup = get_back_keyboard(lang)
+    try:
+        items = load_json("support.json")
+        if not isinstance(items, list):
+            items = []
+        texts = []
+        btns: list[list[list[InlineKeyboardButton]]] = []
+        for item in items:
+            if not isinstance(item, dict):
+                continue
+            name = _get_localized_field(item, "name_fa", lang)
+            stype = _get_localized_field(item, "type_fa", lang)
+            phone = str(item.get("phone", "")) if item.get("phone") else ""
+            email = str(item.get("email", "")) if item.get("email") else ""
+            hours = _get_localized_field(item, "working_hours_fa", lang)
+            langs_list = _get_localized_list(item, "languages_supported_fa", lang)
+            langs_str = "، ".join(langs_list) if langs_list else ""
+            services = _get_localized_list(item, "services_fa", lang)
+            services_str = "؛ ".join(services) if services else ""
+            emg = str(item.get("emergency_contact", "")) if item.get("emergency_contact") else ""
+            notes = _get_localized_field(item, "notes_fa", lang)
+            lines = []
+            if name: lines.append(f"🤝 {name}")
+            if stype: lines.append(f"📌 {_t(lang, 'lbl_type')}: {stype}")
+            if phone: lines.append(f"📞 {_t(lang, 'lbl_phone')}: {phone}")
+            if emg: lines.append(f"🚨 {_t(lang, 'lbl_emergency')}: {emg}")
+            if hours: lines.append(f"⏰ {_t(lang, 'lbl_visiting_hours')}: {hours}")
+            if email: lines.append(f"✉️ {_t(lang, 'lbl_email')}: {email}")
+            if langs_str: lines.append(f"🌐 {_t(lang, 'lbl_languages')}: {langs_str}")
+            if services_str: lines.append(f"🧩 {_t(lang, 'lbl_services')}: {services_str}")
+            if notes: lines.append(f"💡 {_t(lang, 'lbl_tips')}: {notes}")
+            if lines:
+                texts.append("\n".join(lines))
+        if not texts:
+            await _display(update, context, _t(lang, "empty_generic"), back_markup)
+            return
+        await _send_chunked(update, context, chat_id, texts, back_markup)
+    except Exception:
+        await _display(update, context, _t(lang, "err_generic"), back_markup)
 
 async def show_taxi(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
     if update.effective_chat is None: return
@@ -758,8 +920,14 @@ async def show_emergency(update: Update, context: ContextTypes.DEFAULT_TYPE, lan
 async def show_channel(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
     if update.effective_chat is None: return
     try:
+        # 🆕 تالار گفتگو: لینک از تنظیمات (env: FORUM_URL) خوانده می‌شود؛ اگر
+        # تنظیم نشده باشد، پیام صادقانه نمایش داده می‌شود و لینک ساختگی نمی‌دهیم.
+        forum_url = (settings.forum_url or "").strip()
+        if not forum_url:
+            await _display(update, context, _t(lang, "channel_missing"), get_back_keyboard(lang))
+            return
         kb = InlineKeyboardMarkup([
-            [InlineKeyboardButton(_t(lang, "channel_btn"), url="https://ble.ir/shiraz_medical")],
+            [InlineKeyboardButton(_t(lang, "channel_btn"), url=forum_url)],
             *get_back_keyboard(lang).inline_keyboard,
         ])
         await _display(update, context, _t(lang, "channel_text"), kb)
