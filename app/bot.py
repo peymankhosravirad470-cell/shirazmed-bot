@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import os
 from typing import Optional
 
 from telegram import Update
@@ -19,7 +20,7 @@ from telegram.ext import (
 )
 
 from app import runtime
-from config import settings
+from config import DATA_DIR, settings
 from app.handlers.start import (
     start_handler,
     help_handler,
@@ -116,12 +117,19 @@ MENU_CALLBACKS: tuple[str, ...] = (
 MENU_PATTERN = rf"^({'|'.join(MENU_CALLBACKS)})$"
 
 _MENU_NO_ENTRY = [c for c in MENU_CALLBACKS if c not in ("start_booking", "start_companion", "start_survey")]
+# 🧹 ممیزی: entry-pointهای گفتگوها هم باید reset شوند وگرنه «دو گفتگوی فعال
+# هم‌زمان» ممکن می‌شود: کاربر وسط گفتگوی همراه، «نوبت بگیر» را می‌زند؛ گفتگوی
+# رزرو شروع می‌شود ولی گفتگوی قبلی هم فعال می‌ماند و متن بعدی او را «گفتگوی
+# قدیمی» می‌بلعد (اولین ConversationHandler ثبت‌شده برنده می‌شود).
 _RESET_EXTRA = (
     "back_main", "change_language", "start_feedback", "feedback_yes", "feedback_no",
     "med_home", "med_list", "med_del", "noop_page",
+    "start_booking", "start_companion", "start_survey", "med_add",
 )
 RESET_CONV_PATTERN = rf"^({'|'.join(_MENU_NO_ENTRY + list(_RESET_EXTRA))}|med_del_\d+|med_page_\d+|med_spec_[a-z]+_\d+|med_back|lang_(fa|en|ar))$"
 
+# ⚠️ ثابت مرده — مسیر واقعی در build_application با DATA_DIR ساخته می‌شود.
+# (برای جلوگیری از گمراهی نگه‌داری می‌شود و در نسخه‌ی بعدی حذف خواهد شد)
 PERSISTENCE_FILE = "data/bot_persistence.pkl"
 
 PRIVATE_CHAT_ONLY = filters.ChatType.PRIVATE
@@ -232,7 +240,20 @@ def _register_handlers(application: Application) -> None:
         CommandHandler("start", reset_conversations_callback),
         group=-1,
     )
+    # 🧹 ممیزی: ورود مخفی ثبت‌نام پزشک هم باید گفتگوهای نیمه‌کاره را پاک کند
+    # تا با «دو گفتگوی فعال» مواجه نشویم (/start docreg از طریق هندلر start بالا پوشش داده می‌شود).
+    application.add_handler(
+        CommandHandler(("doctor", "docreg"), reset_conversations_callback),
+        group=-1,
+    )
 
+    # 🩺 ترتیب حیاتی (ممیزی): فرم مخفی ثبت‌نام پزشک «قبل از» هندلر عمومی /start
+    # ثبت می‌شود. قبلاً CommandHandler("start", start_handler) زودتر ثبت شده بود و
+    # چون در یک گروه اولین handler برنده است، ورودی لینک اختصاصی
+    # (?start=docreg → /start docreg) «هرگز» اجرا نمی‌شد و کاربر پیام خالی می‌گرفت.
+    # entry-pointهای این گفتگو فقط روی /start docreg (با Regex) و /doctor و /docreg
+    # واکنش دارند؛ /start ساده از رویش رد می‌شود و به start_handler می‌رسد.
+    application.add_handler(doctor_reg_conversation_handler)
     application.add_handler(
         CommandHandler("start", start_handler, filters=PRIVATE_CHAT_ONLY)
     )
@@ -269,7 +290,6 @@ def _register_handlers(application: Application) -> None:
     application.add_handler(booking_conversation_handler)
     application.add_handler(meds_conversation_handler)
 
-    application.add_handler(doctor_reg_conversation_handler)
     application.add_handler(
         CallbackQueryHandler(admin_registration_action, pattern=r"^dregadm_(ok|no)_\d+$")
     )
@@ -331,8 +351,9 @@ def build_application(platform: str = "bale") -> Application:
         meds.schedule_all(application)
         logger.info("Post-init (%s): runtime bridge bound + med reminders scheduled.", platform)
 
-    # 🆕 فایل persistence جدا برای هر پلتفرم تا داده‌ی کاربران بله و تلگرام قاطی نشود
-    persistence_file = f"data/bot_persistence_{platform}.pkl"
+    # 🆕 پل persistence جدا برای هر پلتفرم تا داده‌ی کاربران بله و تلگرام قاطی نشود
+    # 🆕 ممیزی (بخش J): فایل persistence در ریشه‌ی DATA_DIR (دیسک پایدار) ذخیره می‌شود
+    persistence_file = os.path.join(DATA_DIR, f"bot_persistence_{platform}.pkl")
     persistence = PicklePersistence(filepath=persistence_file)
 
     builder = ApplicationBuilder().token(token)

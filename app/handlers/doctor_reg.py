@@ -40,7 +40,7 @@ from telegram.ext import (
     filters,
 )
 
-from config import settings
+from config import DATA_DIR, settings
 from app.locales import get_msg_btn
 from app.services.doctor_loader import DOCTORS_DIR
 
@@ -48,7 +48,8 @@ logger = logging.getLogger(__name__)
 
 # ─── ثابت‌ها ───────────────────────────────────────────────────────────────
 
-QUEUE_PATH = os.path.join("data", "doctor_registrations.json")
+# 🆕 ممیزی (بخش J): مسیر صف از config.DATA_DIR (env: DATA_DIR)
+QUEUE_PATH = os.path.join(DATA_DIR, "doctor_registrations.json")
 _QUEUE_LOCK = asyncio.Lock()
 
 MAX_CODE_ATTEMPTS = 3          # حداکثر تلاش اشتباه برای رمز
@@ -475,8 +476,20 @@ def _summary_text(data: dict[str, Any]) -> str:
 # ─── مراحل گفتگو ───────────────────────────────────────────────────────────
 
 async def start_registration(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    """ورود مخفی: /doctor، /docreg یا لینک اختصاصی (?start=docreg)."""
+    """ورود مخفی: /doctor، /docreg یا لینک اختصاصی (?start=docreg).
+
+    🔒 امنیت (ممیزی): اگر DOCTOR_REG_CODE در env تنظیم نشده باشد، ثبت‌نام پزشک
+    «غیرفعال» است — هیچ گفتگویی شروع نمی‌شود و پیام مناسب نمایش داده می‌شود.
+    """
     context.user_data.pop("dreg", None)
+    if not settings.doctor_reg_enabled:
+        logger.warning("درخواست ثبت‌نام پزشک رد شد: DOCTOR_REG_CODE تنظیم نشده است.")
+        await update.effective_message.reply_text(
+            "ℹ️ ثبت‌نام پزشکان در حال حاضر غیرفعال است.\n"
+            "برای فعال‌سازی، مدیر کلینیک باید متغیر DOCTOR_REG_CODE را در تنظیمات سرور تعیین کند.",
+            reply_markup=_end_keyboard(context),
+        )
+        return ConversationHandler.END
     await update.effective_message.reply_text(
         "🩺 ثبت‌نام پزشکان\n\n"
         "برای شروع، رمز ثبت‌نام را بفرستید.\n"
@@ -487,7 +500,9 @@ async def start_registration(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
 async def receive_code(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     text = (update.message.text or "").strip()
-    if text != (settings.doctor_reg_code or "").strip():
+    expected = (settings.doctor_reg_code or "").strip()
+    # 🔒 دفاع دوم: اگر رمز در env نباشد، هیچ ورودی‌ای نباید پذیرفته شود.
+    if not expected or text != expected:
         attempts = int(context.user_data.get("dreg_attempts", 0)) + 1
         context.user_data["dreg_attempts"] = attempts
         if attempts >= MAX_CODE_ATTEMPTS:

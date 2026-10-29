@@ -65,6 +65,12 @@ _T: dict[str, dict[str, str]] = {
     "lbl_phone": {"fa": "تلفن", "en": "Phone", "ar": "الهاتف"},
     "lbl_amenities": {"fa": "امکانات", "en": "Amenities", "ar": "المرافق"},
     "lbl_emergency": {"fa": "شماره اضطراری", "en": "Emergency number", "ar": "رقم الطوارئ"},
+    # 🆕 ممیزی (بخش G) — برچسب‌های مراکز حمل‌ونقل (فرودگاه/راه‌آهن/پایانه‌ها)
+    "lbl_distance": {"fa": "فاصله تا مرکز شهر", "en": "Distance to city center", "ar": "المسافة إلى مركز المدينة"},
+    "lbl_metro": {"fa": "مترو", "en": "Metro", "ar": "المترو"},
+    "lbl_bus": {"fa": "اتوبوس شهری", "en": "City bus", "ar": "حافلات المدينة"},
+    "lbl_taxi": {"fa": "تاکسی", "en": "Taxis", "ar": "سيارات الأجرة"},
+    "lbl_tips": {"fa": "نکات مهم", "en": "Important tips", "ar": "نصائح مهمة"},
     # 🆕 برچسب‌های بیمه (تسک ۱ — نمایش کامل فیلدهای insurances.json)
     "lbl_type": {"fa": "نوع", "en": "Type", "ar": "النوع"},
     "lbl_coverage": {"fa": "پوشش ویزیت عمومی", "en": "GP visit coverage", "ar": "تغطية زيارة الطبيب العام"},
@@ -781,36 +787,133 @@ async def show_invite(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: 
         await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))
 
 
+def _transport_hub_items() -> list[dict]:
+    """🆕 ممیزی (بخش G): خواندن درست transport_hubs.json با ساختار واقعی‌اش.
+
+    ساختار واقعی فایل: یک شیء با کلید «shiraz_transport_hubs» که مقدارش جدولِ
+    «ترانهشته» (transpose) است: هر سطر یک «ویژگی» است (official_name، full_address،
+    main_phone، latitude، …) با ترجمه‌ی field_fa/en/ar و چهار ستون hub
+    (shiraz_airport / shiraz_railway / karandish_terminal / amirkabir_terminal)
+    که هر سلول {value_fa, value_en, value_ar} دارد.
+
+    مسیر قبلی show_hubs فایل را «مثل لیست آیتم‌ها» می‌خواند → isinstance(hubs,list)
+    هرگز True نمی‌شد → اطلاعات فرودگاه/راه‌آهن/پایانه‌ها هرگز نمایش داده نمی‌شد.
+
+    خروجی: لیست دیکشنری‌های استاندارد (name_fa/en/ar، address_…، phone، lat، lng،
+    و بقیه‌ی ویژگی‌ها به‌صورت <key>_fa/en/ar) تا با _map_rows و نمایش یکدست سازگار باشد.
+    """
+    data = load_json("transport_hubs.json")
+    rows: list = []
+    if isinstance(data, dict):
+        for value in data.values():
+            if isinstance(value, list):
+                rows = value
+                break
+    elif isinstance(data, list):
+        rows = data
+    if not rows:
+        return []
+
+    hub_keys: list[str] = []
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        for key, cell in row.items():
+            if key in ("key", "field_fa", "field_en", "field_ar"):
+                continue
+            if isinstance(cell, dict) and key not in hub_keys:
+                hub_keys.append(key)
+
+    items: list[dict] = []
+    for hub_key in hub_keys:
+        hub: dict = {"id": hub_key}
+        for row in rows:
+            if not isinstance(row, dict):
+                continue
+            cell = row.get(hub_key)
+            if not isinstance(cell, dict):
+                continue
+            rkey = str(row.get("key", "")).strip()
+            if not rkey:
+                continue
+            for suffix in ("fa", "en", "ar"):
+                val = cell.get(f"value_{suffix}")
+                if val not in (None, ""):
+                    hub[f"{rkey}_{suffix}"] = str(val)
+            for cell_key, cell_val in cell.items():
+                if cell_key.startswith("value_"):
+                    continue
+                hub[f"{rkey}_{cell_key}"] = cell_val
+        if not hub.get("official_name_fa"):
+            continue
+        # مختصات از سطرهای latitude/longitude (برای دکمه‌های مسیریاب دقیق)
+        try:
+            hub["lat"] = float(str(hub.get("latitude_fa", "")).strip())
+            hub["lng"] = float(str(hub.get("longitude_fa", "")).strip())
+        except (TypeError, ValueError):
+            hub.pop("lat", None)
+            hub.pop("lng", None)
+        items.append(hub)
+    return items
+
+
 async def show_hubs(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    """فرودگاه / راه‌آهن / پایانه‌ها + سایر حمل‌ونقل — 🆕 ممیزی (بخش G).
+
+    ساختار شیءِ transport_hubs.json درست خوانده می‌شود (قبلاً کل بخش خالی
+    نمایش داده می‌شد) و برای هر مرکز هم دکمه‌های مسیریاب سه‌اپ با مختصات دقیق
+    ساخته می‌شود. نبود داده → پیام مناسب، نه پیام ساختگی.
+    """
     if update.effective_chat is None: return
     chat_id = update.effective_chat.id
     try:
-        hubs = load_json("transport_hubs.json")
+        hubs = _transport_hub_items()
         transport = load_json("transport.json")
-        all_items = []
-        if isinstance(hubs, list): all_items.extend(hubs)
-        if isinstance(transport, list):
-            for item in transport:
-                if isinstance(item, dict) and "اسنپ" not in str(item.get("name_fa", "")) and "تپسی" not in str(item.get("name_fa", "")):
-                    all_items.append(item)
-        if not all_items:
-            await _display(update, context, _t(lang, "empty_generic"), get_back_keyboard(lang))
-            return
         texts = []
-        for item in all_items:
-            if not isinstance(item, dict): continue
-            name = _get_localized_field(item, "name_fa", lang)
-            addr = _get_localized_field(item, "address_fa", lang)
-            phone = str(item.get("phone", "")) if item.get("phone") else ""
+        btns: list[list[list[InlineKeyboardButton]]] = []
+        for hub in hubs:
+            name = _get_localized_field(hub, "official_name_fa", lang)
+            addr = _get_localized_field(hub, "full_address_fa", lang)
+            phone = _get_localized_field(hub, "main_phone_fa", lang) or str(hub.get("main_phone_fa", "") or "")
+            emg = str(hub.get("emergency_phone_fa", "") or "")
+            hours = str(hub.get("working_hours_fa", "") or "")
+            dist = str(hub.get("distance_to_city_center_fa", "") or "")
+            metro = str(hub.get("metro_fa", "") or "")
+            bus = str(hub.get("city_bus_fa", "") or "")
+            taxi = str(hub.get("taxis_fa", "") or "")
+            tips = str(hub.get("important_tips_fa", "") or "")
             lines = []
-            if name: lines.append(f"📍 {name}")
+            if name: lines.append(f"🚉 {name}")
             if addr: lines.append(f"🏠 {_t(lang, 'lbl_address')}: {addr}")
             if phone: lines.append(f"📞 {_t(lang, 'lbl_phone')}: {phone}")
-            if lines: texts.append("\n".join(lines))
-        if texts:
-            await _send_chunked(update, context, chat_id, texts, get_back_keyboard(lang))
-        else:
+            if emg: lines.append(f"🚨 {_t(lang, 'lbl_emergency')}: {emg}")
+            if hours: lines.append(f"⏰ {_t(lang, 'lbl_visiting_hours')}: {hours}")
+            if dist: lines.append(f"📏 {_t(lang, 'lbl_distance')}: {dist}")
+            if metro: lines.append(f"🚇 {_t(lang, 'lbl_metro')}: {metro}")
+            if bus: lines.append(f"🚌 {_t(lang, 'lbl_bus')}: {bus}")
+            if taxi: lines.append(f"🚕 {_t(lang, 'lbl_taxi')}: {taxi}")
+            if tips: lines.append(f"💡 {_t(lang, 'lbl_tips')}: {tips}")
+            if lines:
+                texts.append("\n".join(lines))
+                btns.append(_map_rows(hub, lang))
+        if isinstance(transport, list):
+            for item in transport:
+                if not isinstance(item, dict) or "اسنپ" in str(item.get("name_fa", "")) or "تپسی" in str(item.get("name_fa", "")):
+                    continue
+                name = _get_localized_field(item, "name_fa", lang)
+                addr = _get_localized_field(item, "address_fa", lang)
+                phone = str(item.get("phone", "")) if item.get("phone") else ""
+                lines = []
+                if name: lines.append(f"📍 {name}")
+                if addr: lines.append(f"🏠 {_t(lang, 'lbl_address')}: {addr}")
+                if phone: lines.append(f"📞 {_t(lang, 'lbl_phone')}: {phone}")
+                if lines:
+                    texts.append("\n".join(lines))
+                    btns.append(_map_rows(item, lang))
+        if not texts:
             await _display(update, context, _t(lang, "empty_generic"), get_back_keyboard(lang))
+            return
+        await _send_chunked(update, context, chat_id, texts, get_back_keyboard(lang), item_button_rows=btns)
     except Exception:
         await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))
 
@@ -884,7 +987,9 @@ async def main_menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE)
     if data == "charter":
         await show_charter(update, context, lang)
         return
-    if data == "complaints_menu":
+    # 🆕 ممیزی (بخش I): callback «complaints» در MENU_CALLBACKS بود ولی هندلر
+    # نداشت (فقط complaints_menu/iranian/foreign هندل می‌شدند) → به «به زودی» می‌افتید.
+    if data in ("complaints", "complaints_menu"):
         await _display(update, context, _t(lang, "prompt_complaints"), get_complaints_menu_keyboard(lang))
         return
     if data == "complaints_iranian":

@@ -19,7 +19,9 @@ import json
 import logging
 import os
 import re
+import time as _time_mod
 import traceback
+from datetime import timedelta, timezone as _dt_timezone
 from typing import Any
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
@@ -31,13 +33,15 @@ from telegram.ext import (
     filters,
 )
 
+from config import DATA_DIR, settings
+
 logger = logging.getLogger(__name__)
 
 # مراحل گفتگوی افزودن دارو
 ASK_MED_NAME, ASK_MED_TIMES = range(2)
 
-_BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-MEDS_FILE = os.path.join(_BASE_DIR, "data", "medications.json")
+# 🆕 ممیزی (بخش J): مسیر فایل داروها از config.DATA_DIR (env: DATA_DIR)
+MEDS_FILE = os.path.join(DATA_DIR, "medications.json")
 
 # الگوی ساعت مجاز:
 #   «8» / «08» فقط ساعت  |  «8:00» / «8.00» ساعت:دقیقه  |  «0830» فشرده ۴رقمی
@@ -83,6 +87,13 @@ _TEXTS: dict[str, dict[str, str]] = {
             "fa": "✅ تمام! یادآور «{name}» فعال شد.\n\n⏰ ساعت‌ها: {times}\n\nاز این به بعد هر روز سر این ساعت‌ها بهت یادآوری می‌کنیم — دیگه هیچ دوزی از قلم نمی‌افته 💙",
             "en": "✅ All set! Your reminder for \"{name}\" is active.\n\n⏰ Times: {times}\n\nWe'll nudge you every day at these times — no dose will slip through again 💙",
             "ar": "✅ تم! تم تفعيل تذكير «{name}».\n\n⏰ الأوقات: {times}\n\nسنذكّرك كل يوم في هذه الأوقات — لن يفوتك أي جرعة بعد اليوم 💙",
+        },
+        # 🆕 ممیزی (بخش H): وقتی JobQueue در دسترس نیست، به کاربر «صریح» گفته
+        # می‌شود که دارو ذخیره شده ولی یادآوری فعال نیست (قبلاً فقط در لاگ بود).
+        "saved_no_jobqueue": {
+            "fa": "✅ داروی «{name}» ذخیره شد، اما ⚠️ یادآور خودکار در این لحظه فعال نشد.\nلطفاً سر ساعت به یاد داشته باشید یا با پشتیبانی تماس بگیرید.",
+            "en": "✅ \"{name}\" was saved, but ⚠️ the automatic reminder is currently unavailable.\nPlease keep track of the time yourself or contact support.",
+            "ar": "✅ تم حفظ «{name}»، لكن ⚠️ التذكير التلقائي غير متاح حالياً.\nيرجى الانتباه إلى الوقت أو التواصل مع الدعم.",
         },
         "list_title": {
             "fa": "📋 داروهای ثبت‌شده شما:\n\n",
@@ -160,11 +171,29 @@ def _get_lang(context: ContextTypes.DEFAULT_TYPE) -> str:
 # ---------------------------------------------------------------------------
 
 def _load_meds() -> dict[str, list[dict[str, Any]]]:
+    """خواندن داروها.
+
+    🆕 ممیزی (بخش H): اگر فایل موجود ولی خراب باشد، دیگر بی‌صدا {} برنمی‌گردیم —
+    چون اولین نوشتن بعدی «همه‌ی داروهای بقیه‌ی کاربران را پاک می‌کرد». فایل خراب
+    به‌نام با پسوند .corrupt-<timestamp> قرنطینه می‌شود تا دست‌نخورده بماند و
+    در لاگ امن ثبت شود.
+    """
+    if not os.path.isfile(MEDS_FILE):
+        return {}
     try:
         with open(MEDS_FILE, "r", encoding="utf-8") as f:
             data = json.load(f)
         return data if isinstance(data, dict) else {}
-    except Exception:
+    except (json.JSONDecodeError, OSError) as error:
+        quarantine = f"{MEDS_FILE}.corrupt-{int(_time_mod.time())}"
+        try:
+            os.replace(MEDS_FILE, quarantine)
+            logger.error(
+                "فایل داروها خراب بود و برای جلوگیری از از دست رفتن داده‌ها قرنطینه شد: %s (خطا: %s)",
+                quarantine, error,
+            )
+        except OSError:
+            logger.error("فایل داروها خراب است و حتی قرنطینه هم ممکن نشد: %s", error)
         return {}
 
 
@@ -190,30 +219,77 @@ def _set_chat_meds(chat_id: int | str, items: list[dict[str, Any]]) -> None:
 
 
 def _normalize_time(raw: str) -> str | None:
-    """ورودی آزاد ساعت → «HH:MM»؛ فقط ساعت (مثل «8» یا «۹») هم پذیرفته می‌شود."""
-    t = raw.strip().translate(_PERSIAN_DIGITS).translate(_ARABIC_DIGITS)
-    if m := _TIME_COLON.match(t):
-        return f"{int(m.group(1)):02d}:{m.group(2)}"
-    if m := _TIME_BARE.match(t):
-        return f"{int(m.group(1)):02d}:00"  # فقط ساعت وارد شده → دقیقه صفر
-    if m := _TIME_COMPACT.match(t):
-        return f"{int(m.group(1)):02d}:{m.group(2)}"  # «0830» → 08:30
-    return None
+    """ورودی آزاد ساعت → «HH:MM»؛ فقط ساعت (مثل «8» یا «۹») هم پذیرفته می‌شود.
 
+    🆕 ممیزی (بخش H): «8 pm» دیگر به «08:00» تبدیل نمی‌شود — پسوند صبح/عصر/شب/
+    am/pm حالا واقعاً در محاسبه لحاظ می‌شود:
+      «8 pm» و «۸ شب» → 20:00 | «8 am» و «۸ صبح» → 08:00 | «12 pm» → 12:00
+      «12 am» → 00:00 | «8» بدون پسوند → 08:00 (رفتار پیش‌بینی‌پذیر مستند)
+    """
+    t = raw.strip().translate(_PERSIAN_DIGITS).translate(_ARABIC_DIGITS)
+
+    # 🆕 پسوند صبح/عصر/شب/am/pm — قبل از تطبیق الگو استخراج و اعمال می‌شود
+    period: str | None = None  # None | am | pm
+    lowered = t.lower()
+    if re.search(r"pm|بعدازظهر|بعد الظهر|عصر", lowered):
+        period = "pm"
+    elif re.search(r"\bam\b|صبح|بامداد", lowered):
+        period = "am"
+    elif re.search(r"شب", lowered):
+        period = "pm"
+    elif re.search(r"ظهر", lowered):
+        period = "pm"
+    if period is not None:
+        # پسوند را از متن حذف کن تا الگوهای ساعت تمیز تطبیق کنند
+        t = re.sub(r"(?i)(pm|am|بعدازظهر|بعد الظهر|عصر|صبح|بامداد|شب|ظهر)", "", t).strip()
+
+    m = _TIME_COLON.match(t) or _TIME_BARE.match(t) or _TIME_COMPACT.match(t)
+    if not m:
+        return None
+    hour = int(m.group(1))
+    minute = m.group(2) if m.lastindex and m.lastindex >= 2 else "00"
+    if period == "pm" and hour < 12:
+        hour += 12
+    elif period == "am" and hour == 12:
+        hour = 0
+    return f"{hour:02d}:{minute}"
+
+
+_PERIOD_WORD_RE = re.compile(r"(?i)(am|pm|بعدازظهر|بعد الظهر|صبح|بامداد|ظهر|عصر|شب)")
 
 def parse_times(text: str) -> list[str]:
     """ورودی آزاد کاربر → لیست ساعت یکتا و مرتب‌شده.
 
-    🆕 فیکس: کلمات اضافی مثل «صبح/عصر/ساعت/بعدازظهر» حذف می‌شوند تا ورودی‌های
-    طبیعی مثل «ساعت ۸ صبح» یا «8 و 21» رد نشوند (قبلاً خطای معتبر نیست می‌داد).
+    🆕 ممیزی (بخش H): پسوندهای صبح/عصر/شب/am/pm واقعاً در تبدیل لحاظ می‌شوند:
+      «8 pm» → 20:00 | «۸ صبح» → 08:00 | «۱۰ شب و ۶ صبح» → [06:00, 22:00]
+      «8» بدون پسوند → 08:00 (رفتار پیش‌بینی‌پذیر و مستند)
+    استراتژی: پسوندها با فاصله از عدد جدا می‌شوند، سپس توکن‌ها به‌ترتیب پیمایش
+    می‌شوند و هر پسوند به «نزدیک‌ترین ساعت قبلی» خودش می‌چسبد.
     """
-    text = re.sub(r"(?i)(ساعت|صبح|ظهر|عصر|شب|بامداد|am|pm)", " ", text)
+    text = text.strip().translate(_PERSIAN_DIGITS).translate(_ARABIC_DIGITS)
+    text = text.replace("بعد الظهر", "بعدازظهر")
+    # پسوندها را با فاصله از اطراف جدا کن تا توکن مستقل شوند («8pm» → «8 pm»)
+    text = _PERIOD_WORD_RE.sub(r" \1 ", text)
     parts = [p for p in re.split(r"[،,؛;\s]+", text.strip()) if p]
+
     out: list[str] = []
+    pending: str | None = None  # آخرین ساعتِ بدون پسوند
     for p in parts:
         t = _normalize_time(p)
-        if t and t not in out:
-            out.append(t)
+        if t is not None:
+            # ساعت جدید؛ اگر ساعتِ بدون پسوندِ قبلی مانده، همین‌جا ثبتش کن
+            if pending is not None and pending not in out:
+                out.append(pending)
+            pending = t
+            continue
+        # ساعت نیست؛ اگر پسوند صبح/شب/am/pm است، به ساعتِ در انتظار بچسبان
+        t2 = _normalize_time(f"{pending or ''} {p}".strip()) if pending else None
+        if t2 is not None:
+            if t2 in out and pending in out:
+                out.remove(pending)
+            pending = t2
+    if pending is not None and pending not in out:
+        out.append(pending)
     return sorted(out)
 
 
@@ -222,6 +298,22 @@ def parse_times(text: str) -> list[str]:
 # ---------------------------------------------------------------------------
 
 TEHRAN_TZ = "Asia/Tehran"
+
+
+def _configured_tzinfo():
+    """🆕 ممیزی (بخش H): منطقه‌ی زمانی از پیکربندی (TIMEZONE_OFFSET_HOURS).
+
+    مقدار پیش‌فرض ۳.۵ → نام منطقه‌ای Asia/Tehran (پشتیبانی از تغییرات تاریخی
+    قانونی). هر مقدار دیگر → منطقه‌ی ثابت با همان آفست، تا زمان‌بندی همیشه با
+    پیکربندی سرور سازگار باشد، نه صرفاً تهران.
+    """
+    from zoneinfo import ZoneInfo
+    raw_offset = getattr(settings, "timezone_offset_hours", 3.5)
+    # ⚠️ توجه: `raw or 3.5` غلط است چون 0.0 هم falsy است — ممیزی T08 این را گرفت
+    offset = float(raw_offset) if raw_offset is not None else 3.5
+    if abs(offset - 3.5) < 1e-9:
+        return ZoneInfo(TEHRAN_TZ)
+    return _dt_timezone(timedelta(hours=offset))
 
 
 def _job_prefix(chat_id: int | str) -> str:
@@ -247,8 +339,7 @@ def schedule_chat_jobs(job_queue: Any, chat_id: int | str, items: list[dict[str,
         return
     unschedule_chat(job_queue, chat_id)
     try:
-        from zoneinfo import ZoneInfo
-        tz = ZoneInfo(TEHRAN_TZ)
+        tz = _configured_tzinfo()
     except Exception as error:
         logger.warning("timezone load failed: %s", error)
         return
@@ -484,8 +575,10 @@ async def receive_med_times(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     items = get_chat_meds(chat_id)
     items.append({"name": name, "times": times})
     _set_chat_meds(chat_id, items)
-    # 🩺 سخت‌سازی (تسک ۵): هیچ خطای زمان‌بندی نباید ثبت دارو را برای کاربر شکست بدهد؛
-    # خطای کامل با traceback در لاگ می‌رود تا منشا دقیق مشخص باشد.
+    # 🩺 سخت‌سازی (تسک ۵ + ممیزی H): هیچ خطای زمان‌بندی نباید ثبت دارو را برای
+    # کاربر شکست بدهد؛ اما اگر JobQueue در دسترس نیست، «به خود کاربر» صریح
+    # گفته می‌شود که دارو ذخیره شده ولی یادآوری فعال نیست.
+    job_queue_ok = False
     try:
         jq = getattr(context, "job_queue", None)
         if jq is None:
@@ -493,14 +586,17 @@ async def receive_med_times(update: Update, context: ContextTypes.DEFAULT_TYPE) 
                 "JobQueue در دسترس نیست (APScheduler نصب نیست یا job_queue به بیلدر داده نشده). "
                 "دارو ذخیره شد ولی یادآوری زمان‌بندی نشد: chat=%s", chat_id,
             )
-        schedule_chat_jobs(jq, chat_id, items)
+        else:
+            schedule_chat_jobs(jq, chat_id, items)
+            job_queue_ok = True
     except Exception:
         logger.error("schedule_chat_jobs failed for chat=%s\n%s", chat_id, traceback.format_exc())
 
-    await _reply_tracked(update, context,
-        _t(lang, "saved").format(name=name, times="، ".join(times)),
-        reply_markup=_back_feedback_kb(lang),
-    )
+    if job_queue_ok:
+        saved_text = _t(lang, "saved").format(name=name, times="، ".join(times))
+    else:
+        saved_text = _t(lang, "saved_no_jobqueue").format(name=name, times="، ".join(times))
+    await _reply_tracked(update, context, saved_text, reply_markup=_back_feedback_kb(lang))
     return ConversationHandler.END
 
 

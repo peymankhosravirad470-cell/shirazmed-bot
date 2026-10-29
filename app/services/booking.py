@@ -11,7 +11,7 @@ from typing import Any, Optional
 
 import jdatetime
 
-from config import settings
+from config import DATA_DIR, settings
 
 logger = logging.getLogger(__name__)
 
@@ -46,15 +46,23 @@ PENDING_TTL_MINUTES: int = 15
 _BOOKING_LOCK = threading.Lock()
 
 
+class AppointmentsReadError(RuntimeError):
+    """🆕 ممیزی (بخش D): خواندن فایل نوبت‌ها شکست خورده (خراب/دسترس‌ناپذیر).
+
+    ⚠️ اصل fail-closed: در این حالت «هیچ» اسلاتی آزاد فرض نمی‌شود و هیچ نوشتنی
+    روی فایل خراب انجام نمی‌شود. قبلاً خطای خواندن → لیست خالی → همه‌ی ساعت‌ها
+    «آزاد» نمایش داده می‌شد و ثبت نوبت می‌توانست فایل خراب را بازنویسی کند.
+    """
+
+
 # ---------------------------------------------------------------------------
 # مسیرها
 # ---------------------------------------------------------------------------
 
 def _get_data_dir() -> str:
-    base_dir = os.path.dirname(
-        os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    )
-    return os.path.join(base_dir, "data")
+    """🆕 ممیزی (بخش J): ریشه‌ی داده از config.DATA_DIR (env: DATA_DIR) می‌آید
+    تا دیسک پایدار لیارا (/app/data) و محیط تست با یک مکانیزم کنترل شوند."""
+    return DATA_DIR
 
 
 def _get_appointments_path() -> str:
@@ -159,6 +167,7 @@ def _purge_expired(appointments: list[dict[str, Any]]) -> list[dict[str, Any]]:
 # ---------------------------------------------------------------------------
 
 def load_appointments() -> list[dict[str, Any]]:
+    """خواندن نوبت‌ها؛ فایل غایب = لیست خالی، فایل خراب = AppointmentsReadError (fail-closed)."""
     file_path = _get_appointments_path()
     try:
         if not os.path.isfile(file_path):
@@ -167,12 +176,15 @@ def load_appointments() -> list[dict[str, Any]]:
             data = json.load(file)
         sanitized = _sanitize_items(data)
         return _purge_expired(sanitized)
+    except AppointmentsReadError:
+        raise
     except (json.JSONDecodeError, OSError) as error:
         logger.error("Error loading appointments: %s", error)
-        return []
+        raise AppointmentsReadError(str(error)) from error
 
 
 def _read_raw() -> list[dict[str, Any]]:
+    """خواندن خام برای مسیرهای نوشتنی؛ فایل خراب → AppointmentsReadError (fail-closed)."""
     file_path = _get_appointments_path()
     try:
         if not os.path.isfile(file_path):
@@ -182,7 +194,7 @@ def _read_raw() -> list[dict[str, Any]]:
         return _sanitize_items(data)
     except (json.JSONDecodeError, OSError) as error:
         logger.error("Error reading raw appointments: %s", error)
-        return []
+        raise AppointmentsReadError(str(error)) from error
 
 
 def save_appointments(appointments: list[dict[str, Any]]) -> bool:
@@ -284,7 +296,16 @@ def add_appointment(
         ).isoformat()
 
     with _BOOKING_LOCK:
-        appointments = _read_raw()
+        # 🆕 ممیزی (D): اگر خواندن شکست بخورد، «نوشتن» مطلقاً انجام نمی‌شود —
+        # وگرنه فایل خراب با لیست ناقص بازنویسی و نوبت‌های موجود از بین می‌رفت.
+        try:
+            appointments = _read_raw()
+        except AppointmentsReadError:
+            logger.error(
+                "add_appointment: read failed — refusing to write (fail-closed) date=%s time=%s",
+                date, time,
+            )
+            return False
 
         for existing in appointments:
             if _is_slot_booked(existing, date, time, appointment.get("doctor_key")):
@@ -304,7 +325,12 @@ def cancel_appointment(date: str, time: str, user_id: int) -> bool:
         return False
 
     with _BOOKING_LOCK:
-        appointments = _read_raw()
+        try:
+            appointments = _read_raw()
+        except AppointmentsReadError:
+            # 🆕 ممیزی (D): بدون خواندن معتبر، لغو/تغییر وضعیت انجام نمی‌شود.
+            logger.error("cancel_appointment: read failed — refusing to modify (fail-closed)")
+            return False
 
         for i, appointment in enumerate(appointments):
             if (
@@ -329,7 +355,13 @@ def cancel_appointment(date: str, time: str, user_id: int) -> bool:
 
 def mark_appointment_paid(user_id: int, date: str, time: str) -> bool:
     with _BOOKING_LOCK:
-        appointments = _read_raw()
+        try:
+            appointments = _read_raw()
+        except AppointmentsReadError:
+            # 🆕 ممیزی (D/C.6): بدون خواندن معتبر، وضعیت paid ثبت نمی‌شود —
+            # فراخواننده (health.py) پیام صادقانه‌ی «نیازمند پیگیری» می‌فرستد.
+            logger.error("mark_appointment_paid: read failed — refusing to modify (fail-closed)")
+            return False
         for appointment in appointments:
             if (
                 appointment.get("date") == date
@@ -365,7 +397,13 @@ def get_next_14_days(include_today: bool = False) -> list[str]:
 
 
 def get_available_times(date: str, doctor_key: Optional[str] = None) -> list[str]:
-    """ساعت‌های خالی یک تاریخ (و در صورت ارسال، برای یک پزشک مشخص)."""
+    """ساعت‌های خالی یک تاریخ (و در صورت ارسال، برای یک پزشک مشخص).
+
+    🆕 ممیزی (بخش D — fail-closed): اگر خواندن داده‌ی نوبت به هر دلیل شکست بخورد،
+    خروجی «لیست خالی» است (نه همه‌ی ساعت‌ها!). UI رزرو برای لیست خالی پیام
+    «امکان تایید ساعت نیست / ساعت دیگری انتخاب کنید» نشان می‌دهد — در نتیجه خطای
+    سیستم هرگز به شکل «همه‌ی ساعت‌ها آزاد است» دیده نمی‌شود.
+    """
     if not date:
         return list(AVAILABLE_TIMES)
 
@@ -377,9 +415,13 @@ def get_available_times(date: str, doctor_key: Optional[str] = None) -> list[str
             if _is_slot_booked(appt, date, appt.get("time"), doctor_key)
         }
         return [slot for slot in AVAILABLE_TIMES if slot not in booked]
+    except AppointmentsReadError as error:
+        # fail-closed: خواندن شکست خورد → هیچ اسلاتی «آزاد» فرض نمی‌شود
+        logger.error("get_available_times: read failed — returning NO slots (fail-closed): %s", error)
+        return []
     except Exception as error:
         logger.error("Error getting available times for '%s': %s", date, error)
-        return list(AVAILABLE_TIMES)
+        return []
 
 
 def is_time_available(date: str, time: str, doctor_key: Optional[str] = None) -> bool:

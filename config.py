@@ -14,12 +14,15 @@ logger = logging.getLogger(__name__)
 
 # ─── ثابت‌های پروژه ───
 PROJECT_NAME = "Shiraz Medical Bot"
-VERSION = "46"
+VERSION = "48"
 
-DB_PATH = "data/"
-DOCTORS_PATH = "data/doctors/"
-NON_MEDICAL_PATH = "data/non_medical/"
-INSURANCE_PATH = "data/insurance/"
+# 🆕 ممیزی (بخش J): مسیر واحد داده — روی لیارا دیسک پایدار در /app/data mount
+# شده و WORKDIR هم /app است؛ بنابراین همه‌ی مسیرهای ذخیره‌سازی باید از همین
+# ریشه عبور کنند. DATA_DIR env اجازه می‌دهد در تست‌ها/استقرارهای دیگر مسیر جدا باشد.
+DATA_DIR = os.path.abspath(os.getenv("DATA_DIR", "data"))
+DOCTORS_PATH = os.path.join(DATA_DIR, "doctors")
+NON_MEDICAL_PATH = os.path.join(DATA_DIR, "non_medical")
+INSURANCE_PATH = os.path.join(DATA_DIR, "insurance")
 
 # پیش‌فرض‌های منطقه‌ای
 DEFAULT_TIMEZONE_OFFSET_HOURS = 3.5  # ایران (UTC+3:30)
@@ -96,9 +99,12 @@ class Settings:
     public_base_url: str = field(
         default_factory=lambda: os.getenv("PUBLIC_BASE_URL", "https://shirazmedical.iran.liara.run").rstrip("/")
     )
-    # 🩺 ثبت‌نام پزشک: رمز ورود به فرم مخفی (پیش‌فرض موقت — بهتر است در لیارا تغییر داده شود)
+    # 🩺 ثبت‌نام پزشک: رمز ورود به فرم مخفی.
+    # 🔒 امنیت (ممیزی ۱۴۰۴): هیچ پیش‌فرض قابل‌استفادی در کد عمومی وجود ندارد —
+    # اگر DOCTOR_REG_CODE در env تنظیم نشده باشد، ثبت‌نام پزشک «غیرفعال» است و
+    # کاربر پیام مناسب می‌گیرد. رمز واقعی فقط از محیط اجرا (لیارا) می‌آید.
     doctor_reg_code: str = field(
-        default_factory=lambda: os.getenv("DOCTOR_REG_CODE", "SM1404")
+        default_factory=lambda: os.getenv("DOCTOR_REG_CODE", "")
     )
     # 🩺 کامیت خودکار پزشکان تاییدشده روی گیت‌هاب (اختیاری) — در صورت تنظیم،
     # تایید ادمین همزمان روی گیت‌هاب هم کامیت می‌شود و دیپلوی خودکار لیارا داده را دائمی می‌کند.
@@ -111,6 +117,11 @@ class Settings:
     )
     telegram_bridge_file_url: str = field(
         default_factory=lambda: os.getenv("TELEGRAM_BRIDGE_FILE_URL", "")
+    )
+    # 🆕 ممیزی (بخش A): انتخاب صریح پلتفرم. مقادیر مجاز: bale / telegram / خالی.
+    # خالی = رفتار خودکارِ مستند: بله اولویت دارد، وگرنه تلگرام.
+    platform_choice: str = field(
+        default_factory=lambda: os.getenv("PLATFORM", "").strip().lower()
     )
 
     def __post_init__(self) -> None:
@@ -130,10 +141,40 @@ class Settings:
         """نام پلتفرم فعال بر اساس توکن موجود."""
         return "bale" if self.bale_bot_token else "telegram"
 
+    @property
+    def doctor_reg_enabled(self) -> bool:
+        """🔒 ثبت‌نام پزشک فقط وقتی فعال است که رمز امن از env آمده باشد (بدون پیش‌فرض)."""
+        return bool((self.doctor_reg_code or "").strip())
+
+    @property
+    def effective_platform(self) -> str:
+        """🆕 ممیزی (بخش A): پلتفرم اجرایی «شفاف و اعتبارسنجی‌شده».
+
+        - PLATFORM=bale|telegram → همان (و توکن متناظرش الزامی است؛ نبودش خطای
+          واضح می‌دهد، نه اجرای مبهم).
+        - PLATFORM خالی → رفتار خودکار مستند: بله اگر توکن داشت، وگرنه تلگرام.
+        """
+        choice = self.platform_choice
+        if choice:
+            if choice not in ("bale", "telegram"):
+                raise ValueError(
+                    f"PLATFORM نامعتبر است: '{choice}'. مقادیر مجاز: bale, telegram"
+                )
+            if choice == "bale" and not self.bale_bot_token:
+                raise ValueError(
+                    "PLATFORM=bale است ولی BALE_BOT_TOKEN در env تنظیم نشده است."
+                )
+            if choice == "telegram" and not self.telegram_bot_token:
+                raise ValueError(
+                    "PLATFORM=telegram است ولی TELEGRAM_BOT_TOKEN در env تنظیم نشده است."
+                )
+            return choice
+        return self.platform
+
     def log_startup_summary(self) -> None:
         """مقادیر غیرحساس را کامل و مقادیر حساس را ماسک‌شده لاگ می‌کند."""
         logger.info("%s v%s — در حال راه‌اندازی", PROJECT_NAME, VERSION)
-        logger.info("پلتفرم فعال: %s", self.platform)
+        logger.info("پلتفرم فعال: %s%s", self.effective_platform, " (از PLATFORM)" if self.platform_choice else " (خودکار)")
         logger.info("BOT_USERNAME: %s", self.bot_username)
         logger.info("ADMIN_CHAT_ID: %s", self.admin_chat_id if self.admin_chat_id else "(تنظیم نشده)")
         logger.info("ZARINPAL_SANDBOX: %s", self.zarinpal_sandbox)

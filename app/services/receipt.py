@@ -12,6 +12,8 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 
+from config import DATA_DIR
+
 # 🆕 فیکس بحرانی PDF: بدون arabic_reshaper + python-bidi، حروف فارسی در PDF
 # جدا و معکوس چاپ می‌شدند (مثلاً «شیراز» به‌صورت حروف بریده و از چپ به راست).
 try:
@@ -33,6 +35,8 @@ FONT_DIR = os.path.join(_BASE_DIR, "assets", "fonts")
 FONT_PATH = os.path.join(FONT_DIR, "Vazir.ttf")
 FONT_URL = "https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/fonts/ttf/Vazirmatn-Regular.ttf"
 FONT_NAME = "Vazir"
+# 🆕 ممیزی (بخش J): رسیدها در ریشه‌ی داده (دیسک پایدار) ذخیره شوند
+RECEIPTS_DIR = os.path.join(DATA_DIR, "receipts")
 
 _font_registered = False
 _font_failed = False
@@ -140,7 +144,7 @@ def generate_receipt_pdf(
         date_part = str(appointment_data.get("date") or "nodate").replace("-", "")
         time_part = str(appointment_data.get("time") or "").replace(":", "")
         suffix = tracking if tracking not in ("", "-") else f"{user_part}_{date_part}{time_part}"
-        output_path = os.path.join(_BASE_DIR, "data", "receipts", f"receipt_{suffix}.pdf")
+        output_path = os.path.join(RECEIPTS_DIR, f"receipt_{suffix}.pdf")
 
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     c = canvas.Canvas(output_path, pagesize=A4)

@@ -55,6 +55,18 @@ _HT: dict[str, dict[str, str]] = {
     "page_ref": {"fa": "کد رهگیری", "en": "Tracking code", "ar": "رمز التتبع"},
     "page_error_title": {"fa": "خطای سرور", "en": "Server Error", "ar": "خطأ في الخادم"},
     "page_error_body": {"fa": "خطایی در پردازش پرداخت رخ داد.", "en": "An error occurred while processing the payment.", "ar": "حدث خطأ أثناء معالجة الدفع."},
+    # 🆕 ممیزی (بخش C.6): پرداخت موفق ولی نهایی‌سازی نوبت شکست خورد — دیگر
+    # «نوبت قطعی شد» به کاربر نمی‌گوییم؛ پیام صادقانه + پیگیری ادمین.
+    "msg_paid_but_notbooked": {
+        "fa": "✅ پرداخت شما تأیید شد، ولی در قطعی‌کردن نوبت خطایی پیش آمد.\nلطفاً نگران نباشید — مبلغ و نوبت شما ثبت شده و پشتیبانی به‌سرعت پیگیری می‌کند. 💙",
+        "en": "✅ Your payment was verified, but finalizing the appointment hit an error.\nDon't worry — your payment and slot are recorded and support will follow up shortly. 💙",
+        "ar": "✅ تم التحقق من دفعتك، لكن حدث خطأ أثناء تأكيد الموعد.\nلا تقلق — تم تسجيل دفعتك وموعدك وسيتابع الدعم الأمر قريباً. 💙",
+    },
+    "admin_paid_but_notbooked": {
+        "fa": "⚠️ هشدار عملیاتی: پرداخت کاربر {user} تأیید شد (کد رهگیری {ref}) ولی تغییر وضعیت نوبت به paid شکست خورد (date={date} time={time}). نیازمند بررسی دستی است.",
+        "en": "⚠️ Ops alert: payment of user {user} was verified (ref {ref}) but marking the appointment paid failed (date={date} time={time}). Manual follow-up needed.",
+        "ar": "⚠️ تنبيه تشغيلي: تم التحقق من دفعة المستخدم {user} (رمز {ref}) لكن فشل تحديث حالة الموعد (date={date} time={time}). يلزم متابعة يدوية.",
+    },
     "msg_nok": {"fa": "❌ پرداخت ناموفق یا لغو شد.\n\nنوبت شما آزاد شد. اگر مایل باشید می‌توانید دوباره از منوی اصلی رزرو کنید.", "en": "❌ Payment failed or was cancelled.\n\nYour appointment slot has been released. You can book again from the main menu.", "ar": "❌ فشل الدفع أو تم إلغاؤه.\n\nتم تحرير موعدك. يمكنك الحجز مرة أخرى من القائمة الرئيسية."},
     "msg_verify_failed": {"fa": "❌ تأیید پرداخت ناموفق بود.\n\nجزئیات: {error}\nدر صورت کسر وجه، مبلغ حداکثر تا ۷۲ ساعت به حساب شما بازمی‌گردد.\nبرای پیگیری با پشتیبانی تماس بگیرید.", "en": "❌ Payment verification failed.\n\nDetails: {error}\nIf the amount was deducted, it will be refunded within 72 hours at the latest.\nContact support for follow-up.", "ar": "❌ فشل التحقق من الدفع.\n\nالتفاصيل: {error}\nفي حال خصم المبلغ، سيُعاد إليك خلال 72 ساعة كحد أقصى.\nتواصل مع الدعم للمتابعة."},
     "msg_success_head": {"fa": "✅ پرداخت شما با موفقیت تأیید شد!", "en": "✅ Your payment was successfully verified!", "ar": "✅ تم التحقق من دفعتك بنجاح!"},
@@ -162,17 +174,34 @@ def _handle_payment_callback(query: dict) -> tuple[int, str]:
     date = tx.get("date", "") if tx else ""
     time = tx.get("time", "") if tx else ""
     doctor_name = tx.get("doctor_name", "") if tx else ""
+    full_name = str(tx.get("full_name", "") or "") if tx else ""
     paid_ok = False
     if date and time:
         paid_ok = mark_appointment_paid(user_id, date, time)
+        if not paid_ok:
+            # 🆕 ممیزی (C.6): یک تلاش مجدد — اگر callback هم‌زمان دیگری لحظه‌ای
+            # قبل همان نوبت را دست‌کاری کرده باشد، خواندن تازه فایل ممکن است مشکل را حل کند.
+            paid_ok = mark_appointment_paid(user_id, date, time)
     logger.info("Payment verified user=%s ref=%s appointment_paid=%s", user_id, ref_id, paid_ok)
 
     # ─── اطلاع‌رسانی به کاربر (پیام موفقیت + رسید متن + PDF) ───
     jalali = format_jalali(date) if date else ""
-    runtime.schedule_coroutine(_send_success_package(
-        user_id, ref_id=ref_id, doctor_name=doctor_name, jalali=jalali, time=time,
-        amount=tx_amount, authority=authority, lang=lang,
-    ))
+    if paid_ok:
+        runtime.schedule_coroutine(_send_success_package(
+            user_id, ref_id=ref_id, doctor_name=doctor_name, jalali=jalali, time=time,
+            amount=tx_amount, authority=authority, lang=lang, full_name=full_name,
+        ))
+    else:
+        # 🆕 ممیزی (C.6): پول تایید شده ولی قطعی‌سازی نوبت شکست خورده → هرگز
+        # «نوبت قطعی شد» نمی‌گوییم؛ پیام صادقانه + هشدار عملیاتی برای ادمین.
+        runtime.schedule_coroutine(_notify_user(user_id, _ht(lang, "msg_paid_but_notbooked")))
+        runtime.schedule_coroutine(_notify_admin_paid_but_notbooked(
+            user_id=user_id, ref_id=ref_id, date=date, time=time,
+        ))
+        logger.error(
+            "Payment verified but appointment NOT finalized: user=%s authority=%s date=%s time=%s",
+            user_id, authority, date, time,
+        )
 
     extra_html = f'<div class="ref">{_ht(lang, "page_ref")}: {ref_id}</div>' if ref_id else ""
     return 200, _page(
@@ -228,13 +257,37 @@ async def _notify_user(user_id: int, text: str) -> None:
         logger.error("خطا در ارسال پیام به %s: %s", user_id, error)
 
 
+async def _notify_admin_paid_but_notbooked(*, user_id: int, ref_id: str, date: str, time: str) -> None:
+    """🆕 ممیزی (C.6): هشدار عملیاتی برای ادمین وقتی پرداخت تایید شده ولی نوبت قطعی نشده."""
+    from config import settings as _settings
+    admin_id = getattr(_settings, "admin_chat_id", None)
+    if not admin_id:
+        logger.error("ADMIN_CHAT_ID تنظیم نشده؛ هشدار paid-but-not-booked برای ادمین ارسال نشد.")
+        return
+    app = runtime.get_application()
+    if app is None:
+        return
+    try:
+        from app.services.booking import format_jalali as _fj
+        await app.bot.send_message(
+            chat_id=admin_id,
+            text=_ht("fa", "admin_paid_but_notbooked", user=user_id, ref=ref_id or "—",
+                     date=_fj(date) if date else "—", time=time or "—"),
+        )
+    except Exception as error:  # pragma: no cover
+        logger.error("خطا در ارسال هشدار ادمین: %s", error)
+
+
 async def _send_success_package(
     user_id: int, *, ref_id: str, doctor_name: str, jalali: str, time: str,
-    amount: int, authority: str, lang: str = "fa",
+    amount: int, authority: str, lang: str = "fa", full_name: str = "",
 ) -> None:
     """پیام موفقیت + رسید متن + رسید PDF (پس از verify — نه قبل از پرداخت!).
 
     🌐 پیام‌ها به زبان کاربر؛ رسید PDF فعلاً فارسی است (مستند در گزارش بازبینی).
+    🆕 ممیزی (E): نام واقعی بیمار از تراکنش به رسید می‌رود (قبلاً رشته‌ی خالی
+    هاردکد بود). اگر شکست ساخت PDF رخ دهد، وضعیت پرداخت «موفق» دست‌نخورده
+    می‌ماند و فقط در لاگ امن ثبت می‌شود.
     """
     app = runtime.get_application()
     if app is None:
@@ -254,7 +307,9 @@ async def _send_success_package(
         await app.bot.send_message(chat_id=user_id, text="\n".join(lines))
 
         appointment = {
-            "full_name": "", "doctor_name": doctor_name,
+            # 🆕 ممیزی (E): فیلدهای واقعی تراکنش؛ هیچ داده‌ی ساختگی — فیلد ناموجود
+            # در رسید به‌صورت «-» نمایش داده می‌شود (رفتار receipt.py).
+            "full_name": full_name, "doctor_name": doctor_name,
             "date": jalali, "time": time, "amount": amount,
             "tracking_code": ref_id or authority[:12],
             "user_id": user_id,
@@ -263,7 +318,12 @@ async def _send_success_package(
         await app.bot.send_message(chat_id=user_id, text=receipt_text, parse_mode="HTML")
 
         import asyncio
-        pdf_path = await asyncio.to_thread(generate_receipt_pdf, appointment, {})
+        try:
+            pdf_path = await asyncio.to_thread(generate_receipt_pdf, appointment, {})
+        except Exception as pdf_error:
+            # 🆕 ممیزی (E): شکست PDF وضعیت پرداخت را تغییر نمی‌دهد؛ فقط لاگ امن.
+            logger.error("PDF generation failed for user=%s (payment stays verified): %s", user_id, pdf_error)
+            return
         with open(pdf_path, "rb") as pdf_file:
             await app.bot.send_document(
                 chat_id=user_id, document=pdf_file,

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""نقطه‌ی ورود ربات شیراز مدیکال (v46)."""
+"""نقطه‌ی ورود ربات شیراز مدیکال (v48)."""
 
 import logging
 import os
@@ -9,6 +9,7 @@ from telegram import Update
 
 from app.bot import build_application
 from app.health import start_health_server
+from config import settings
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s | %(levelname)s | %(name)s | %(message)s")
 logger = logging.getLogger(__name__)
@@ -16,10 +17,17 @@ logger = logging.getLogger(__name__)
 
 def main() -> None:
     """راه‌اندازی و اجرای ربات با polling (آپدیت‌های تأییدنشده‌ی حین ری‌استارت هم پاسخ می‌گیرند)."""
-    os.makedirs("data", exist_ok=True)
+    os.makedirs(settings.DATA_DIR, exist_ok=True)
     try:
+        # 🆕 ممیزی (بخش J): بوت‌استرپ داده‌ی استاتیک روی دیسک پایدار — فایل‌های
+        # غایب از data_seed کپی می‌شوند (هیچ‌وقت بازنویسی نمی‌کند).
+        from app.data_seed import seed_static_data
+        seed_static_data()
         start_health_server()
-        application = build_application()
+        # 🆕 ممیزی (بخش A): پلتفرم اجرا «شفاف» انتخاب می‌شود — PLATFORM env اگر
+        # تنظیم باشد (bale/telegram با اعتبارسنجی)، وگرنه رفتار خودکار مستند
+        # (بله اولویت دارد). توکن ناموجود = خطای واضح، نه اجرای مبهم.
+        application = build_application(settings.effective_platform)
         # 🆕 Bug2: آپدیت‌های ارسال‌شده در فاصله‌ی ری‌استارت (مثلاً حین deploy
         # لایارا) دور ریخته نمی‌شوند — اگر کاربر حین ری‌استارت /start زده باشد،
         # بعد از بالا آمدن جواب می‌گیرد. PTB آفست را خودش تأیید می‌کند؛ فقط
