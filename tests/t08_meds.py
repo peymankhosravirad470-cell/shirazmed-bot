@@ -195,6 +195,90 @@ async def main() -> int:
         txt = meds._t(lang, "reminder").format(name="X")
         r.check(f"پیام یادآور {lang}", word in txt, txt[:50])
 
+    # ── 🐛 رگرسیون v49 (کرش واقعی لیارا ۱۴۰۴/۰۸/۰۸): داده‌ی قدیمی روی دیسک
+    # پایدار باعث «یه خطای غیرمنتظره» هنگام ثبت ساعت می‌شد. سه حالت اثبات‌شده
+    # با ردگیری کامل: مقدار چت=dict، لیست رشته‌ای، بایت غیر UTF-8. ──
+    async def flow_add_med_direct(user, med_name, time_text):
+        REC.reset()
+        await process(make_cb_update(user, "medication"))
+        await process(make_cb_update(user, "med_add"))
+        await process(make_text_update(user, med_name))
+        await process(make_text_update(user, time_text))
+        return REC.sent_texts()
+
+    # ۱) مقدار چت = دیکشنری تکی‌دارو (اسکیمای قدیمی) → باید بازیابی و ثبت موفق شود
+    write_json(meds_file, {"871": {"name": "داروی قدیمی", "time": "08:00"}})
+    texts = await flow_add_med_direct(871, "قرص کمر", "21:43")
+    r.check("داده قدیمی dict → ثبت 21:43 موفق بدون خطای غیرمنتظره",
+            any("21:43" in t for t in texts) and not any("غیرمنتظره" in t for t in texts),
+            str(texts[-1][:70] if texts else "NO"))
+    data = read_json(meds_file)
+    names = [m.get("name") for m in data.get("871", [])]
+    r.check("داده قدیمی dict بازیابی شد (حفظ داروی کاربر)", "داروی قدیمی" in names, str(names))
+    r.check("فایل بعد از نوشتن خودترمیم شد (اسکیمای استاندارد)",
+            all(isinstance(m, dict) and isinstance(m.get("times"), list) for m in data.get("871", [])),
+            str(data.get("871"))[:120])
+
+    # ۲) مقدار چت = لیست رشته‌های ساده → ثبت موفق، عضو خراب با لاگ امن حذف
+    write_json(meds_file, {"872": ["رشته قدیمی بی‌ساختار"]})
+    texts = await flow_add_med_direct(872, "قرص کمر", "21:45")
+    r.check("داده قدیمی لیست رشته‌ای → ثبت 21:45 موفق بدون خطای غیرمنتظره",
+            any("21:45" in t for t in texts) and not any("غیرمنتظره" in t for t in texts),
+            str(texts[-1][:70] if texts else "NO"))
+    data = read_json(meds_file)
+    r.check("عضو رشته‌ای حذف و فقط داروی معتبر ماند",
+            data.get("872") == [{"name": "قرص کمر", "times": ["21:45"]}], str(data.get("872")))
+
+    # ۳) فایل با بایت غیر UTF-8 → قرنطینه + ثبت موفق (قبلاً حتی منو کرش می‌کرد)
+    with open(meds_file, "wb") as f:
+        f.write(b'{"873": [{"name": "\xf9\x84", "times": ["08:00"]}]}')
+    texts = await flow_add_med_direct(873, "قرص کمر", "15:00")
+    r.check("بایت غیر UTF-8 → قرنطینه + ثبت موفق بدون خطای غیرمنتظره",
+            any("15:00" in t for t in texts) and not any("غیرمنتظره" in t for t in texts),
+            str(texts[-1][:70] if texts else "NO"))
+    quar = [f for f in os.listdir(os.path.dirname(meds_file)) if f.startswith("medications.json.corrupt-")]
+    r.check("فایل UTF-8 خراب قرنطینه شد", len(quar) >= 1, str(quar))
+    for f in quar:
+        os.remove(os.path.join(os.path.dirname(meds_file), f))
+
+    # ۴) شکست واقعی ذخیره‌سازی → پیام صادقانه «ذخیره نشد»، نه موفقیت کاذب
+    write_json(meds_file, {"874": []})
+    orig_save = meds._save_meds
+
+    def _boom(_data):
+        raise OSError("simulated disk failure")
+    meds._save_meds = _boom
+    try:
+        texts = await flow_add_med_direct(874, "قرص کمر", "15:00")
+    finally:
+        meds._save_meds = orig_save
+    r.check("شکست دیسک → پیام صریح «ذخیره نشد» (بدون موفقیت کاذب)",
+            any("ذخیره" in t and "نش" in t for t in texts) and not any("فعال شد" in t for t in texts),
+            str(texts[-1][:70] if texts else "NO"))
+
+    # ۵) تک‌ساعت واقعی کاربر مثل 21:43 و 21:45 معتبر است (سناریوی گزارش)
+    r.check("parse_times('21:43') == ['21:43']", meds.parse_times("21:43") == ["21:43"])
+    r.check("parse_times('21:45') == ['21:45']", meds.parse_times("21:45") == ["21:45"])
+    r.check("parse_times('15:00') == ['15:00']", meds.parse_times("15:00") == ["15:00"])
+
+    # ۶) حریم خصوصی لاگ: در شکست ذخیره، نام دارو در لاگ نمی‌رود
+    import io as _io
+    import logging as _logging
+    _buf = _io.StringIO()
+    _h = _logging.StreamHandler(_buf)
+    _meds_logger = _logging.getLogger("app.handlers.meds")
+    _meds_logger.addHandler(_h)
+    meds._save_meds = _boom
+    try:
+        await flow_add_med_direct(875, "قرص محرمانه تست", "15:00")
+    finally:
+        meds._save_meds = orig_save
+        _meds_logger.removeHandler(_h)
+    _logtext = _buf.getvalue()
+    r.check("لاگ شکست ذخیره بدون نام دارو (حریم خصوصی داده سلامتی)",
+            "قرص محرمانه تست" not in _logtext and "meds save failed" in _logtext,
+            _logtext[:150])
+
     return r.finish("T08 meds")
 
 

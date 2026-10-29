@@ -95,6 +95,13 @@ _TEXTS: dict[str, dict[str, str]] = {
             "en": "✅ \"{name}\" was saved, but ⚠️ the automatic reminder is currently unavailable.\nPlease keep track of the time yourself or contact support.",
             "ar": "✅ تم حفظ «{name}»، لكن ⚠️ التذكير التلقائي غير متاح حالياً.\nيرجى الانتباه إلى الوقت أو التواصل مع الدعم.",
         },
+        # 🐛 رگرسیون v49: شکست واقعی ذخیره‌سازی هرگز «موفق» نمایش داده نمی‌شود؛
+        # پیام صادقانه به کاربر + ردگیری کامل در لاگ (بدون نام دارو — داده سلامتی).
+        "save_failed": {
+            "fa": "⚠️ متأسفانه ذخیره‌سازی یادآور انجام نشد و تغییری ثبت نشد.\nلطفاً چند لحظه بعد دوباره امتحان کنید — اگر تکرار شد، ما را در جریان بذارید 💙",
+            "en": "⚠️ Unfortunately the reminder could not be saved and nothing was stored.\nPlease try again in a moment — if it repeats, let us know 💙",
+            "ar": "⚠️ للأسف لم يتم حفظ التذكير ولم يُسجّل أي تغيير.\nيرجى المحاولة بعد قليل — وإذا تكرر الأمر فأخبرنا بذلك 💙",
+        },
         "list_title": {
             "fa": "📋 داروهای ثبت‌شده شما:\n\n",
             "en": "📋 Your registered medications:\n\n",
@@ -177,6 +184,10 @@ def _load_meds() -> dict[str, list[dict[str, Any]]]:
     چون اولین نوشتن بعدی «همه‌ی داروهای بقیه‌ی کاربران را پاک می‌کرد». فایل خراب
     به‌نام با پسوند .corrupt-<timestamp> قرنطینه می‌شود تا دست‌نخورده بماند و
     در لاگ امن ثبت شود.
+
+    🐛 رگرسیون v49 (کرش واقعی لیارا): «همه» خطاهای خواندن گرفته می‌شوند، نه فقط
+    JSONDecodeError/OSError — مثلاً UnicodeDecodeError (بایت غیر UTF-8 در دیسک
+    پایدار) قبلاً از except عبور می‌کرد و منو/ثبت را با «خطای غیرمنتظره» می‌کُشت.
     """
     if not os.path.isfile(MEDS_FILE):
         return {}
@@ -184,7 +195,7 @@ def _load_meds() -> dict[str, list[dict[str, Any]]]:
         with open(MEDS_FILE, "r", encoding="utf-8") as f:
             data = json.load(f)
         return data if isinstance(data, dict) else {}
-    except (json.JSONDecodeError, OSError) as error:
+    except Exception as error:
         quarantine = f"{MEDS_FILE}.corrupt-{int(_time_mod.time())}"
         try:
             os.replace(MEDS_FILE, quarantine)
@@ -205,8 +216,48 @@ def _save_meds(data: dict[str, list[dict[str, Any]]]) -> None:
     os.replace(tmp, MEDS_FILE)
 
 
+def _normalize_items(value: Any) -> list[dict[str, Any]]:
+    """🐛 رگرسیون v49 (کرش واقعی لیارا): هر شکلی از داده‌ی قدیمی/خارج از اسکیما
+    به شکل استاندارد «لیستی از {name, times}» تبدیل می‌شود تا هیچ‌گاه:
+      - items.append روی dict قدیمی → AttributeError نشود؛
+      - m.get("times") روی رشته قدیمی → AttributeError نشود.
+
+    بازیابی داده: دیکشنری تکی‌دارو → لیست تک‌عضوی؛ کلید قدیمی «time» → «times»؛
+    ساعت‌های نامعتبر حذف و داروی بدون ساعتِ معتبر با لاگ امن (بدون نام دارو —
+    داده سلامتی) کنار گذاشته می‌شود. خروجی «همیشه» لیستی از دیکشنری معتبر است.
+    """
+    if isinstance(value, dict):
+        value = [value]
+    if not isinstance(value, list):
+        logger.warning("meds entry ignored: unexpected container type %s", type(value).__name__)
+        return []
+    out: list[dict[str, Any]] = []
+    for it in value:
+        if not isinstance(it, dict):
+            logger.warning("meds entry ignored: non-dict item dropped")
+            continue
+        name = str(it.get("name", "") or "").strip()[:60]
+        raw_times = it.get("times", it.get("time", []))
+        if isinstance(raw_times, str):
+            raw_times = [raw_times]
+        times: list[str] = []
+        if isinstance(raw_times, list):
+            for rt in raw_times:
+                if isinstance(rt, str):
+                    nt = _normalize_time(rt)
+                    if nt and nt not in times:
+                        times.append(nt)
+        if not times:
+            logger.warning("meds entry ignored: no valid time kept (name omitted from log)")
+            continue
+        out.append({"name": name or "💊", "times": sorted(times)})
+    return out
+
+
 def get_chat_meds(chat_id: int | str) -> list[dict[str, Any]]:
-    return _load_meds().get(str(chat_id), [])
+    # 🐛 رگرسیون v49: خروجی همیشه نرمال‌شده است — مصرف‌کننده‌ها (افزودن/لیست/
+    # حذف/حد ۱۰ دارو) دیگر با داده‌ی قدیمی کرش نمی‌کنند.
+    return _normalize_items(_load_meds().get(str(chat_id), []))
 
 
 def _set_chat_meds(chat_id: int | str, items: list[dict[str, Any]]) -> None:
@@ -351,7 +402,9 @@ def schedule_chat_jobs(job_queue: Any, chat_id: int | str, items: list[dict[str,
     scheduled = 0
     expected = 0
     for idx, med in enumerate(items):
-        for hhmm in med.get("times", []):
+        if not isinstance(med, dict):
+            continue  # 🐛 رگرسیون v49: عضو غیر دیکشنری هرگز نباید زمان‌بند را بخواباند
+        for hhmm in med.get("times", []) or []:
             expected += 1
             try:
                 hh, mm = hhmm.split(":")
@@ -397,6 +450,9 @@ def schedule_all(application: Any) -> None:
     mapping: dict[str, str] = {}
     data = _load_meds()
     for chat_id, items in data.items():
+        items = _normalize_items(items)  # 🐛 رگرسیون v49: داده‌ی قدیمی هرگز زمان‌بند را نمی‌شکند
+        if not items:
+            continue
         lang = "fa"
         # زبان ذخیره‌شده در persistence (user_data پس از initialize لود شده است)
         try:
@@ -582,9 +638,20 @@ async def receive_med_times(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     name = context.user_data.get("med_name", "💊")
     context.user_data.pop("med_name", None)
 
-    items = get_chat_meds(chat_id)
-    items.append({"name": name, "times": times})
-    _set_chat_meds(chat_id, items)
+    # 🐛 رگرسیون v49 (کرش واقعی لیارا): کل بلوک ذخیره‌سازی/زمان‌بندی محافظت شده
+    # تا هیچ خطای دیسک/داده‌ی قدیمی به «خطای غیرمنتظره» سراسری تبدیل نشود؛
+    # در شکست، پیام صادقانه (بدون موفقیت کاذب) + ردگیری کامل در لاگ — بدون نام
+    # دارو یا ساعت (داده سلامتی کاربر در لاگ نمی‌رود).
+    try:
+        items = get_chat_meds(chat_id)
+        items.append({"name": name, "times": times})
+        _set_chat_meds(chat_id, items)
+    except Exception:
+        logger.error("meds save failed for chat=%s\n%s", chat_id, traceback.format_exc())
+        await _reply_tracked(update, context, _t(lang, "save_failed"),
+                             reply_markup=_back_feedback_kb(lang))
+        return ConversationHandler.END
+
     # 🩺 سخت‌سازی (تسک ۵ + ممیزی H + الزام مأموریت v49): هیچ خطای زمان‌بندی
     # نباید ثبت دارو را برای کاربر شکست بدهد؛ اما «موفقیت کاذب» هم ممنوع است —
     # اگر تعداد jobهای واقعاً ساخته‌شده کمتر از ساعت‌های ثبت‌شده بود، به خود
