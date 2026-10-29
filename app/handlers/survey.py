@@ -40,19 +40,19 @@ _T: dict[str, dict[str, str]] = {
     "btn_yes": {"fa": "بله، ادامه می‌دهم", "en": "Yes, I'll continue", "ar": "نعم، سأتابع"},
     "btn_no": {"fa": "خیر، کافی است", "en": "No, that's enough", "ar": "لا، هذا كافٍ"},
     "thanks_happy": {
-        "fa": "از همراهی شما صمیمانه سپاسگزاریم. روز خوبی داشته باشید! 🌸",
-        "en": "Thank you sincerely for being with us. Have a wonderful day! 🌸",
-        "ar": "شكراً جزيلاً لمرافقتك. أتمنى لك يوماً سعيداً! 🌸",
+        "fa": "از اینکه همراه ما بودی، صمیمانه ممنونیم 🌸\nهر وقت نیاز داشتی، همین‌جاییم. سلامت و شاد باشی! 💙",
+        "en": "Thank you sincerely for being with us 🌸\nWe're right here whenever you need us. Stay healthy and happy! 💙",
+        "ar": "شكراً جزيلاً لمرافقتك 🌸\nنحن هنا متى ما احتجتنا. دم بصحة وسعادة! 💙",
     },
     "ask_reason": {
-        "fa": "متأسفیم که تجربه خوبی نداشتید. لطفاً در یک پیام کوتاه بنویسید چه چیزی باعث نارضایتی شما شد تا ما بهتر شویم:",
-        "en": "We're sorry your experience wasn't good. Please write briefly what caused your dissatisfaction so we can improve:",
-        "ar": "نأسف لأن تجربتك لم تكن جيدة. يرجى كتابة سبب عدم رضاك باختصار حتى نتحسّن:",
+        "fa": "از اینکه تجربه‌ات خوب نبود، واقعاً متأسفیم. 🙏\n\nلطفاً کوتاه بنویس چه چیزی ناراضیت کرد — باور کن هر حرفت مستقیم می‌رسه به تیم ما و باعث می‌شه بهتر بشیم 💙",
+        "en": "We're truly sorry your experience wasn't good. 🙏\n\nPlease write briefly what went wrong — every word reaches our team directly and helps us do better 💙",
+        "ar": "نأسف حقاً لأن تجربتك لم تكن جيدة. 🙏\n\nيرجى كتابة سبب عدم رضاك باختصار — كل كلمة تصل مباشرة إلى فريقنا وتساعدنا على التحسن 💙",
     },
     "thanks_feedback": {
-        "fa": "از اینکه نظر خود را با ما در میان گذاشتید سپاسگزاریم. تیم پشتیبانی ما به زودی بررسی می‌کند.",
-        "en": "Thank you for sharing your feedback with us. Our support team will review it soon.",
-        "ar": "شكراً لمشاركتنا رأيك. سيقوم فريق الدعم لدينا بمراجعته قريباً.",
+        "fa": "🙏 ممنون که بهمون گفتی.\n\nتیم ما به‌زودی بررسی‌اش می‌کنه و پیگیری می‌شه — قول می‌دیم 💙",
+        "en": "🙏 Thank you for telling us.\n\nOur team will review it soon and follow up — we promise 💙",
+        "ar": "🙏 شكراً لإخبارنا.\n\nسيراجعها فريقنا قريباً وسنتابع الأمر — نعدك بذلك 💙",
     },
     "send_error": {
         "fa": "متأسفانه در ارسال پیام خطایی رخ داد، اما نظر شما ثبت شد. سپاسگزاریم.",

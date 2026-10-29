@@ -36,14 +36,14 @@ _T: dict[str, dict[str, str]] = {
         "ar": "🤝 مرافق المريض\n\nهل ترغب في أن يكون شخص آخر (مثل أحد أفراد العائلة أو الأصدقاء) على اطّلاع بمراحل علاجك، لنشاركه المعلومات؟",
     },
     "no_needed": {
-        "fa": "بسیار خب. در صورت نیاز در آینده می‌توانید از این بخش استفاده کنید.",
-        "en": "Very well. You can use this section later if needed.",
-        "ar": "حسناً. يمكنك استخدام هذا القسم لاحقاً عند الحاجة.",
+        "fa": "بسیار خب! هر وقت خواستی، از منو فعالش کن — ما آماده‌ایم 💙",
+        "en": "Very well! Whenever you want, just activate it from the menu — we're ready 💙",
+        "ar": "حسناً! متى ما أردت، فعّلها من القائمة — نحن جاهزون 💙",
     },
     "cancelled": {
-        "fa": "فرآیند ثبت همراه بیمار لغو شد.",
-        "en": "The patient companion registration was cancelled.",
-        "ar": "تم إلغاء عملية تسجيل مرافق المريض.",
+        "fa": "باشه، ثبت همراه لغو شد. هر وقت خواستی دوباره شروع کن 💙",
+        "en": "Alright, the companion registration was cancelled. Start again anytime 💙",
+        "ar": "حسناً، تم إلغاء تسجيل المرافق. ابدأ من جديد متى ما أردت 💙",
     },
     "ask_name": {
         "fa": "لطفاً نام و نام خانوادگی همراه خود را وارد کنید:\n\n🚪 برای لغو، دستور /cancel را بفرستید.",
@@ -66,9 +66,9 @@ _T: dict[str, dict[str, str]] = {
         "ar": "رقم الهاتف المُدخل غير صالح. يرجى إدخاله مرة أخرى:",
     },
     "success": {
-        "fa": "✅ اطلاعات همراه شما با موفقیت ثبت شد.\nدر صورت نیاز، پیام اطلاع‌رسانی برای شماره {phone} ارسال خواهد شد.",
-        "en": "✅ Your companion's information was registered successfully.\nIf needed, a notification message will be sent to {phone}.",
-        "ar": "✅ تم تسجيل معلومات مرافقك بنجاح.\nعند الحاجة، سيتم إرسال رسالة إشعار إلى {phone}.",
+        "fa": "✅ تمام! همراه شما ثبت شد 💙\n\nهر وقت لازم باشد، اطلاع‌رسانی برای شماره {phone} ارسال می‌شود تا او هم در جریان درمان باشه.",
+        "en": "✅ All set! Your companion is registered 💙\n\nWhenever needed, a notification will be sent to {phone} so they stay in the loop on your treatment.",
+        "ar": "✅ تم! تم تسجيل مرافقك 💙\n\nعند الحاجة، سيتم إرسال إشعار إلى {phone} ليبقى على اطّلاع بمراحل علاجك.",
     },
     # 🆕 الگوی استاندارد: کنار دکمه بازگشت، دعوت به ثبت نظر هم باشد
     "btn_feedback": {"fa": "💬 پیشنهادات", "en": "💬 Feedback", "ar": "💬 ملاحظات"},

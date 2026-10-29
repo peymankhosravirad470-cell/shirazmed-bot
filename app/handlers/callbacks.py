@@ -76,7 +76,11 @@ _T: dict[str, dict[str, str]] = {
     "empty_houses": {"fa": "خانه مسافری یافت نشد.", "en": "No guest houses found.", "ar": "لم يتم العثور على بيوت ضيافة."},
     "empty_transport": {"fa": "وسیله نقلیه‌ای یافت نشد.", "en": "No transport found.", "ar": "لم يتم العثور على وسائل نقل."},
     "empty_section": {"fa": "اطلاعاتی برای این بخش یافت نشد.", "en": "No information found for this section.", "ar": "لا توجد معلومات لهذا القسم."},
-    "err_generic": {"fa": "خطا در دریافت اطلاعات.", "en": "Error retrieving information.", "ar": "خطأ في استرجاع المعلومات."},
+    "err_generic": {
+        "fa": "😔 الان نتونستیم این اطلاعات رو برات بیاریم.\n\nچند لحظه بعد دوباره امتحان کن — اگه نشد، از «💬 پیشنهادات» بهمون بگو تا سریع بررسی کنیم 💙",
+        "en": "😔 We couldn't load this information right now.\n\nPlease try again in a moment — if it still doesn't work, let us know via \"💬 Feedback\" and we'll fix it fast 💙",
+        "ar": "لم نتمكن من جلب هذه المعلومات الآن.\n\nيرجى المحاولة بعد قليل — وإذا استمرت المشكلة، فأخبرنا عبر «💬 الملاحظات» وسنعالجها بسرعة 💙",
+    },
     "spec_unavailable": {"fa": "اطلاعات این تخصص در دسترس نیست.", "en": "Information for this specialty is unavailable.", "ar": "معلومات هذا التخصص غير متوفرة."},
     # ── تاکسی ──
     "taxi_text": {"fa": "برای درخواست خودرو، یکی از اپلیکیشن‌های زیر را انتخاب کنید:", "en": "To request a ride, choose one of the apps below:", "ar": "لطلب سيارة، اختر أحد التطبيقات التالية:"},
@@ -109,15 +113,31 @@ def _t(lang: str, key: str, **kw: object) -> str:
     return text
 
 
+# 🚀 کش داده‌ها با اعتبارسنجی mtime (همان الگوی doctor_loader) — فایل فقط وقتی
+# تغییر کرده باشد دوباره خوانده می‌شود. داده‌های برگشتی هرگز توسط تماس‌گیرنده‌ها
+# mutate نمی‌شوند (بررسی‌شده: همه append/popها روی لیست‌های لوکال‌اند)، پس
+# بازگرداندن شیء کش‌شده امن است. هزینه هر فراخوانی کش‌خورده: فقط یک stat().
+_JSON_CACHE: dict[str, tuple[float, Union[list, dict]]] = {}
+
+
 def load_json(filename: str) -> Union[list, dict]:
     try:
         base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         file_path = os.path.join(base_dir, "data", filename)
-        if not os.path.isfile(file_path):
+        try:
+            mtime = os.path.getmtime(file_path)
+        except OSError:
+            # فایل وجود ندارد → کش قبلی هم باید پاک شود (مثل رفتار قبلی: [])
+            _JSON_CACHE.pop(filename, None)
             return []
+        cached = _JSON_CACHE.get(filename)
+        if cached is not None and cached[0] == mtime:
+            return cached[1]
         with open(file_path, "r", encoding="utf-8") as file:
             data = json.load(file)
-        return data if isinstance(data, (list, dict)) else []
+        data = data if isinstance(data, (list, dict)) else []
+        _JSON_CACHE[filename] = (mtime, data)
+        return data
     except Exception:
         return []
 

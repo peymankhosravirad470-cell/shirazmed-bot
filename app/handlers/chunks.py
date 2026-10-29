@@ -17,6 +17,7 @@
 """
 from __future__ import annotations
 
+import asyncio
 import logging
 from typing import Optional
 
@@ -52,18 +53,24 @@ def track(context: ContextTypes.DEFAULT_TYPE, message_id: Optional[int]) -> None
 async def cleanup(context: ContextTypes.DEFAULT_TYPE, chat_id: int) -> None:
     """حذف همه پیام‌های ثبت‌شده از چت + خالی کردن فهرست ردیابی.
 
-    هر حذف مستقل try/except است: حذف پیام قدیمی/حذف‌شده‌ی قبلی نباید
-    بقیه پاک‌سازی یا جریان کاربر را بشکند. مسیر سریع (لیست خالی) بدون
+    🚀 فیکس کندی: حذف‌ها «موازی» با asyncio.gather انجام می‌شوند نه ترتیبی —
+    هر delete_message یک رفت‌وبرگشت کامل شبکه است و با RTT واقعی بله (~۲۵۰ms)
+    حذف ترتیبی ۴ تکه ≈ ۱ ثانیه تأخیر اضافه قبل از نمایش منو ایجاد می‌کرد؛
+    حالا کل حذف‌ها هم‌زمان ارسال می‌شوند و کل هزینه ≈ یک RTT است.
+    نتیجه هر حذف مستقل بررسی می‌شود: شکست حذف پیام قدیمی/حذف‌شده‌ی قبلی
+    نباید پاک‌سازی یا جریان کاربر را بشکند. مسیر سریع (لیست خالی) بدون
     هیچ کار اضافه‌ای خارج می‌شود تا هزینه‌ای به ناوبری عادی اضافه نشود.
     """
     ud = _ud(context)
     ids = (ud.get(_KEY) if ud is not None else None) or []
     if not ids:
         return
-    for mid in ids:
-        try:
-            await context.bot.delete_message(chat_id=chat_id, message_id=int(mid))
-        except Exception as exc:  # noqa: BLE001 — حذف ناموفق نباید مسیر را بشکند
-            logger.debug("chunk delete skipped (%s): %s", mid, exc)
+    results = await asyncio.gather(
+        *(context.bot.delete_message(chat_id=chat_id, message_id=int(mid)) for mid in ids),
+        return_exceptions=True,
+    )
+    for mid, result in zip(ids, results):
+        if isinstance(result, Exception):  # noqa: BLE001 — حذف ناموفق نباید مسیر را بشکند
+            logger.debug("chunk delete skipped (%s): %s", mid, result)
     if ud is not None:
         ud.pop(_KEY, None)

@@ -75,9 +75,9 @@ _TEXTS: dict[str, dict[str, str]] = {
             "ar": "⚠️ الوقت المُدخل غير صالح. يرجى استخدام صيغة «ساعة:دقيقة»:\n\nمثال: 8:00، 14:30، 21:00",
         },
         "saved": {
-            "fa": "✅ یادآور ثبت شد!\n\n💊 {name}\n⏰ ساعت‌ها: {times}\n\nهر روز سر این ساعت‌ها به شما یادآوری می‌کنیم 💙",
-            "en": "✅ Reminder saved!\n\n💊 {name}\n⏰ Times: {times}\n\nWe will remind you every day at these times 💙",
-            "ar": "✅ تم حفظ التذكير!\n\n💊 {name}\n⏰ الأوقات: {times}\n\nسنذكّرك كل يوم في هذه الأوقات 💙",
+            "fa": "✅ تمام! یادآور «{name}» فعال شد.\n\n⏰ ساعت‌ها: {times}\n\nاز این به بعد هر روز سر این ساعت‌ها بهت یادآوری می‌کنیم — دیگه هیچ دوزی از قلم نمی‌افته 💙",
+            "en": "✅ All set! Your reminder for \"{name}\" is active.\n\n⏰ Times: {times}\n\nWe'll nudge you every day at these times — no dose will slip through again 💙",
+            "ar": "✅ تم! تم تفعيل تذكير «{name}».\n\n⏰ الأوقات: {times}\n\nسنذكّرك كل يوم في هذه الأوقات — لن يفوتك أي جرعة بعد اليوم 💙",
         },
         "list_title": {
             "fa": "📋 داروهای ثبت‌شده شما:\n\n",
@@ -101,9 +101,9 @@ _TEXTS: dict[str, dict[str, str]] = {
             "ar": "📋 لا توجد أدوية للحذف.",
         },
         "deleted": {
-            "fa": "🗑 دارو «{name}» حذف شد و یادآوری‌های آن متوقف شد.",
-            "en": "🗑 Medication \"{name}\" was deleted and its reminders stopped.",
-            "ar": "🗑 تم حذف الدواء «{name}» وتوقّف تذكيراته.",
+            "fa": "🗑 «{name}» حذف شد و یادآوری‌هایش متوقف شد.\nهر وقت خواستی، دوباره اضافه‌اش کن 💙",
+            "en": "🗑 \"{name}\" was deleted and its reminders stopped.\nAdd it back anytime you like 💙",
+            "ar": "🗑 تم حذف «{name}» وتوقّف تذكيراته.\nأضفه من جديد متى ما أردت 💙",
         },
         "too_long": {
             "fa": "⚠️ نام دارو بسیار طولانی است (حداکثر ۶۰ کاراکتر). لطفاً دوباره بنویسید:",
@@ -111,9 +111,9 @@ _TEXTS: dict[str, dict[str, str]] = {
             "ar": "⚠️ اسم الدواء طويل جداً (٦٠ حرفاً كحد أقصى). يرجى الكتابة مرة أخرى:",
         },
         "cancelled": {
-            "fa": "فرآیند افزودن دارو لغو شد.",
-            "en": "Medication adding was cancelled.",
-            "ar": "تم إلغاء إضافة الدواء.",
+            "fa": "باشه، افزودن دارو لغو شد. هر وقت خواستی از اول شروع کن 💙",
+            "en": "Alright, adding the medication was cancelled. Start over whenever you like 💙",
+            "ar": "حسناً، تم إلغاء إضافة الدواء. ابدأ من جديد متى ما أردت 💙",
         },
         "limit": {
             "fa": "⚠️ حداکثر ۱۰ دارو می‌توانید ثبت کنید. ابتدا یکی را حذف کنید.",

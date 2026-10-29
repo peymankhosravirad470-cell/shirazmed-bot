@@ -18,32 +18,35 @@ logger = logging.getLogger(__name__)
 
 WELCOME_TEXTS = {
     "fa": (
-        "🌟 یه پیام بدی، همه‌چیز رو آماده می‌کنیم.\n\n"
-        "از پزشک تا هتل، از ترانسفر تا مترجم،\n"
-        "از نوبت تا گشت گردشگری — همه‌چیز یکجا.\n\n"
+        "🌟 سلام و خوش آمدید!\n\n"
+        "همین یک پیام کافیه؛ از پزشک و نوبت تا هتل و ترانسفر،\n"
+        "از مترجم تا گشت شهر — همه‌چیز یکجا، آماده‌ی شما.\n\n"
+        "✨ خیالتان راحت؛ از همین لحظه کنارتان هستیم.\n"
         "💙 بدون دغدغه، بدون هزینه اضافه\n\n"
-        "👇 از دکمه‌های زیر انتخاب کن:"
+        "👇 از دکمه‌های زیر انتخاب کنید:"
     ),
     "en": (
-        "🌟 Send us a message, we'll prepare everything.\n\n"
-        "From doctor to hotel, from transfer to translator,\n"
-        "from appointment to city tour — all in one place.\n\n"
-        "💙 Without worry, without extra cost\n\n"
+        "🌟 Hello and a warm welcome!\n\n"
+        "One message is all it takes — from doctors and appointments to hotels\n"
+        "and transfers, from interpreters to city tours, all in one place.\n\n"
+        "✨ Rest easy — we're by your side from this very moment.\n"
+        "💙 No worries, no extra costs\n\n"
         "👇 Choose from the buttons below:"
     ),
     "ar": (
-        "🌟 أرسل لنا رسالة، وسنجهز كل شيء.\n\n"
-        "من الطبيب إلى الفندق، من النقل إلى المترجم،\n"
-        "من الموعد إلى الجولة السياحية — كل شيء في مكان واحد.\n\n"
+        "🌟 أهلاً وسهلاً بك!\n\n"
+        "رسالة واحدة تكفي — من الطبيب والموعد إلى الفندق والنقل،\n"
+        "ومن المترجم إلى جولة المدينة؛ كل شيء في مكان واحد وجاهز لك.\n\n"
+        "✨ اطمئن؛ نحن بجانبك من هذه اللحظة.\n"
         "💙 بدون قلق، بدون تكلفة إضافية\n\n"
         "👇 اختر من الأزرار أدناه:"
     ),
 }
 
 FEEDBACK_ASK = {
-    "fa": "🌟 از خدمات ما راضی بودید؟\n\nلطفاً یکی از گزینه‌های زیر را انتخاب کنید:",
-    "en": "🌟 Were you satisfied with our services?\n\nPlease choose one:",
-    "ar": "🌟 هل كنت راضياً عن خدماتنا؟\n\nيرجى اختيار أحد الخيارات:",
+    "fa": "🌟 نظر شما ما رو بهتر می‌کنه!\n\nاز خدمات ما راضی بودید؟ یکی از گزینه‌های زیر رو انتخاب کنید:",
+    "en": "🌟 Your opinion helps us improve!\n\nWere you happy with our services? Pick one below:",
+    "ar": "🌟 رأيك يساعدنا على التحسن!\n\nهل كنت سعيداً بخدماتنا؟ اختر أحد الخيارات أدناه:",
 }
 
 FEEDBACK_YES = {
@@ -87,18 +90,18 @@ FEEDBACK_NO = {
 
 FEEDBACK_THANKS = {
     "fa": (
-        "🙏 از اینکه نظر خود را با ما به اشتراک گذاشتید، صمیمانه سپاسگزاریم.\n\n"
-        "💙 قول می‌دهیم حتماً بررسی و رفع شود.\n\n"
+        "🙏 ممنون که وقت گذاشتید و بهمون گفتید.\n\n"
+        "💙 قول می‌دیم جدی بررسی‌اش کنیم و خبرش رو بهتون بدیم.\n\n"
         "🌟 سلامت و شاد باشید. 🌹"
     ),
     "en": (
-        "🙏 Thank you sincerely for sharing your feedback with us.\n\n"
-        "💙 We promise it will definitely be reviewed and fixed.\n\n"
+        "🙏 Thank you for taking the time to tell us.\n\n"
+        "💙 We promise to look into it properly and get back to you.\n\n"
         "🌟 Stay healthy and happy. 🌹"
     ),
     "ar": (
-        "🙏 شكراً جزيلاً لمشاركتنا ملاحظاتك.\n\n"
-        "💙 نعدك بأنه سيتم مراجعته وإصلاحه بالتأكيد.\n\n"
+        "🙏 شكراً لتخصيص الوقت لإخبارنا.\n\n"
+        "💙 نعدك بأن ندرسه بجدية ونخبرك بالنتيجة.\n\n"
         "🌟 دم بصحة وسعادة. 🌹"
     ),
 }

@@ -20,3 +20,6 @@ venv/
 # 🆕 داده‌های ران‌تایم جدید (ماندگاری زبان + یادآور دارو)
 data/bot_persistence.pkl
 data/medications.json
+data/bot_persistence_bale.pkl
+data/bot_persistence_telegram.pkl
+data/appointments.json.bak

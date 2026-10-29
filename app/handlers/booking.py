@@ -65,24 +65,24 @@ DATE_PER_PAGE: int = 7     # تاریخ در هر صفحه (۲ صفحه)
 
 _BT: dict[str, dict[str, str]] = {
     "cancelled": {
-        "fa": "فرآیند رزرو نوبت لغو شد.",
-        "en": "The appointment booking was cancelled.",
-        "ar": "تم إلغاء عملية حجز الموعد.",
+        "fa": "باشه، فرآیند رزرو لغو شد.\nهر وقت آماده بودی، از منو دوباره شروع کن — ما همین‌جاییم 💙",
+        "en": "Alright — the booking was cancelled.\nWhenever you're ready, start again from the menu — we're right here 💙",
+        "ar": "حسناً، تم إلغاء عملية الحجز.\nمتى ما كنت مستعداً، ابدأ من جديد من القائمة — نحن هنا من أجلك 💙",
     },
     "payment_failed": {
-        "fa": "خطا در ایجاد لینک پرداخت. نوبت شما لغو شد.\nلطفاً دوباره تلاش کنید یا با پشتیبانی تماس بگیرید.",
-        "en": "Error creating the payment link. Your appointment was cancelled.\nPlease try again or contact support.",
-        "ar": "خطأ في إنشاء رابط الدفع. تم إلغاء موعدك.\nيرجى المحاولة مرة أخرى أو التواصل مع الدعم.",
+        "fa": "😔 پرداخت انجام نشد و رزرو موقت آزاد شد.\n\nنگران نباش — می‌تونی همین الان دوباره از منو شروع کنی، یا اگه مبلغی کم شده باشه حتماً برمی‌گرده. اگه سؤالی داشتی، پشتیبانی پای کاره 💙",
+        "en": "😔 The payment didn't go through and the temporary reservation was released.\n\nNo worries — you can start again from the menu right away; if any amount was deducted, it will be refunded. Questions? Support is here for you 💙",
+        "ar": "لم تكتمل عملية الدفع وتم تحرير الحجز المبدئي.\n\nلا تقلق — يمكنك البدء من جديد من القائمة الآن؛ وإذا خُصم أي مبلغ فسيعود حتماً. لديك سؤال؟ الدعم موجود من أجلك 💙",
     },
     "slot_taken": {
-        "fa": "خطا در ثبت نوبت رخ داد.\nاحتمالاً این ساعت همین الان توسط کاربر دیگری رزرو شده است.\nلطفاً دوباره از منو نوبت بگیرید.",
-        "en": "Error registering the appointment.\nThis time slot has probably just been taken by another user.\nPlease book again from the menu.",
-        "ar": "حدث خطأ أثناء تسجيل الموعد.\nمن المحتمل أن هذه الفترة الزمنية تم حجزها للتو من قبل مستخدم آخر.\nيرجى الحجز مرة أخرى من القائمة.",
+        "fa": "اه، این ساعت همین الان توسط نفر دیگری پر شد! 😔\n\nلطفاً تاریخ یا ساعت دیگری انتخاب کن — گزینه‌های خوبی هنوز مونده 💙",
+        "en": "Oh — this slot was just taken by someone else! 😔\n\nPlease pick another date or time — there are still plenty of good options 💙",
+        "ar": "آه، تم حجز هذه الفترة للتو من قبل شخص آخر! 😔\n\nيرجى اختيار تاريخ أو وقت آخر — لا تزال هناك خيارات جيدة متاحة 💙",
     },
     "already_confirmed": {
-        "fa": "این نوبت قبلاً ثبت شده است.",
-        "en": "This appointment has already been confirmed.",
-        "ar": "تم تأكيد هذا الموعد بالفعل.",
+        "fa": "این نوبت قبلاً قطعی شده؛ همه‌چیز سر جاش است ✅",
+        "en": "This appointment is already confirmed — everything's in place ✅",
+        "ar": "تم تأكيد هذا الموعد بالفعل؛ كل شيء على ما يرام ✅",
     },
     "ask_name": {
         "fa": "لطفاً نام و نام خانوادگی بیمار را وارد کنید:",
@@ -105,9 +105,9 @@ _BT: dict[str, dict[str, str]] = {
         "ar": "الرمز الوطني المُدخل غير صالح.\nيرجى إدخال رمز وطني مكوّن من {n} أرقام:",
     },
     "no_doctors": {
-        "fa": "متأسفانه لیست پزشکان در دسترس نیست.\nلطفاً بعداً تلاش کنید یا با پشتیبانی تماس بگیرید.",
-        "en": "Unfortunately the doctors list is unavailable.\nPlease try again later or contact support.",
-        "ar": "للأسف قائمة الأطباء غير متوفرة.\nيرجى المحاولة لاحقاً أو التواصل مع الدعم.",
+        "fa": "😔 الان نتونستیم لیست پزشکان رو باز کنیم.\nچند لحظه بعد دوباره امتحان کن — اگه نشد، پشتیبانی پای کاره 💙",
+        "en": "😔 We couldn't load the doctors list right now.\nPlease try again in a moment — if it doesn't work, support is here for you 💙",
+        "ar": "لم نتمكن من فتح قائمة الأطباء الآن.\nيرجى المحاولة بعد قليل — وإن لم ينجح الأمر، فالدعم موجود من أجلك 💙",
     },
     "ask_spec": {
         "fa": "لطفاً تخصص مورد نظر را انتخاب کنید:\n\n🔵 سایر تخصص‌ها به‌زودی اضافه می‌شوند.",
@@ -155,9 +155,9 @@ _BT: dict[str, dict[str, str]] = {
         "ar": "هذا الوقت لم يعد متاحاً.\nيرجى اختيار وقت آخر:",
     },
     "incomplete_info": {
-        "fa": "اطلاعات نوبت ناقص است. لطفاً دوباره از منو نوبت بگیرید.",
-        "en": "Appointment information is incomplete. Please book again from the menu.",
-        "ar": "معلومات الموعد غير مكتملة. يرجى الحجز مرة أخرى من القائمة.",
+        "fa": "اطلاعات این نوبت کامل نشد. یه بار دیگه از منو شروع کن — چند لحظه بیشتر وقت نمی‌گیره 💙",
+        "en": "This booking's details didn't complete. Let's start again from the menu — it only takes a moment 💙",
+        "ar": "لم تكتمل معلومات هذا الحجز. لنبدأ من جديد من القائمة — لن يستغرق الأمر سوى لحظات 💙",
     },
     "summary": {
         "fa": "خلاصه نوبت:\n\n👤 نام بیمار: {name}\n🆔 کد ملی: {code}\n👨‍⚕️ پزشک: {doctor}\n📅 تاریخ: {date}\n⏰ ساعت: {time}\n💰 مبلغ: {amount}\n\nآیا از ثبت این نوبت مطمئن هستید؟",
@@ -168,9 +168,9 @@ _BT: dict[str, dict[str, str]] = {
     "btn_back_main": {"fa": "بازگشت به منوی اصلی", "en": "Back to Main Menu", "ar": "العودة إلى القائمة الرئيسية"},
     "toman": {"fa": "تومان", "en": "Toman", "ar": "تومان"},
     "reserved_pending": {
-        "fa": "نوبت شما موقتاً رزرو شد ✅\n👨‍⚕️ پزشک: {doctor}\n📅 تاریخ: {date} — ساعت {time}\n💰 مبلغ: {amount}\n\nبرای قطعی شدن نوبت، در ۱۵ دقیقه آینده پرداخت را انجام دهید:\n{link}\n\nپس از پرداخت به‌صورت خودکار تأیید و رسید برای شما ارسال می‌شود. 💙",
-        "en": "Your appointment is tentatively reserved ✅\n👨‍⚕️ Doctor: {doctor}\n📅 Date: {date} — Time: {time}\n💰 Amount: {amount}\n\nTo finalize the appointment, please pay within 15 minutes:\n{link}\n\nAfter payment it will be confirmed automatically and a receipt will be sent to you. 💙",
-        "ar": "تم حجز موعدك مبدئياً ✅\n👨‍⚕️ الطبيب: {doctor}\n📅 التاريخ: {date} — الوقت: {time}\n💰 المبلغ: {amount}\n\nلإتمام تأكيد الموعد، يرجى الدفع خلال 15 دقيقة:\n{link}\n\nبعد الدفع سيتم التأكيد تلقائياً وإرسال الإيصال إليك. 💙",
+        "fa": "عالی! نوبت شما موقتاً رزرو شد ✅\n👨‍⚕️ پزشک: {doctor}\n📅 تاریخ: {date} — ساعت {time}\n💰 مبلغ: {amount}\n\nبرای قطعی شدن، تا ۱۵ دقیقه دیگر پرداخت رو انجام بده:\n{link}\n\nپرداخت که انجام شد، خودکار تأیید و رسیدش برای شما ارسال می‌شه. خیالت راحت 💙",
+        "en": "Great! Your appointment is tentatively reserved ✅\n👨‍⚕️ Doctor: {doctor}\n📅 Date: {date} — Time: {time}\n💰 Amount: {amount}\n\nTo finalize it, please pay within 15 minutes:\n{link}\n\nOnce paid, it's confirmed automatically and your receipt is sent to you. Rest assured 💙",
+        "ar": "رائع! تم حجز موعدك مبدئياً ✅\n👨‍⚕️ الطبيب: {doctor}\n📅 التاريخ: {date} — الوقت: {time}\n💰 المبلغ: {amount}\n\nلإتمام التأكيد، يرجى الدفع خلال 15 دقيقة:\n{link}\n\nبعد الدفع سيتم التأكيد تلقائياً وستصلك الإيصال. اطمئن 💙",
     },
     "nav_prev": {"fa": "▶️ قبلی", "en": "▶️ Previous", "ar": "▶️ السابق"},
     "nav_next": {"fa": "◀️ بعدی", "en": "◀️ Next", "ar": "◀️ التالي"},

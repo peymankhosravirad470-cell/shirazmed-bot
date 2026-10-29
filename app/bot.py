@@ -47,6 +47,12 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     level=logging.INFO,
 )
+# 🚀 فیکس کندی (بخش ۳): httpx به‌ازای «هر» فراخوانی API بله/تلگرام یک خط لاگ INFO
+# می‌نویسد (answerCallbackQuery، editMessageText، sendMessage و…) — یعنی ۳+ خط
+# اضافه روی stdout کانتینر در هر کلیک کاربر. سطح آن به WARNING می‌رود تا فقط
+# خطاهای واقعی شبکه لاگ شوند؛ لاگ‌های خود ربات (app.*) سر جای خود می‌مانند.
+logging.getLogger("httpx").setLevel(logging.WARNING)
+logging.getLogger("apscheduler").setLevel(logging.WARNING)
 logger = logging.getLogger(__name__)
 
 
@@ -120,7 +126,28 @@ PERSISTENCE_FILE = "data/bot_persistence.pkl"
 
 PRIVATE_CHAT_ONLY = filters.ChatType.PRIVATE
 
-USER_ERROR_MESSAGE = "خطایی رخ داد. لطفاً دوباره تلاش کنید."
+# 🎨 متن خطای کاربر — سه‌زبانه و گرم (قبلاً فقط فارسی و خشک بود).
+# زبان از user_data خوانده می‌شود؛ اگر در دسترس نبود، نسخه سه‌خطی ترکیبی.
+_USER_ERROR_T = {
+    "fa": "😔 یه خطای غیرمنتظره پیش اومد. لطفاً چند لحظه بعد دوباره امتحان کنید — اگه تکرار شد، ما رو در جریان بذارید 💙",
+    "en": "😔 Something unexpected came up. Please try again in a moment — if it repeats, let us know 💙",
+    "ar": "😔 حدث خطأ غير متوقع. يرجى المحاولة بعد قليل — وإذا تكرر الأمر، فأخبرنا بذلك 💙",
+}
+_USER_ERROR_FALLBACK = (
+    "😔 خطایی پیش اومد؛ لطفاً چند لحظه بعد دوباره امتحان کنید 💙\n"
+    "Something went wrong; please try again in a moment 💙\n"
+    "حدث خطأ ما؛ يرجى المحاولة بعد قليل 💙"
+)
+
+
+def _user_error_text(context: ContextTypes.DEFAULT_TYPE) -> str:
+    try:
+        lang = (context.user_data or {}).get("lang")
+        if lang in _USER_ERROR_T:
+            return _USER_ERROR_T[lang]
+    except Exception:
+        pass
+    return _USER_ERROR_FALLBACK
 
 
 async def reset_conversations_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -159,7 +186,7 @@ async def global_error_handler(
     if update.callback_query is not None:
         try:
             await update.callback_query.answer(
-                USER_ERROR_MESSAGE,
+                _user_error_text(context),
                 show_alert=True,
             )
             return
@@ -172,7 +199,7 @@ async def global_error_handler(
         try:
             await context.bot.send_message(
                 chat_id=update.effective_chat.id,
-                text=USER_ERROR_MESSAGE,
+                text=_user_error_text(context),
             )
         except Exception as error:
             logger.warning(

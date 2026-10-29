@@ -3,9 +3,11 @@
 
 MSG = {
     "welcome": (
-        "🌟 Send one message, and we'll prepare everything.\n\n"
-        "From doctors to hotels, from transfers to translators, from appointments to city tours — all in one place.\n\n"
-        "No worries, no hidden costs 💙\n\n"
+        "🌟 Hello and a warm welcome!\n\n"
+        "One message is all it takes — from doctors and appointments to hotels\n"
+        "and transfers, from interpreters to city tours, all in one place.\n\n"
+        "✨ Rest easy — we're by your side from this very moment.\n"
+        "💙 No worries, no extra costs\n\n"
         "👇 Choose from the buttons below:"
     ),
     "welcome_text": "Or write your request:\ne.g. \"heart doctor\" or \"treatment package\"",
