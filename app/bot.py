@@ -157,6 +157,12 @@ async def reset_conversations_callback(update: Update, context: ContextTypes.DEF
         if user is None or chat is None:
             return
         key = (chat.id, user.id)
+        # 🧹 Bug2-hardening: پرچم کهنه‌ی «در انتظار ثبت نظر» هم پاک شود؛ وگرنه
+        # بعد از ریست، اولین متن کاربر بی‌اجازه به‌عنوان نظر برای ادمین می‌رفت.
+        try:
+            context.user_data["awaiting_feedback"] = False
+        except Exception:
+            pass
         # 🧹 تسک ۳: قبل از هر ناوبری، پرامپت‌های ردیابی‌شده‌ی گفتگوها (نام/
         # کد ملی/ساعت دارو/…) و تکه‌های لیست قبلی حذف شوند تا «پیام قدیمی
         # بالای منوی جدید» نماند. شکست پاک‌سازی نباید مسیر را بشکند.

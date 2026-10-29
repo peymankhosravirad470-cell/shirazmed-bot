@@ -73,6 +73,11 @@ _T: dict[str, dict[str, str]] = {
     "lbl_offices": {"fa": "دفاتر در شیراز", "en": "Offices in Shiraz", "ar": "المكاتب في شيراز"},
     # 🆕 دکمه مسیریاب (تسک ۴)
     "lbl_map": {"fa": "🗺️ مسیریاب (گوگل‌مپ)", "en": "🗺️ Directions (Google Maps)", "ar": "🗺️ الاتجاهات (خرائط جوجل)"},
+    # 🆕 دکمه‌های مسیریاب سه‌اپ (Bug1 — نام مکان داخل لیبل هر دکمه)
+    "nav_to": {"fa": "مسیریاب تا", "en": "Directions to", "ar": "الاتجاهات إلى"},
+    "map_google": {"fa": "گوگل‌مپ", "en": "Google Maps", "ar": "خرائط جوجل"},
+    "map_neshan": {"fa": "نشان", "en": "Neshan", "ar": "نشان"},
+    "map_balad": {"fa": "بلد", "en": "Balad", "ar": "بلد"},
     # ── راهنمای بیمار ──
     "guide_visa": {"fa": "مدارک ویزای پزشکی:", "en": "Medical visa documents:", "ar": "وثائق التأشيرة الطبية:"},
     "guide_admission": {"fa": "مدارک پذیرش بیمارستان:", "en": "Hospital admission documents:", "ar": "وثائق القبول في المستشفى:"},
@@ -252,7 +257,7 @@ async def _display(update: Update, context: ContextTypes.DEFAULT_TYPE, text: str
     return getattr(sent, "message_id", None)
 
 
-async def _send_chunked(update: Update, context: ContextTypes.DEFAULT_TYPE, chat_id: int, texts: list[str], back_markup: InlineKeyboardMarkup, max_chars: int = 2800, item_buttons: list[list[InlineKeyboardButton]] | None = None) -> int:
+async def _send_chunked(update: Update, context: ContextTypes.DEFAULT_TYPE, chat_id: int, texts: list[str], back_markup: InlineKeyboardMarkup, max_chars: int = 2800, item_button_rows: list[list[list[InlineKeyboardButton]]] | None = None) -> int:
     """ادغام آیتم‌ها در پیام‌های چندتایی (فیکس flood) + ویرایش تکه اول روی همان پیام.
 
     🧹 فیکس بقایای لیست چندپیامی: همه تکه‌های «غیر از آخرین» در chunk_tracker
@@ -261,9 +266,9 @@ async def _send_chunked(update: Update, context: ContextTypes.DEFAULT_TYPE, chat
     (نشانگرِ دارای کیبورد) ثبت نمی‌شود چون خودش با کلیک بعدی ویرایش می‌شود؛
     بنابراین هیچ‌وقت پیامی که باید بماند حذف نمی‌شود.
 
-    🆕 تسک ۴: item_buttons هم‌طول texts است؛ هر آیتم می‌تواند دکمه‌های خودش را
-    (مثل مسیریاب گوگل‌مپ) داشته باشد که به کیبوردِ «تکه‌ی حاوی همان آیتم»
-    اضافه می‌شوند.
+    🆕 Bug1: item_button_rows هم‌طول texts است؛ هر آیتم «ردیف‌های دکمه‌ی خودش»
+    را دارد (مثلاً ۳ ردیف مسیریاب گوگل‌مپ/نشان/بلد با نام مکان در لیبل) که به
+    کیبوردِ «تکه‌ی حاوی همان آیتم» اضافه می‌شوند.
     """
     parts: list[str] = []
     current: list[str] = []
@@ -279,12 +284,12 @@ async def _send_chunked(update: Update, context: ContextTypes.DEFAULT_TYPE, chat
         item_chunk.append(len(parts))  # تا قبل از بستن تکه، شماره تکه فعلی
     if current: parts.append("\n\n".join(current))
 
-    # دکمه‌های هر تکه از آیتم‌های همان تکه جمع می‌شود
-    chunk_buttons: list[list[InlineKeyboardButton]] = [[] for _ in parts]
-    if item_buttons:
-        for idx, buttons in enumerate(item_buttons):
-            if idx < len(item_chunk) and buttons:
-                chunk_buttons[item_chunk[idx]].extend(buttons)
+    # 🆕 Bug1: ردیف‌های دکمه‌ی هر تکه از آیتم‌های همان تکه جمع می‌شود
+    chunk_rows: list[list[list[InlineKeyboardButton]]] = [[] for _ in parts]
+    if item_button_rows:
+        for idx, item_rows in enumerate(item_button_rows):
+            if idx < len(item_chunk) and item_rows:
+                chunk_rows[item_chunk[idx]].extend(item_rows)
 
     # 🧹 ترتیب مهم است: reset را اینجا انجام نمی‌دهیم؛ تکه اول با _display
     # نمایش داده می‌شود که در ابتدای خودش cleanupِ لیست «قبلی» را انجام می‌دهد —
@@ -293,10 +298,10 @@ async def _send_chunked(update: Update, context: ContextTypes.DEFAULT_TYPE, chat
     total = len(parts)
     for index, chunk in enumerate(parts):
         is_last = index == total - 1
-        rows = []
-        if chunk_buttons[index]:
-            # هر آیتم یک ردیف دکمه تا در موبایل شلوغ نشود
-            rows.extend([[b] for b in chunk_buttons[index]])
+        rows: list[list[InlineKeyboardButton]] = []
+        for item_row in chunk_rows[index]:
+            # هر عنصر chunk_rows[index] یک «ردیف» است (لیست دکمه‌ها)
+            rows.append(item_row)
         if is_last and back_markup is not None:
             rows.extend(back_markup.inline_keyboard)
         markup = InlineKeyboardMarkup(rows) if rows else None
@@ -339,14 +344,77 @@ def _maps_query(item: dict, lang: str) -> str:
     return f"{base} {_MAP_CITY.get(lang, 'شیراز')}"
 
 
-def _maps_button(item: dict, lang: str) -> list[InlineKeyboardButton]:
-    """دکمه «مسیریاب» برای آیتم‌های دارای آدرس/نام؛ بدون آدرس → بدون دکمه."""
-    query = _maps_query(item, lang)
-    if not query:
+# 🆕 Bug1 — دکمه‌های مسیریاب «سه‌اپ» با نام مکان در لیبل.
+# فرمت لینک‌ها (وب‌محور؛ دکمه url فقط http/https می‌پذیرد):
+#   گوگل‌مپ: https://www.google.com/maps/search/?api=1&query={q}
+#   نشان:    https://neshan.org/maps/search/{q}          (متن)
+#            https://neshan.org/maps/@{lat},{lng},17z   (مختصات)
+#   بلد:     https://balad.ir/search?query={q}           (متن)
+#            https://balad.ir/location?latitude=..&longitude=..&zoom=16
+_MAP_LABEL_MAX = 34  # سقف طول نام مکان در لیبل دکمه (لیبل نهایی ≤ ۶۴ کاراکتر)
+
+
+def _map_label_name(item: dict, lang: str) -> str:
+    name = _get_localized_field(item, "name_fa", lang) or _get_localized_field(item, "name", lang) or ""
+    name = " ".join(str(name).split())
+    if len(name) > _MAP_LABEL_MAX:
+        name = name[: _MAP_LABEL_MAX - 1].rstrip() + "…"
+    return name
+
+
+def _map_coords(item: dict) -> tuple[float, float] | None:
+    lat, lng = item.get("lat"), item.get("lng")
+    if lat is None or lng is None:
+        return None
+    try:
+        return float(lat), float(lng)
+    except (TypeError, ValueError):
+        return None
+
+
+def _map_rows(item: dict, lang: str, query_override: str = "") -> list[list[InlineKeyboardButton]]:
+    """۳ دکمه‌ی مسیریاب (گوگل‌مپ/نشان/بلد) با نام مکان در لیبل؛ بدون نام/آدرس → خالی.
+
+    🧭 لیبل هر دکمه شامل «اسم خلاصه‌شده‌ی مکان» است تا کاربر بداند کدام دکمه
+    مال کدام آیتم است (فیکس باگ «۹ دکمه یکسان بی‌نام»). اولویت کوئری: مختصات
+    (اگر در JSON باشد) ← متن آدرس/نام + شهر.
+    """
+    name = _map_label_name(item, lang)
+    if not name and not query_override:
         return []
-    from urllib.parse import quote_plus
-    url = f"https://www.google.com/maps/search/?api=1&query={quote_plus(query)}"
-    return [InlineKeyboardButton(_t(lang, "lbl_map"), url=url)]
+    coords = _map_coords(item)
+    from urllib.parse import quote, quote_plus
+    if coords is not None:
+        lat, lng = coords
+        urls = {
+            "google": f"https://www.google.com/maps/search/?api=1&query={lat},{lng}",
+            "neshan": f"https://neshan.org/maps/@{lat},{lng},17z",
+            "balad": f"https://balad.ir/location?latitude={lat}&longitude={lng}&zoom=16",
+        }
+    else:
+        q = (query_override or _maps_query(item, lang)).strip()
+        if not q:
+            return []
+        urls = {
+            "google": f"https://www.google.com/maps/search/?api=1&query={quote_plus(q)}",
+            "neshan": f"https://neshan.org/maps/search/{quote(q)}",
+            "balad": f"https://balad.ir/search?query={quote_plus(q)}",
+        }
+    nav = _t(lang, "nav_to")
+    rows: list[list[InlineKeyboardButton]] = []
+    for key, icon in (("google", "🗺️"), ("neshan", "🧭"), ("balad", "🧭")):
+        app_label = _t(lang, f"map_{key}")
+        label = f"{icon} {nav} {name} ({app_label})"
+        if len(label) > 64:  # سقف سخت Bale/Telegram
+            label = label[:63] + "…"
+        rows.append([InlineKeyboardButton(label, url=urls[key])])
+    return rows
+
+
+def _maps_button(item: dict, lang: str) -> list[InlineKeyboardButton]:
+    """سازگاری قدیمی: دکمه‌ی تکی گوگل‌مپ (فقط دکمه‌ی اول _map_rows)."""
+    rows = _map_rows(item, lang)
+    return [rows[0][0]] if rows else []
 
 
 async def _show_items(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str, filename: str, empty_message: str = "") -> None:
@@ -366,7 +434,7 @@ async def _show_items(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: 
         items = load_json(filename)
         if not isinstance(items, list): items = []
         texts = []
-        btns: list[list[InlineKeyboardButton]] = []
+        btns: list[list[list[InlineKeyboardButton]]] = []
         for item in items:
             if not isinstance(item, dict): continue
             name = ""
@@ -403,14 +471,14 @@ async def _show_items(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: 
             if amenities_str: lines.append(f"✨ {_t(lang, 'lbl_amenities')}: {amenities_str}")
             if lines:
                 texts.append("\n".join(lines))
-                # 🆕 تسک ۴: دکمه مسیریاب برای آیتم‌های دارای نام/آدرس
-                btns.append(_maps_button(item, lang))
+                # 🆕 Bug1: ۳ دکمه‌ی مسیریاب با نام مکان در لیبل
+                btns.append(_map_rows(item, lang))
             else:
                 btns.append([])
         if not texts:
             await _display(update, context, empty_message or _t(lang, "empty_generic"), back_markup)
             return
-        await _send_chunked(update, context, chat_id, texts, back_markup, item_buttons=btns)
+        await _send_chunked(update, context, chat_id, texts, back_markup, item_button_rows=btns)
     except Exception:
         await _display(update, context, _t(lang, "err_generic"), back_markup)
 async def show_hospitals(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
@@ -418,14 +486,26 @@ async def show_hospitals(update: Update, context: ContextTypes.DEFAULT_TYPE, lan
     chat_id = update.effective_chat.id
     try:
         hospitals = []
+        # 🆕 Bug1-fix: hospitals2.json نسخه‌ی کپی hospitals.json بود (هر ۷ آیتم
+        # تکراری) → لیست هر بیمارستان ۲ بار + دکمه‌های مسیریاب تکراری نمایش
+        # داده می‌شد. با dedupe بر اساس id (fallback: نام) فقط اولین نسخه می‌ماند.
+        seen_ids: set[str] = set()
         for fname in ("hospitals.json", "hospitals2.json"):
             data = load_json(fname)
-            if isinstance(data, list): hospitals.extend(i for i in data if isinstance(i, dict))
+            if isinstance(data, list):
+                for i in data:
+                    if not isinstance(i, dict):
+                        continue
+                    key = str(i.get("id") or i.get("name_fa") or id(i))
+                    if key in seen_ids:
+                        continue
+                    seen_ids.add(key)
+                    hospitals.append(i)
         if not hospitals:
             await _display(update, context, _t(lang, "empty_generic"), get_back_keyboard(lang))
             return
         texts = []
-        btns: list[list[InlineKeyboardButton]] = []
+        btns: list[list[list[InlineKeyboardButton]]] = []
         for h in hospitals:
             if not isinstance(h, dict): continue
             name = _get_localized_field(h, "name_fa", lang) or _get_localized_field(h, "name", lang)
@@ -437,11 +517,12 @@ async def show_hospitals(update: Update, context: ContextTypes.DEFAULT_TYPE, lan
             if phone: lines.append(f"📞 {_t(lang, 'lbl_phone')}: {phone}")
             if lines: 
                 texts.append("\n".join(lines))
-                btns.append(_maps_button(h, lang))
+                # 🆕 Bug1: ۳ دکمه‌ی مسیریاب با نام بیمارستان در لیبل
+                btns.append(_map_rows(h, lang))
             else:
                 btns.append([])
         if texts:
-            await _send_chunked(update, context, chat_id, texts, get_back_keyboard(lang), item_buttons=btns)
+            await _send_chunked(update, context, chat_id, texts, get_back_keyboard(lang), item_button_rows=btns)
         else:
             await _display(update, context, _t(lang, "empty_generic"), get_back_keyboard(lang))
     except Exception:
@@ -470,6 +551,7 @@ async def show_insurances(update: Update, context: ContextTypes.DEFAULT_TYPE, la
         if not isinstance(items, list):
             items = []
         texts = []
+        btns: list[list[list[InlineKeyboardButton]]] = []
         for item in items:
             if not isinstance(item, dict):
                 continue
@@ -490,10 +572,14 @@ async def show_insurances(update: Update, context: ContextTypes.DEFAULT_TYPE, la
             if offices: lines.append(f"📍 {_t(lang, 'lbl_offices')}: {offices}")
             if lines:
                 texts.append("\n".join(lines))
+                # 🆕 Bug1: دکمه‌های مسیریاب برای دفاتر شیراز (کوئری = متن دفاتر)
+                btns.append(_map_rows(item, lang, query_override=offices or ""))
+            else:
+                btns.append([])
         if not texts:
             await _display(update, context, _t(lang, "empty_generic"), back_markup)
             return
-        await _send_chunked(update, context, chat_id, texts, back_markup)
+        await _send_chunked(update, context, chat_id, texts, back_markup, item_button_rows=btns)
     except Exception:
         await _display(update, context, _t(lang, "err_generic"), back_markup)
 
