@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install "python-telegram-bot[job-queue]==21.9" requests jdatetime reportlab arabic-reshaper python-bidi
+          pip install -r requirements.txt
 
       - name: Compile all Python files (syntax)
         run: python -m compileall -q .
