@@ -289,6 +289,15 @@ MSG_BTN = {
     "patient_guide": "📖 Patient Guide",
     "support": "🤝 Support Centers",
     "ai_assistant": "🤖 AI Assistant",
+    # 🆕 مأموریت مکمل — جست‌وجوی جامع + مشاور سلامت + دسته‌بندی منو
+    "search": "🔍 Smart Search",
+    "advisor": "🩺 Health Advisor",
+    "cat_medical": "🏥 Treatment & Doctors",
+    "cat_travel": "🧳 Stay & Transport",
+    "cat_tourism": "🏛️ Tourism & Packages",
+    "cat_support": "🤝 Support Services",
+    "cat_me": "📋 My File & Appointments",
+    "cat_contact": "💬 Talk to Us",
 }
 
 INSURANCE_FIELD_LABELS = {

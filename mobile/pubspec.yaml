@@ -1,0 +1,29 @@
+name: shiraz_medical
+description: "Shiraz Medical — سامانهٔ گردشگری سلامت (اپلیکیشن همراه بیمار). Three-lingual (fa/ar/en) patient companion app."
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  url_launcher: ^6.2.6
+  # TODO(next): http برای اتصال به API عمومی شیراز مدیکال (main_api.py)
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  generate: false
+  assets:
+    - assets/data/symptoms.json
+    - assets/data/emergency_numbers.json
+    - assets/data/search_index.json

@@ -226,9 +226,13 @@ async def main() -> int:
     # ═══════════ مورد ۶ — اتصال داده‌های غیرپزشکی ═══════════
 
     from app.keyboards.main import get_main_menu_keyboard
+    from app.keyboards.categories import CATEGORY_KEYBOARDS
     cbs = [b.callback_data for row in get_main_menu_keyboard("fa").inline_keyboard for b in row]
-    r.check("۶ دکمه «راهنمای بیمار» در منوی اصلی است", "patient_guide" in cbs)
-    r.check("۶ دکمه «مراکز پشتیبانی» در منوی اصلی است", "support" in cbs)
+    cat_cbs = {cb for cat in CATEGORY_KEYBOARDS.values() for row in cat("fa").inline_keyboard for b in row for cb in [b.callback_data]}
+    # 🆕 بازطراحی منو (مأموریت مکمل): راهنمای بیمار → دستهٔ «درمان و پزشکان»،
+    # مراکز پشتیبانی → دستهٔ «پشتیبانی و خدمات» — یک‌کلیکه از منوی اصلی.
+    r.check("۶ دکمه «راهنمای بیمار» از منوی اصلی در دسترس است", "patient_guide" in cbs or ("cat_medical" in cbs and "patient_guide" in cat_cbs))
+    r.check("۶ دکمه «مراکز پشتیبانی» از منوی اصلی در دسترس است", "support" in cbs or ("cat_support" in cbs and "support" in cat_cbs))
 
     REC.reset()
     await process(make_cb_update(4500, "lang_fa", chat_id=4500))

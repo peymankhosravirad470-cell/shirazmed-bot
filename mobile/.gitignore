@@ -1,0 +1,21 @@
+# مخصوص Flutter/Dart
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+coverage/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# اندروید/iOS محلی (ساخت پس از flutter create)
+android/local.properties
+ios/Pods/
+ios/.symlinks/
+*.lock
+!pubspec.lock

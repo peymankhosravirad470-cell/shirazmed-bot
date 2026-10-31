@@ -1,0 +1,117 @@
+{
+  "order": [
+    "ir",
+    "iq",
+    "ae",
+    "sa",
+    "qa",
+    "om",
+    "bh",
+    "tr",
+    "uk",
+    "de",
+    "us",
+    "au"
+  ],
+  "countries": {
+    "ir": {
+      "label": {
+        "fa": "ایران 🇮🇷",
+        "en": "Iran 🇮🇷",
+        "ar": "إيران 🇮🇷"
+      },
+      "ambulance": "115"
+    },
+    "iq": {
+      "label": {
+        "fa": "عراق 🇮🇶",
+        "en": "Iraq 🇮🇶",
+        "ar": "العراق 🇮🇶"
+      },
+      "ambulance": "911",
+      "alt": "112"
+    },
+    "ae": {
+      "label": {
+        "fa": "امارات 🇦🇪",
+        "en": "UAE 🇦🇪",
+        "ar": "الإمارات 🇦🇪"
+      },
+      "ambulance": "998"
+    },
+    "sa": {
+      "label": {
+        "fa": "عربستان 🇸🇦",
+        "en": "Saudi Arabia 🇸🇦",
+        "ar": "السعودية 🇸🇦"
+      },
+      "ambulance": "997"
+    },
+    "qa": {
+      "label": {
+        "fa": "قطر 🇶🇦",
+        "en": "Qatar 🇶🇦",
+        "ar": "قطر 🇶🇦"
+      },
+      "ambulance": "999"
+    },
+    "om": {
+      "label": {
+        "fa": "عمان 🇴🇲",
+        "en": "Oman 🇴🇲",
+        "ar": "عُمان 🇴🇲"
+      },
+      "ambulance": "9999"
+    },
+    "bh": {
+      "label": {
+        "fa": "بحرین 🇧🇭",
+        "en": "Bahrain 🇧🇭",
+        "ar": "البحرين 🇧🇭"
+      },
+      "ambulance": "999"
+    },
+    "tr": {
+      "label": {
+        "fa": "ترکیه 🇹🇷",
+        "en": "Türkiye 🇹🇷",
+        "ar": "تركيا 🇹🇷"
+      },
+      "ambulance": "112"
+    },
+    "uk": {
+      "label": {
+        "fa": "بریتانیا 🇬🇧",
+        "en": "UK 🇬🇧",
+        "ar": "بريطانيا 🇬🇧"
+      },
+      "ambulance": "999",
+      "alt": "112"
+    },
+    "de": {
+      "label": {
+        "fa": "آلمان 🇩🇪",
+        "en": "Germany 🇩🇪",
+        "ar": "ألمانيا 🇩🇪"
+      },
+      "ambulance": "112"
+    },
+    "us": {
+      "label": {
+        "fa": "آمریکا 🇺🇸",
+        "en": "USA 🇺🇸",
+        "ar": "أمريكا 🇺🇸"
+      },
+      "ambulance": "911"
+    },
+    "au": {
+      "label": {
+        "fa": "استرالیا 🇦🇺",
+        "en": "Australia 🇦🇺",
+        "ar": "أستراليا 🇦🇺"
+      },
+      "ambulance": "000"
+    }
+  },
+  "fallback": "112"
+}

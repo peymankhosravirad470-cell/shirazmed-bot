@@ -45,6 +45,8 @@ from app.handlers.doctor_reg import (
 )
 from app.handlers.callbacks import apt_cancel_callback  # 🆕 آیتم ۵: لغو نوبت توسط کاربر
 from app.handlers import admin_panel  # 🆕 مأموریت آیتم‌های ۱۷/۱۸: پنل ادمین
+from app.handlers import advisor  # 🆕 مأموریت مکمل: مشاور سلامت
+from app.handlers import search as search_handler  # 🆕 مأموریت مکمل: جست‌وجوی هوشمند
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -115,6 +117,15 @@ MENU_CALLBACKS: tuple[str, ...] = (
     "site",
     "start_survey",
     "ai_assistant",  # 🆕 مأموریت آیتم ۱: دستیار هوشمند اختصاصی
+    # 🆕 مأموریت مکمل: جست‌وجوی هوشمند + مشاور سلامت + دسته‌بندی‌های منوی جدید
+    "search",
+    "advisor",
+    "cat_medical",
+    "cat_travel",
+    "cat_tourism",
+    "cat_support",
+    "cat_me",
+    "cat_contact",
 )
 
 MENU_PATTERN = rf"^({'|'.join(MENU_CALLBACKS)})$"
@@ -128,6 +139,7 @@ _RESET_EXTRA = (
     "back_main", "change_language", "start_feedback", "feedback_yes", "feedback_no",
     "med_home", "med_list", "med_del", "noop_page",
     "start_booking", "start_companion", "start_survey", "med_add",
+    "srchback",  # 🆕 مأموریت مکمل: بازگشت به حالت جست‌وجو هم گفتگوهای نیمه‌کاره را ریست می‌کند
 )
 RESET_CONV_PATTERN = rf"^({'|'.join(_MENU_NO_ENTRY + list(_RESET_EXTRA))}|med_del_\d+|med_page_\d+|med_spec_[a-z]+_\d+|med_back|lang_(fa|en|ar))$"
 
@@ -178,6 +190,14 @@ async def reset_conversations_callback(update: Update, context: ContextTypes.DEF
         # تا متن بعدی کاربر ناخواسته به AI نرود (الگوی awaiting_feedback).
         try:
             context.user_data["ai_chat"] = False
+        except Exception:
+            pass
+        # 🆕 مأموریت مکمل: پرچم‌های جست‌وجوی هوشمند و مشاور سلامت هم با هر
+        # ناوبری پاک شوند (حریم خصوصی: درخواست موقعیت معلق هم لغو می‌شود).
+        try:
+            context.user_data["awaiting_search"] = False
+            context.user_data.pop("advisor_state", None)
+            context.user_data.pop("advisor_awaiting_location", None)
         except Exception:
             pass
         # 🧹 تسک ۳: قبل از هر ناوبری، پرامپت‌های ردیابی‌شده‌ی گفتگوها (نام/
@@ -309,6 +329,20 @@ def _register_handlers(application: Application) -> None:
     application.add_handler(
         CallbackQueryHandler(main_menu_callback, pattern=MENU_PATTERN)
     )
+
+    # 🆕 مأموریت مکمل: مشاور سلامت + جست‌وجوی هوشمند (الگوهای مستقل، بدون تداخل با MENU_PATTERN)
+    application.add_handler(
+        CallbackQueryHandler(advisor.advisor_router, pattern=advisor.ADVISOR_CB_PATTERN)
+    )
+    application.add_handler(
+        CallbackQueryHandler(search_handler.search_go_callback, pattern=r"^srchgo_")
+    )
+    application.add_handler(
+        CallbackQueryHandler(search_handler.search_back_callback, pattern=r"^srchback$")
+    )
+    # 🆕 مأموریت مکمل: موقعیت مکانی — فقط وقتی کاربر در جریان مشاور سلامت با
+    # دکمهٔ صریح رضایت داده باشد پردازش می‌شود (handle_shared_location خودش بررسی می‌کند).
+    application.add_handler(MessageHandler(filters.LOCATION, advisor.handle_shared_location))
 
     # 🆕 مأموریت آیتم‌های ۵/۱۲/۱۹: لغو نوبتِ pending توسط کاربر + جزئیات بسته
     # (الگوی main_menu_callback؛ جدا از MENU_PATTERN تا callback_dataهای پارامتری کار کنند)

@@ -1,0 +1,1857 @@
+{
+  "categories": [
+    {
+      "id": "hospitals",
+      "icon": "🏥",
+      "label": {
+        "fa": "بیمارستان‌ها و کلینیک‌ها",
+        "en": "Hospitals & Clinics",
+        "ar": "المستشفيات والعيادات"
+      },
+      "items": [
+        {
+          "i": 0,
+          "n": {
+            "fa": "بیمارستان فوق تخصصی پیوند اعضا ابوعلی سینا",
+            "en": "Abu Ali Sina Transplant Hospital",
+            "ar": "مستشفى أبو علي سينا لزراعة الأعضاء"
+          },
+          "c": "بیمارستان فوق تخصصی پیوند اعضا ابوعلی سینا مستشفى ابو علی سینا لزراعه الاعضاء abu ali sina transplant hospital خیریه غیردولتی خیریه غیر حکومیه charity non governmental true العربیه english العربیه english arabic english پیوند اعضا کبد کلیه پانکراس جراحی گوارش و چاقی جراحی قلب و عروق ارتوپدی و ستون فقرات زراعه الاعضاء الکبد الکلى البنکریاس جراحه الجهاز الهضمی والسمنه جراحه القلب والاوعیه الدمویه جراحه العظام والعمود الفقری organ transplant liver kidney pancreas gastrointestinal bariatric surgery cardiovascular surgery orthopedics spine شیراز شهر جدید صدرا بلوار پاسداران بلوار بوستان شیراز مدینه",
+          "s": ""
+        },
+        {
+          "i": 1,
+          "n": {
+            "fa": "بیمارستان فوق تخصصی کوثر",
+            "en": "Kawsar Heart Hospital",
+            "ar": "مستشفى كوثر التخصصي"
+          },
+          "c": "بیمارستان فوق تخصصی کوثر مستشفى کوثر التخصصی kawsar heart hospital خیریه غیردولتی خیریه غیر حکومیه charity non governmental true العربیه english kurdish العربیه english الکردیه arabic english kurdish قلب و عروق آنژیوپلاستی و جراحی قلب باز جراحی عمومی و لاپاراسکوپی تصویربرداری و آنژیوگرافی پیشرفته القلب والاوعیه الدمویه راب الاوعیه وجراحه القلب المفتوح الجراحه العامه وتنظیر البطن التصویر المتقدم وتصویر الاوعیه cardiovascular angioplasty open heart surgery general laparoscopic surgery advanced imaging angiography شیراز خیابان قصرالدشت بعد از زیرگذر شاهد خیابان میرزای شیرازی شرقی شیراز شارع قصر ا",
+          "s": ""
+        },
+        {
+          "i": 2,
+          "n": {
+            "fa": "بیمارستان تخصصی و فوق تخصصی اردیبهشت",
+            "en": "Ordibehesht Hospital",
+            "ar": "مستشفى أرديبهشت التخصصي"
+          },
+          "c": "بیمارستان تخصصی و فوق تخصصی اردیبهشت مستشفى اردیبهشت التخصصی ordibehesht hospital خصوصی خاص private true العربیه english العربیه english arabic english جراحی زیبایی و پلاستیک جراحی ارتوپدی و مغز و اعصاب زنان زایمان و نازایی الجراحه التجمیلیه والبلاستیکیه جراحه العظام والاعصاب النساء والولاده والعقم cosmetic plastic surgery orthopedic neurosurgery obstetrics gynecology infertility شیراز بلوار شهید چمران نبش خیابان اردیبهشت شیراز شارع الشهید تشمران زاویه شارع اردیبهشت shiraz shahid chamran blvd corner of ordibehesht st 07136284830",
+          "s": ""
+        },
+        {
+          "i": 3,
+          "n": {
+            "fa": "بیمارستان تخصصی و فوق تخصصی دنا",
+            "en": "Dena Hospital",
+            "ar": "مستشفى دنا التخصصي"
+          },
+          "c": "بیمارستان تخصصی و فوق تخصصی دنا مستشفى دنا التخصصی dena hospital خصوصی خاص private true العربیه english العربیه english arabic english جراحی عمومی و ترمیمی ارتوپدی و تعویض مفاصل اورولوژی و سنگ شکنی الجراحه العامه والترمیمیه جراحه العظام واستبدال المفاصل المسالک البولیه وتفتیت الحصى general reconstructive surgery orthopedics joint replacement urology lithotripsy شیراز بلوار مطهری زرگری چهارراه ستارخان کوی دنا شیراز شارع مطهری زرغری تقاطع ستارخان حی دنا shiraz motahari blvd zargari sattarkhan crossroads dena alley 07136490425",
+          "s": ""
+        },
+        {
+          "i": 4,
+          "n": {
+            "fa": "بیمارستان فوق تخصصی مادر و کودک غدیر",
+            "en": "Ghadir Mother and Child Hospital",
+            "ar": "مستشفى غدير التخصصي للأم والطفل"
+          },
+          "c": "بیمارستان فوق تخصصی مادر و کودک غدیر مستشفى غدیر التخصصی للام والطفل ghadir mother and child hospital خیریه غیردولتی خیریه غیر حکومیه charity non governmental true العربیه english العربیه english arabic english درمان تخصصی نازایی و ivf جراحی زنان و مامایی اطفال و نوزادان nicu علاج العقم واطفال الانابیب جراحه النساء والتولید طب الاطفال والحدیثی الولاده infertility ivf treatment obstetrics gynecology surgery pediatrics neonatology nicu شیراز دروازه قرآن ابتدای شهرک گلشن شیراز بوابه القرآن بدایه حی کلشن shiraz quran gate beginning of golshan town 07132279715",
+          "s": ""
+        },
+        {
+          "i": 5,
+          "n": {
+            "fa": "بیمارستان تخصصی چشم‌پزشکی دکتر خدادوست",
+            "en": "Khodadoost Eye Hospital",
+            "ar": "مستشفى الدكتور خدادوست لطب العيون"
+          },
+          "c": "بیمارستان تخصصی چشم پزشکی دکتر خدادوست مستشفى الدکتور خدادوست لطب العیون khodadoost eye hospital خصوصی خاص private true العربیه english russian العربیه english الروسیه arabic english russian جراحی قرنیه و پیوند قرنیه لیزیک و لازک تصحیح دید جراحی شبکیه و آب مروارید جراحه القرنیه وزراعه القرنیه اللیزک واللازک تصحیح النظر جراحه الشبکیه واعتام عدسه العین cornea surgery corneal transplant lasik lasek vision correction retina cataract surgery شیراز بلوار مطهری زرگری نبش تقاطع ستارخان شیراز شارع مطهری زرغری زاویه تقاطع ستارخان shiraz motahari blvd zargari corner of sattarkhan junction 07136277085",
+          "s": ""
+        },
+        {
+          "i": 6,
+          "n": {
+            "fa": "بیمارستان تخصصی و فوق تخصصی مرکزی (MRI)",
+            "en": "Central Hospital (Shiraz MRI)",
+            "ar": "المستشفى المركزي التخصصي (MRI)"
+          },
+          "c": "بیمارستان تخصصی و فوق تخصصی مرکزی mri المستشفى المرکزی التخصصی mri central hospital shiraz mri خصوصی خاص private true العربیه english العربیه english arabic english جراحی مغز و اعصاب ارتوپدی و آسیب های ورزشی تصویربرداری مداخله ای و mri جراحه المخ والاعصاب جراحه العظام والاصابات الریاضیه التصویر التداخلی والرنین المغناطیسی neurosurgery orthopedics sports injuries interventional imaging mri شیراز بلوار شهید چمران پل تجارشیر شیراز شارع الشهید تشمران جسر تجارشیر shiraz shahid chamran blvd tejar shir bridge 07136284430",
+          "s": ""
+        }
+      ]
+    },
+    {
+      "id": "paramedical",
+      "icon": "🩺",
+      "label": {
+        "fa": "خدمات پاراکلینیکی",
+        "en": "Paramedical Services",
+        "ar": "الخدمات المساندة"
+      },
+      "items": [
+        {
+          "i": 0,
+          "n": {
+            "fa": "کلینیک فیزیوتراپی سینا شیراز",
+            "en": "Sina Physiotherapy Clinic Shiraz",
+            "ar": "عيادة سينا لل العلاج الطبيعي شيراز"
+          },
+          "c": "کلینیک فیزیوتراپی سینا شیراز عیاده سینا لل العلاج الطبیعی شیراز sina physiotherapy clinic shiraz فیزیوتراپی علاج طبیعی physiotherapy شیراز خیابان زند حد فاصل صورتگر و بیست متری شیراز شارع زند zand st shiraz شنبه تا پنجشنبه 8 صبح الی 20 السبت الى الخمیس 8 00 صباحا 8 00 مساء sat thu 8 00 am 8 00 pm medium true false persian 4 6 active",
+          "s": "فیزیوتراپی"
+        },
+        {
+          "i": 1,
+          "n": {
+            "fa": "آزمایشگاه تشخیص پزشکی پارس شیراز",
+            "en": "Pars Medical Diagnostic Laboratory Shiraz",
+            "ar": "مختبر بارس للتشخيص الطبي شيراز"
+          },
+          "c": "آزمایشگاه تشخیص پزشکی پارس شیراز مختبر بارس للتشخیص الطبی شیراز pars medical diagnostic laboratory shiraz آزمایشگاه مختبر laboratory شیراز بلوار کریمخان زند روبروی هتل پارس شیراز جاده کریم خان زند karimkhan zand blvd shiraz شنبه تا جمعه 7 صبح الی 22 السبت الى الجمعه 7 00 صباحا 10 00 مساء sat fri 7 00 am 10 00 pm medium true true persian english 4 7 active",
+          "s": "آزمایشگاه"
+        },
+        {
+          "i": 2,
+          "n": {
+            "fa": "مرکز تصویربرداری پزشکی تابش شیراز",
+            "en": "Tabesh Medical Imaging Center Shiraz",
+            "ar": "مركز تابش للتصوير الطبي شيراز"
+          },
+          "c": "مرکز تصویربرداری پزشکی تابش شیراز مرکز تابش للتصویر الطبی شیراز tabesh medical imaging center shiraz رادیولوژی اشعه radiology شیراز خیابان معدل غربی ساختمان مدیا شیراز شارع معبد الغربی west moadeb st shiraz شبانه روزی 24 ساعته على مدار الساعه 24 ساعه 24 7 high false false persian 4 5 active",
+          "s": "رادیولوژی"
+        },
+        {
+          "i": 3,
+          "n": {
+            "fa": "مرکز خدمات پرستاری در منزل پارسه شیراز",
+            "en": "Parseh Home Nursing Services Shiraz",
+            "ar": "مركز بارسه للخدمات التمريضية المنزلية شيراز"
+          },
+          "c": "مرکز خدمات پرستاری در منزل پارسه شیراز مرکز بارسه للخدمات التمریضیه المنزلیه شیراز parseh home nursing services shiraz پرستاری در منزل تمریض منزلی home nursing شیراز صدرا بلوار پاسداران ساختمان تندیس شیراز صدرا جاده پاسداران sadra pasdaran blvd shiraz 24 ساعته و هفت روز هفته على مدار الساعه طوال ایام الاسبوع 24 7 medium true false persian 4 8 active",
+          "s": "پرستاری در منزل"
+        },
+        {
+          "i": 4,
+          "n": {
+            "fa": "خدمات تزریقات و پانسمان در منزل آریا شیراز",
+            "en": "Arya Home Injection & Dressing Services Shiraz",
+            "ar": "خدمات الحقن والضماد المنزلي آريا شيراز"
+          },
+          "c": "خدمات تزریقات و پانسمان در منزل آریا شیراز خدمات الحقن والضماد المنزلی آریا شیراز arya home injection dressing services shiraz تزریق حقن injection شیراز خیابان قصرالدشت حد فاصل فلکه قصردشت و عفیف آباد شیراز شارع قصر الدشت ghasrodasht st shiraz شبانه روزی على مدار الساعه 24 7 low true false persian 4 4 active",
+          "s": "تزریق"
+        },
+        {
+          "i": 5,
+          "n": {
+            "fa": "سلامت کده طب سنتی ایرانی ابن سینا شیراز",
+            "en": "Avicenna Traditional Iranian Medicine Clinic Shiraz",
+            "ar": "عيادة ابن سينا للطب التقليدي الإيراني شيراز"
+          },
+          "c": "سلامت کده طب سنتی ایرانی ابن سینا شیراز عیاده ابن سینا للطب التقلیدی الایرانی شیراز avicenna traditional iranian medicine clinic shiraz طب سنتی طب تقلیدی traditional medicine شیراز بلوار چمران خیابان محمودیه شیراز جاده چمران chamran blvd mahmoudieh st shiraz شنبه تا چهارشنبه 9 الی 13 و 16 الی 20 السبت الى الاربعاء 9 00 1 00 و 4 00 8 00 sat wed 9 00 am 1 00 pm 4 00 pm 8 00 pm medium false false persian 4 6 active",
+          "s": "طب سنتی"
+        },
+        {
+          "i": 6,
+          "n": {
+            "fa": "کلینیک کاردرمانی و توانبخشی امید شیراز",
+            "en": "Omid Occupational Therapy & Rehabilitation Clinic Shiraz",
+            "ar": "عيادة أوميد للعلاج الوظيفي والتأهيل شيراز"
+          },
+          "c": "کلینیک کاردرمانی و توانبخشی امید شیراز عیاده اومید للعلاج الوظیفی والتاهیل شیراز omid occupational therapy rehabilitation clinic shiraz کاردرمانی علاج وظیفی occupational therapy شیراز فرهنگ شهر بین کوچه 20 و 22 شیراز فرهنگ شهر farhangshahr shiraz شنبه تا پنجشنبه 8 الی 20 السبت الى الخمیس 8 00 صباحا 8 00 مساء sat thu 8 00 am 8 00 pm medium true false persian 4 7 active",
+          "s": "کاردرمانی"
+        },
+        {
+          "i": 7,
+          "n": {
+            "fa": "کلینیک گفتاردرمانی و توانبخشی توانا شیراز",
+            "en": "Tavana Speech Therapy & Rehabilitation Clinic Shiraz",
+            "ar": "عيادة توانا لعلاج النطق والتأهيل شيراز"
+          },
+          "c": "کلینیک گفتاردرمانی و توانبخشی توانا شیراز عیاده توانا لعلاج النطق والتاهیل شیراز tavana speech therapy rehabilitation clinic shiraz گفتاردرمانی علاج النطق speech therapy شیراز بلوار ستارخان حد فاصل عفیف آباد و فلکه سنگی شیراز جاده ستارخان sattarkhan blvd shiraz شنبه تا پنجشنبه 9 الی 19 السبت الى الخمیس 9 00 صباحا 7 00 مساء sat thu 9 00 am 7 00 pm medium false false persian english 4 8 active",
+          "s": "گفتاردرمانی"
+        },
+        {
+          "i": 8,
+          "n": {
+            "fa": "مرکز ارتوپدی فنی و ساخت پروتز رازی شیراز",
+            "en": "Razi Orthotics & Prosthetics Center Shiraz",
+            "ar": "مركز رازي للأطراف الصناعية وتقويم العظام شيراز"
+          },
+          "c": "مرکز ارتوپدی فنی و ساخت پروتز رازی شیراز مرکز رازی للاطراف الصناعیه وتقویم العظام شیراز razi orthotics prosthetics center shiraz ارتوپدی فنی تقویم العظام والاطراف الصناعیه orthotics prosthetics شیراز خیابان زند روبروی هتل پارس ساختمان کیمیا شیراز شارع زند zand st kimia building shiraz شنبه تا پنجشنبه 8 30 الی 13 30 و 16 30 الی 20 السبت الى الخمیس 8 30 1 30 و 4 30 8 00 sat thu 8 30 am 1 30 pm 4 30 pm 8 00 pm high false false persian 4 6 active",
+          "s": "ارتوپدی فنی"
+        }
+      ]
+    },
+    {
+      "id": "hotels",
+      "icon": "🏨",
+      "label": {
+        "fa": "هتل‌ها",
+        "en": "Hotels",
+        "ar": "الفنادق"
+      },
+      "items": [
+        {
+          "i": 0,
+          "n": {
+            "fa": "هتل بزرگ شیراز",
+            "en": "Grand Shiraz Hotel",
+            "ar": "فندق شيراز الكبير"
+          },
+          "c": "هتل بزرگ شیراز فندق شیراز الکبیر grand shiraz hotel هتل فندق hotel 5 ستاره 5 نجوم 5 star ممتاز ممتاز excellent شیراز ورودی شمالی جنب دروازه قرآن شیراز المدخل الشمالی بجانب بوابه القرآن shiraz north entrance next to quran gate دروازه قرآن بوابه القرآن quran gate استخر سرپوشیده سونا و جکوزی رستوران گردان سالن بدنسازی پارکینگ اختصاصی اینترنت پرسرعت مسبح مغطى ساونا وجاکوزی مطعم دوار صاله ریاضیه موقف خاص انترنت عالی السرعه indoor pool sauna jacuzzi revolving restaurant gym private parking high speed internet 7 کیلومتر 15 دقیقه 11 کیلومتر 20 دقیقه 6 5 کیلومتر 14 دقیقه 7 کم 15 دقیقه 11 کم 20 دقیقه 6 ",
+          "s": "هتل"
+        },
+        {
+          "i": 1,
+          "n": {
+            "fa": "هتل زندیه شیراز",
+            "en": "Zandieh Hotel Shiraz",
+            "ar": "فندق زنديه شيراز"
+          },
+          "c": "هتل زندیه شیراز فندق زندیه شیراز zandieh hotel shiraz هتل فندق hotel 5 ستاره 5 نجوم 5 star ممتاز ممتاز excellent شیراز بلوار هجرت پشت ارگ کریم خان شیراز شارع الهجره خلف قلعه کریم خان shiraz hijrat blvd behind karim khan citadel مرکز شهر وسط المدینه city center حمام سنتی ایرانی استخر و اسپا سالن بدنسازی رستوران سنتی و مدرن پارکینگ اینترنت رایگان حمام ایرانی تقلیدی مسبح وسبا صاله ریاضیه مطعم تقلیدی وحدیث موقف انترنت مجانی traditional iranian bath pool spa gym traditional modern restaurant parking free internet 3 5 کیلومتر 9 دقیقه 8 5 کیلومتر 18 دقیقه 2 8 کیلومتر 7 دقیقه 3 5 کم 9 دقیقه 8 5 کم 18 ",
+          "s": "هتل"
+        },
+        {
+          "i": 2,
+          "n": {
+            "fa": "هتل چمران شیراز",
+            "en": "Chamran Hotel Shiraz",
+            "ar": "فندق تشمران شيراز"
+          },
+          "c": "هتل چمران شیراز فندق تشمران شیراز chamran hotel shiraz هتل فندق hotel 5 ستاره 5 نجوم 5 star ممتاز ممتاز excellent شیراز بلوار شهید چمران شیراز شارع الشهید تشمران shiraz shahid chamran blvd چمران تشمران chamran رستوران های پانوراما مجموعه ورزشی کامل استخر سرپوشیده زمین تنیس سالن بیلیارد پارکینگ مسقف مطاعم بانوراما مجمع ریاضی کامل مسبح مغطى ملعب تنس صاله بلیاردو موقف مسقف panorama restaurants full sports complex indoor pool tennis court billiard hall covered parking 4 5 کیلومتر 11 دقیقه 6 کیلومتر 13 دقیقه 5 5 کیلومتر 13 دقیقه 4 5 کم 11 دقیقه 6 کم 13 دقیقه 5 5 کم 13 دقیقه 4 5 km 11 min 6 km 13 mi",
+          "s": "هتل"
+        },
+        {
+          "i": 3,
+          "n": {
+            "fa": "هتل هما شیراز",
+            "en": "Homa Hotel Shiraz",
+            "ar": "فندق هما شيراز"
+          },
+          "c": "هتل هما شیراز فندق هما شیراز homa hotel shiraz هتل فندق hotel 5 ستاره 5 نجوم 5 star ممتاز ممتاز excellent شیراز میدان گاز جنب پارک آزادی شیراز میدان الغاز بجانب حدیقه آزادی shiraz gas square next to azadi park میدان گاز میدان الغاز gas square محوطه سرسبز و باغ اختصاصی استخر روباز زمین تنیس رستوران های متنوع سالن همایش پارکینگ حدیقه خاصه خضراء مسبح مفتوح ملعب تنس مطاعم متنوعه قاعه موتمرات موقف green garden area outdoor pool tennis court various restaurants conference hall parking 2 2 کیلومتر 6 دقیقه 7 5 کیلومتر 16 دقیقه 3 کیلومتر 8 دقیقه 2 2 کم 6 دقیقه 7 5 کم 16 دقیقه 3 کم 8 دقیقه 2 2 km 6 min ",
+          "s": "هتل"
+        },
+        {
+          "i": 4,
+          "n": {
+            "fa": "هتل پرسپولیس شیراز",
+            "en": "Persepolis Hotel Shiraz",
+            "ar": "فندق برسيبوليس شيراز"
+          },
+          "c": "هتل پرسپولیس شیراز فندق برسیبولیس شیراز persepolis hotel shiraz هتل فندق hotel 5 ستاره 5 نجوم 5 star ممتاز ممتاز excellent شیراز بلوار آزادی حدفاصل چهارراه حافظیه به میدان اطلسی شیراز شارع آزادی بین تقاطع حافظیه ومیدان اطلسی shiraz azadi blvd between hafezieh crossroads and atlasi square بلوار آزادی شارع آزادی azadi blvd استخر سرپوشیده سونا و جکوزی رستوران آپادانا کافی شاپ 24 ساعته پارکینگ رایگان سالن بدنسازی مسبح مغطى ساونا وجاکوزی مطعم ابادانا مقهى 24 ساعه موقف مجانی صاله ریاضیه indoor pool sauna jacuzzi apadana restaurant 24 hour coffee shop free parking gym 4 کیلومتر 10 دقیقه 9 کیلومتر 18 ",
+          "s": "هتل"
+        },
+        {
+          "i": 5,
+          "n": {
+            "fa": "هتل پارس شیراز",
+            "en": "Pars Hotel Shiraz",
+            "ar": "فندق بارس شيراز"
+          },
+          "c": "هتل پارس شیراز فندق بارس شیراز pars hotel shiraz هتل فندق hotel 4 ستاره 4 نجوم 4 star درجه یک درجه اولى first class شیراز خیابان کریم خان زند شیراز شارع کریم خان زند shiraz karim khan zand st زند زند zand استخر و سونا دو ساختمان مجزا رستوران لوتوس سالن بدنسازی پارکینگ اختصاصی اینترنت مسبح وساونا مبنى منفصلان مطعم لوتوس صاله ریاضیه موقف خاص انترنت pool sauna two separate buildings lotus restaurant gym private parking internet 3 کیلومتر 8 دقیقه 8 کیلومتر 17 دقیقه 2 5 کیلومتر 6 دقیقه 3 کم 8 دقیقه 8 کم 17 دقیقه 2 5 کم 6 دقیقه 3 km 8 min 8 km 17 min 2 5 km 6 min در قلب مرکز شهر چهارراه زند فی قلب و",
+          "s": "هتل"
+        },
+        {
+          "i": 6,
+          "n": {
+            "fa": "هتل الیزه شیراز",
+            "en": "Elysee Hotel Shiraz",
+            "ar": "فندق إليزيه شيراز"
+          },
+          "c": "هتل الیزه شیراز فندق الیزیه شیراز elysee hotel shiraz هتل فندق hotel 4 ستاره 4 نجوم 4 star درجه یک درجه اولى first class شیراز معالی آباد کوی پزشکان شیراز معالی آباد حی الاطباء shiraz ma ali abad doctors district معالی آباد معالی آباد ma ali abad هتل بوتیک مدرن استخر سرپوشیده اسپا و ماساژ رستوران ایتالیایی پارکینگ اختصاصی فندق بوتیک حدیث مسبح مغطى سبا ومساج مطعم ایطالی موقف خاص modern boutique hotel indoor pool spa massage italian restaurant private parking 7 5 کیلومتر 15 دقیقه 4 کیلومتر 10 دقیقه 8 5 کیلومتر 18 دقیقه 7 5 کم 15 دقیقه 4 کم 10 دقیقه 8 5 کم 18 دقیقه 7 5 km 15 min 4 km 10 min 8 5 k",
+          "s": "هتل"
+        },
+        {
+          "i": 7,
+          "n": {
+            "fa": "هتل کریم‌خان شیراز",
+            "en": "Karim Khan Hotel Shiraz",
+            "ar": "فندق كريم خان شيراز"
+          },
+          "c": "هتل کریم خان شیراز فندق کریم خان شیراز karim khan hotel shiraz هتل فندق hotel 4 ستاره 4 نجوم 4 star درجه یک درجه اولى first class شیراز خیابان رودکی شیراز شارع رودکی shiraz rudaki st زند زند zand چایخانه سنتی سونا و جکوزی اینترنت رایگان تاکسی سرویس کافی شاپ مقهى شای تقلیدی ساونا وجاکوزی انترنت مجانی خدمه تاکسی مقهى traditional teahouse sauna jacuzzi free internet taxi service coffee shop 3 2 کیلومتر 9 دقیقه 8 کیلومتر 17 دقیقه 2 7 کیلومتر 7 دقیقه 3 2 کم 9 دقیقه 8 کم 17 دقیقه 2 7 کم 7 دقیقه 3 2 km 9 min 8 km 17 min 2 7 km 7 min 1 5 کیلومتر تا چهارراه زند 1 5 کم الى تقاطع زند 1 5 km to zand cross",
+          "s": "هتل"
+        },
+        {
+          "i": 8,
+          "n": {
+            "fa": "هتل پارک سعدی شیراز",
+            "en": "Park Saadi Hotel Shiraz",
+            "ar": "فندق بارك سعدي شيراز"
+          },
+          "c": "هتل پارک سعدی شیراز فندق بارک سعدی شیراز park saadi hotel shiraz هتل فندق hotel 4 ستاره 4 نجوم 4 star درجه یک درجه اولى first class شیراز میدان تخت جمشید استادیوم سابق بلوار هجرت شیراز میدان تخت جمشید الملعب السابق شارع الهجره shiraz takht jamshid square former stadium hijrat blvd سعدی سعدی saadi فضای سبز زیبا رستوران سنتی و فرنگی پارکینگ اینترنت پرسرعت صندوق امانات حدیقه جمیله مطعم تقلیدی واوروبی موقف انترنت عالی السرعه خزاین امانات beautiful garden traditional european restaurant parking high speed internet safe deposit boxes 4 5 کیلومتر 12 دقیقه 9 کیلومتر 19 دقیقه 4 کیلومتر 10 دقیقه 4 5 کم ",
+          "s": "هتل"
+        },
+        {
+          "i": 9,
+          "n": {
+            "fa": "هتل آریوبرزن شیراز",
+            "en": "Aryo Barzan Hotel Shiraz",
+            "ar": "فندق أريوبرزن شيراز"
+          },
+          "c": "هتل آریوبرزن شیراز فندق اریوبرزن شیراز aryo barzan hotel shiraz هتل فندق hotel 4 ستاره 4 نجوم 4 star درجه یک درجه اولى first class شیراز خیابان رودکی شیراز شارع رودکی shiraz rudaki st زند زند zand رستوران بام استخر پارکینگ کافی شاپ اینترنت لابی مطعم على السطح مسبح موقف مقهى انترنت فی اللوبی rooftop restaurant pool parking coffee shop lobby internet 3 2 کیلومتر 9 دقیقه 8 کیلومتر 17 دقیقه 2 7 کیلومتر 7 دقیقه 3 2 کم 9 دقیقه 8 کم 17 دقیقه 2 7 کم 7 دقیقه 3 2 km 9 min 8 km 17 min 2 7 km 7 min 1 5 کیلومتر تا چهارراه زند 1 5 کم الى تقاطع زند 1 5 km to zand crossroads بله نعم yes فارسی انگلیسی عربی الف",
+          "s": "هتل"
+        },
+        {
+          "i": 10,
+          "n": {
+            "fa": "هتل ستارگان شیراز",
+            "en": "Setaregan Hotel Shiraz",
+            "ar": "فندق ستاركان شيراز"
+          },
+          "c": "هتل ستارگان شیراز فندق ستارکان شیراز setaregan hotel shiraz هتل فندق hotel 3 ستاره 3 نجوم 3 star خوب جید good شیراز تقاطع خیابان آزادی و ارم شیراز تقاطع شارع آزادی وارم shiraz intersection of azadi eram st آزادی آزادی azadi رستوران چشم انداز سالن همایش پارکینگ اختصاصی اینترنت رایگان مطعم باطلاله قاعه موتمرات موقف خاص انترنت مجانی panoramic restaurant conference hall private parking free internet 2 8 کیلومتر 7 دقیقه 7 کیلومتر 15 دقیقه 3 5 کیلومتر 9 دقیقه 2 8 کم 7 دقیقه 7 کم 15 دقیقه 3 5 کم 9 دقیقه 2 8 km 7 min 7 km 15 min 3 5 km 9 min 2 کیلومتر تا چهارراه زند 2 کم الى تقاطع زند 2 km to zand cro",
+          "s": "هتل"
+        },
+        {
+          "i": 11,
+          "n": {
+            "fa": "هتل ارگ شیراز",
+            "en": "Arg Hotel Shiraz",
+            "ar": "فندق أرج شيراز"
+          },
+          "c": "هتل ارگ شیراز فندق ارج شیراز arg hotel shiraz هتل فندق hotel 3 ستاره 3 نجوم 3 star خوب جید good شیراز خیابان تختی بالاتر از چهارراه راهنمایی شیراز شارع تختی فوق تقاطع راهنمایی shiraz takhti st above rahnamayi crossroads تختی تختی takhti رستوران ایرانی اینترنت پارکینگ لابی مجهز مطعم ایرانی انترنت موقف لوبی مجهز iranian restaurant internet parking equipped lobby 3 8 کیلومتر 10 دقیقه 8 5 کیلومتر 18 دقیقه 2 2 کیلومتر 6 دقیقه 3 8 کم 10 دقیقه 8 5 کم 18 دقیقه 2 2 کم 6 دقیقه 3 8 km 10 min 8 5 km 18 min 2 2 km 6 min 1 5 کیلومتر تا چهارراه زند 1 5 کم الى تقاطع زند 1 5 km to zand crossroads بله نعم yes ف",
+          "s": "هتل"
+        },
+        {
+          "i": 12,
+          "n": {
+            "fa": "هتل پارسیان شیراز",
+            "en": "Parsian Hotel Shiraz",
+            "ar": "فندق بارسيان شيراز"
+          },
+          "c": "هتل پارسیان شیراز فندق بارسیان شیراز parsian hotel shiraz هتل فندق hotel 3 ستاره 3 نجوم 3 star خوب جید good شیراز چهارراه زند خیابان رودکی نبش کوچه 6 شیراز تقاطع زند شارع رودکی زاویه الزقاق 6 shiraz zand crossroads rudaki st corner of alley 6 زند زند zand رستوران کافی شاپ اینترنت رایگان تاکسی سرویس مطعم مقهى انترنت مجانی خدمه تاکسی restaurant coffee shop free internet taxi service 3 1 کیلومتر 8 دقیقه 8 کیلومتر 17 دقیقه 2 6 کیلومتر 7 دقیقه 3 1 کم 8 دقیقه 8 کم 17 دقیقه 2 6 کم 7 دقیقه 3 1 km 8 min 8 km 17 min 2 6 km 7 min در قلب مرکز شهر چهارراه زند فی قلب وسط المدینه تقاطع زند heart of city cent",
+          "s": "هتل"
+        },
+        {
+          "i": 13,
+          "n": {
+            "fa": "هتل وکیل شیراز",
+            "en": "Vakil Hotel Shiraz",
+            "ar": "فندق وكيل شيراز"
+          },
+          "c": "هتل وکیل شیراز فندق وکیل شیراز vakil hotel shiraz هتل فندق hotel 3 ستاره 3 نجوم 3 star خوب جید good شیراز خیابان لطفعلی خان زند بین چهارراه مشیر و چهارراه پیروزی کوچه 59 شیراز شارع لطفعلی خان زند بین تقاطع مشیر وتقاطع بیروزی الزقاق 59 shiraz lotfali khan zand st between moshir piroozi crossroads alley 59 مرکز شهر وسط المدینه city center سبک سنتی و مدرن رستوران سنتی اینترنت رایگان نزدیکی به آثار تاریخی طراز تقلیدی وحدیث مطعم تقلیدی انترنت مجانی قریب من المعالم التاریخیه traditional modern style traditional restaurant free internet close to historical sites 3 5 کیلومتر 9 دقیقه 9 کیلومتر 19 دقیقه",
+          "s": "هتل"
+        },
+        {
+          "i": 14,
+          "n": {
+            "fa": "هتل سنتی نیایش شیراز",
+            "en": "Niayesh Traditional Hotel Shiraz",
+            "ar": "فندق نيايش التقليدي شيراز"
+          },
+          "c": "هتل سنتی نیایش شیراز فندق نیایش التقلیدی شیراز niayesh traditional hotel shiraz هتل فندق hotel 3 ستاره 3 نجوم 3 star خوب جید good شیراز سه راه نمازی به سمت شاهچراغ کوچه کلانتری عباسی شیراز مفترق نمازی باتجاه شاهجراغ زقاق کلانتری عباسی shiraz namazi junction towards shah cheragh kalantari abbasi alley نمازی نمازی namazi معماری سنتی و تاریخی حیاط مرکزی با حوض آب رستوران سنتی اینترنت رایگان عماره تقلیدیه وتاریخیه فناء مرکزی مع نافوره مطعم تقلیدی انترنت مجانی traditional historical architecture central courtyard with fountain traditional restaurant free internet 2 7 کیلومتر 7 دقیقه 9 5 کیلومتر 20 ",
+          "s": "هتل"
+        },
+        {
+          "i": 15,
+          "n": {
+            "fa": "هتل ساسان شیراز",
+            "en": "Sasan Hotel Shiraz",
+            "ar": "فندق ساسان شيراز"
+          },
+          "c": "هتل ساسان شیراز فندق ساسان شیراز sasan hotel shiraz هتل فندق hotel 2 ستاره 2 نجوم 2 star متوسط متوسط average شیراز خیابان زند خیابان انوری شیراز شارع زند شارع انوری shiraz zand st anvari st زند زند zand رستوران کافی شاپ دسترسی عالی به مراکز خرید و درمانی اینترنت مطعم مقهى وصول ممتاز لمراکز التسوق والعلاج انترنت restaurant coffee shop excellent access to shopping medical centers internet 2 8 کیلومتر 7 دقیقه 7 8 کیلومتر 16 دقیقه 2 1 کیلومتر 6 دقیقه 2 8 کم 7 دقیقه 7 8 کم 16 دقیقه 2 1 کم 6 دقیقه 2 8 km 7 min 7 8 km 16 min 2 1 km 6 min در قلب مرکز شهر خیابان زند فی قلب وسط المدینه شارع زند heart of",
+          "s": "هتل"
+        },
+        {
+          "i": 16,
+          "n": {
+            "fa": "هتل حافظ شیراز",
+            "en": "Hafez Hotel Shiraz",
+            "ar": "فندق حافظ شيراز"
+          },
+          "c": "هتل حافظ شیراز فندق حافظ شیراز hafez hotel shiraz هتل فندق hotel 2 ستاره 2 نجوم 2 star متوسط متوسط average شیراز خیابان فردوسی چهارراه پارکینگ شیراز شارع فردوسی تقاطع بارکینغ shiraz ferdowsi st parking crossroads فردوسی فردوسی ferdowsi رستوران صبحانه سلف سرویس اینترنت در لابی نزدیکی به مراکز شهر مطعم فطور بوفیه مفتوح انترنت فی اللوبی قریب من وسط المدینه restaurant buffet breakfast lobby internet close to city center 3 کیلومتر 8 دقیقه 8 کیلومتر 17 دقیقه 2 3 کیلومتر 6 دقیقه 3 کم 8 دقیقه 8 کم 17 دقیقه 2 3 کم 6 دقیقه 3 km 8 min 8 km 17 min 2 3 km 6 min 1 کیلومتر تا چهارراه زند 1 کم الى تقاطع زند 1",
+          "s": "هتل"
+        },
+        {
+          "i": 17,
+          "n": {
+            "fa": "هتل نصیرالملک شیراز",
+            "en": "Nasir al-Mulk Hotel Shiraz",
+            "ar": "فندق نصير الملك شيراز"
+          },
+          "c": "هتل نصیرالملک شیراز فندق نصیر الملک شیراز nasir al mulk hotel shiraz هتل فندق hotel 2 ستاره 2 نجوم 2 star متوسط متوسط average شیراز حرم شاهچراغ چهارراه شاهزاده قاسم شیراز حرم شاهجراغ تقاطع شاهزاده قاسم shiraz shah cheragh shrine shahzadeh qasem crossroads شاهچراغ شاهجراغ shah cheragh نزدیکی به حرم و جاذبه ها اینترنت رستوران تاسیسات استاندارد قریب من الحرم والمعالم انترنت مطعم مرافق قیاسیه close to shrine attractions internet restaurant standard facilities 3 8 کیلومتر 10 دقیقه 9 5 کیلومتر 20 دقیقه 1 6 کیلومتر 4 دقیقه 3 8 کم 10 دقیقه 9 5 کم 20 دقیقه 1 6 کم 4 دقیقه 3 8 km 10 min 9 5 km 20 min 1 6",
+          "s": "هتل"
+        },
+        {
+          "i": 18,
+          "n": {
+            "fa": "هتل ریتون شیراز",
+            "en": "Reytoon Hotel Shiraz",
+            "ar": "فندق ريتون شيراز"
+          },
+          "c": "هتل ریتون شیراز فندق ریتون شیراز reytoon hotel shiraz هتل فندق hotel 2 ستاره 2 نجوم 2 star متوسط متوسط average شیراز سه راه نمازی به سمت شاهچراغ کوچه ششم دستغیب شیراز مفترق نمازی باتجاه شاهجراغ الزقاق السادس دستغیب shiraz namazi junction towards shah cheragh 6th dastgheib alley نمازی نمازی namazi نوساز و اقتصادی اینترنت رایگان سیستم تهویه دسترسی نزدیک به درمانگاه ها حدیث واقتصادی انترنت مجانی نظام تهویه وصول قریب للعیادات new economy free internet ventilation system close to clinics 2 6 کیلومتر 6 دقیقه 9 کیلومتر 19 دقیقه 1 7 کیلومتر 4 دقیقه 2 6 کم 6 دقیقه 9 کم 19 دقیقه 1 7 کم 4 دقیقه 2 6 km 6 ",
+          "s": "هتل"
+        },
+        {
+          "i": 19,
+          "n": {
+            "fa": "هتل کیوان شیراز",
+            "en": "Keyvan Hotel Shiraz",
+            "ar": "فندق كيفان شيراز"
+          },
+          "c": "هتل کیوان شیراز فندق کیفان شیراز keyvan hotel shiraz هتل فندق hotel 1 ستاره 1 نجمه 1 star اقتصادی اقتصادی economy شیراز میدان شهرداری پشت ارگ کریم خان شیراز میدان البلدیه خلف قلعه کریم خان shiraz municipality square behind karim khan citadel مرکز شهر وسط المدینه city center موقعیت بسیار مرکزی دسترسی پیاده به ارگ و بازار وکیل اینترنت لابی موقع مرکزی للغایه وصول سیرا على الاقدام الى القلعه وسوق وکیل انترنت لوبی very central location walking access to citadel vakil bazaar internet lobby 3 2 کیلومتر 8 دقیقه 8 2 کیلومتر 17 دقیقه 2 4 کیلومتر 6 دقیقه 3 2 کم 8 دقیقه 8 2 کم 17 دقیقه 2 4 کم 6 دقیقه 3 2 ",
+          "s": "هتل"
+        }
+      ]
+    },
+    {
+      "id": "motels",
+      "icon": "🛏️",
+      "label": {
+        "fa": "مهمان‌پذیرها",
+        "en": "Guest Houses",
+        "ar": "بيوت الضيافة"
+      },
+      "items": [
+        {
+          "i": 0,
+          "n": {
+            "fa": "مهمان‌پذیر گل‌ها",
+            "en": "Golha Guesthouse",
+            "ar": "بيت ضيافة الورود"
+          },
+          "c": "مهمان پذیر گل ها بیت ضیافه الورود golha guesthouse مهمان پذیر بیت ضیافه guesthouse ممتاز ممتاز excellent شیراز بلوار کریمخان زند بین خیابان خیام و انوری شیراز شارع کریم خان زند بین شارع خیام وانوری shiraz karim khan zand blvd between khayyam anvari st زند زند zand لابی اینترنت صبحانه لوبی انترنت فطور lobby internet breakfast 3 کیلومتر 2 5 کیلومتر 3 کم 2 5 کم 3 km 2 5 km در مرکز شهر بلوار زند فی وسط المدینه شارع زند city center zand blvd بله نعم yes فارسی انگلیسی عربی الفارسیه الانجلیزیه العربیه persian english arabic مهمان پذیر ممتاز در مرکز شهر با دسترسی عالی به پزشکان بیت ضیافه ممتاز فی وسط ",
+          "s": "مهمان‌پذیر"
+        },
+        {
+          "i": 1,
+          "n": {
+            "fa": "مهمان‌پذیر بنفشه",
+            "en": "Banafsheh Guesthouse",
+            "ar": "بيت ضيافة بنفسجة"
+          },
+          "c": "مهمان پذیر بنفشه بیت ضیافه بنفسجه banafsheh guesthouse مهمان پذیر بیت ضیافه guesthouse ممتاز ممتاز excellent شیراز چهارراه زند خیابان توحید شیراز تقاطع زند شارع توحید shiraz zand crossroads tohid st زند زند zand لابی اینترنت صبحانه لوبی انترنت فطور lobby internet breakfast 2 8 کیلومتر 2 3 کیلومتر 2 8 کم 2 3 کم 2 8 km 2 3 km قلب مرکز شهر چهارراه زند قلب وسط المدینه تقاطع زند heart of city center zand crossroads بله نعم yes فارسی انگلیسی عربی الفارسیه الانجلیزیه العربیه persian english arabic موقعیت عالی در چهارراه زند و نزدیک به تجمع پزشکان موقع ممتاز فی تقاطع زند وقریب من تجمع الاطباء excellen",
+          "s": "مهمان‌پذیر"
+        },
+        {
+          "i": 2,
+          "n": {
+            "fa": "مهمان‌پذیر سیروس",
+            "en": "Siroos Guesthouse",
+            "ar": "بيت ضيافة سيروس"
+          },
+          "c": "مهمان پذیر سیروس بیت ضیافه سیروس siroos guesthouse مهمان پذیر بیت ضیافه guesthouse ممتاز ممتاز excellent شیراز خیابان 22 بهمن سه راه مدبر شیراز شارع 22 بهمن مفترق مدبر shiraz 22 bahman st modaber junction 22 بهمن 22 بهمن 22 bahman لابی اینترنت لوبی انترنت lobby internet 3 کیلومتر 2 5 کیلومتر 3 کم 2 5 کم 3 km 2 5 km 1 کیلومتر تا چهارراه زند 1 کم الى تقاطع زند 1 km to zand crossroads خیر لا no فارسی انگلیسی الفارسیه الانجلیزیه persian english مهمان پذیر ممتاز با قیمت مناسب در مرکز شهر بیت ضیافه ممتاز بسعر مناسب فی وسط المدینه excellent guesthouse with reasonable price in city center",
+          "s": "مهمان‌پذیر"
+        },
+        {
+          "i": 3,
+          "n": {
+            "fa": "مهمان‌پذیر پیام",
+            "en": "Payam Guesthouse",
+            "ar": "بيت ضيافة بيام"
+          },
+          "c": "مهمان پذیر پیام بیت ضیافه بیام payam guesthouse مهمان پذیر بیت ضیافه guesthouse درجه یک درجه اولى first class شیراز ارگ کریمخان زند خیابان 22 بهمن شیراز قلعه کریم خان زند شارع 22 بهمن shiraz karim khan citadel 22 bahman st 22 بهمن 22 بهمن 22 bahman لابی اینترنت لوبی انترنت lobby internet 3 کیلومتر 2 5 کیلومتر 3 کم 2 5 کم 3 km 2 5 km 1 کیلومتر تا چهارراه زند 1 کم الى تقاطع زند 1 km to zand crossroads خیر لا no فارسی انگلیسی الفارسیه الانجلیزیه persian english مهمان پذیر درجه یک نزدیک به ارگ کریمخان بیت ضیافه درجه اولى قریب من قلعه کریم خان first class guesthouse close to karim khan citadel",
+          "s": "مهمان‌پذیر"
+        },
+        {
+          "i": 4,
+          "n": {
+            "fa": "مهمان‌پذیر شکوه",
+            "en": "Shokouh Guesthouse",
+            "ar": "بيت ضيافة شكوه"
+          },
+          "c": "مهمان پذیر شکوه بیت ضیافه شکوه shokouh guesthouse مهمان پذیر بیت ضیافه guesthouse درجه یک درجه اولى first class شیراز خیابان فردوسی کوچه 6 شیراز شارع فردوسی الزقاق 6 shiraz ferdowsi st alley 6 فردوسی فردوسی ferdowsi لابی اینترنت لوبی انترنت lobby internet 3 5 کیلومتر 2 5 کیلومتر 3 5 کم 2 5 کم 3 5 km 2 5 km 1 5 کیلومتر تا چهارراه زند 1 5 کم الى تقاطع زند 1 5 km to zand crossroads خیر لا no فارسی انگلیسی الفارسیه الانجلیزیه persian english مهمان پذیر درجه یک در خیابان فردوسی بیت ضیافه درجه اولى فی شارع فردوسی first class guesthouse on ferdowsi st",
+          "s": "مهمان‌پذیر"
+        },
+        {
+          "i": 5,
+          "n": {
+            "fa": "مهمان‌پذیر آسیا",
+            "en": "Asia Guesthouse",
+            "ar": "بيت ضيافة آسيا"
+          },
+          "c": "مهمان پذیر آسیا بیت ضیافه آسیا asia guesthouse مهمان پذیر بیت ضیافه guesthouse درجه یک درجه اولى first class شیراز خیابان تختی بعد از خیابان 19 شیراز شارع تختی بعد شارع 19 shiraz takhti st after 19th st تختی تختی takhti لابی اینترنت لوبی انترنت lobby internet 3 5 کیلومتر 2 5 کیلومتر 3 5 کم 2 5 کم 3 5 km 2 5 km 1 5 کیلومتر تا چهارراه زند 1 5 کم الى تقاطع زند 1 5 km to zand crossroads خیر لا no فارسی الفارسیه persian مهمان پذیر درجه یک با قیمت مناسب بیت ضیافه درجه اولى بسعر مناسب first class guesthouse with reasonable price",
+          "s": "مهمان‌پذیر"
+        },
+        {
+          "i": 6,
+          "n": {
+            "fa": "مهمان‌پذیر نقش جهان",
+            "en": "Naqsh-e Jahan Guesthouse",
+            "ar": "بيت ضيافة نقش جهان"
+          },
+          "c": "مهمان پذیر نقش جهان بیت ضیافه نقش جهان naqsh e jahan guesthouse مهمان پذیر بیت ضیافه guesthouse درجه یک درجه اولى first class شیراز سه راه طالقانی پاساژ مرمر شیراز مفترق طالقانی بازار مرمر shiraz taleghani junction marble passage طالقانی طالقانی taleghani لابی اینترنت لوبی انترنت lobby internet 3 کیلومتر 2 5 کیلومتر 3 کم 2 5 کم 3 km 2 5 km 1 کیلومتر تا چهارراه زند 1 کم الى تقاطع زند 1 km to zand crossroads خیر لا no فارسی الفارسیه persian مهمان پذیر درجه یک در قلب بافت تاریخی بیت ضیافه درجه اولى فی قلب النسیج التاریخی first class guesthouse in the heart of historical district",
+          "s": "مهمان‌پذیر"
+        },
+        {
+          "i": 7,
+          "n": {
+            "fa": "مهمان‌پذیر حیدری",
+            "en": "Heidari Guesthouse",
+            "ar": "بيت ضيافة حيدري"
+          },
+          "c": "مهمان پذیر حیدری بیت ضیافه حیدری heidari guesthouse مهمان پذیر بیت ضیافه guesthouse درجه یک درجه اولى first class شیراز خیابان لطفعلی خان زند جنب کوچه مسجد نصیرالملک شیراز شارع لطفعلی خان زند بجانب زقاق مسجد نصیر الملک shiraz lotfali khan zand st next to nasir al mulk mosque alley لطفعلی خان لطفعلی خان lotfali khan لابی اینترنت لوبی انترنت lobby internet 3 5 کیلومتر 2 کیلومتر 3 5 کم 2 کم 3 5 km 2 km 1 5 کیلومتر تا چهارراه زند 1 5 کم الى تقاطع زند 1 5 km to zand crossroads خیر لا no فارسی الفارسیه persian مهمان پذیر درجه یک نزدیک به مسجد نصیرالملک بیت ضیافه درجه اولى قریب من مسجد نصیر الملک fir",
+          "s": "مهمان‌پذیر"
+        },
+        {
+          "i": 8,
+          "n": {
+            "fa": "مهمان‌پذیر انتظار",
+            "en": "Entezar Guesthouse",
+            "ar": "بيت ضيافة انتظار"
+          },
+          "c": "مهمان پذیر انتظار بیت ضیافه انتظار entezar guesthouse مهمان پذیر بیت ضیافه guesthouse درجه یک درجه اولى first class شیراز خیابان فردوسی حدفاصل سه راه مدبر و چهارراه هجرت شیراز شارع فردوسی بین مفترق مدبر وتقاطع الهجره shiraz ferdowsi st between modaber junction hijrat crossroads فردوسی فردوسی ferdowsi لابی اینترنت لوبی انترنت lobby internet 3 5 کیلومتر 2 5 کیلومتر 3 5 کم 2 5 کم 3 5 km 2 5 km 1 5 کیلومتر تا چهارراه زند 1 5 کم الى تقاطع زند 1 5 km to zand crossroads خیر لا no فارسی الفارسیه persian مهمان پذیر درجه یک در خیابان فردوسی بیت ضیافه درجه اولى فی شارع فردوسی first class guesthouse on fe",
+          "s": "مهمان‌پذیر"
+        },
+        {
+          "i": 9,
+          "n": {
+            "fa": "مهمان‌پذیر نصر",
+            "en": "Nasr Guesthouse",
+            "ar": "بيت ضيافة نصر"
+          },
+          "c": "مهمان پذیر نصر بیت ضیافه نصر nasr guesthouse مهمان پذیر بیت ضیافه guesthouse درجه دو درجه ثانیه second class شیراز حدفاصل چهارراه خیرات و چهارراه پارامونت 15 خرداد شیراز بین تقاطع خیرات وتقاطع بارامونت 15 خرداد shiraz between kheyrat paramount 15 khordad crossroads 15 خرداد 15 خرداد 15 khordad لابی اینترنت لوبی انترنت lobby internet 3 5 کیلومتر 2 5 کیلومتر 3 5 کم 2 5 کم 3 5 km 2 5 km 1 5 کیلومتر تا چهارراه زند 1 5 کم الى تقاطع زند 1 5 km to zand crossroads خیر لا no فارسی الفارسیه persian مهمان پذیر درجه دو با قیمت اقتصادی بیت ضیافه درجه ثانیه بسعر اقتصادی second class guesthouse with economy ",
+          "s": "مهمان‌پذیر"
+        },
+        {
+          "i": 10,
+          "n": {
+            "fa": "مهمان‌پذیر یاس",
+            "en": "Yas Guesthouse",
+            "ar": "بيت ضيافة الياسمين"
+          },
+          "c": "مهمان پذیر یاس بیت ضیافه الیاسمین yas guesthouse مهمان پذیر بیت ضیافه guesthouse درجه دو درجه ثانیه second class شیراز چهارراه مشیر خیابان زند به سمت چهارراه نمازی شیراز تقاطع مشیر شارع زند باتجاه تقاطع نمازی shiraz moshir crossroads zand st towards namazi crossroads زند زند zand لابی اینترنت لوبی انترنت lobby internet 2 5 کیلومتر 2 کیلومتر 2 5 کم 2 کم 2 5 km 2 km 1 کیلومتر تا چهارراه زند 1 کم الى تقاطع زند 1 km to zand crossroads خیر لا no فارسی الفارسیه persian مهمان پذیر درجه دو در مسیر خیابان زند بیت ضیافه درجه ثانیه على مسار شارع زند second class guesthouse along zand st",
+          "s": "مهمان‌پذیر"
+        },
+        {
+          "i": 11,
+          "n": {
+            "fa": "مهمان‌پذیر رامسر",
+            "en": "Ramsar Guesthouse",
+            "ar": "بيت ضيافة رامسر"
+          },
+          "c": "مهمان پذیر رامسر بیت ضیافه رامسر ramsar guesthouse مهمان پذیر بیت ضیافه guesthouse درجه دو درجه ثانیه second class شیراز خیابان فردوسی خیابان افراسیابی شیراز شارع فردوسی شارع افراسیابی shiraz ferdowsi st afrasiabi st فردوسی فردوسی ferdowsi لابی اینترنت لوبی انترنت lobby internet 3 5 کیلومتر 2 5 کیلومتر 3 5 کم 2 5 کم 3 5 km 2 5 km 1 5 کیلومتر تا چهارراه زند 1 5 کم الى تقاطع زند 1 5 km to zand crossroads خیر لا no فارسی الفارسیه persian مهمان پذیر درجه دو در محدوده خیابان فردوسی بیت ضیافه درجه ثانیه فی منطقه شارع فردوسی second class guesthouse in ferdowsi st area",
+          "s": "مهمان‌پذیر"
+        },
+        {
+          "i": 12,
+          "n": {
+            "fa": "مهمان‌پذیر گیتی",
+            "en": "Giti Guesthouse",
+            "ar": "بيت ضيافة كيتي"
+          },
+          "c": "مهمان پذیر گیتی بیت ضیافه کیتی giti guesthouse مهمان پذیر بیت ضیافه guesthouse درجه دو درجه ثانیه second class شیراز دروازه اصفهان خیابان فردوسی روبروی خیابان افراسیابی شیراز بوابه اصفهان شارع فردوسی مقابل شارع افراسیابی shiraz isfahan gate ferdowsi st opposite afrasiabi st دروازه اصفهان بوابه اصفهان isfahan gate لابی اینترنت لوبی انترنت lobby internet 3 5 کیلومتر 2 5 کیلومتر 3 5 کم 2 5 کم 3 5 km 2 5 km 1 5 کیلومتر تا چهارراه زند 1 5 کم الى تقاطع زند 1 5 km to zand crossroads خیر لا no فارسی الفارسیه persian مهمان پذیر درجه دو در محدوده دروازه اصفهان بیت ضیافه درجه ثانیه فی منطقه بوابه اصفهان ",
+          "s": "مهمان‌پذیر"
+        },
+        {
+          "i": 13,
+          "n": {
+            "fa": "مهمان‌پذیر مرمر",
+            "en": "MarMar Guesthouse",
+            "ar": "بيت ضيافة مرمر"
+          },
+          "c": "مهمان پذیر مرمر بیت ضیافه مرمر marmar guesthouse مهمان پذیر بیت ضیافه guesthouse درجه دو درجه ثانیه second class شیراز خیابان انقلاب مابین بلوار استقلال و چهارراه گمرک شیراز شارع انقلاب بین شارع استقلال وتقاطع الجمارک shiraz enghelab st between esteghlal blvd customs crossroads انقلاب انقلاب enghelab لابی اینترنت لوبی انترنت lobby internet 4 کیلومتر 3 کیلومتر 4 کم 3 کم 4 km 3 km 2 کیلومتر تا چهارراه زند 2 کم الى تقاطع زند 2 km to zand crossroads خیر لا no فارسی الفارسیه persian مهمان پذیر درجه دو در محدوده خیابان انقلاب بیت ضیافه درجه ثانیه فی منطقه شارع انقلاب second class guesthouse in enghe",
+          "s": "مهمان‌پذیر"
+        }
+      ]
+    },
+    {
+      "id": "tourist_houses",
+      "icon": "🏠",
+      "label": {
+        "fa": "خانه‌های مسافر",
+        "en": "Traveler Houses",
+        "ar": "بيوت المسافرين"
+      },
+      "items": [
+        {
+          "i": 0,
+          "n": {
+            "fa": "خانه مسافر پارسه شیراز",
+            "en": "Parseh Tourist House Shiraz",
+            "ar": "بيت مسافر بارسه شيراز"
+          },
+          "c": "خانه مسافر پارسه شیراز بیت مسافر بارسه شیراز parseh tourist house shiraz خانه مسافر بیت مسافر tourist house ممتاز ممتاز excellent دارای مجوز رسمی از اداره کل میراث فرهنگی مرخص رسمیا من مدیریه التراث الثقافی officially licensed by cultural heritage office شیراز بلوار کریم خان زند کوچه شهید عباییان شیراز شارع کریم خان زند زقاق الشهید عباییان shiraz karim khan zand blvd shahid abaeian alley زند زند zand مبلمان کامل آشپزخانه مجهز سیستم سرمایش و گرمایش اینترنت پرسرعت پارکینگ اختصاصی نظافت هتلی اثاث کامل مطبخ مجهز نظام تبرید وتدفیه انترنت عالی السرعه موقف خاص نظافه فندقیه full furniture equipped kit",
+          "s": "خانه مسافر"
+        },
+        {
+          "i": 1,
+          "n": {
+            "fa": "خانه مسافر آرامش شیراز",
+            "en": "Aramesh Tourist House Shiraz",
+            "ar": "بيت مسافر آرامش شيراز"
+          },
+          "c": "خانه مسافر آرامش شیراز بیت مسافر آرامش شیراز aramesh tourist house shiraz خانه مسافر بیت مسافر tourist house ممتاز ممتاز excellent دارای مجوز رسمی مرخص رسمیا officially licensed شیراز خیابان قصردشت نبش کوچه 42 شیراز شارع قصر الدشت زاویه الزقاق 42 shiraz ghasrdasht st corner of alley 42 قصردشت قصر الدشت ghasrdasht تجهیزات کامل آشپزی تلویزیون ال ای دی کولر گازی و پکیج پارکینگ مسقف نگهبانی 24 ساعته معدات طهی کامله تلفزیون led مکیف وغلایه موقف مسقف حراسه 24 ساعه full kitchen equipment led tv ac boiler covered parking 24 hour security 4 کیلومتر 3 کیلومتر 3 5 کیلومتر 4 کم 3 کم 3 5 کم 4 km 3 km 3 5 k",
+          "s": "خانه مسافر"
+        },
+        {
+          "i": 2,
+          "n": {
+            "fa": "خانه مسافر زندیه شیراز",
+            "en": "Zandieh Tourist House Shiraz",
+            "ar": "بيت مسافر زنديه شيراز"
+          },
+          "c": "خانه مسافر زندیه شیراز بیت مسافر زندیه شیراز zandieh tourist house shiraz خانه مسافر بیت مسافر tourist house درجه یک درجه اولى first class دارای مجوز رسمی مرخص رسمیا officially licensed شیراز خیابان رودکی جنب هتل کریم خان شیراز شارع رودکی بجانب فندق کریم خان shiraz rudaki st next to karim khan hotel زند زند zand موقعیت مرکزی اینترنت رایگان سیستم تهویه مطبوع سرویس خواب تمیز آشپزخانه مجهز موقع مرکزی انترنت مجانی تکییف اسر ه نظیفه مطبخ مجهز central location free internet air conditioning clean bedding equipped kitchen 3 کیلومتر 2 5 کیلومتر 3 کم 2 5 کم 3 km 2 5 km 1 5 کیلومتر تا چهارراه زند 1 5 کم",
+          "s": "خانه مسافر"
+        },
+        {
+          "i": 3,
+          "n": {
+            "fa": "خانه مسافر حافظیه شیراز",
+            "en": "Hafezieh Tourist House Shiraz",
+            "ar": "بيت مسافر حافظية شيراز"
+          },
+          "c": "خانه مسافر حافظیه شیراز بیت مسافر حافظیه شیراز hafezieh tourist house shiraz خانه مسافر بیت مسافر tourist house درجه یک درجه اولى first class دارای مجوز رسمی مرخص رسمیا officially licensed شیراز چهارراه حافظیه بلوار گلستان شیراز تقاطع حافظیه شارع کلستان shiraz hafezieh crossroads golestan blvd حافظیه حافظیه hafezieh چشم انداز زیبا مبلمان شیک لوازم پخت وپز پارکینگ اختصاصی اینترنت رایگان اطلاله جمیله اثاث انیق ادوات الطهی موقف خاص انترنت مجانی beautiful view elegant furniture cooking utensils private parking free internet 3 5 کیلومتر 3 کیلومتر 3 5 کم 3 کم 3 5 km 3 km 2 کیلومتر تا چهارراه زند 2 ک",
+          "s": "خانه مسافر"
+        },
+        {
+          "i": 4,
+          "n": {
+            "fa": "خانه مسافر ارم شیراز",
+            "en": "Eram Tourist House Shiraz",
+            "ar": "بيت مسافر أرم شيراز"
+          },
+          "c": "خانه مسافر ارم شیراز بیت مسافر ارم شیراز eram tourist house shiraz خانه مسافر بیت مسافر tourist house درجه یک درجه اولى first class دارای مجوز رسمی مرخص رسمیا officially licensed شیراز بلوار ارم کوچه 13 شیراز شارع ارم الزقاق 13 shiraz eram blvd alley 13 ارم ارم eram محیط آرام سیستم گرمایش و سرمایش آشپزخانه کامل تلویزیون پارکینگ اختصاصی بییه هادیه نظام تدفیه وتبرید مطبخ کامل تلفزیون موقف خاص quiet environment heating cooling full kitchen tv private parking 3 کیلومتر 3 5 کیلومتر 3 کم 3 5 کم 3 km 3 5 km 2 5 کیلومتر تا چهارراه زند 2 5 کم الى تقاطع زند 2 5 km to zand crossroads خیر لا no فارسی انگل",
+          "s": "خانه مسافر"
+        },
+        {
+          "i": 5,
+          "n": {
+            "fa": "خانه مسافر سعدی شیراز",
+            "en": "Saadi Tourist House Shiraz",
+            "ar": "بيت مسافر سعدي شيراز"
+          },
+          "c": "خانه مسافر سعدی شیراز بیت مسافر سعدی شیراز saadi tourist house shiraz خانه مسافر بیت مسافر tourist house درجه یک درجه اولى first class دارای مجوز رسمی مرخص رسمیا officially licensed شیراز میدان گاز خیابان آزادی شیراز میدان الغاز شارع آزادی shiraz gas square azadi st میدان گاز میدان الغاز gas square دسترسی سریع به مراکز درمانی آشپزخانه کامل اینترنت پرسرعت پارکینگ سیستم ایمنی وصول سریع للمراکز الطبیه مطبخ کامل انترنت عالی السرعه موقف نظام امان quick access to medical centers full kitchen high speed internet parking safety system 2 کیلومتر 3 کیلومتر 2 کم 3 کم 2 km 3 km 2 کیلومتر تا چهارراه زند 2 ",
+          "s": "خانه مسافر"
+        },
+        {
+          "i": 6,
+          "n": {
+            "fa": "خانه مسافر بهار شیراز",
+            "en": "Bahar Tourist House Shiraz",
+            "ar": "بيت مسافر بهار شيراز"
+          },
+          "c": "خانه مسافر بهار شیراز بیت مسافر بهار شیراز bahar tourist house shiraz خانه مسافر بیت مسافر tourist house درجه یک درجه اولى first class دارای مجوز رسمی مرخص رسمیا officially licensed شیراز بلوار ستارخان بین کوچه 12 و 14 شیراز شارع ستارخان بین الزقاق 12 و14 shiraz sattarkhan blvd between alleys 12 14 ستارخان ستارخان sattarkhan آپارتمان های نوساز تجهیزات کامل رفاهی آشپزخانه مجهز پارکینگ مسقف شقق حدیثه مرافق کامله مطبخ مجهز موقف مسقف new apartments full facilities equipped kitchen covered parking 3 5 کیلومتر 3 کیلومتر 3 5 کم 3 کم 3 5 km 3 km 2 کیلومتر تا چهارراه زند 2 کم الى تقاطع زند 2 km to zand",
+          "s": "خانه مسافر"
+        },
+        {
+          "i": 7,
+          "n": {
+            "fa": "خانه مسافر فرهنگ‌شهر شیراز",
+            "en": "Farhangshahr Tourist House Shiraz",
+            "ar": "بيت مسافر فرهنك شهر شيراز"
+          },
+          "c": "خانه مسافر فرهنگ شهر شیراز بیت مسافر فرهنک شهر شیراز farhangshahr tourist house shiraz خانه مسافر بیت مسافر tourist house درجه یک درجه اولى first class دارای مجوز رسمی مرخص رسمیا officially licensed شیراز بلوار فرهنگ شهر نبش کوچه 22 شیراز شارع فرهنک شهر زاویه الزقاق 22 shiraz farhangshahr blvd corner of alley 22 فرهنگ شهر فرهنک شهر farhangshahr محیط نوساز آشپزخانه مجهز اینترنت رایگان سیستم صوتی و تصویری پارکینگ اختصاصی بییه حدیثه مطبخ مجهز انترنت مجانی نظام صوتی ومریی موقف خاص new environment equipped kitchen free internet audio video system private parking 5 کیلومتر 3 کیلومتر 5 کیلومتر 5 کم 3",
+          "s": "خانه مسافر"
+        },
+        {
+          "i": 8,
+          "n": {
+            "fa": "خانه مسافر معالی‌آباد شیراز",
+            "en": "Ma'ali Abad Tourist House Shiraz",
+            "ar": "بيت مسافر معالي آباد شيراز"
+          },
+          "c": "خانه مسافر معالی آباد شیراز بیت مسافر معالی آباد شیراز ma ali abad tourist house shiraz خانه مسافر بیت مسافر tourist house ممتاز ممتاز excellent دارای مجوز رسمی مرخص رسمیا officially licensed شیراز معالی آباد خیابان دوستان شیراز معالی آباد شارع دوستان shiraz ma ali abad doostan st معالی آباد معالی آباد ma ali abad دسترسی به مترو مبلمان مدرن آشپزخانه کامل سیستم سرمایش و گرمایش پارکینگ و آسانسور وصول الى المترو اثاث حدیث مطبخ کامل نظام تبرید وتدفیه موقف ومصعد metro access modern furniture full kitchen heating cooling parking elevator 4 کیلومتر 7 کیلومتر 4 کم 7 کم 4 km 7 km 5 کیلومتر تا چهارراه ز",
+          "s": "خانه مسافر"
+        },
+        {
+          "i": 9,
+          "n": {
+            "fa": "خانه مسافر چمران شیراز",
+            "en": "Chamran Tourist House Shiraz",
+            "ar": "بيت مسافر تشمران شيراز"
+          },
+          "c": "خانه مسافر چمران شیراز بیت مسافر تشمران شیراز chamran tourist house shiraz خانه مسافر بیت مسافر tourist house درجه یک درجه اولى first class دارای مجوز رسمی مرخص رسمیا officially licensed شیراز بلوار چمران کوچه 24 شیراز شارع تشمران الزقاق 24 shiraz chamran blvd alley 24 چمران تشمران chamran چشم انداز عالی آپارتمان های جادار لوازم آشپزی و پذیرایی پارکینگ اختصاصی اینترنت پرسرعت اطلاله ممتازه شقق واسعه ادوات الطهی والضیافه موقف خاص انترنت عالی السرعه excellent view spacious apartments cooking serving utensils private parking high speed internet 5 کیلومتر 5 کیلومتر 2 کیلومتر 5 کم 5 کم 2 کم 5 km 5 k",
+          "s": "خانه مسافر"
+        }
+      ]
+    },
+    {
+      "id": "transport",
+      "icon": "🚐",
+      "label": {
+        "fa": "ترانسفر و حمل‌ونقل",
+        "en": "Transfer & Transport",
+        "ar": "النقل والانتقالات"
+      },
+      "items": [
+        {
+          "i": 0,
+          "n": {
+            "fa": "مترو شیراز",
+            "en": "Shiraz Metro",
+            "ar": "مترو شيراز"
+          },
+          "c": "مترو شیراز مترو شیراز shiraz metro مترو مترو metro سطح شهر شیراز خط 1 گل سرخ تا احسان خط 2 میان رود تا آزادی سطح مدینه شیراز الخط 1 کل سرخ الى احسان الخط 2 میان رود الى آزادی shiraz city line 1 gol sorkh to ehsan line 2 mianrud to azadi نرخ مصوب شورای شهر کارت بلیت الکترونیکی یا تک سفر التعرفه المعتمده لمجلس المدینه بطاقه الکترونیه او تذکره فردیه approved city council rate e ticket or single trip همه روزه 6 00 الی 22 00 یومیا 6 00 حتى 22 00 daily 6 00 am 10 00 pm دارای رمپ برای توان یابان ایستگاه های نزدیک به بیمارستان نمازی و بافت تاریخی یحتوی على منحدرات لذوی الاحتیاجات الخاصه محطات قریبه من",
+          "s": "مترو"
+        },
+        {
+          "i": 1,
+          "n": {
+            "fa": "سازمان اتوبوسرانی شیراز (BRT و خطوط عادی)",
+            "en": "Shiraz Bus Organization (BRT & Regular Lines)",
+            "ar": "منظمة الحافلات في شيراز (BRT والخطوط العادية)"
+          },
+          "c": "سازمان اتوبوسرانی شیراز brt و خطوط عادی منظمه الحافلات فی شیراز brt والخطوط العادیه shiraz bus organization brt regular lines اتوبوس حافله bus تمام مناطق شهری شیراز و شهرک های اقماری جمیع المناطق الحضریه فی شیراز والبلدات التابعه all urban areas of shiraz suburban towns پرداخت الکترونیکی با کارت بلیت من کارت شیراز کارت یا کرایه مصوب الدفع الالکترونی ببطاقه من کارت شیراز کارت او الاجره المعتمده electronic payment with card man card shiraz card or approved fare 6 00 صبح الی 21 30 خطوط شبانه محدود 6 00 صباحا حتى 21 30 خطوط لیلیه محدوده 6 00 am 9 30 pm limited night lines خطوط تندرو brt خطوط عبوری",
+          "s": "اتوبوس"
+        },
+        {
+          "i": 2,
+          "n": {
+            "fa": "سازمان تاکسیرانی شیراز (شهری، خطی و فرودگاهی)",
+            "en": "Shiraz Taxi Organization (Urban, Line & Airport)",
+            "ar": "منظمة سيارات الأجرة في شيراز (الحضرية، الخطية والمطارية)"
+          },
+          "c": "سازمان تاکسیرانی شیراز شهری خطی و فرودگاهی منظمه سیارات الاجره فی شیراز الحضریه الخطیه والمطاریه shiraz taxi organization urban line airport تاکسی تاکسی taxi داخل شهر فرودگاه راه آهن و پایانه های مسافربری داخل المدینه المطار السکک الحدیدیه والمحطات city airport railway passenger terminals بر اساس نرخ نامه رسمی مصوب شورای شهر نقدی یا کارت خوان حسب التعرفه الرسمیه المعتمده لمجلس المدینه نقدا او بالبطاقه based on official city council tariff cash or card 6 00 صبح الی 23 00 تاکسی های خطی و فرودگاهی 24 ساعته 6 00 صباحا حتى 23 00 سیارات الاجره الخطیه والمطاریه 24 ساعه 6 00 am 11 00 pm line airport t",
+          "s": "تاکسی"
+        },
+        {
+          "i": 3,
+          "n": {
+            "fa": "اسنپ (Snapp)",
+            "en": "Snapp",
+            "ar": "سناب (Snapp)"
+          },
+          "c": "اسنپ snapp سناب snapp snapp تاکسی اینترنتی تاکسی عبر الانترنت online taxi شهر شیراز و حومه صدرا زرقان لپویی مدینه شیراز وضواحیها صدرا زرقان لبویی shiraz city suburbs sadra zarghan lapouei پویا بر اساس مسافت ترافیک شرایط آب وهوایی و نوع سرویس دینامیکی حسب المسافه المرور الظروف الجویه ونوع الخدمه dynamic based on distance traffic weather service type 24 ساعته 24 ساعه 24 hours سرویس های اسنپ اکو پلاس بانوان و سفرهای بین شهری دسترسی عالی برای سفر به بیمارستان ها خدمات سناب ایکو بلاس النساء والرحلات بین المدن وصول ممتاز للمستشفیات snapp eco plus ladies intercity services excellent hospital access ف",
+          "s": "تاکسی اینترنتی"
+        },
+        {
+          "i": 4,
+          "n": {
+            "fa": "تپسی (Tapsi)",
+            "en": "Tapsi",
+            "ar": "تابسي (Tapsi)"
+          },
+          "c": "تپسی tapsi تابسی tapsi tapsi تاکسی اینترنتی تاکسی عبر الانترنت online taxi شهر شیراز و شهر جدید صدرا مدینه شیراز ومدینه صدرا الجدیده shiraz city new sadra city پویا بر اساس مسافت ترافیک و تقاضا دینامیکی حسب المسافه المرور والطلب dynamic based on distance traffic demand 24 ساعته 24 ساعه 24 hours سرویس های کلاسیک تلفنی خطی و امکان رزرو خودرو برای سفرهای درمانی خدمات کلاسیک هاتفیه خطیه وامکانیه حجز سیاره للرحلات العلاجیه classic phone line services vehicle reservation for medical trips فارسی انگلیسی الفارسیه الانجلیزیه persian english دومین تاکسی اینترنتی بزرگ کشور در شیراز ثانی اکبر تطبیق تاکسی ",
+          "s": "تاکسی اینترنتی"
+        },
+        {
+          "i": 5,
+          "n": {
+            "fa": "آژانس‌های کرایه اتومبیل سطح شهر (تلفنی)",
+            "en": "City Car Rental Agencies (Phone-Based)",
+            "ar": "وكالات تأجير السيارات في المدينة (هاتفية)"
+          },
+          "c": "آژانس های کرایه اتومبیل سطح شهر تلفنی وکالات تاجیر السیارات فی المدینه هاتفیه city car rental agencies phone based آژانس وکاله agency محلات مختلف شیراز و سرویس دربستی بین شهری احیاء شیراز المختلفه وخدمه الباب الى الباب بین المدن various shiraz districts intercity door to door service نرخ مصوب اتحادیه یا توافقی التعرفه المعتمده للنقابه او بالاتفاق approved union rate or negotiated معمولا 6 00 صبح الی 24 00 برخی شبانه روزی عاده 6 00 صباحا حتى 24 00 بعضها 24 ساعه usually 6 00 am 12 00 am some 24 hours امکان رزرو تلفنی برای جابجایی بیماران سالمندان و گردشگران بدون نیاز به اینترنت امکانیه الحجز اله",
+          "s": "آژانس"
+        },
+        {
+          "i": 6,
+          "n": {
+            "fa": "فرودگاه بین‌المللی شهید دستغیب شیراز",
+            "en": "Shiraz Shahid Dastghaib International Airport",
+            "ar": "مطار الشهيد دستغيب الدولي في شيراز"
+          },
+          "c": "فرودگاه بین المللی شهید دستغیب شیراز مطار الشهید دستغیب الدولی فی شیراز shiraz shahid dastghaib international airport فرودگاه مطار airport پروازهای داخلی تهران مشهد کیش و بین المللی دبی استانبول دوحه نجف رحلات داخلیه طهران مشهد کیش ودولیه دبی اسطنبول الدوحه النجف domestic tehran mashhad kish international flights dubai istanbul doha najaf تعرفه شرکت های هواپیمایی و تعرفه مصوب تاکسی فرودگاهی تعرفه شرکات الطیران وتعرفه تاکسی المطار المعتمده airline tariff approved airport taxi rate 24 ساعته 24 ساعه 24 hours تاکسی فرودگاهی 24 ساعته پارکینگ شبانه روزی خدمات تشریفات cip و اورژانس فرودگاهی تاکسی الم",
+          "s": "فرودگاه"
+        },
+        {
+          "i": 7,
+          "n": {
+            "fa": "راه‌آهن شیراز",
+            "en": "Shiraz Railway",
+            "ar": "سكة حديد شيراز"
+          },
+          "c": "راه آهن شیراز سکه حدید شیراز shiraz railway راه آهن سکه حدید railway خطوط ریلی بین شهری شیراز تهران مشهد اصفهان خطوط السکک الحدیدیه بین المدن شیراز طهران مشهد اصفهان intercity rail lines shiraz tehran mashhad isfahan نرخ مصوب شرکت های حمل ونقل ریلی بر اساس نوع قطار تعرفه شرکات النقل بالسکک الحدیدیه حسب نوع القطار railway companies tariff based on train type ساعات پیش از حرکت قطارها و بخش فروش بلیت روزانه ساعات قبل مغادره القطارات وقسم بیع التذاکر یومیا hours before train departure daily ticket sales تاکسی و اتوبوس مستقر در ایستگاه راه آهن برای انتقال به مرکز شهر و مراکز درمانی تاکسی وحافله فی ",
+          "s": "راه‌آهن"
+        },
+        {
+          "i": 8,
+          "n": {
+            "fa": "ون‌ها و خودروهای ویژه بیمارستانی و درمانی شیراز",
+            "en": "Shiraz Hospital & Medical Special Vans & Vehicles",
+            "ar": "فانات وسيارات خاصة بالمستشفيات والعلاج في شيراز"
+          },
+          "c": "ون ها و خودروهای ویژه بیمارستانی و درمانی شیراز فانات وسیارات خاصه بالمستشفیات والعلاج فی شیراز shiraz hospital medical special vans vehicles ون بیمارستانی فان المستشفى hospital van محورهای درمانی اصلی بلوار زند خیابان نمازی قصردشت زند المحاور الطبیه الرییسیه شارع زند شارع نمازی قصر الدشت زند main medical hubs zand blvd namazi st ghasrdasht zand نرخ مصوب تاکسیرانی یا تعرفه خدمات اورژانس و آمبولانس خصوصی تعرفه سیارات الاجره المعتمده او تعرفه خدمات الطواری والاسعاف الخاص approved taxi rate or emergency private ambulance tariff 24 ساعته 24 ساعه 24 hours ون ها و خودروهای ویژه انتقال بیماران معلولی",
+          "s": "ون بیمارستانی"
+        }
+      ]
+    },
+    {
+      "id": "hubs",
+      "icon": "🚉",
+      "label": {
+        "fa": "پایانه‌ها و فرودگاه",
+        "en": "Terminals & Airport",
+        "ar": "المحطات والمطار"
+      },
+      "items": [
+        {
+          "i": 0,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "official_name نام رسمی official name الاسم الرسمی فرودگاه بین المللی شهید دستغیب شیراز shiraz shahid dastgheib international airport مطار الشهید دستغیب الدولی فی شیراز ایستگاه راه آهن شیراز shiraz railway station محطه قطار شیراز پایانه مسافربری کاراندیش شیراز karandish passenger terminal of shiraz محطه رکاب کاراندیش فی شیراز پایانه مسافربری امیرکبیر شیراز amirkabir passenger terminal of shiraz محطه رکاب امیر کبیر فی شیراز",
+          "s": ""
+        },
+        {
+          "i": 1,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "city شهر city المدینه شیراز shiraz شیراز شیراز shiraz شیراز شیراز shiraz شیراز شیراز shiraz شیراز",
+          "s": ""
+        },
+        {
+          "i": 2,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "full_address آدرس کامل full address العنوان الکامل شیراز میدان الله بلوار مدرس فرودگاه بین المللی شهید دستغیب shiraz allah square modarres blvd shahid dastgheib international airport شیراز ساحل الله شارع مدرس مطار الشهید دستغیب الدولی شیراز بزرگراه شیراز سپیدان ابتدای بلوار آیت الله علوی ورودی شهر جدید صدرا shiraz shiraz sepidan highway beginning of ayatollah alavi blvd sadra new town entrance شیراز طریق شیراز سپیدان السریع بدایه شارع آیه الله علوی مدخل مدینه صدرا الجدیده شیراز بلوار سلمان فارسی خیابان ساحلی شرقی پایانه کاراندیش shiraz salman farsi blvd east saheli st karandish terminal شیراز ",
+          "s": ""
+        },
+        {
+          "i": 3,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "iata_code کد یاتا iata iata code رمز ایاتا syz syz syz",
+          "s": ""
+        },
+        {
+          "i": 4,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "icao_code کد ایکایو icao icao code رمز ایکاو oiss oiss oiss",
+          "s": ""
+        },
+        {
+          "i": 5,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "main_phone تلفن اصلی main phone الهاتف الرییسی 07137115000 98 71 3711 5000 98 71 3711 5000 07136200321 98 71 3620 0321 98 71 3620 0321 07137327650 98 71 3732 7650 98 71 3732 7650 07138202587 98 71 3820 2587 98 71 3820 2587",
+          "s": ""
+        },
+        {
+          "i": 6,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "emergency_phone تلفن اضطراری emergency phone هاتف الطواری اطلاعات پرواز 199 اورژانس فرودگاه 115 flight info 199 airport emergency 115 معلومات الرحلات 199 طواری المطار 115 سامانه پاسخگویی مرکزی راه آهن 0215149 central railway response system 0215149 نظام الاستجابه المرکزی للسکک الحدیدیه 0215149 اورژانس 115 پلیس 110 emergency 115 police 110 الطواری 115 الشرطه 110 اورژانس 115 پلیس 110 emergency 115 police 110 الطواری 115 الشرطه 110",
+          "s": ""
+        },
+        {
+          "i": 7,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "website وب سایت website الموقع الالکترونی shiraz airport ir shiraz airport ir shiraz airport ir fars rai ir fars rai ir fars rai ir",
+          "s": ""
+        },
+        {
+          "i": 8,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "email ایمیل email البرید الالکترونی syz info shiraz airport ir syz info shiraz airport ir syz info shiraz airport ir fars rai ir fars rai ir fars rai ir",
+          "s": ""
+        },
+        {
+          "i": 9,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "latitude عرض جغرافیایی lat latitude خط العرض 29 5392 29 5392 29 5392 29 7421 29 7421 29 7421 29 6225 29 6225 29 6225 29 5980 29 5980 29 5980",
+          "s": ""
+        },
+        {
+          "i": 10,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "longitude طول جغرافیایی lng longitude خط الطول 52 5896 52 5896 52 5896 52 4182 52 4182 52 4182 52 5510 52 5510 52 5510 52 5023 52 5023 52 5023",
+          "s": ""
+        },
+        {
+          "i": 11,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "distance_to_city_center فاصله تا مرکز شهر km distance to city center km المسافه الى مرکز المدینه کم حدود 10 تا 12 کیلومتر جنوب شرق about 10 to 12 km southeast حوالی 10 الى 12 کم الجنوب الشرقی حدود 20 تا 25 کیلومتر غرب شمال غرب about 20 to 25 km west northwest حوالی 20 الى 25 کم الغرب الشمال الغربی حدود 3 تا 4 کیلومتر شمال شرق نزدیک مرکز about 3 to 4 km northeast near center حوالی 3 الى 4 کم الشمال الشرقی قریبه من المرکز حدود 7 کیلومتر جنوب غرب about 7 km southwest حوالی 7 کم الجنوب الغربی",
+          "s": ""
+        },
+        {
+          "i": 12,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "working_hours ساعت کاری working hours ساعات العمل به صورت شبانه روزی 24 ساعته 24 hours round the clock على مدار الساعه 24 ساعه ساعات اداری و همزمان با زمان حرکت ورودی قطارها office hours and coinciding with train arrival departure times ساعات العمل الاداریه وتتزامن مع اوقات وصول مغادره القطارات شبانه روزی فعال در تمام ساعات روز 24 hours active all day على مدار الساعه نشطه طوال الیوم شبانه روزی فعال در تمام ساعات روز 24 hours active all day على مدار الساعه نشطه طوال الیوم",
+          "s": ""
+        },
+        {
+          "i": 13,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "metro مترو metro المترو yes دارای ایستگاه مترو اختصاصی خط 1 ایستگاه فرودگاه شهید دستغیب has a dedicated metro station line 1 shahid dastgheib airport station تحتوی على محطه مترو مخصصه الخط 1 محطه مطار الشهید دستغیب no دسترسی مستقیم با مترو ندارد نیاز به تاکسی یا اتوبوس خطی no direct metro access requires taxi or line bus لا توجد امکانیه وصول مباشر للمترو یتطلب سیاره اجره او حافله near نزدیک به ایستگاه مترو ولیعصر خط 1 با فاصله کوتاه تاکسی near valiasr metro station line 1 with a short taxi ride قریبه من محطه مترو ولی عصر الخط 1 مع مسافه قصیره بالسیاره no دسترسی مستقیم با مترو ندارد توسط خطوط ا",
+          "s": ""
+        },
+        {
+          "i": 14,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "city_bus اتوبوس شهری city bus حافلات المدینه دارای خطوط اتوبوسرانی شهری به سمت میدان احسان و نمازی has city bus lines toward ehsan square and namazi تتوفر خطوط حافلات حضریه باتجاه ساحه احسان ونمازی دارای خطوط محدود اتوبوسرانی حومه has limited suburban bus lines تتوفر خطوط حافلات ضواحی محدوده دارای پایانه اتوبوس واحد شهری با پوشش کامل به تمامی نقاط شهر has a city bus terminal with full coverage to all parts of the city تحتوی على محطه حافلات حضریه بتغطیه کامله لجمیع مناطق المدینه دارای خطوط اتوبوسرانی شهری جهت انتقال مسافران به مرکز شهر has city bus lines to transfer passengers to the city cente",
+          "s": ""
+        },
+        {
+          "i": 15,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "taxis تاکسی ها taxis سیارات الاجره تاکسی های ویژه فرودگاه خطی و آنلاین special airport taxis line and online ride hailing سیارات اجره خاصه بالمطار خطیه وعبر الانترنت تاکسی های خطی و ویژه ایستگاه راه آهن line and special station taxis سیارات اجره خطیه وخاصه بالمحطه تاکسی های خطی درون شهری و تاکسی های ویژه پایانه inner city line taxis and terminal specific taxis سیارات اجره خطیه داخل المدینه وسیارات اجره خاصه بالمحطه تاکسی های خطی و تلفنی ویژه پایانه line and telephone taxis specific to the terminal سیارات اجره خطیه وهاتفیه خاصه بالمحطه",
+          "s": ""
+        },
+        {
+          "i": 16,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "hotel_shuttle شاتل هتل hotel shuttle نقل الفندق توسط برخی هتل های لوکس شیراز به صورت هماهنگ شده ارایه می شود provided by some luxury shiraz hotels upon coordination توفرها بعض فنادق شیراز الفاخره بالتنسیق المسبق معمولا ندارد نیازمند هماهنگی مسافر با هتل usually not available requires passenger coordination with hotel عاده غیر متوفره تتطلب تنسیق المسافر مع الفندق ندارد not available غیر متوفر ندارد not available غیر متوفر",
+          "s": ""
+        },
+        {
+          "i": 17,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "parking پارکینگ parking موقف السیارات دارای پارکینگ طبقاتی و فضای باز مجهز و شبانه روزی equipped multi story and open air parking active 24 7 مواقف سیارات متعدده الطوابق ومکشوفه مجهزه على مدار الساعه دارای پارکینگ روباز مسقف و اختصاصی ایستگاه has a covered and open dedicated station parking lot تحتوی على موقف سیارات مغطى ومکشوف مخصص للمحطه دارای پارکینگ عمومی مسقف و روباز has covered and open public parking تحتوی على مواقف عامه مغطاه ومکشوفه دارای پارکینگ اختصاصی پایانه has dedicated terminal parking تحتوی على موقف مخصص للمحطه",
+          "s": ""
+        },
+        {
+          "i": 18,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "wheelchair_accessibility دسترسی ویلچر wheelchair accessibility امکانیه الوصول للکراسی المتحرکه دارای رمپ آسانسور و خدمات تشریفات برای توان یابان equipped with ramps elevators and assistance services for individuals with disabilities مزوده بمنحدرات مصاعد وخدمات مساعده لذوی الاحتیاجات الخاصه دارای رمپ ورود و خدمات ویلچر در صورت درخواست از ایستگاه has entrance ramps and wheelchair services upon request from the station تحتوی على منحدرات دخول وخدمات الکراسی المتحرکه عند الطلب من المحطه مناسب سازی نسبی رمپ ها و ورود بدون پله partially adapted ramps and step free entrance منحدرات مجهزه جزییا ومدخل خ",
+          "s": ""
+        },
+        {
+          "i": 19,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "vip_lounge سالن vip vip lounge صاله کبار الشخصیات دارای سالن تشریفات اختصاصی cip vip has dedicated cip vip lounges تتوفر صالات تشریفات خاصه cip vip دارای سالن انتظار ویژه مسافران قطارهای پنج ستاره has a special waiting lounge for 5 star train passengers تحتوی على صاله انتظار خاصه لرکاب القطارات ذات الخمس نجوم ندارد دارای سالن انتظار عمومی مجهز not available has an equipped general waiting hall غیر متوفر تحتوی على صاله انتظار عامه مجهزه ندارد دارای سالن انتظار عمومی not available has a general waiting hall غیر متوفر تحتوی على صاله انتظار عامه",
+          "s": ""
+        },
+        {
+          "i": 20,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "terminals ترمینال ها terminals المحطات الترمینات ترمینال پروازهای داخلی و ترمینال پروازهای خارجی domestic flights terminal and international flights terminal محطه الرحلات الداخلیه ومحطه الرحلات الدولیه ساختمان مرکزی مسافربری راه آهن main railway passenger building مبنى رکاب السکک الحدیدیه الرییسی ترمینال اصلی سفرهای برون شهری به سمت شهرهای مرکزی شمال شرق و غرب کشور main terminal for intercity trips toward central northern eastern and western cities المحطه الرییسیه للرحلات بین المدن باتجاه المدن الوسطى والشمالیه والشرقیه والغربیه پایانه ویژه سفرهای برون شهری عمدتا به سمت شهرهای جنوبی و استان ها",
+          "s": ""
+        },
+        {
+          "i": 21,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "airlines ایرلاین ها airlines خطوط الطیران هواپیمایی ماهان ایران ایر آسمان زاگرس کیش ایر قشم ایر معراج و سایر ایرلاین های داخلی و خارجی mahan air iran air aseman zagros kish air qeshm air meraj and other domestic and foreign airlines طیران ماهان ایران ایر آسمان زاگرس کیش ایر قشم ایر معراج وخطوط طیران اخرى محلیه ودولیه",
+          "s": ""
+        },
+        {
+          "i": 22,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "facilities امکانات facilities المرافق دستگاه های خودپرداز غرفه های سوغات رستوران کافی شاپ بسته بندی بار اتاق مادر و کودک atms souvenir shops restaurant coffee shop luggage wrapping mother and child room اجهزه الصراف الآلی محلات الهدایا التذکاریه مطعم مقهى تغلیف الامتعه غرفه الام والطفل باجه های بلیط فروشی نمازخانه غرفه مواد غذایی سرویس بهداشتی اتاق انتظار ticket counters prayer room food kiosk restrooms waiting room شباک التذاکر مصلى اکشاک الاغذیه دورات المیاه غرفه الانتظار غرفه های فروش بلیط تعاونی ها غرفه های مواد غذایی استراحتگاه رانندگان نمازخانه سرویس بهداشتی cooperative ticket booths foo",
+          "s": ""
+        },
+        {
+          "i": 23,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "nearby_hospitals بیمارستان های نزدیک nearby hospitals المستشفیات القریبه بیمارستان حضرت زینب س بیمارستان مادر و کودک شوشتری hazrat zeinab hospital shoushtari mother and child hospital مستشفى حضرت زینب مستشفى شوشتری للام والطفل بیمارستان های شهر جدید صدرا و بیمارستان های شمال غرب شیراز sadra new town hospitals and northwest shiraz hospitals مستشفیات مدینه صدرا الجدیده ومستشفیات شمال غرب شیراز بیمارستان شهید دستغیب بیمارستان مسلمین shahid dastgheib hospital moslemine hospital مستشفى الشهید دستغیب مستشفى المسلمین بیمارستان های بلوار چمران و بعثت با دسترسی بزرگراهی chamran blvd and besat hospitals",
+          "s": ""
+        },
+        {
+          "i": 24,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "nearby_hotels هتل های نزدیک nearby hotels الفنادق القریبه هتل پرسپولیس هتل هما هتل چمران با فاصله میان شهری persepolis hotel homa hotel chamran hotel city distance فندق برسیبولیس فندق هما فندق چمران مسافه داخل المدینه هتل های شهر جدید صدرا یا هتل های مرکز شهر شیراز sadra new town hotels or central shiraz hotels فنادق مدینه صدرا الجدیده او فنادق وسط شیراز هتل ارگ هتل پارسیان شیراز هتل کریم خان arg hotel parsian shiraz hotel karim khan hotel فندق ارگ فندق پارسیان شیراز فندق کریم خان هتل های بلوار مدرس و مرکز شهر شیراز modarres blvd hotels and central shiraz hotels فنادق شارع مدرس ووسط شیراز",
+          "s": ""
+        },
+        {
+          "i": 25,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "short_description توضیح کوتاه short description وصف قصیر اصلی ترین مرز هوایی استان فارس و جنوب ایران با پروازهای داخلی و خارجی متعدد the main air border of fars province and southern iran with numerous domestic and international flights الحدود الجویه الرییسیه لمحافظه فارس وجنوب ایران مع العدید من الرحلات الداخلیه والدولیه ایستگاه اصلی قطار شیراز واقع در شمال غرب شهر متصل کننده شیراز به تهران و سایر کلان شهرها the main shiraz railway station located in the northwest of the city connecting shiraz to tehran and other metropolises محطه قطار شیراز الرییسیه الواقعه فی شمال غرب المدینه وتربط شیراز بط",
+          "s": ""
+        },
+        {
+          "i": 26,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "important_tips نکات مهم important tips نصایح مهمه توصیه می شود برای پروازهای داخلی 1 5 ساعت و برای خارجی 3 ساعت پیش از پرواز در فرودگاه حضور داشته باشید it is recommended to be at the airport 1 5 hours before domestic flights and 3 hours before international flights ی وصى بالتواجد فی المطار قبل 1 5 ساعه للرحلات الداخلیه و3 ساعات قبل الرحلات الدولیه به دلیل فاصله نسبی ایستگاه راه آهن از مرکز شهر پیش از حرکت قطار حتما زمان کافی برای تردد در نظر بگیرید due to the relative distance of the railway station from the city center allow enough travel time before train departure نظر ا للمسافه النسبیه لمح",
+          "s": ""
+        }
+      ]
+    },
+    {
+      "id": "insurance",
+      "icon": "🛡️",
+      "label": {
+        "fa": "بیمه‌ها",
+        "en": "Insurances",
+        "ar": "التأمينات"
+      },
+      "items": [
+        {
+          "i": 0,
+          "n": {
+            "fa": "تأمین اجتماعی",
+            "en": "Social Security",
+            "ar": "التأمين الاجتماعي"
+          },
+          "c": "تامین اجتماعی التامین الاجتماعی social security پایه اساسی basic 70 تعرفه دولتی 70 من التعر فه الحکومیه 70 government tariff 021 64501 021 64501 98 21 64501 1420 1420 1420 www tamin ir www tamin ir www tamin ir شیراز بلوار مدرس مدیریت درمان تامین اجتماعی استان فارس شیراز بلوار مدرس اداره العلاج shiraz modarres blvd treatment management",
+          "s": "پایه"
+        },
+        {
+          "i": 1,
+          "n": {
+            "fa": "بیمه سلامت ایران",
+            "en": "Iran Health Insurance",
+            "ar": "التأمين الصحي الإيراني"
+          },
+          "c": "بیمه سلامت ایران التامین الصحی الایرانی iran health insurance پایه اساسی basic 70 تعرفه دولتی 70 70 021 22883001 021 22883001 98 21 22883001 1666 1666 1666 www ihio gov ir www ihio gov ir www ihio gov ir شیراز اداره کل بیمه سلامت استان فارس شیراز دایره التامین الصحی shiraz health insurance office",
+          "s": "پایه"
+        },
+        {
+          "i": 2,
+          "n": {
+            "fa": "بیمه نیروهای مسلح (SATA)",
+            "en": "Armed Forces Insurance (SATA)",
+            "ar": "تأمين القوات المسلحة"
+          },
+          "c": "بیمه نیروهای مسلح sata تامین القوات المسلحه armed forces insurance sata پایه و تکمیلی اساسی وتکمیلی basic supplementary 70 تعرفه رایگان در مراکز ملکی 70 70 tariff free in military centers 021 22885000 021 22885000 98 21 22885000 09621 09621 09621 www esata ir www esata ir www esata ir شیراز سازمان خدمات درمانی نیروهای مسلح استان فارس شیراز فرع القوات المسلحه shiraz armed forces insurance office",
+          "s": "پایه و تکمیلی"
+        },
+        {
+          "i": 3,
+          "n": {
+            "fa": "بیمه کمیته امداد امام خمینی",
+            "en": "Imam Khomeini Relief Foundation",
+            "ar": "لجنة الإمام الخميني للإغاثة"
+          },
+          "c": "بیمه کمیته امداد امام خمینی لجنه الامام الخمینی للاغاثه imam khomeini relief foundation حمایتی دعم support 100 در سیستم ارجاع 100 بنظام الاحاله 100 via referral system 021 7354 021 7354 98 21 7354 021 7354 021 7354 98 21 7354 www emdad ir www emdad ir www emdad ir شیراز اداره کل کمیته امداد امام خمینی استان فارس شیراز لجنه الاغاثه shiraz imam khomeini relief foundation office",
+          "s": "حمایتی"
+        },
+        {
+          "i": 4,
+          "n": {
+            "fa": "بیمه بهزیستی",
+            "en": "Behzisti Insurance",
+            "ar": "تأمين الرعاية الاجتماعية (بهزيستي)"
+          },
+          "c": "بیمه بهزیستی تامین الرعایه الاجتماعیه بهزیستی behzisti insurance حمایتی دعم support پوشش در مراکز و کلینیک های تحت پوشش تغطیه فی المراکز التابعه coverage in affiliated centers 021 66741140 021 66741140 98 21 66741140 123 اورژانس اجتماعی 123 طواری اجتماعیه 123 social emergency www behzisti ir www behzisti ir www behzisti ir شیراز اداره کل بهزیستی استان فارس شیراز دایره الرعایه الاجتماعیه shiraz fars behzisti general directorate",
+          "s": "حمایتی"
+        },
+        {
+          "i": 5,
+          "n": {
+            "fa": "بیمه روستاییان و عشایر",
+            "en": "Rural and Nomads Insurance",
+            "ar": "تأمين القرويين والبدو"
+          },
+          "c": "بیمه روستاییان و عشایر تامین القرویین والبدو rural and nomads insurance پایه اساسی basic 70 تعرفه دولتی با نظام ارجاع 70 بنظام الاحاله 70 government tariff with referral 021 22883001 021 22883001 98 21 22883001 1666 1666 1666 www ihio gov ir www ihio gov ir www ihio gov ir شیراز اداره کل بیمه سلامت فارس بخش روستایی شیراز دایره التامین الصحی shiraz health insurance office rural dept",
+          "s": "پایه"
+        },
+        {
+          "i": 6,
+          "n": {
+            "fa": "بیمه کارکنان دولت",
+            "en": "Government Employees Insurance",
+            "ar": "تأمين الموظفين الحكوميين"
+          },
+          "c": "بیمه کارکنان دولت تامین الموظفین الحکومیین government employees insurance پایه اساسی basic 70 تعرفه دولتی 70 من التعریفه الحکومیه 70 government tariff 021 96611000 021 96611000 98 21 96611000 1666 1666 1666 www ihio gov ir www ihio gov ir www ihio gov ir شیراز خیابان معدل اداره کل بیمه سلامت استان فارس شیراز شارع معدل دایره التامین الصحی shiraz moadel st fars health insurance hq",
+          "s": "پایه"
+        },
+        {
+          "i": 7,
+          "n": {
+            "fa": "بیمه صندوق کشاورزان، روستاییان و عشایر",
+            "en": "Farmers, Villagers and Nomads Social Insurance Fund",
+            "ar": "صندوق تأمين القرويين والبدو والزارعين"
+          },
+          "c": "بیمه صندوق کشاورزان روستاییان و عشایر صندوق تامین القرویین والبدو والزارعین farmers villagers and nomads social insurance fund پایه بازنشستگی و درمان پایه روستایی اساسی basic 70 تعرفه دولتی در سیستم پزشک خانواده روستایی 70 عبر طبیب الاسره الریفی 70 government tariff via rural family doctor 021 43080 021 43080 98 21 43080 021 43080 021 43080 98 21 43080 www roostaa ir www roostaa ir www roostaa ir شیراز بلوار هجرت کارگزاری های صندوق بیمه اجتماعی روستاییان استان فارس شیراز بلوار هجرت shiraz hejrat blvd farmers social fund office",
+          "s": "پایه (بازنشستگی و درمان پایه روستایی)"
+        },
+        {
+          "i": 8,
+          "n": {
+            "fa": "بیمه همگانی ایرانیان (سلامت همگانی)",
+            "en": "Iranian Universal Health Insurance",
+            "ar": "التأمين الصحي العام للإيرانيين"
+          },
+          "c": "بیمه همگانی ایرانیان سلامت همگانی التامین الصحی العام للایرانیین iranian universal health insurance پایه اساسی basic 70 تعرفه دولتی در صورت ارجاع پزشک خانواده 70 من التعریفه الحکومیه 70 government tariff with family doctor 1666 1666 1666 1666 1666 1666 www ihio gov ir www ihio gov ir www ihio gov ir شیراز خیابان معدل اداره کل بیمه سلامت استان فارس شیراز دایره التامین الصحی shiraz moadel st health insurance hq",
+          "s": "پایه"
+        },
+        {
+          "i": 9,
+          "n": {
+            "fa": "بیمه سلامت اتباع و مهاجرین خارجی",
+            "en": "Foreign Nationals Health Insurance",
+            "ar": "تأمين الرعايا والمهاجرين الأجانب"
+          },
+          "c": "بیمه سلامت اتباع و مهاجرین خارجی تامین الرعایا والمهاجرین الاجانب foreign nationals health insurance پایه حمایتی اساسی داعم basic supported 70 تعرفه دولتی مشابه بیمه همگانی 70 من التعریفه الحکومیه 70 government tariff 1666 1666 1666 1666 1666 1666 www ihio gov ir www ihio gov ir www ihio gov ir شیراز خیابان معدل اداره کل بیمه سلامت فارس اداره امور اتباع و مهاجرین خارجی فارس شیراز دایره التامین الصحی ودایره الرعایا shiraz health insurance hq foreign bureau",
+          "s": "پایه / حمایتی"
+        },
+        {
+          "i": 10,
+          "n": {
+            "fa": "بیمه ایران",
+            "en": "Iran Insurance",
+            "ar": "شركة إيران للتأمين"
+          },
+          "c": "بیمه ایران شرکه ایران للتامین iran insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد معمولا 70 تا 100 حسب العقد according to contract cap 021 88708211 021 88708211 98 21 88708211 09668 09668 09668 www iraninsurance ir www iraninsurance ir www iraninsurance ir شیراز خیابان زند مجتمع بیمه ایران استان فارس شیراز شارع زند shiraz zand ave iran insurance complex",
+          "s": "تکمیلی درمان"
+        },
+        {
+          "i": 11,
+          "n": {
+            "fa": "بیمه آسیا",
+            "en": "Asia Insurance",
+            "ar": "تأمين آسيا"
+          },
+          "c": "بیمه آسیا تامین آسیا asia insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد گروهی حسب العقد الجماعی according to group contract cap 021 8707 021 8707 98 21 8707 021 8707 021 8707 98 21 8707 www bimehasia ir www bimehasia ir www bimehasia ir شیراز خیابان قصرالدشت سرپرستی بیمه آسیا استان فارس شیراز شارع قصرالدشت shiraz ghasrdasht st asia insurance hq",
+          "s": "تکمیلی درمان"
+        },
+        {
+          "i": 12,
+          "n": {
+            "fa": "بیمه دانا",
+            "en": "Dana Insurance",
+            "ar": "تأمين دانا"
+          },
+          "c": "بیمه دانا تامین دانا dana insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد معمولا 70 تا 100 حسب العقد according to contract cap 021 88756010 021 88756010 98 21 88756010 021 88756010 021 88756010 98 21 88756010 www dana insurance ir www dana insurance ir www dana insurance ir شیراز خیابان پاسداران سرپرستی بیمه دانا استان فارس شیراز شارع پاسداران shiraz pasdaran st dana insurance hq",
+          "s": "تکمیلی درمان"
+        },
+        {
+          "i": 13,
+          "n": {
+            "fa": "بیمه البرز",
+            "en": "Alborz Insurance",
+            "ar": "تأمين البرز"
+          },
+          "c": "بیمه البرز تامین البرز alborz insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد حسب العقد according to contract cap 021 1587 021 1587 98 21 1587 021 1587 021 1587 98 21 1587 www alborzins ir www alborzins ir www alborzins ir شیراز خیابان ارم سرپرستی بیمه البرز استان فارس شیراز شارع ارم shiraz eram st alborz insurance hq",
+          "s": "تکمیلی درمان"
+        },
+        {
+          "i": 14,
+          "n": {
+            "fa": "بیمه پاسارگاد",
+            "en": "Pasargad Insurance",
+            "ar": "تأمين پاسارگاد"
+          },
+          "c": "بیمه پاسارگاد تامین پاسارگاد pasargad insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد حسب العقد according to contract cap 021 82489 021 82489 98 21 82489 021 82489 021 82489 98 21 82489 www pasargadinsurance ir www pasargadinsurance ir www pasargadinsurance ir شیراز خیابان کریم خان زند سرپرستی بیمه پاسارگاد استان فارس شیراز شارع زند shiraz zand st pasargad insurance hq",
+          "s": "تکمیلی درمان"
+        },
+        {
+          "i": 15,
+          "n": {
+            "fa": "بیمه پارسیان",
+            "en": "Parsian Insurance",
+            "ar": "تأمين پارسيان"
+          },
+          "c": "بیمه پارسیان تامین پارسیان parsian insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد حسب العقد according to contract cap 021 82151 021 82151 98 21 82151 021 82151 021 82151 98 21 82151 www parsianinsurance ir www parsianinsurance ir www parsianinsurance ir شیراز خیابان عفیف آباد سرپرستی بیمه پارسیان استان فارس شیراز شارع عفیف آباد shiraz afifabad st parsian insurance hq",
+          "s": "تکمیلی درمان"
+        },
+        {
+          "i": 16,
+          "n": {
+            "fa": "بیمه سامان",
+            "en": "Saman Insurance",
+            "ar": "تأمين سامان"
+          },
+          "c": "بیمه سامان تامین سامان saman insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد حسب العقد according to contract cap 021 8943 021 8943 98 21 8943 021 8943 021 8943 98 21 8943 www si24 ir www si24 ir www si24 ir شیراز خیابان ستارخان سرپرستی بیمه سامان استان فارس شیراز شارع ستارخان shiraz sattarkhan st saman insurance hq",
+          "s": "تکمیلی درمان"
+        },
+        {
+          "i": 17,
+          "n": {
+            "fa": "بیمه ملت",
+            "en": "Mellat Insurance",
+            "ar": "تأمين ملت"
+          },
+          "c": "بیمه ملت تامین ملت mellat insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد حسب العقد according to contract cap 021 85333 021 85333 98 21 85333 021 85333 021 85333 98 21 85333 www mellat ir www mellat ir www mellat ir شیراز بلوار آزادی سرپرستی بیمه ملت استان فارس شیراز بلوار آزادی shiraz azadi blvd mellat insurance hq",
+          "s": "تکمیلی درمان"
+        },
+        {
+          "i": 18,
+          "n": {
+            "fa": "بیمه رازی",
+            "en": "Razi Insurance",
+            "ar": "تأمين رازي"
+          },
+          "c": "بیمه رازی تامین رازی razi insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد حسب العقد according to contract cap 021 8410 021 8410 98 21 8410 021 8410 021 8410 98 21 8410 www raziinsurance ir www raziinsurance ir www raziinsurance ir شیراز خیابان ملاصدرا سرپرستی بیمه رازی استان فارس شیراز شارع ملاصدرا shiraz mollasadra st razi insurance hq",
+          "s": "تکمیلی درمان"
+        },
+        {
+          "i": 19,
+          "n": {
+            "fa": "بیمه معلم",
+            "en": "Moallem Insurance",
+            "ar": "تأمين معلم"
+          },
+          "c": "بیمه معلم تامین معلم moallem insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد حسب العقد according to contract cap 021 88676880 021 88676880 98 21 88676880 021 88676880 021 88676880 98 21 88676880 www mic co ir www mic co ir www mic co ir شیراز بلوار شهید بهشتی سرپرستی بیمه معلم استان فارس شیراز بلوار شهید بهشتی shiraz shahid beheshti blvd moallem insurance hq",
+          "s": "تکمیلی درمان"
+        },
+        {
+          "i": 20,
+          "n": {
+            "fa": "بیمه سرمد",
+            "en": "Sarmad Insurance",
+            "ar": "تأمين سرمد"
+          },
+          "c": "بیمه سرمد تامین سرمد sarmad insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد حسب العقد according to contract cap 021 43969 021 43969 98 21 43969 021 43969 021 43969 98 21 43969 www sarmadins ir www sarmadins ir www sarmadins ir شیراز خیابان فرهنگ شهر سرپرستی بیمه سرمد استان فارس شیراز شارع فرهنگ شهر shiraz farhang shahr st sarmad insurance hq",
+          "s": "تکمیلی درمان"
+        },
+        {
+          "i": 21,
+          "n": {
+            "fa": "بیمه کارآفرین",
+            "en": "Karafarin Insurance",
+            "ar": "تأمين کارآفرین"
+          },
+          "c": "بیمه کارآفرین تامین کارآفرین karafarin insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد حسب العقد according to contract cap 021 42553 021 42553 98 21 42553 021 42553 021 42553 98 21 42553 www karafarin insurance ir www karafarin insurance ir www karafarin insurance ir شیراز خیابان قصردشت سرپرستی بیمه کارآفرین استان فارس شیراز شارع قصردشت shiraz ghasrdasht st karafarin insurance hq",
+          "s": "تکمیلی درمان"
+        },
+        {
+          "i": 22,
+          "n": {
+            "fa": "بیمه کوثر",
+            "en": "Kowsar Insurance",
+            "ar": "تأمين كوثر"
+          },
+          "c": "بیمه کوثر تامین کوثر kowsar insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد حسب العقد according to contract cap 021 89382 021 89382 98 21 89382 021 89382 021 89382 98 21 89382 www skins ir www skins ir www skins ir شیراز بلوار زاند سرپرستی بیمه کوثر استان فارس شیراز شارع زند shiraz zand blvd kowsar insurance hq",
+          "s": "تکمیلی درمان"
+        },
+        {
+          "i": 23,
+          "n": {
+            "fa": "بیمه نوین",
+            "en": "Novin Insurance",
+            "ar": "تأمين نوین"
+          },
+          "c": "بیمه نوین تامین نوین novin insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد حسب العقد according to contract cap 021 22251051 021 22251051 98 21 22251051 021 22251051 021 22251051 98 21 22251051 www novininsurance com www novininsurance com www novininsurance com شیراز خیابان ستارخان سرپرستی بیمه نوین استان فارس شیراز شارع ستارخان shiraz sattarkhan st novin insurance hq",
+          "s": "تکمیلی درمان"
+        },
+        {
+          "i": 24,
+          "n": {
+            "fa": "بیمه سینا",
+            "en": "Sina Insurance",
+            "ar": "تأمين سينا"
+          },
+          "c": "بیمه سینا تامین سینا sina insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد حسب العقد according to contract cap 021 2807 021 2807 98 21 2807 021 2807 021 2807 98 21 2807 www sinains com www sinains com www sinains com شیراز خیابان زند سرپرستی بیمه سینا استان فارس شیراز شارع زند shiraz zand st sina insurance hq",
+          "s": "تکمیلی درمان"
+        },
+        {
+          "i": 25,
+          "n": {
+            "fa": "بیمه دی",
+            "en": "Day Insurance",
+            "ar": "تأمين دي"
+          },
+          "c": "بیمه دی تامین دی day insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد 100 برای ایثارگران حسب العقد 100 للمضحین according to contract cap 100 for veterans 021 1671 021 1671 98 21 1671 1671 1671 1671 www dayins com www dayins com www dayins com شیراز خیابان زاند سرپرستی بیمه دی استان فارس شیراز شارع زند shiraz zand st day insurance hq",
+          "s": "تکمیلی درمان"
+        },
+        {
+          "i": 26,
+          "n": {
+            "fa": "بیمه آرمان",
+            "en": "Arman Insurance",
+            "ar": "تأمين آرمان"
+          },
+          "c": "بیمه آرمان تامین آرمان arman insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد حسب العقد according to contract cap 021 2856 021 2856 98 21 2856 021 2856 021 2856 98 21 2856 www armanins com www armanins com www armanins com شیراز خیابان عفیف آباد سرپرستی بیمه آرمان استان فارس شیراز شارع عفیف آباد shiraz afifabad st arman insurance hq",
+          "s": "تکمیلی درمان"
+        },
+        {
+          "i": 27,
+          "n": {
+            "fa": "بیمه ما",
+            "en": "Ma Insurance",
+            "ar": "تأمين ما"
+          },
+          "c": "بیمه ما تامین ما ma insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد حسب العقد according to contract cap 021 90009000 021 90009000 98 21 90009000 021 90009000 021 90009000 98 21 90009000 www bimehma com www bimehma com www bimehma com شیراز خیابان ارم سرپرستی بیمه ما استان فارس شیراز شارع ارم shiraz eram st ma insurance hq",
+          "s": "تکمیلی درمان"
+        },
+        {
+          "i": 28,
+          "n": {
+            "fa": "بیمه تجارت نو",
+            "en": "Tejarat Now Insurance",
+            "ar": "تأمين تجارت نو"
+          },
+          "c": "بیمه تجارت نو تامین تجارت نو tejarat now insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد حسب العقد according to contract cap 021 43344 021 43344 98 21 43344 021 43344 021 43344 98 21 43344 www tejaratnoins ir www tejaratnoins ir www tejaratnoins ir شیراز خیابان پاسداران سرپرستی بیمه تجارت نو استان فارس شیراز شارع پاسداران shiraz pasdaran st tejarat now hq",
+          "s": "تکمیلی درمان"
+        },
+        {
+          "i": 29,
+          "n": {
+            "fa": "بیمه آسماری",
+            "en": "Asmari Insurance",
+            "ar": "تأمين آسماري"
+          },
+          "c": "بیمه آسماری تامین آسماری asmari insurance تکمیلی درمان منطقه آزاد و سراسری تکمیلی المناطق الحره والعامه supplementary free zone nationwide طبق سقف طرح قرارداد حسب الخطه according to plan cap 021 43417 021 43417 98 21 43417 021 43417 021 43417 98 21 43417 www asmari insurance com www asmari insurance com www asmari insurance com شیراز نمایندگی ها و دفاتر همکار مناطق ویژه و مرکزی شیراز المکاتب المعتمده shiraz authorized representative offices",
+          "s": "تکمیلی درمان (منطقه آزاد و سراسری)"
+        },
+        {
+          "i": 30,
+          "n": {
+            "fa": "بیمه حکمت صبا",
+            "en": "Hekmat Saba Insurance",
+            "ar": "تأمين حكمة صبا"
+          },
+          "c": "بیمه حکمت صبا تامین حکمه صبا hekmat saba insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد حسب العقد according to contract cap 021 41396 021 41396 98 21 41396 021 41396 021 41396 98 21 41396 www hsip ir www hsip ir www hsip ir شیراز خیابان پاسداران سرپرستی بیمه حکمت صبا استان فارس شیراز شارع پاسداران shiraz pasdaran st hekmat saba insurance hq",
+          "s": "تکمیلی درمان"
+        },
+        {
+          "i": 31,
+          "n": {
+            "fa": "بیمه تعاون",
+            "en": "Taavon Insurance",
+            "ar": "تأمين التعاون"
+          },
+          "c": "بیمه تعاون تامین التعاون taavon insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد حسب العقد according to contract cap 021 42178 021 42178 98 21 42178 021 42178 021 42178 98 21 42178 www taavon ins ir www taavon ins ir www taavon ins ir شیراز خیابان معدل سرپرستی بیمه تعاون استان فارس شیراز شارع معدل shiraz moadel st taavon insurance hq",
+          "s": "تکمیلی درمان"
+        },
+        {
+          "i": 32,
+          "n": {
+            "fa": "بیمه میهن",
+            "en": "Mihan Insurance",
+            "ar": "تأمين ميهن"
+          },
+          "c": "بیمه میهن تامین میهن mihan insurance تکمیلی درمان تکمیلی supplementary طبق سقف قرارداد حسب العقد according to contract cap 021 87141 021 87141 98 21 87141 021 87141 021 87141 98 21 87141 www mihaninsurance com www mihaninsurance com www mihaninsurance com شیراز خیابان زند سرپرستی بیمه میهن استان فارس شیراز شارع زند shiraz zand st mihan insurance hq",
+          "s": "تکمیلی درمان"
+        }
+      ]
+    },
+    {
+      "id": "elderly",
+      "icon": "🏡",
+      "label": {
+        "fa": "خدمات سالمندان",
+        "en": "Elderly Care",
+        "ar": "خدمات المسنين"
+      },
+      "items": [
+        {
+          "i": 0,
+          "n": {
+            "fa": "خانه سالمندان سروش شیراز",
+            "en": "Soroush Nursing Home Shiraz",
+            "ar": "دار رعاية المسنين سروش شيراز"
+          },
+          "c": "خانه سالمندان سروش شیراز دار رعایه المسنین سروش شیراز soroush nursing home shiraz خانه سالمندان دار رعایه المسنین nursing home شیراز بلوار میرزای شیرازی 16 متری دینکان روبروی پارک علوی پلاک 30 شیراز جاده میرزا شیرازی mirza shirazi blvd dinkan shiraz 9 صبح الی 13 و 16 الی 20 9 00 صباحا 1 00 ظهرا و 4 00 8 00 مساء 9 00 am 1 00 pm 4 00 pm 8 00 pm medium false false persian 4 7 active",
+          "s": "خانه سالمندان"
+        },
+        {
+          "i": 1,
+          "n": {
+            "fa": "خانه سالمندان پویا فرزانگان شیراز",
+            "en": "Pouya Farzanegan Nursing Home Shiraz",
+            "ar": "دار رعاية المسنين بويا فرزانگان شيراز"
+          },
+          "c": "خانه سالمندان پویا فرزانگان شیراز دار رعایه المسنین بویا فرزانگان شیراز pouya farzanegan nursing home shiraz خانه سالمندان دار رعایه المسنین nursing home شیراز بلوار صنایع انتهای شهرک آرین خیابان فناوری شیراز جاده صنایع مدینه آریان sanaye blvd arian town shiraz شبانه روزی 24 ساعته على مدار الساعه 24 ساعه 24 7 high false false persian 4 8 active",
+          "s": "خانه سالمندان"
+        },
+        {
+          "i": 2,
+          "n": {
+            "fa": "خانه سالمندان یاس‌های سپید شیراز",
+            "en": "Yas-e Sepid Nursing Home Shiraz",
+            "ar": "دار رعاية المسنين ياس هاي سفيد شيراز"
+          },
+          "c": "خانه سالمندان یاس های سپید شیراز دار رعایه المسنین یاس های سفید شیراز yas e sepid nursing home shiraz خانه سالمندان دار رعایه المسنین nursing home شیراز میدان صنایع شهرک حسین آباد کوچه 6 شیراز میدان صنایع مدینه حسین آباد sanaye sq hossein abad shiraz شبانه روزی 24 ساعته على مدار الساعه 24 ساعه 24 7 medium false false persian 4 5 active",
+          "s": "خانه سالمندان"
+        },
+        {
+          "i": 3,
+          "n": {
+            "fa": "آسایشگاه سالمندان زاگرس شیراز",
+            "en": "Zagros Nursing Home Shiraz",
+            "ar": "دار رعاية المسنين زاگرس شيراز"
+          },
+          "c": "آسایشگاه سالمندان زاگرس شیراز دار رعایه المسنین زاگرس شیراز zagros nursing home shiraz خانه سالمندان دار رعایه المسنین nursing home شیراز بلوار میرزای شیرازی تاچارا کوچه 9 پلاک 134 شیراز جاده میرزا شیرازی تاچارا mirza shirazi blvd tachara shiraz شبانه روزی 24 ساعته على مدار الساعه 24 ساعه 24 7 high false false persian 4 7 active",
+          "s": "خانه سالمندان"
+        },
+        {
+          "i": 4,
+          "n": {
+            "fa": "سرای سالمندان شیراز (رکن‌آباد)",
+            "en": "Shiraz Nursing Home (Roknabad)",
+            "ar": "دار رعاية المسنين شيراز (ركن آباد)"
+          },
+          "c": "سرای سالمندان شیراز رکن آباد دار رعایه المسنین شیراز رکن آباد shiraz nursing home roknabad خانه سالمندان دار رعایه المسنین nursing home شیراز شهرک رکن آباد بلوار پارسیان شیراز مدینه رکن آباد جاده پارسیان roknabad town parsian blvd shiraz شبانه روزی 24 ساعته على مدار الساعه 24 ساعه 24 7 medium false false persian 4 4 active",
+          "s": "خانه سالمندان"
+        },
+        {
+          "i": 5,
+          "n": {
+            "fa": "مرکز نگهداری سالمندان فرشتگان شیراز",
+            "en": "Fereshtegan Nursing Home Shiraz",
+            "ar": "مركز فرشتگان لرعاية المسنين شيراز"
+          },
+          "c": "مرکز نگهداری سالمندان فرشتگان شیراز مرکز فرشتگان لرعایه المسنین شیراز fereshtegan nursing home shiraz خانه سالمندان دار رعایه المسنین nursing home شیراز بلوار امیرکبیر بلوار میثم خیابان سروش شرقی شیراز جاده امیر کبیر جاده میثم amir kabir blvd meysam blvd shiraz شبانه روزی 24 ساعته على مدار الساعه 24 ساعه 24 7 medium false false persian 4 5 active",
+          "s": "خانه سالمندان"
+        },
+        {
+          "i": 6,
+          "n": {
+            "fa": "مرکز نگهداری سالمندان شبنم و شب‌چراغ شیراز",
+            "en": "Shabnam & Shabcheragh Nursing Home Shiraz",
+            "ar": "مركز شبنم وشب‌چراغ لرعاية المسنين شيراز"
+          },
+          "c": "مرکز نگهداری سالمندان شبنم و شب چراغ شیراز مرکز شبنم وشب چراغ لرعایه المسنین شیراز shabnam shabcheragh nursing home shiraz خانه سالمندان دار رعایه المسنین nursing home شیراز خیابان زرهی بلوار پاسداران کوچه 64 پلاک 441 شیراز شارع زرهی جاده پاسداران zarehi st pasdaran blvd shiraz شبانه روزی 24 ساعته على مدار الساعه 24 ساعه 24 7 medium false false persian 4 3 active",
+          "s": "خانه سالمندان"
+        },
+        {
+          "i": 7,
+          "n": {
+            "fa": "خانه سالمندان مهر صدرا شیراز",
+            "en": "Mehr Sadra Nursing Home Shiraz",
+            "ar": "دار رعاية المسنين مهر صدرا شيراز"
+          },
+          "c": "خانه سالمندان مهر صدرا شیراز دار رعایه المسنین مهر صدرا شیراز mehr sadra nursing home shiraz خانه سالمندان دار رعایه المسنین nursing home شیراز صدرا فاز اول بلوار حافظ پشت درمانگاه علی بن ابیطالب شیراز صدرا الفاز الاول جاده حافظ sadra phase 1 hafez blvd shiraz شبانه روزی 24 ساعته على مدار الساعه 24 ساعه 24 7 medium false false persian 4 6 active",
+          "s": "خانه سالمندان"
+        }
+      ]
+    },
+    {
+      "id": "attractions",
+      "icon": "🏛️",
+      "label": {
+        "fa": "جاذبه‌های گردشگری",
+        "en": "Tourist Attractions",
+        "ar": "المعالم السياحية"
+      },
+      "items": [
+        {
+          "i": 0,
+          "n": {
+            "fa": "ارگ کریم‌خان",
+            "en": "Karim Khan Citadel",
+            "ar": "قلعة كريم خان"
+          },
+          "c": "ارگ کریم خان قلعه کریم خان karim khan citadel تاریخی تاریخی historical داخل شهر داخل المدینه in city شیراز میدان شهدای شهرداری خیابان شهدا شیراز میدان شهداء البلدیه شارع الشهداء shiraz municipality martyrs square shohada st مرکز شهر وسط المدینه city center همه روزه 8 00 الی 21 00 یومیا 8 00 حتى 21 00 daily 8 00 am 9 00 pm 100 000 تومان 100 000 تومان 100 000 toman 1 الی 2 ساعت 1 الى 2 ساعات 1 2 hours بهار پاییز و زمستان الربیع الخریف والشتاء spring autumn winter راهنمای صوتی و تصویری سرویس بهداشتی غرفه صنایع دستی دلیل صوتی ومریی دورات المیاه اکشاک الحرف الیدویه audio video guide restrooms handi",
+          "s": "تاریخی"
+        },
+        {
+          "i": 1,
+          "n": {
+            "fa": "آرامگاه حافظ (حافظیه)",
+            "en": "Tomb of Hafez (Hafezieh)",
+            "ar": "ضريح حافظ (حافظية)"
+          },
+          "c": "آرامگاه حافظ حافظیه ضریح حافظ حافظیه tomb of hafez hafezieh فرهنگی و تاریخی ثقافی وتاریخی cultural historical داخل شهر داخل المدینه in city شیراز بلوار گلستان چهارراه حافظیه شیراز شارع کلستان تقاطع حافظیه shiraz golestan blvd hafezieh crossroads چهارراه حافظیه تقاطع حافظیه hafezieh crossroads همه روزه 8 00 الی 22 00 یومیا 8 00 حتى 22 00 daily 8 00 am 10 00 pm 100 000 تومان 100 000 تومان 100 000 toman 1 5 الی 3 ساعت 1 5 الى 3 ساعات 1 5 3 hours بهار اردیبهشت الربیع اردیبهشت spring ordibehesht چایخانه سنتی کتاب فروشی و غرفه فال حافظ سرویس بهداشتی راهنما مقهى شای تقلیدی مکتبه وکشک فال حافظ دورات ا",
+          "s": "فرهنگی و تاریخی"
+        },
+        {
+          "i": 2,
+          "n": {
+            "fa": "آرامگاه سعدی (سعدیه)",
+            "en": "Tomb of Saadi (Saadieh)",
+            "ar": "ضريح سعدي (سعدية)"
+          },
+          "c": "آرامگاه سعدی سعدیه ضریح سعدی سعدیه tomb of saadi saadieh فرهنگی و تاریخی ثقافی وتاریخی cultural historical داخل شهر داخل المدینه in city شیراز انتهای بلوار بوستان دامنه کوه پهلوان کوه شیراز نهایه شارع بوستان سفح جبل بهلوان کوه shiraz end of boostan blvd pahlevan mountain foothills سعدیه سعدیه saadieh همه روزه 8 00 الی 21 30 یومیا 8 00 حتى 21 30 daily 8 00 am 9 30 pm 100 000 تومان 100 000 تومان 100 000 toman 1 الی 2 ساعت 1 الى 2 ساعات 1 2 hours بهار الربیع spring حوض ماهی محوطه فضای سبز غرفه های صنایع دستی کافی شاپ برکه الاسماک حدیقه خضراء اکشاک الحرف الیدویه مقهى fish pond green garden handicr",
+          "s": "فرهنگی و تاریخی"
+        },
+        {
+          "i": 3,
+          "n": {
+            "fa": "باغ ارم",
+            "en": "Eram Garden",
+            "ar": "حديقة أرم"
+          },
+          "c": "باغ ارم حدیقه ارم eram garden طبیعی و تاریخی طبیعی وتاریخی natural historical داخل شهر داخل المدینه in city شیراز بلوار ارم میدان ارم شیراز شارع ارم میدان ارم shiraz eram blvd eram square بلوار ارم شارع ارم eram blvd همه روزه 8 00 الی 19 00 یومیا 8 00 حتى 19 00 daily 8 00 am 7 00 pm 100 000 تومان 100 000 تومان 100 000 toman 2 الی 3 ساعت 2 الى 3 ساعات 2 3 hours بهار الربیع spring عمارت تاریخی سه طبقه کافه سنتی سرویس بهداشتی راهنمای گردشگری قصر تاریخی من 3 طوابق مقهى تقلیدی دورات المیاه مرشد سیاحی 3 story historical mansion traditional cafe restrooms tour guide دسترسی با تاکسی و اتوبوس الوصول با",
+          "s": "طبیعی و تاریخی"
+        },
+        {
+          "i": 4,
+          "n": {
+            "fa": "مسجد نصیرالملک (مسجد صورتی)",
+            "en": "Nasir al-Mulk Mosque (Pink Mosque)",
+            "ar": "مسجد نصير الملك (المسجد الوردي)"
+          },
+          "c": "مسجد نصیرالملک مسجد صورتی مسجد نصیر الملک المسجد الوردی nasir al mulk mosque pink mosque تاریخی و مذهبی تاریخی ودینی historical religious داخل شهر داخل المدینه in city شیراز خیابان لطفعلی خان زند محله گودعربان شیراز شارع لطفعلی خان زند حی جود عربان shiraz lotfali khan zand st goud e araban district گودعربان جود عربان goud e araban همه روزه 8 00 الی 19 00 یومیا 8 00 حتى 19 00 daily 8 00 am 7 00 pm 100 000 تومان 100 000 تومان 100 000 toman 1 ساعت ساعه واحده 1 hour صبح های بهار و پاییز صباحات الربیع والخریف spring autumn mornings راهنما فروشگاه سوغات سرویس بهداشتی مرشد متجر الهدایا دورات المیاه g",
+          "s": "تاریخی و مذهبی"
+        },
+        {
+          "i": 5,
+          "n": {
+            "fa": "بازار وکیل",
+            "en": "Vakil Bazaar",
+            "ar": "سوق وكيل"
+          },
+          "c": "بازار وکیل سوق وکیل vakil bazaar تاریخی و تفریحی تاریخی وترفیهی historical recreational داخل شهر داخل المدینه in city شیراز ضلع شرقی میدان شهرداری شیراز الجانب الشرقی من میدان البلدیه shiraz east side of municipality square مرکز شهر وسط المدینه city center شنبه تا پنجشنبه 9 00 الی 20 00 السبت الى الخمیس 9 00 حتى 20 00 sat thu 9 00 am 8 00 pm رایگان مجانی free 2 الی 3 ساعت 2 الى 3 ساعات 2 3 hours تمام فصول جمیع الفصول all seasons سرای مقتدریه و گمرک فروشگاه های فرش ادویه و صنایع دستی سرویس بهداشتی خان مقتدریه والجمارک متاجر السجاد والتوابل والحرف الیدویه دورات المیاه mokhtarieh customs caravans",
+          "s": "تاریخی و تفریحی"
+        },
+        {
+          "i": 6,
+          "n": {
+            "fa": "حمام وکیل",
+            "en": "Vakil Bath",
+            "ar": "حمام وكيل"
+          },
+          "c": "حمام وکیل حمام وکیل vakil bath تاریخی تاریخی historical داخل شهر داخل المدینه in city شیراز خیابان طالقانی غرب مسجد وکیل شیراز شارع طالقانی غرب مسجد وکیل shiraz taleghani st west of vakil mosque مرکز شهر وسط المدینه city center همه روزه 8 00 الی 19 00 یومیا 8 00 حتى 19 00 daily 8 00 am 7 00 pm 80 000 تومان 80 000 تومان 80 000 toman 1 ساعت ساعه واحده 1 hour تمام فصول جمیع الفصول all seasons موزه مردم شناسی راهنما سرویس بهداشتی متحف الاثنوغرافیا مرشد دورات المیاه ethnography museum guide restrooms پیاده روی کوتاه از بازار وکیل مشی قصیر من سوق وکیل short walk from vakil bazaar علاقه مندان به تاری",
+          "s": "تاریخی"
+        },
+        {
+          "i": 7,
+          "n": {
+            "fa": "مسجد وکیل",
+            "en": "Vakil Mosque",
+            "ar": "مسجد وكيل"
+          },
+          "c": "مسجد وکیل مسجد وکیل vakil mosque تاریخی و مذهبی تاریخی ودینی historical religious داخل شهر داخل المدینه in city شیراز خیابان طالقانی نبش بازار وکیل شیراز شارع طالقانی زاویه سوق وکیل shiraz taleghani st corner of vakil bazaar مرکز شهر وسط المدینه city center ساعات بین نمازها 8 00 الی 18 00 بین الصلوات 8 00 حتى 18 00 between prayers 8 00 am 6 00 pm 80 000 تومان 80 000 تومان 80 000 toman 45 دقیقه الی 1 ساعت 45 دقیقه الى ساعه 45 min 1 hour تمام فصول جمیع الفصول all seasons شبستان ستون دار سنگی راهنما سرویس بهداشتی قاعه صلاه باعمده حجریه مرشد دورات المیاه stone columned prayer hall guide restrooms ",
+          "s": "تاریخی و مذهبی"
+        },
+        {
+          "i": 8,
+          "n": {
+            "fa": "باغ نارنجستان قوام",
+            "en": "Naranjestan Qavam Garden",
+            "ar": "حديقة نارنجستان قوام"
+          },
+          "c": "باغ نارنجستان قوام حدیقه نارنجستان قوام naranjestan qavam garden تاریخی و فرهنگی تاریخی وثقافی historical cultural داخل شهر داخل المدینه in city شیراز خیابان لطفعلی خان زند نرسیده به بلوار زینبیه شیراز شارع لطفعلی خان زند قبل شارع زینبیه shiraz lotfali khan zand st before zeynabieh blvd گودعربان جود عربان goud e araban همه روزه 8 00 الی 19 00 یومیا 8 00 حتى 19 00 daily 8 00 am 7 00 pm 100 000 تومان 100 000 تومان 100 000 toman 1 5 ساعت ساعه ونصف 1 5 hours بهار و پاییز الربیع والخریف spring autumn موزه اشیاء باستانی کافی شاپ غرفه عکاسی سنتی سرویس بهداشتی متحف القطع الاثریه مقهى کشک تصویر تقلیدی ",
+          "s": "تاریخی و فرهنگی"
+        },
+        {
+          "i": 9,
+          "n": {
+            "fa": "باغ عفیف‌آباد (باغ گلستان)",
+            "en": "Afifabad Garden (Golestan Garden)",
+            "ar": "حديقة عفيف آباد (حديقة كلستان)"
+          },
+          "c": "باغ عفیف آباد باغ گلستان حدیقه عفیف آباد حدیقه کلستان afifabad garden golestan garden طبیعی و تاریخی طبیعی وتاریخی natural historical داخل شهر داخل المدینه in city شیراز انتهای خیابان عفیف آباد شیراز نهایه شارع عفیف آباد shiraz end of afifabad st عفیف آباد عفیف آباد afifabad همه روزه 8 00 الی 19 00 یومیا 8 00 حتى 19 00 daily 8 00 am 7 00 pm 100 000 تومان 100 000 تومان 100 000 toman 2 ساعت ساعتان 2 hours بهار و پاییز الربیع والخریف spring autumn موزه سلاح های سلطنتی قهوه خانه سنتی محوطه سرسبز سرویس بهداشتی متحف الاسلحه الملکیه مقهى تقلیدی حدیقه خضراء دورات المیاه royal weapons museum traditiona",
+          "s": "طبیعی و تاریخی"
+        },
+        {
+          "i": 10,
+          "n": {
+            "fa": "مجموعه جهانی تخت جمشید",
+            "en": "Persepolis World Heritage Site",
+            "ar": "مجموعة تخت جمشيد العالمية"
+          },
+          "c": "مجموعه جهانی تخت جمشید مجموعه تخت جمشید العالمیه persepolis world heritage site تاریخی و باستانی تاریخی واثری historical ancient خارج شهر خارج المدینه out of city استان فارس مرودشت جاده مرودشت سیدان محافظه فارس مرودشت طریق مرودشت سیدان fars province marvdasht marvdasht seydan road مرودشت مرودشت marvdasht 60 نیمه خشک و معتدل شبه جاف ومعتدل semi arid moderate فارس و عشایر قشقایی فارس وعشایر قشقایی fars qashqai nomads بله نعم yes دوره هخامنشی الحقبه الاخمینیه achaemenid era خیر لا no همه روزه 8 00 الی 18 00 یومیا 8 00 حتى 18 00 daily 8 00 am 6 00 pm 100 000 تومان 100 000 تومان 100 000 toman 2 5 ا",
+          "s": "تاریخی و باستانی"
+        },
+        {
+          "i": 11,
+          "n": {
+            "fa": "مجموعه جهانی پاسارگاد (آرامگاه کوروش بزرگ)",
+            "en": "Pasargadae World Heritage Site (Tomb of Cyrus the Great)",
+            "ar": "مجموعة باسارغاد العالمية (ضريح كورش الكبير)"
+          },
+          "c": "مجموعه جهانی پاسارگاد آرامگاه کوروش بزرگ مجموعه باسارغاد العالمیه ضریح کورش الکبیر pasargadae world heritage site tomb of cyrus the great تاریخی و باستانی تاریخی واثری historical ancient خارج شهر خارج المدینه out of city استان فارس شهرستان پاسارگاد سعادت شهر محافظه فارس مقاطعه باسارغاد سعاده شهر fars province pasargadae county saadat shahr سعادت شهر سعاده شهر saadat shahr 130 کوهستانی سرد در زمستان خشک در تابستان جبلی بارد فی الشتاء جاف فی الصیف cold mountainous winter dry summer فارس فارس fars بله نعم yes دوره هخامنشی الحقبه الاخمینیه achaemenid era خیر لا no همه روزه 8 00 الی 17 30 یومیا 8 0",
+          "s": "تاریخی و باستانی"
+        },
+        {
+          "i": 12,
+          "n": {
+            "fa": "محوطه باستانی نقش رستم",
+            "en": "Naqsh-e Rostam Archaeological Site",
+            "ar": "موقع نقش رستم الأثري"
+          },
+          "c": "محوطه باستانی نقش رستم موقع نقش رستم الاثری naqsh e rostam archaeological site تاریخی و باستانی تاریخی واثری historical ancient خارج شهر خارج المدینه out of city استان فارس شهرستان مرودشت نکی آباد 5 کیلومتری شمال تخت جمشید محافظه فارس مقاطعه مرودشت نکی آباد 5 کم شمال تخت جمشید fars province marvdasht county naki abad 5 km north of persepolis مرودشت مرودشت marvdasht 65 نیمه خشک شبه جاف semi arid فارس فارس fars خیر در حریم منظر تخت جمشید لا فی محیط تخت جمشید no within persepolis buffer zone هخامنشی ساسانی و ایلامی الاخمینیه الساسانیه والعیلامیه achaemenid sassanid elamite خیر لا no همه روزه 8 00",
+          "s": "تاریخی و باستانی"
+        },
+        {
+          "i": 13,
+          "n": {
+            "fa": "آبشار مارگون",
+            "en": "Margoon Waterfall",
+            "ar": "شلال مارغون"
+          },
+          "c": "آبشار مارگون شلال مارغون margoon waterfall طبیعی طبیعی natural خارج شهر خارج المدینه out of city استان فارس شهرستان سپیدان روستای مارگون محافظه فارس مقاطعه سبیدان قریه مارغون fars province sepidan county margoon village سپیدان اردکان سبیدان اردکان sepidan ardakan 125 کوهستانی خنک در تابستان و سرد در زمستان جبلی بارد صیفا وبارد جدا شتاء mountainous cool in summer cold in winter لر و قشقایی لر وقشقایی lur qashqai خیر لا no طبیعی طبیعی natural بله نعم yes 24 ساعته بهترین زمان صبح تا غروب 24 ساعه افضل وقت الصباح حتى الغروب 24 hours best morning to sunset رایگان پارکینگ دارد مجانی یوجد موقف free pa",
+          "s": "طبیعی"
+        },
+        {
+          "i": 14,
+          "n": {
+            "fa": "کاخ اردشیر بابکان (آتشکده فیروزآباد)",
+            "en": "Ardashir Babakan Palace (Firuzabad Fire Temple)",
+            "ar": "قصر أردشير بابكان (معبد النار في فيروزآباد)"
+          },
+          "c": "کاخ اردشیر بابکان آتشکده فیروزآباد قصر اردشیر بابکان معبد النار فی فیروزآباد ardashir babakan palace firuzabad fire temple تاریخی و معماری تاریخی ومعماری historical architectural خارج شهر خارج المدینه out of city استان فارس 6 کیلومتری شمال فیروزآباد محافظه فارس 6 کم شمال فیروزآباد fars province 6 km north of firuzabad فیروزآباد فیروزآباد firuzabad 110 گرم و خشک حار وجاف hot dry قشقایی و فارس قشقایی وفارس qashqai fars بله نعم yes دوره ساسانی الحقبه الساسانیه sassanid era خیر لا no همه روزه 8 00 الی 18 00 یومیا 8 00 حتى 18 00 daily 8 00 am 6 00 pm 100 000 تومان 100 000 تومان 100 000 toman 1 5 سا",
+          "s": "تاریخی و معماری"
+        },
+        {
+          "i": 15,
+          "n": {
+            "fa": "شهر باستانی بیشاپور و غار شاپور",
+            "en": "Bishapur Ancient City & Shapur Cave",
+            "ar": "مدينة بيشابور الأثرية وكهف شابور"
+          },
+          "c": "شهر باستانی بیشاپور و غار شاپور مدینه بیشابور الاثریه وکهف شابور bishapur ancient city shapur cave تاریخی و طبیعی تاریخی وطبیعی historical natural خارج شهر خارج المدینه out of city استان فارس شهرستان کازرون جاده کازرون به نورآباد محافظه فارس مقاطعه کازرون طریق کازرون الى نورآباد fars province kazerun county kazerun to noorabad road کازرون کازرون kazerun 140 معتدل و مدیترانه ای معتدل ومتوسطی moderate mediterranean فارس و لر فارس ولر fars lur بله نعم yes دوره ساسانی الحقبه الساسانیه sassanid era خیر لا no همه روزه 8 00 الی 17 30 یومیا 8 00 حتى 17 30 daily 8 00 am 5 30 pm 100 000 تومان 100 000 تو",
+          "s": "تاریخی و طبیعی"
+        },
+        {
+          "i": 16,
+          "n": {
+            "fa": "کاخ ساسانی سروستان",
+            "en": "Sassanid Palace of Sarvestan",
+            "ar": "قصر ساساني سروستان"
+          },
+          "c": "کاخ ساسانی سروستان قصر ساسانی سروستان sassanid palace of sarvestan تاریخی تاریخی historical خارج شهر خارج المدینه out of city استان فارس 9 کیلومتری جنوب شرقی شهر سروستان محافظه فارس 9 کم جنوب شرق مدینه سروستان fars province 9 km southeast of sarvestan city سروستان سروستان sarvestan 85 گرم و خشک حار وجاف hot dry فارس فارس fars بله نعم yes دوره ساسانی الحقبه الساسانیه sassanid era خیر لا no همه روزه 8 00 الی 17 30 یومیا 8 00 حتى 17 30 daily 8 00 am 5 30 pm 80 000 تومان 80 000 تومان 80 000 toman 1 ساعت ساعه واحده 1 hour پاییز زمستان و بهار الخریف الشتاء والربیع autumn winter spring پارکینگ سرویس ",
+          "s": "تاریخی"
+        },
+        {
+          "i": 17,
+          "n": {
+            "fa": "تنگ براق",
+            "en": "Tang-e Boragh",
+            "ar": "تنج براق"
+          },
+          "c": "تنگ براق تنج براق tang e boragh طبیعی طبیعی natural خارج شهر خارج المدینه out of city استان فارس شهرستان اقلید بخش سده روستای تنگ براق محافظه فارس مقاطعه اقلید قسم سده قریه تنج براق fars province eqlid county sedeh district tang e boragh village سده اقلید سده اقلید sedeh eqlid 190 کوهستانی و خنک در تابستان جبلی وبارد فی الصیف mountainous cool in summer فارس و عشایر قشقایی فارس وعشایر قشقایی fars qashqai nomads خیر لا no طبیعی دارای کتیبه ساسانی طبیعی یحتوی على نقش ساسانی natural has sassanid inscription خیر لا no 24 ساعته بازدید در روز توصیه می شود 24 ساعه ی نصح بالزیاره نهارا 24 hours daytime",
+          "s": "طبیعی"
+        },
+        {
+          "i": 18,
+          "n": {
+            "fa": "مجموعه تاریخی ایزدخواست",
+            "en": "Izadkhast Historical Complex",
+            "ar": "مجموعة إيزدخواست التاريخية"
+          },
+          "c": "مجموعه تاریخی ایزدخواست مجموعه ایزدخواست التاریخیه izadkhast historical complex تاریخی و معماری تاریخی ومعماری historical architectural خارج شهر خارج المدینه out of city استان فارس شهرستان آباده شهر ایزدخواست محافظه فارس مقاطعه آباده مدینه ایزدخواست fars province abadeh county izadkhast city آباده آباده abadeh 195 بیابانی و خشک صحراوی وجاف desert dry فارس فارس fars در فهرست موقت یونسکو فی القایمه الموقته للیونسکو on unesco tentative list ساسانی اسلامی و قاجار الساسانیه الاسلامیه والقاجاریه sassanid islamic qajar خیر لا no همه روزه 8 00 الی 17 00 یومیا 8 00 حتى 17 00 daily 8 00 am 5 00 pm 80 00",
+          "s": "تاریخی و معماری"
+        },
+        {
+          "i": 19,
+          "n": {
+            "fa": "دریاچه مهارلو",
+            "en": "Maharloo Lake",
+            "ar": "بحيرة مهارلو"
+          },
+          "c": "دریاچه مهارلو بحیره مهارلو maharloo lake طبیعی طبیعی natural خارج شهر خارج المدینه out of city استان فارس جاده شیراز به فسا بخش مهارلو محافظه فارس طریق شیراز الى فسا قسم مهارلو fars province shiraz to fasa road maharloo district سروستان شیراز سروستان شیراز sarvestan shiraz 30 خشک و نیمه خشک جاف وشبه جاف dry semi arid فارس فارس fars خیر منطقه حفاظت شده لا منطقه محمیه no protected area طبیعی طبیعی natural بله نعم yes 24 ساعته 24 ساعه 24 hours رایگان مجانی free 1 الی 2 ساعت 1 الى 2 ساعات 1 2 hours تابستان و پاییز الصیف والخریف summer autumn جاده آسفالته رستوران های بین راهی طریق معبد مطاعم على ال",
+          "s": "طبیعی"
+        },
+        {
+          "i": 20,
+          "n": {
+            "fa": "نقش رجب",
+            "en": "Naqsh-e Rajab",
+            "ar": "نقش رجب"
+          },
+          "c": "نقش رجب نقش رجب naqsh e rajab تاریخی و باستانی تاریخی واثری historical ancient خارج شهر خارج المدینه out of city استان فارس 3 کیلومتری شمال تخت جمشید دامنه کوه حسین محافظه فارس 3 کم شمال تخت جمشید سفح جبل حسین fars province 3 km north of persepolis hussein mountain foothills مرودشت مرودشت marvdasht 58 نیمه خشک شبه جاف semi arid فارس فارس fars بله حریم تخت جمشید نعم محیط تخت جمشید yes persepolis buffer zone دوره ساسانی الحقبه الساسانیه sassanid era خیر لا no همه روزه 8 00 الی 17 30 یومیا 8 00 حتى 17 30 daily 8 00 am 5 30 pm 80 000 تومان 80 000 تومان 80 000 toman 30 الی 45 دقیقه 30 الى 45 دقیقه ",
+          "s": "تاریخی و باستانی"
+        },
+        {
+          "i": 21,
+          "n": {
+            "fa": "شهر میمند فارس (قطب گل و گلاب)",
+            "en": "Meymand City of Fars (Rose & Rosewater Hub)",
+            "ar": "مدينة ميمند فارس (قطب الورد وماء الورد)"
+          },
+          "c": "شهر میمند فارس قطب گل و گلاب مدینه میمند فارس قطب الورد وماء الورد meymand city of fars rose rosewater hub طبیعی و فرهنگی طبیعی وثقافی natural cultural خارج شهر خارج المدینه out of city استان فارس شهرستان فیروزآباد شهر میمند محافظه فارس مقاطعه فیروزآباد مدینه میمند fars province firuzabad county meymand city میمند میمند meymand 100 معتدل کوهستانی با باغات مرکبات و گل سرخ جبلی معتدل ببساتین الحمضیات والورد moderate mountainous with citrus rose gardens فارس و قشقایی فارس وقشقایی fars qashqai خیر لا no کهن تاریخی و سنتی قدیم تاریخی وتقلیدی ancient historical traditional خیر لا no 24 ساعته کارگاه ",
+          "s": "طبیعی و فرهنگی"
+        }
+      ]
+    },
+    {
+      "id": "packages",
+      "icon": "💎",
+      "label": {
+        "fa": "بسته‌های درمانی",
+        "en": "Treatment Packages",
+        "ar": "الباقات العلاجية"
+      },
+      "items": [
+        {
+          "i": 0,
+          "n": {
+            "fa": "بستهٔ درمان عمومی شیراز",
+            "en": "Shiraz General Treatment Package",
+            "ar": "باقة العلاج العامة في شيراز"
+          },
+          "c": "بسته درمان عمومی شیراز shiraz general treatment package باقه العلاج العامه فی شیراز ویزیت پزشک بیمارستان تخصصی اقامت ترانسفر فرودگاهی گشت نیم روزه مبنای انتخاب بیمارستان ها و هتل های ثبت شده در همین ربات doctor visit specialty hospital stay airport transfer half day tour built from hospitals and hotels already listed in this bot کشف طبیب مستشفى تخصصی اقامه نقل من المطار جوله نصف یوم مبنیه على المستشفیات والفنادق المسج له فی هذا البوت 1 تا 3 روز 1 3 days 1 3 ایام visit hospital hotel transfer translator tour",
+          "s": ""
+        },
+        {
+          "i": 1,
+          "n": {
+            "fa": "بستهٔ چشم‌پزشکی شیراز",
+            "en": "Shiraz Ophthalmology Package",
+            "ar": "باقة طب العيون في شيراز"
+          },
+          "c": "بسته چشم پزشکی شیراز shiraz ophthalmology package باقه طب العیون فی شیراز ویزیت چشم پزشکی در بیمارستان چشم پزشکی ثبت شده ربات اقامت ترانسفر گشت سایر هزینه های درمانی طبق تعرفه بیمارستان اعلام می شود eye visit at the bot s registered eye hospital stay transfer tour other treatment costs are quoted by the hospital s official tariff کشف العیون فی مستشفى العیون المسج ل فی البوت اقامه نقل جوله ای تکالیف اخرى حسب تعریفه المستشفى 1 تا 3 روز 1 3 days 1 3 ایام visit hospital hotel transfer tour",
+          "s": ""
+        },
+        {
+          "i": 2,
+          "n": {
+            "fa": "بستهٔ مادر و کودک شیراز",
+            "en": "Shiraz Mother & Child Package",
+            "ar": "باقة الأم والطفل في شيراز"
+          },
+          "c": "بسته مادر و کودک شیراز shiraz mother child package باقه الام والطفل فی شیراز ویزیت در بیمارستان فوق تخصصی مادر و کودک اقامت ترانسفر مترجم درخواستی گشت مناسب بیماران خارجی با خانواده visit at the registered mother and child hospital stay transfer translator on request tour suitable for foreign patients with family کشف فی مستشفى الام والطفل المسج ل اقامه نقل مترجم عند الطلب جوله مناسب للمرضى الاجانب مع العایله 2 تا 4 روز 2 4 days 2 4 ایام visit hospital hotel transfer translator tour",
+          "s": ""
+        }
+      ]
+    },
+    {
+      "id": "guide",
+      "icon": "📖",
+      "label": {
+        "fa": "راهنماها و پرسش‌های متداول",
+        "en": "Guides & FAQ",
+        "ar": "الأدلة والأسئلة الشائعة"
+      },
+      "items": [
+        {
+          "i": 0,
+          "n": {
+            "fa": "?",
+            "en": "",
+            "ar": ""
+          },
+          "c": "شیراز شیراز shiraz راهنمای جامع پذیرش و درمان اتباع غیرایرانی بیماران بین الملل در بیمارستان های شیراز دلیل شامل لقبول وعلاج المواطنین غیر الایرانیین المرضى الدولیین فی مستشفیات شیراز comprehensive guide for admission treatment of non iranian nationals international patients in shiraz hospitals گذرنامه معتبر با حداقل 6 ماه اعتبار از تاریخ درخواست نامه پذیرش بیمارستان acceptance letter صادرشده از واحد ipd یکی از بیمارستان های دارای مجوز رسمی در شیراز مدارک پزشکی کامل شامل گزارش پزشک معالج در کشور مبدا ترجمه اسکن سونوگرافی رادیوگرافی آزمایش ها و سوابق بیماری عکس پرسنلی دیجیتال تمام رخ با مشخصات ",
+          "s": "شیراز"
+        }
+      ]
+    },
+    {
+      "id": "support",
+      "icon": "🤝",
+      "label": {
+        "fa": "مراکز پشتیبانی و اورژانس",
+        "en": "Support Centers",
+        "ar": "مراكز الدعم"
+      },
+      "items": [
+        {
+          "i": 0,
+          "n": {
+            "fa": "اورژانس پیش بیمارستانی و مدیریت حوادث دانشگاه علوم پزشکی شیراز (اورژانس ۱۱۵)",
+            "en": "Shiraz University of Medical Sciences Pre-Hospital Emergency (Emergency 115)",
+            "ar": "الطوارئ ما قبل المستشفى وإدارة الحوادث لجامعة شيراز للعلوم الطبية (الطوارئ ١١٥)"
+          },
+          "c": "اورژانسی و تلفنی طواری وهاتفی emergency phone اورژانس پیش بیمارستانی و مدیریت حوادث دانشگاه علوم پزشکی شیراز اورژانس 115 الطواری ما قبل المستشفى واداره الحوادث لجامعه شیراز للعلوم الطبیه الطواری 115 shiraz university of medical sciences pre hospital emergency emergency 115 24 ساعته 24 ساعه 24 hours فارسی انگلیسی الفارسیه الانجلیزیه persian english اعزام آمبولانس فوریت های پزشکی خدمات اورژانس پیش بیمارستانی راهنمایی تلفنی در سوانح و حوادث ارسال سیاره اسعاف للطواری الطبیه خدمات الطواری ما قبل المستشفى الارشاد الهاتفی فی الحوادث medical emergency ambulance dispatch pre hospital emergency services",
+          "s": "اورژانسی و تلفنی"
+        },
+        {
+          "i": 1,
+          "n": {
+            "fa": "جمعیت هلال احمر استان فارس",
+            "en": "Fars Province Red Crescent Society",
+            "ar": "جمعية الهلال الأحمر لمحافظة فارس"
+          },
+          "c": "حضوری و تلفنی حضوری وهاتفی in person phone جمعیت هلال احمر استان فارس جمعیه الهلال الاحمر لمحافظه فارس fars province red crescent society شنبه تا چهارشنبه 7 30 الی 14 30 امدادرسانی 24 ساعته السبت الى الاربعاء 7 30 حتى 14 30 الاغاثه 24 ساعه sat wed 7 30 am 2 30 pm relief 24 hours فارسی الفارسیه persian امداد و نجات جاده ای و شهری خدمات درمانی و حمایتی استقرار پایگاه های امدادی پاسخگویی به سوانح الاغاثه والانقاذ على الطرق وفی المدن الخدمات الطبیه والدعم نشر قواعد الاغاثه الاستجابه للحوادث road urban rescue medical support services relief base deployment accident response مرکز مدیریت امداد و نجات",
+          "s": "حضوری و تلفنی"
+        },
+        {
+          "i": 2,
+          "n": {
+            "fa": "واحد گردشگری سلامت (IPD) معاونت درمان دانشگاه علوم پزشکی شیراز",
+            "en": "Health Tourism Unit (IPD) of Shiraz University of Medical Sciences",
+            "ar": "وحدة السياحة الصحية (IPD) بمعاونية العلاج لجامعة شيراز للعلوم الطبية"
+          },
+          "c": "حضوری تلفنی و چت حضوری هاتفی ودردشه in person phone chat واحد گردشگری سلامت ipd معاونت درمان دانشگاه علوم پزشکی شیراز وحده السیاحه الصحیه ipd بمعاونیه العلاج لجامعه شیراز للعلوم الطبیه health tourism unit ipd of shiraz university of medical sciences شنبه تا چهارشنبه 8 00 الی 14 00 السبت الى الاربعاء 8 00 حتى 14 00 sat wed 8 00 am 2 00 pm فارسی انگلیسی عربی الفارسیه الانجلیزیه العربیه persian english arabic صدور مجوزهای تخصصی بیمارستان های ipd نظارت بر خدمات درمانی گردشگران خارجی هماهنگی های پزشکی سلامت اصدار تراخیص ipd المتخصصه للمستشفیات الاشراف على الخدمات الطبیه للسیاح الاجانب التنسیقات الط",
+          "s": "حضوری، تلفنی و چت"
+        },
+        {
+          "i": 3,
+          "n": {
+            "fa": "سامانه پاسخگویی به شکایات و راهنمایی گردشگران (وزارت میراث فرهنگی)",
+            "en": "Tourist Complaint & Guidance System (Ministry of Cultural Heritage)",
+            "ar": "نظام الرد على الشكاوى وإرشاد السياح (وزارة التراث الثقافي)"
+          },
+          "c": "تلفنی ملی و استانی هاتفی وطنی واقلیمی phone national provincial سامانه پاسخگویی به شکایات و راهنمایی گردشگران وزارت میراث فرهنگی نظام الرد على الشکاوى وارشاد السیاح وزاره التراث الثقافی tourist complaint guidance system ministry of cultural heritage 24 ساعته 24 ساعه 24 hours فارسی انگلیسی الفارسیه الانجلیزیه persian english راهنمایی گردشگران ثبت شکایات از واحدهای اقامتی و دفاتر مسافرتی اطلاع رسانی سفر ارشاد السیاح تسجیل الشکاوى من وحدات الاقامه ووکالات السفر الاعلام عن السفر tourist guidance filing complaints against accommodations travel agencies travel information سامانه جامع تلفنی برای پیگی",
+          "s": "تلفنی (ملی و استانی)"
+        },
+        {
+          "i": 4,
+          "n": {
+            "fa": "اورژانس اجتماعی (بهزیستی فارس)",
+            "en": "Social Emergency (Fars Welfare Organization)",
+            "ar": "الطوارئ الاجتماعية (منظمة الرفاه في فارس)"
+          },
+          "c": "اورژانسی و تلفنی طواری وهاتفی emergency phone اورژانس اجتماعی بهزیستی فارس الطواری الاجتماعیه منظمه الرفاه فی فارس social emergency fars welfare organization 24 ساعته 24 ساعه 24 hours فارسی الفارسیه persian مداخله در بحران های فردی و خانوادگی مشاوره روان شناختی اضطراری حمایت از آسیب دیدگان اجتماعی التدخل فی الازمات الفردیه والعایلیه الاستشاره النفسیه الطاریه دعم ضحایا المشاکل الاجتماعیه individual family crisis intervention emergency psychological counseling support for social victims خدمات رسانی فوری در بحران های روحی خشونت خانگی یا مشکلات اجتماعی خدمات فوریه فی الازمات النفسیه العنف الاسری ا",
+          "s": "اورژانسی و تلفنی"
+        },
+        {
+          "i": 5,
+          "n": {
+            "fa": "مرکز پاسخگویی سلامت و اطلاعات دارویی دانشگاه علوم پزشکی شیراز",
+            "en": "Shiraz University of Medical Sciences Health & Medication Info Center",
+            "ar": "مركز الرد الصحي والمعلومات الدوائية لجامعة شيراز للعلوم الطبية"
+          },
+          "c": "تلفنی مرکز مشاوره دارویی و اطلاعات پزشکی هاتفی مرکز الاستشاره الدواییه والمعلومات الطبیه phone medication consultation medical info center مرکز پاسخگویی سلامت و اطلاعات دارویی دانشگاه علوم پزشکی شیراز مرکز الرد الصحی والمعلومات الدواییه لجامعه شیراز للعلوم الطبیه shiraz university of medical sciences health medication info center 24 ساعته 24 ساعه 24 hours فارسی الفارسیه persian مشاوره دارویی راهنمایی درباره عوارض داروها معرفی پزشک و مراکز درمانی باز ثبت شکایات بهداشتی الاستشاره الدواییه الارشاد حول الآثار الجانبیه للادویه التعریف بالاطباء والمراکز الطبیه المفتوحه تسجیل الشکاوى الصحیه medicatio",
+          "s": "تلفنی (مرکز مشاوره دارویی و اطلاعات پزشکی)"
+        },
+        {
+          "i": 6,
+          "n": {
+            "fa": "مرکز اورژانس خصوصی و پرستاری در منزل پارسه شیراز",
+            "en": "Parseh Shiraz Private Emergency & Home Nursing Center",
+            "ar": "مركز الطوارئ الخاص والتمريض المنزلي بارسه شيراز"
+          },
+          "c": "تلفنی و حضوری خصوصی هاتفی وحضوری خاص phone in person private مرکز اورژانس خصوصی و پرستاری در منزل پارسه شیراز مرکز الطواری الخاص والتمریض المنزلی بارسه شیراز parseh shiraz private emergency home nursing center 24 ساعته 24 ساعه 24 hours فارسی انگلیسی الفارسیه الانجلیزیه persian english آمبولانس خصوصی اعزام پزشک و پرستار به اقامتگاه یا هتل خدمات مراقبت و تزریقات در منزل سیاره اسعاف خاصه ارسال طبیب وممرض الى مکان الاقامه او الفندق خدمات الرعایه والحقن المنزلی private ambulance doctor nurse dispatch to accommodation or hotel home care injection services ارایه دهنده خدمات مجهز پزشکی پرستاری و آمبول",
+          "s": "تلفنی و حضوری (خصوصی)"
+        },
+        {
+          "i": 7,
+          "n": {
+            "fa": "پلیس راهنمایی و رانندگی و مرکز فوریت‌های پلیسی شیراز",
+            "en": "Shiraz Traffic Police & Police Emergency Center",
+            "ar": "شرطة المرور ومركز الطوارئ الأمنية في شيراز"
+          },
+          "c": "تلفنی و حضوری هاتفی وحضوری phone in person پلیس راهنمایی و رانندگی و مرکز فوریت های پلیسی شیراز شرطه المرور ومرکز الطواری الامنیه فی شیراز shiraz traffic police police emergency center 24 ساعته 24 ساعه 24 hours فارسی الفارسیه persian امداد انتظامی رسیدگی به تصادفات راهنمایی و امنیت مسافران و زایران الاغاثه الامنیه معالجه الحوادث المروریه ارشاد وامن المسافرین والزوار police relief accident response traveler pilgrim guidance security مرکز پاسخگویی به مسایل انتظامی ترافیکی و امنیتی در شهرستان شیراز مرکز الرد على المسایل الامنیه والمروریه فی مقاطعه شیراز response center for police traffic and secu",
+          "s": "تلفنی و حضوری"
+        }
+      ]
+    }
+  ]
+}

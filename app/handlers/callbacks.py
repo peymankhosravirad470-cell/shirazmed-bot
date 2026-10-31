@@ -1210,6 +1210,22 @@ async def main_menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE)
     lang = context.user_data.get("lang", "fa")
     data = query.data
 
+    # 🆕 مأموریت مکمل: دسته‌بندی‌های منوی جدید + جست‌وجوی هوشمند + مشاور سلامت
+    if data.startswith("cat_"):
+        from app.keyboards.categories import CATEGORY_KEYBOARDS
+        kb_factory = CATEGORY_KEYBOARDS.get(data)
+        if kb_factory is not None:
+            await _display(update, context, _t(lang, "prompt_rights"), kb_factory(lang))
+            return
+    if data == "search":
+        from app.handlers import search as search_handler
+        await search_handler.show_search(update, context, lang)
+        return
+    if data == "advisor":
+        from app.handlers import advisor as advisor_handler
+        await advisor_handler.show_advisor(update, context, lang)
+        return
+
     # 🌐 دکمه «آدرس سایت» — تا راه‌اندازی https://medshiraz.ir فقط پیام «به زودی» می‌دهد.
     # هیچ دکمه دیگری تغییر نکرده است.
     if data == "site":

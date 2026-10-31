@@ -15,39 +15,45 @@ def get_language_keyboard() -> InlineKeyboardMarkup:
 
 
 def get_main_menu_keyboard(lang: str) -> InlineKeyboardMarkup:
+    """منوی اصلی بازطراحی‌شده (مأموریت مکمل — تجربهٔ کاربری ساده و مرتب).
+
+    مشکل قبلی: ~۲۵ دکمهٔ درهم → بیمار سردرگم می‌شد.
+    چیدمان جدید (بالا → پایین، اهمیت نزولی؛ حداکثر ۲ دکمه در ردیف):
+      ۱. 🔍 جست‌وجو + 🩺 مشاور سلامت (دو ابزار کلیدی، همیشه در دسترس)
+      ۲. 🚨 اورژانس (تمام‌عرض — حیاتی)
+      ۳. 📅 نوبت بگیر (تمام‌عرض — پرکاربردترین خدمت)
+      ۴-۶. شش دستهٔ خدماتی (تفکیک مشابه‌ها در زیرمنو — app/keyboards/categories.py)
+      ۷. 🤖 دستیار هوشمند + 🌐 تغییر زبان
+      ۸. 🌐 آدرس سایت
+    هیچ قابلیتی حذف نشده؛ فقط دسته‌بندی و مسیر دسترسی مرتب‌تر شده است.
+    """
     keys = [
-        "medical", "non_medical", "tourism", "paramedical", "elderly", "package",
-        "hubs", "taxi", "insurance", "translator", "charter",
-        "file", "appointments", "medication", "emergency", "channel", "invite", "rights",
-        # 🆕 اتصال داده‌های موجود (درخواست کاربر ۱۴۰۴/۰۸/۰۸): راهنمای بیمار
-        # (patient_guide.json با ۲۹ راهنما) و مراکز پشتیبانی (support.json با ۸
-        # مرکز) از قبل هندلر داشتند ولی «هیچ دکمه‌ای» به آن‌ها وصل نبود.
-        "patient_guide", "support",
-        # 🆕 مأموریت آیتم ۱: دستیار هوشمند اختصاصی (جایگزین لینک بیرونی deepseek)
-        # دکمهٔ deepseek حذف شد؛ هندلرش برای منوهای قدیمی که روی صفحه مانده‌اند می‌ماند.
-        "ai_assistant",
+        "search", "advisor",
+        "emergency",
+        "start_booking",
+        "cat_medical", "cat_travel",
+        "cat_tourism", "cat_support",
+        "cat_me", "cat_contact",
+        "ai_assistant", "btn_change_lang",
+        "btn_site",
     ]
-    
-    # چیدمان: ۲ دکمه در هر ردیف با استفاده از get_msg_btn (که زبان را در نظر می‌گیرد)
-    rows = [
-        [InlineKeyboardButton(get_msg_btn(lang, key), callback_data=key) for key in keys[i : i + 2]]
-        for i in range(0, len(keys), 2)
-    ]
-    
-    # ✅ استفاده از get_msg_btn برای دکمه‌های اصلی (با پشتیبانی از زبان‌های مختلف)
-    book_text = get_msg_btn(lang, "btn_book") or "📅 نوبت بگیر"
-    companion_text = get_msg_btn(lang, "btn_companion") or "🤝 ثبت همراه بیمار"
-    survey_text = get_msg_btn(lang, "btn_survey") or "📝 ثبت نظر و رضایت‌سنجی"
-
-    rows.append([InlineKeyboardButton(book_text, callback_data="start_booking")])
-    rows.append([InlineKeyboardButton(companion_text, callback_data="start_companion")])
-    rows.append([InlineKeyboardButton(survey_text, callback_data="start_survey")])
-    
-    # دکمه تغییر زبان
-    rows.append([InlineKeyboardButton(get_msg_btn(lang, "btn_change_lang"), callback_data="change_language")])
-
-    # 🌐 دکمه «آدرس سایت» — انتهای منو (تنها دکمه جدید؛ سایر دکمه‌ها دست‌نخورده‌اند)
-    rows.append([InlineKeyboardButton(get_msg_btn(lang, "btn_site"), callback_data="site")])
+    wide = {"emergency", "start_booking", "btn_site"}  # دکمه‌های تمام‌عرض
+    rows: list[list[InlineKeyboardButton]] = []
+    pending: list[InlineKeyboardButton] = []
+    for key in keys:
+        btn = InlineKeyboardButton(get_msg_btn(lang, key), callback_data=key)
+        if key in wide:
+            if pending:
+                rows.append(pending)
+                pending = []
+            rows.append([btn])
+        else:
+            pending.append(btn)
+            if len(pending) == 2:
+                rows.append(pending)
+                pending = []
+    if pending:
+        rows.append(pending)
     return InlineKeyboardMarkup(rows)
 
 

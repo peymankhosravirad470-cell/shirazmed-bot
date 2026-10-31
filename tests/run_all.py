@@ -27,6 +27,10 @@ SUITES = [
     ("T12 شش مورد محدوده نهایی", "t12_scope_six.py"),
     ("T13 سرویس‌های مأموریت ۲۰ قابلیت", "t13_services_v2.py"),
     ("T14 جریان‌های مأموریت (AI/نوبت/ارجاع/ادمین/API)", "t14_flows_v2.py"),
+    ("T15 جست‌وجوی هوشمند جامع", "t15_search.py"),
+    ("T16 مشاور سلامت + اورژانس", "t16_health_advisor.py"),
+    ("T17 بازطراحی منو", "t17_menu_redesign.py"),
+    ("T18 ساختار اپ Flutter (mobile)", "t18_mobile_structure.py"),
 ]
 
 

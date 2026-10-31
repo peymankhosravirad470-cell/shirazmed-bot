@@ -457,12 +457,19 @@ async def _ai_chat_reply(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
 
 async def feedback_text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """مسیر متن آزاد کاربر: دستیار هوشمند (پرچم ai_chat) یا نظر ناراضی.
+    """مسیر متن آزاد کاربر: جست‌وجوی هوشمند / دستیار هوشمند / نظر ناراضی.
 
-    🆕 مأموریت آیتم ۱: اگر کاربر از «دستیار هوشمند» وارد شده باشد، متنش به
-    سرویس ai_assistant می‌رود (بدون تشخیص پزشکی؛ ارجاع به پزشک/اورژانس).
+    🆕 مأموریت مکمل: اگر کاربر از «جست‌وجوی هوشمند» وارد شده باشد، متنش به
+    موتور جست‌وجوی جامع می‌رود (اولویت اول). سپس دستیار هوشمند (پرچم ai_chat)،
     وگرنه رفتار قبلی (نظر ناراضی → ادمین) دست‌نخورده می‌ماند.
     """
+    # 🆕 مأموریت مکمل — جست‌وجوی هوشمند: متن → موتور جست‌وجو (پرچم با ناوبری پاک می‌شود)
+    if context.user_data.get("awaiting_search"):
+        from app.handlers import search as search_handler
+        user_text = (update.message.text or "").strip() if update.message else ""
+        if user_text:
+            await search_handler.run_search_reply(update, context, user_text)
+        return
     if context.user_data.get("ai_chat"):
         await _ai_chat_reply(update, context)
         return
