@@ -28,7 +28,7 @@
         "en": "Iraq 🇮🇶",
         "ar": "العراق 🇮🇶"
       },
-      "ambulance": "911",
+      "ambulance": "122",
       "alt": "112"
     },
     "ae": {
@@ -45,7 +45,8 @@
         "en": "Saudi Arabia 🇸🇦",
         "ar": "السعودية 🇸🇦"
       },
-      "ambulance": "997"
+      "ambulance": "997",
+      "alt": "911"
     },
     "qa": {
       "label": {

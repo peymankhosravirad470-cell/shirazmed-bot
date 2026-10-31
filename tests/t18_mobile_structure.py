@@ -104,8 +104,11 @@ def main() -> int:
     r.check("پیام صادقانهٔ اورژانس در اپ هست", honest)
 
     # ── ۸) بدون دست‌زدن به بک‌اند: mobile فقط فایل اپ دارد ──
-    allowed = {"pubspec.yaml", "analysis_options.yaml", ".gitignore", "README.md", "assets", "lib", "test"}
-    actual = {x for x in os.listdir(MOBILE) if not x.startswith(".")}
+    # pubspec.lock عمداً Track می‌شود (تکرارپذیری بیلد اپ)؛ build/ و
+    # .dart_tool/ فقط آرتیفکت محلی pub get/test هستند و در گیت نیستند.
+    allowed = {"pubspec.yaml", "pubspec.lock", "analysis_options.yaml", ".gitignore",
+               "README.md", "assets", "lib", "test", "build", ".dart_tool"}
+    actual = {x for x in os.listdir(MOBILE)}
     r.check("mobile پوشه‌های خارج از ساختار Flutter ندارد", actual <= allowed, str(actual - allowed))
 
     # ── ۹) تست‌های Dart پروژه ──

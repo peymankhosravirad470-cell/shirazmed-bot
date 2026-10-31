@@ -27,10 +27,10 @@ class Symptom {
         id: j['id'] as String,
         icon: j['icon'] as String? ?? '🩺',
         severity: j['severity'] as String? ?? 'high',
-        title: _s(j['title']),
-        brief: _s(j['brief']),
+        title: strMap(j['title']),
+        brief: strMap(j['brief']),
         redFlags: (j['redFlags'] as List<dynamic>? ?? [])
-            .map((e) => _s(e as Map<String, dynamic>))
+            .map((e) => strMap(e as Map<String, dynamic>))
             .toList(),
         questions: (j['questions'] as List<dynamic>? ?? [])
             .map((e) => TriageQuestion.fromJson(e as Map<String, dynamic>))
@@ -38,7 +38,8 @@ class Symptom {
         specialty: j['specialty'] as String? ?? 'internal',
       );
 
-  static Map<String, String> _s(dynamic v) {
+  /// تبدیل مقدار JSON به نگاشت سه‌زبانه (عمومی تا سرویس‌های دیگر هم استفاده کنند).
+  static Map<String, String> strMap(dynamic v) {
     if (v is Map<String, dynamic>) {
       return v.map((k, val) => MapEntry(k, val?.toString() ?? ''));
     }
@@ -61,7 +62,7 @@ class TriageQuestion {
 
   factory TriageQuestion.fromJson(Map<String, dynamic> j) => TriageQuestion(
         key: j['key'] as String,
-        text: Symptom._s(j['text']),
+        text: Symptom.strMap(j['text']),
         yes: j['yes'] as String? ?? 'referral',
         no: j['no'] as String? ?? 'referral',
       );
@@ -96,7 +97,7 @@ class EmergencyCountry {
   factory EmergencyCountry.fromJson(String code, Map<String, dynamic> j) =>
       EmergencyCountry(
         code: code,
-        label: Symptom._s(j['label']),
+        label: Symptom.strMap(j['label']),
         ambulance: j['ambulance'] as String,
         alt: j['alt'] as String?,
       );

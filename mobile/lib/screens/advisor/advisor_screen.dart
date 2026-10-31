@@ -21,7 +21,7 @@ class AdvisorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations(context);
+    final loc = AppLocalizations.of(context);
     final lang = AppState.language.value;
     if (initialRoute == AdvisorRoute.emergency) {
       return EmergencyScreen(repository: repository);
@@ -35,12 +35,12 @@ class AdvisorScreen extends StatelessWidget {
               padding: const EdgeInsets.all(12),
               children: [
                 Card(
-                  color: AppColors.primary.withOpacity(.08),
+                  color: AppColors.primary.withValues(alpha: .08),
                   child: Padding(
                     padding: const EdgeInsets.all(12),
                     child: Text(
                       loc.t('disclaimer'),
-                      style: TextStyle(color: AppColors.primaryDark, fontSize: 13, height: 1.6),
+                      style: const TextStyle(color: AppColors.primaryDark, fontSize: 13, height: 1.6),
                       textAlign: TextAlign.center,
                     ),
                   ),

@@ -56,11 +56,11 @@ class DataRepository {
         .map((e) => SearchCategory(
               id: e['id'] as String,
               icon: e['icon'] as String? ?? '🔎',
-              label: Symptom._s(e['label']),
+              label: Symptom.strMap(e['label']),
               items: (e['items'] as List<dynamic>? ?? [])
                   .map((it) => SearchItem(
                         index: it['i'] as int,
-                        name: Symptom._s(it['n']),
+                        name: Symptom.strMap(it['n']),
                         corpus: it['c'] as String? ?? '',
                         subtitle: it['s'] as String? ?? '',
                       ))

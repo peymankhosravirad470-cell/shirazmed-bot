@@ -54,15 +54,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations(context);
+    final loc = AppLocalizations.of(context);
     final lang = AppState.language.value;
     final cats = [
       (loc.t('cat_medical'), Icons.local_hospital_outlined, AppColors.primary),
-      (loc.t('cat_travel'), Icons.luggage_outlined, Color(0xFF2E7D9A)),
-      (loc.t('cat_tourism'), Icons.tour_outlined, Color(0xFF8C6D1F)),
-      (loc.t('cat_support'), Icons.support_agent_outlined, Color(0xFF5B7C99)),
-      (loc.t('cat_me'), Icons.folder_shared_outlined, Color(0xFF4E6E81)),
-      (loc.t('cat_contact'), Icons.forum_outlined, Color(0xFF6A5ACD)),
+      (loc.t('cat_travel'), Icons.luggage_outlined, const Color(0xFF2E7D9A)),
+      (loc.t('cat_tourism'), Icons.tour_outlined, const Color(0xFF8C6D1F)),
+      (loc.t('cat_support'), Icons.support_agent_outlined, const Color(0xFF5B7C99)),
+      (loc.t('cat_me'), Icons.folder_shared_outlined, const Color(0xFF4E6E81)),
+      (loc.t('cat_contact'), Icons.forum_outlined, const Color(0xFF6A5ACD)),
     ];
 
     return Scaffold(
@@ -101,9 +101,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppColors.primary.withOpacity(.3)),
+                        border: Border.all(color: AppColors.primary.withValues(alpha: .3)),
                         boxShadow: [
-                          BoxShadow(color: Colors.black.withOpacity(.05), blurRadius: 8),
+                          BoxShadow(color: Colors.black.withValues(alpha: .05), blurRadius: 8),
                         ],
                       ),
                       child: Row(
@@ -113,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Expanded(
                             child: Text(
                               loc.t('search_hint'),
-                              style: TextStyle(color: AppColors.muted, fontSize: 16),
+                              style: const TextStyle(color: AppColors.muted, fontSize: 16),
                             ),
                           ),
                         ],
@@ -190,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                   const SizedBox(height: 8),
-                  Text(
+                  const Text(
                     '© Shiraz Medical — shirazmedicall.ir',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: AppColors.muted, fontSize: 12),
@@ -199,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Text(
                     lang.label,
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: AppColors.muted, fontSize: 11),
+                    style: const TextStyle(color: AppColors.muted, fontSize: 11),
                   ),
                 ],
               ),
@@ -290,7 +290,7 @@ class _PlaceholderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations(context);
+    final loc = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(title ?? (titleKey != null ? loc.t(titleKey!) : '')),
@@ -306,7 +306,7 @@ class _PlaceholderScreen extends StatelessWidget {
               Text(
                 loc.t('coming_soon'),
                 textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.muted, fontSize: 15),
+                style: const TextStyle(color: AppColors.muted, fontSize: 15),
               ),
             ],
           ),

@@ -26,9 +26,9 @@ from __future__ import annotations
 # راهنمای گردشگران امارات/قطر. برای کشورهای ناموجود: 112 استاندارد GSM.
 EMERGENCY_NUMBERS: dict[str, dict] = {
     "ir": {"label": {"fa": "ایران 🇮🇷", "en": "Iran 🇮🇷", "ar": "إيران 🇮🇷"}, "ambulance": "115", "note": {"fa": "اورژانس پیش‌بیمارستانی", "en": "Pre-hospital EMS", "ar": "الإسعاف"}},
-    "iq": {"label": {"fa": "عراق 🇮🇶", "en": "Iraq 🇮🇶", "ar": "العراق 🇮🇶"}, "ambulance": "911", "alt": "112", "note": {"fa": "سامانهٔ یکپارچهٔ بغداد؛ ۱۱۲ روی موبایل", "en": "Baghdad unified line; 112 on mobile", "ar": "خط موحد في بغداد؛ 112 عبر الجوال"}},
+    "iq": {"label": {"fa": "عراق 🇮🇶", "en": "Iraq 🇮🇶", "ar": "العراق 🇮🇶"}, "ambulance": "122", "alt": "112", "note": {"fa": "آمبولانس ۱۲۲؛ ۱۱۲ روی موبایل (GSM)", "en": "Ambulance 122; 112 on mobile (GSM)", "ar": "الإسعاف 122؛ 112 عبر الجوال (GSM)"}},
     "ae": {"label": {"fa": "امارات 🇦🇪", "en": "UAE 🇦🇪", "ar": "الإمارات 🇦🇪"}, "ambulance": "998"},
-    "sa": {"label": {"fa": "عربستان 🇸🇦", "en": "Saudi Arabia 🇸🇦", "ar": "السعودية 🇸🇦"}, "ambulance": "997"},
+    "sa": {"label": {"fa": "عربستان 🇸🇦", "en": "Saudi Arabia 🇸🇦", "ar": "السعودية 🇸🇦"}, "ambulance": "997", "alt": "911", "note": {"fa": "آمبولانس ۹۹۷؛ شمارهٔ یکپارچهٔ ۹۱۱ (از جمله زائران)", "en": "Ambulance 997; unified 911 (incl. pilgrims)", "ar": "الإسعاف 997؛ الرقم الموحد 911 (بما فيهم الحجاج)"}},
     "qa": {"label": {"fa": "قطر 🇶🇦", "en": "Qatar 🇶🇦", "ar": "قطر 🇶🇦"}, "ambulance": "999"},
     "om": {"label": {"fa": "عمان 🇴🇲", "en": "Oman 🇴🇲", "ar": "عُمان 🇴🇲"}, "ambulance": "9999"},
     "bh": {"label": {"fa": "بحرین 🇧🇭", "en": "Bahrain 🇧🇭", "ar": "البحرين 🇧🇭"}, "ambulance": "999"},

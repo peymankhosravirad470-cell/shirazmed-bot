@@ -34,7 +34,7 @@ class _TriageScreenState extends State<TriageScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations(context);
+    final loc = AppLocalizations.of(context);
     final lang = AppState.language.value;
     if (qIndex >= s.questions.length) {
       final level = evaluateTriage(s, answers);
@@ -78,7 +78,7 @@ class _TriageScreenState extends State<TriageScreen> {
               child: Column(
                 children: [
                   Text('${loc.t('question')} ${qIndex + 1}/${s.questions.length}',
-                      style: TextStyle(color: AppColors.muted, fontSize: 13)),
+                      style: const TextStyle(color: AppColors.muted, fontSize: 13)),
                   const SizedBox(height: 8),
                   Text(q.text[lang.code] ?? q.text['fa'] ?? '',
                       style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
@@ -110,7 +110,7 @@ class _TriageScreenState extends State<TriageScreen> {
           Text(
             loc.t('disclaimer'),
             textAlign: TextAlign.center,
-            style: TextStyle(color: AppColors.muted, fontSize: 12),
+            style: const TextStyle(color: AppColors.muted, fontSize: 12),
           ),
         ],
       ),
@@ -127,7 +127,7 @@ class EmergencyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations(context);
+    final loc = AppLocalizations.of(context);
     final lang = AppState.language.value;
     final order = repository.emergencyOrder;
     return Scaffold(
@@ -159,7 +159,7 @@ class EmergencyScreen extends StatelessWidget {
   }
 
   void _showNumber(BuildContext context, EmergencyCountry? c) {
-    final loc = AppLocalizations(context);
+    final loc = AppLocalizations.of(context);
     final num = c?.ambulance ?? repository.emergencyFallback;
     final info = StringBuffer('🚨 ${symptom != null ? (symptom!.title['fa'] ?? '') : loc.t('emergency')}');
     if (c != null) info.write('\n🌍 ${c.label['fa'] ?? c.code}');
@@ -186,7 +186,7 @@ class EmergencyScreen extends StatelessWidget {
               Text(
                 loc.t('honest_note'),
                 textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.muted, fontSize: 12),
+                style: const TextStyle(color: AppColors.muted, fontSize: 12),
               ),
             ],
           ),
@@ -211,7 +211,7 @@ class ReferralScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations(context);
+    final loc = AppLocalizations.of(context);
     final lang = AppState.language.value;
     return Scaffold(
       appBar: AppBar(title: Text(loc.t('referral'))),
@@ -223,7 +223,7 @@ class ReferralScreen extends StatelessWidget {
               padding: const EdgeInsets.all(14),
               child: Text(
                 '${symptom.icon} ${symptom.title[lang.code] ?? symptom.title['fa']}'
-                '\n\n→ ' + specialtyLabel(symptom.specialty, lang),
+                '\n\n→ ${specialtyLabel(symptom.specialty, lang)}',
                 style: const TextStyle(fontSize: 16, height: 1.6),
                 textAlign: TextAlign.center,
               ),

@@ -4,6 +4,9 @@ import '../models/models.dart';
 /// نرمال‌سازی فارسی/عربی + تطبیق پیشوند + فاصلهٔ ویرایشی محدود + زیرمجموعهٔ
 /// توکن‌ها؛ کوئری‌های بی‌معنی نتیجهٔ تصادفی نمی‌گیرند.
 class SearchService {
+  /// ارقام فارسی/عربی → ASCII (همسنگ _CHAR_MAP موتور ربات search_engine.py)
+  static const _easternDigits = '٠١٢٣٤٥٦٧٨٩۰۱۲۳۴۵۶۷۸۹';
+
   static String normalize(String text) {
     var s = text
         .replaceAll('ي', 'ی')
@@ -14,9 +17,20 @@ class SearchService {
         .replaceAll('إ', 'ا')
         .replaceAll('ؤ', 'و')
         .replaceAll('ئ', 'ی')
+        .replaceAllMapped(
+          RegExp('[\u0660-\u0669\u06F0-\u06F9]'),
+          (m) {
+            final i = _easternDigits.indexOf(m[0]!);
+            return i < 0 ? m[0]! : String.fromCharCode(0x30 + (i % 10));
+          },
+        )
         .toLowerCase();
     s = s.replaceAll(RegExp(r'[\u064B-\u065F\u0670\u0640\u200c\u200e\u200f]'), ' ');
-    s = s.replaceAll(RegExp(r'[^\w\s]'), ' ');
+    // نکتهٔ سازگاری: در Dart برخلاف Python، «\w» فقط ASCII است؛ بدون این
+    // کلاسِ یونیکد، حروف فارسی/عربی حذف می‌شوند. معادل یونیکدِ \w:
+    // حروف + علائم + ارقام + زیرخط (همسنگ _NONWORD_RE موتور ربات).
+    s = s.replaceAll(
+        RegExp(r'[^\p{L}\p{M}\p{N}_\s]', unicode: true), ' ');
     return s.trim().replaceAll(RegExp(r'\s+'), ' ');
   }
 
@@ -57,7 +71,9 @@ class SearchService {
       maxD = 2;
     } else if (q.length >= 4) {
       maxD = 1;
-    } else if (q.length == 3 && q.substring(0, 2) == d.substring(0, 2)) {
+    } else if (q.length == 3 &&
+        d.length >= 2 &&
+        q.substring(0, 2) == d.substring(0, 2)) {
       maxD = 1;
     } else {
       return false;

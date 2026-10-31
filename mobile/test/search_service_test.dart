@@ -21,7 +21,11 @@ SearchCategory _cat(String id, List<Map<String, dynamic>> items) =>
 void main() {
   test('نرمال‌سازی فارسی/عربی', () {
     expect(SearchService.normalize('بیمارستان كوثر'), 'بیمارستان کوثر');
-    expect(SearchService.normalize('  المُستشفى   الطبي  '), 'المستشفى الطبي');
+    // اعراب به فاصله تبدیل می‌شود و «ي» به «ی» — خروجی دقیقاً همسنگ
+    // موتور ربات (search_engine.normalize) برای یکدستی نتایج.
+    expect(SearchService.normalize('  المُستشفى   الطبي  '), 'الم ستشفى الطبی');
+    // ارقام فارسی/عربی → ASCII (همسنگ _CHAR_MAP ربات)
+    expect(SearchService.normalize('کوثر ۱۲'), 'کوثر 12');
   });
 
   test('جست‌وجوی فارسی ساده', () {

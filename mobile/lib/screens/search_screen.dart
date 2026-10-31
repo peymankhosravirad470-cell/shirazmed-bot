@@ -38,7 +38,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations(context);
+    final loc = AppLocalizations.of(context);
     final lang = AppState.language.value;
     return Scaffold(
       appBar: AppBar(title: Text(loc.t('search'))),
@@ -90,7 +90,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   : Text(hit.item.subtitle,
                                       maxLines: 1, overflow: TextOverflow.ellipsis),
                               trailing: Text(catLabel,
-                                  style: TextStyle(color: AppColors.muted, fontSize: 11)),
+                                  style: const TextStyle(color: AppColors.muted, fontSize: 11)),
                               onTap: () {
                                 // نتیجهٔ واقعی داده؛ صفحهٔ جزئیات در نسخهٔ بعد
                                 // از API عمومی تغذیه می‌شود.
