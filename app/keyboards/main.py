@@ -17,12 +17,15 @@ def get_language_keyboard() -> InlineKeyboardMarkup:
 def get_main_menu_keyboard(lang: str) -> InlineKeyboardMarkup:
     keys = [
         "medical", "non_medical", "tourism", "paramedical", "elderly", "package",
-        "hubs", "taxi", "insurance", "translator", "charter", "deepseek",
+        "hubs", "taxi", "insurance", "translator", "charter",
         "file", "appointments", "medication", "emergency", "channel", "invite", "rights",
         # 🆕 اتصال داده‌های موجود (درخواست کاربر ۱۴۰۴/۰۸/۰۸): راهنمای بیمار
         # (patient_guide.json با ۲۹ راهنما) و مراکز پشتیبانی (support.json با ۸
         # مرکز) از قبل هندلر داشتند ولی «هیچ دکمه‌ای» به آن‌ها وصل نبود.
         "patient_guide", "support",
+        # 🆕 مأموریت آیتم ۱: دستیار هوشمند اختصاصی (جایگزین لینک بیرونی deepseek)
+        # دکمهٔ deepseek حذف شد؛ هندلرش برای منوهای قدیمی که روی صفحه مانده‌اند می‌ماند.
+        "ai_assistant",
     ]
     
     # چیدمان: ۲ دکمه در هر ردیف با استفاده از get_msg_btn (که زبان را در نظر می‌گیرد)

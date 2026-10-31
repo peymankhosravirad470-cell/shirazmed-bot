@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+import asyncio
 import logging
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import ContextTypes
 
 from app.keyboards.main import (
+    get_back_keyboard,
     get_language_keyboard,
     get_main_menu_keyboard,
 )
@@ -231,6 +233,29 @@ async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     # بیمارها هیچ دکمه یا دستوری از آن نمی‌بینند).
     if (context.args or []) and str(context.args[0]).strip().lower() == "docreg":
         return
+    # 🆕 سیستم ارجاع (مأموریت آیتم ۱۹): شناسهٔ عددی (لینک‌های قدیمی
+    # ble.ir?start=<user_id>) یا کد SM... به‌عنوان معرف ثبت می‌شود.
+    # ثبت ارجاع هرگز نباید مسیر /start را بشکند — کل بلوک ایزوله است.
+    user = update.effective_user
+    if (context.args or []) and user is not None:
+        try:
+            from app.services import referral
+            referrer_id = referral.parse_referral_code(str(context.args[0]))
+            if referrer_id and referrer_id != user.id:
+                if referral.record_referral(referrer_id, user.id, user.username or ""):
+                    try:
+                        await context.bot.send_message(
+                            chat_id=referrer_id,
+                            text=(
+                                "🎉 یک کاربر جدید با لینک شما وارد شد!\n\n"
+                                "🎁 با اولین پرداختِ او، ۱۰٪ تخفیف واقعی روی نوبت بعدیِ خودتان فعال می‌شود.\n"
+                                "(A new user joined via your referral link!)"
+                            ),
+                        )
+                    except Exception as notify_error:
+                        logger.info("referral notify skipped: %s", notify_error)
+        except Exception as referral_error:
+            logger.warning("referral record failed: %s", referral_error)
     lang = context.user_data.get("lang")
     if not lang:
         await context.bot.send_message(
@@ -399,14 +424,48 @@ async def feedback_no_handler(update: Update, context: ContextTypes.DEFAULT_TYPE
     )
 
 
-async def feedback_text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """دریافت متن نظر ناراضی و ارسال برای ادمین.
+async def _ai_chat_reply(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """پاسخ دستیار هوشمند — الگوی awaiting_feedback؛ پرچم در ریست گفتگوها پاک می‌شود.
 
-    🎯 فیکس: قبلاً از متغیر محیطی ADMIN_ID خوانده می‌شد که هیچ‌جا مستند/تنظیم
-    نشده بود — در نتیجه نظرات ناراضی هرگز به ادمین نمی‌رسید. حالا از
-    settings.admin_chat_id (متغیر ADMIN_CHAT_ID، همان که survey.py استفاده می‌کند)
-    خوانده می‌شود.
+    فراخوانی شبکه‌ای LLM در ترد جدا انجام می‌شود تا حلقهٔ ربات بلاک نشود.
+    تاریخچهٔ کوتاه (۶ پیام آخر) برای پیوستگی گفتگو نگه داشته می‌شود.
     """
+    from app.services import ai_assistant
+    message = update.message
+    if message is None or update.effective_chat is None:
+        return
+    user_text = (message.text or "").strip()
+    if not user_text:
+        return
+    lang = _get_lang(context)
+    history = list(context.user_data.get("ai_history") or [])[-6:]
+    try:
+        result = await asyncio.to_thread(ai_assistant.smart_answer, user_text, lang, history)
+    except Exception as error:
+        logger.warning("ai answer failed: %s", error)
+        result = {"ok": True, "text": ai_assistant.fallback_answer(user_text, lang), "mode": "fallback"}
+    text = str(result.get("text") or ai_assistant.fallback_answer(user_text, lang))
+    history += [
+        {"role": "user", "content": user_text[:500]},
+        {"role": "assistant", "content": text[:500]},
+    ]
+    context.user_data["ai_history"] = history[-12:]
+    try:
+        await message.reply_text(text, reply_markup=get_back_keyboard(lang))
+    except Exception as error:
+        logger.warning("ai reply send failed: %s", error)
+
+
+async def feedback_text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """مسیر متن آزاد کاربر: دستیار هوشمند (پرچم ai_chat) یا نظر ناراضی.
+
+    🆕 مأموریت آیتم ۱: اگر کاربر از «دستیار هوشمند» وارد شده باشد، متنش به
+    سرویس ai_assistant می‌رود (بدون تشخیص پزشکی؛ ارجاع به پزشک/اورژانس).
+    وگرنه رفتار قبلی (نظر ناراضی → ادمین) دست‌نخورده می‌ماند.
+    """
+    if context.user_data.get("ai_chat"):
+        await _ai_chat_reply(update, context)
+        return
     if not context.user_data.get("awaiting_feedback"):
         return
     context.user_data["awaiting_feedback"] = False

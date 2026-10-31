@@ -288,6 +288,7 @@ MSG_BTN = {
     "rights": "⚖️ Patient Rights",
     "patient_guide": "📖 Patient Guide",
     "support": "🤝 Support Centers",
+    "ai_assistant": "🤖 AI Assistant",
 }
 
 INSURANCE_FIELD_LABELS = {

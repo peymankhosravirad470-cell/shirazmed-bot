@@ -153,6 +153,29 @@ _T: dict[str, dict[str, str]] = {
     # ── نوبت‌ها / پکیج ──
     "apt_book_new": {"fa": "📅 رزرو نوبت جدید", "en": "📅 Book New Appointment", "ar": "📅 حجز موعد جديد"},
     "package_text": {"fa": "💎 پکیج کامل گردشگری سلامت\n\nپکیج کامل شامل همه‌ی خدمات به‌صورت یکجا است:\n• هماهنگی نوبت پزشک و بیمارستان\n• اقامت\n• ترانسفر\n• مترجم همراه\n\n📞 برای سفارش، با پشتیبانی تماس بگیرید: 190", "en": "💎 Complete Health Tourism Package\n\nThe full package includes all services in one place:\n• Doctor & hospital appointment coordination\n• Accommodation\n• Transfer\n• Companion translator\n\n📞 To order, contact support: 190", "ar": "💎 باقة السياحة العلاجية الكاملة\n\nتشمل الباقة الكاملة جميع الخدمات في مكان واحد:\n• تنسيق موعد الطبيب والمستشفى\n• الإقامة\n• النقل\n• مترجم مرافق\n\n📞 للطلب، تواصل مع الدعم: 190"},
+    # ── 🆕 مأموریت ۲۰ قابلیت: دستیار هوشمند (۱)، پیگیری نوبت (۵)، پرونده (۶)، ارجاع (۱۹)، پکیج (۱۲) ──
+    "ai_title": {"fa": "🤖 دستیار هوشمند شیراز مدیکال", "en": "🤖 Shiraz Medical AI Assistant", "ar": "🤖 المساعد الذكي لشيراز ميديكال"},
+    "ai_intro_smart": {"fa": "هر سؤالی دربارهٔ خدمات، هزینه‌ها، اقامت، ترانسفر یا مسیر درمان دارید بپرسید.\n\n⚠️ من تشخیص و تجویز نمی‌کنم؛ در موارد پزشکی حساس شما را به پزشک یا اورژانس ۱۱۵ ارجاع می‌دهم.\n\n💬 سؤالتان را بنویسید (برای پایان، «بازگشت به منو» را بزنید):", "en": "Ask anything about services, costs, accommodation, transfer or your treatment path.\n\n⚠️ I do not diagnose or prescribe; for sensitive medical matters I refer you to a doctor or emergency 115.\n\n💬 Type your question (tap “Back to menu” to finish):", "ar": "اسأل عن أي شيء يخص الخدمات والتكاليف والإقامة والنقل ومسار العلاج.\n\n⚠️ لا أشخّص ولا أصف الدواء؛ في الحالات الطبية الحساسة أحوّلك إلى طبيب أو الطوارئ 115.\n\n💬 اكتب سؤالك (اضغط «العودة للقائمة» للانتهاء):"},
+    "ai_intro_guide": {"fa": "دستیار در «حالت راهنما» است و سؤال شما را به بخش مناسب ربات وصل می‌کند.\n\n💬 سؤالتان را بنویسید (مثلاً «نوبت قلب» یا «هتل نزدیک بیمارستان»):\n\nبرای پایان، «بازگشت به منو» را بزنید.", "en": "The assistant is in guide mode and routes your question to the right part of this bot.\n\n💬 Type your question (e.g. “heart appointment” or “hotel near hospital”):\n\nTap “Back to menu” to finish.", "ar": "المساعد في «وضع الإرشاد» ويوجّه سؤالك إلى القسم المناسب من البوت.\n\n💬 اكتب سؤالك (مثل «موعد قلب» أو «فندق قريب من المستشفى»):\n\nاضغط «العودة للقائمة» للانتهاء."},
+    "ai_error": {"fa": "⚠️ الان نتوانستم پاسخ بدهم؛ لطفاً کمی بعد دوباره بنویسید.", "en": "⚠️ I couldn't answer right now; please try again shortly.", "ar": "⚠️ لم أستطع الإجابة الآن؛ يرجى المحاولة بعد قليل."},
+    "apt_list_title": {"fa": "📅 نوبت‌های شما:", "en": "📅 Your appointments:", "ar": "📅 مواعيدك:"},
+    "apt_line_pending": {"fa": "⏳ {doctor} — {date} ساعت {time} — در انتظار پرداخت", "en": "⏳ {doctor} — {date} at {time} — awaiting payment", "ar": "⏳ {doctor} — {date} الساعة {time} — بانتظار الدفع"},
+    "apt_line_paid": {"fa": "✅ {doctor} — {date} ساعت {time} — پرداخت‌شده", "en": "✅ {doctor} — {date} at {time} — paid", "ar": "✅ {doctor} — {date} الساعة {time} — مدفوع"},
+    "apt_cancel_btn": {"fa": "❌ لغو این نوبت", "en": "❌ Cancel this appointment", "ar": "❌ إلغاء هذا الموعد"},
+    "apt_cancelled_ok": {"fa": "✅ نوبت لغو و اسلات آزاد شد؛ می‌توانید نوبت جدید بگیرید.", "en": "✅ Appointment cancelled and the slot is free again; you can book a new one.", "ar": "✅ تم إلغاء الموعد وتحرير الوقت؛ يمكنك الحجز من جديد."},
+    "apt_cancel_fail": {"fa": "⚠️ این نوبت قابل لغو نبود (پرداخت‌شده یا منقضی). برای نوبت پرداخت‌شده با پشتیبانی ۱۹۰ تماس بگیرید.", "en": "⚠️ This appointment can't be cancelled here (paid or expired). For a paid one, contact support 190.", "ar": "⚠️ لا يمكن إلغاء هذا الموعد هنا (مدفوع أو منتهٍ). للمواعيد المدفوعة تواصل مع الدعم 190."},
+    "pf_title": {"fa": "🎫 پروندهٔ سلامت شما", "en": "🎫 Your health record", "ar": "🎫 ملفك الصحي"},
+    "pf_apt_head": {"fa": "\n📅 نوبت‌ها:", "en": "\n📅 Appointments:", "ar": "\n📅 المواعيد:"},
+    "pf_nid_line": {"fa": "🆔 کد ملی: {nid}", "en": "🆔 National ID: {nid}", "ar": "🆔 الرقم الوطني: {nid}"},
+    "pf_meds_line": {"fa": "\n💊 یادآورهای داروی فعال: {count}", "en": "\n💊 Active medication reminders: {count}", "ar": "\n💊 تذكيرات الدواء النشطة: {count}"},
+    "pf_pay_line": {"fa": "\n💳 پرداخت‌های تأییدشده: {count} | آخرین کد رهگیری: {ref}", "en": "\n💳 Verified payments: {count} | Last tracking code: {ref}", "ar": "\n💳 الدفعات المؤكدة: {count} | آخر رمز تتبع: {ref}"},
+    "pf_privacy": {"fa": "\n🔒 محرمانگی: این پرونده فقط با حساب خودتان قابل مشاهده است و کد ملی ماسک نمایش داده می‌شود.", "en": "\n🔒 Privacy: visible only to your own account; your national ID is masked.", "ar": "\n🔒 الخصوصية: يظهر هذا الملف لحسابك فقط والرقم الوطني مُقنّع."},
+    "ref_intro": {"fa": "🔗 معرفی به دوستان\n\nلینک اختصاصی شما:\n{link}\n\nکد شما: {code}", "en": "🔗 Refer a friend\n\nYour personal link:\n{link}\n\nYour code: {code}", "ar": "🔗 إحالة صديق\n\nرابطك الشخصي:\n{link}\n\nرمزك: {code}"},
+    "ref_stats": {"fa": "\n📊 آمار: {joined} عضو | {paid} پرداخت‌شده | پاداش فعال: {available} | مصرف‌شده: {used}", "en": "\n📊 Stats: {joined} joined | {paid} paid | available rewards: {available} | used: {used}", "ar": "\n📊 الإحصاء: {joined} منضم | {paid} مدفوع | مكافآت متاحة: {available} | مستخدمة: {used}"},
+    "pkg_list_title": {"fa": "💎 بسته‌های گردشگری سلامت:", "en": "💎 Health-tourism packages:", "ar": "💎 باقات السياحة العلاجية:"},
+    "pkg_duration": {"fa": "⏳ مدت پیشنهادی: {dur}", "en": "⏳ Suggested duration: {dur}", "ar": "⏳ المدة المقترحة: {dur}"},
+    "pkg_components_title": {"fa": "📋 شامل:", "en": "📋 Includes:", "ar": "📋 تشمل:"},
+    "pkg_book_hint": {"fa": "👇 برای شروع، نوبت ویزیت را بگیرید:", "en": "👇 To start, book the visit:", "ar": "👇 للبدء احجز الكشف:"},
     # ── تیترهای پیش‌فرض (fallback) ──
     "charter_title_fb": {"fa": "منشور حقوق بیمار", "en": "Patient Rights Charter", "ar": "ميثاق حقوق المريض"},
     "deepseek_title_fb": {"fa": "دستیار هوشمند DeepSeek", "en": "DeepSeek AI Assistant", "ar": "مساعد DeepSeek الذكي"},
@@ -859,23 +882,110 @@ async def show_deepseek(update: Update, context: ContextTypes.DEFAULT_TYPE, lang
 
 
 async def show_file(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    """🆕 پروندهٔ من (مأموریت آیتم ۶): تجمیع واقعی داده‌های خود کاربر + محرمانگی.
+
+    قبلاً این دکمه همیشه «پرونده‌ای ندارید» می‌گفت. حالا: نوبت‌ها، یادآور دارو
+    و پرداخت‌های تأییدشده از فایل‌های runtime همان کاربر خوانده می‌شود؛ کد ملی
+    فقط ماسک نمایش داده می‌شود و هیچ داده‌ای برای دیگران قابل دسترسی نیست.
+    """
     if update.effective_chat is None: return
     try:
-        msg = _msg(lang, "pt_not_found", _t(lang, "empty_generic"))
-        await _display(update, context, msg, get_back_keyboard(lang))
+        user_id = update.effective_user.id if update.effective_user else 0
+        from app.services.booking import format_jalali, get_user_appointments
+        from app.services.payment import _load_transactions
+        from app.handlers.meds import get_chat_meds
+        appointments = get_user_appointments(user_id) if user_id else []
+        meds_count = len(get_chat_meds(user_id)) if user_id else 0
+        transactions = _load_transactions(user_id) if user_id else []
+        verified = [t for t in transactions if isinstance(t, dict) and t.get("status") == "verified"]
+        if not appointments and meds_count == 0 and not verified:
+            msg = _msg(lang, "pt_not_found", _t(lang, "empty_generic"))
+            await _display(update, context, msg, get_back_keyboard(lang))
+            return
+        lines = [_t(lang, "pf_title")]
+        nid = ""
+        if appointments:
+            nid = str(appointments[0].get("national_code", "") or "")
+            lines.append(_t(lang, "pf_apt_head"))
+            for appointment in appointments[:5]:
+                try:
+                    date_str = format_jalali(str(appointment.get("date", "")))
+                except Exception:
+                    date_str = str(appointment.get("date", ""))
+                key = "apt_line_paid" if appointment.get("status") == "paid" else "apt_line_pending"
+                lines.append(_t(lang, key, doctor=str(appointment.get("doctor_name", "")), date=date_str, time=str(appointment.get("time", ""))))
+        if len(nid) >= 4:
+            lines.append(_t(lang, "pf_nid_line", nid="***" + nid[-4:]))
+        lines.append(_t(lang, "pf_meds_line", count=meds_count))
+        if verified:
+            last_ref = str(verified[-1].get("ref_id", "") or "—")
+            lines.append(_t(lang, "pf_pay_line", count=len(verified), ref=last_ref))
+        lines.append(_t(lang, "pf_privacy"))
+        await _display(update, context, "\n".join(lines), get_back_keyboard(lang))
     except Exception:
         await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))
 
 
 async def show_appointments(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    """🆕 پیگیری نوبت (مأموریت آیتم ۵): لیست واقعی + لغو نوبتِ در انتظار پرداخت.
+
+    قبلاً همیشه «هیچ نوبتی ندارید» نمایش داده می‌شد و get_user_appointments
+    بلااستفاده بود. حالا نوبت‌های pending/paid واقعی نمایش داده می‌شود و نوبت
+    پرداخت‌نشده دکمهٔ لغو دارد (فقط pending — fail-closed مثل خود سرویس).
+    """
     if update.effective_chat is None: return
     try:
-        msg = _msg(lang, "apt_none", _t(lang, "empty_generic"))
+        user_id = update.effective_user.id if update.effective_user else 0
+        from app.services.booking import format_jalali, get_user_appointments
+        appointments = get_user_appointments(user_id) if user_id else []
+        if not appointments:
+            msg = _msg(lang, "apt_none", _t(lang, "empty_generic"))
+            kb = InlineKeyboardMarkup([
+                [InlineKeyboardButton(_t(lang, "apt_book_new"), callback_data="start_booking")],
+                *get_back_keyboard(lang).inline_keyboard,
+            ])
+            await _display(update, context, msg, kb)
+            return
+        lines = [_t(lang, "apt_list_title")]
+        cancel_rows: list[list[InlineKeyboardButton]] = []
+        for appointment in appointments[:8]:
+            try:
+                date_str = format_jalali(str(appointment.get("date", "")))
+            except Exception:
+                date_str = str(appointment.get("date", ""))
+            is_pending = appointment.get("status") == "pending"
+            key = "apt_line_pending" if is_pending else "apt_line_paid"
+            lines.append(_t(lang, key, doctor=str(appointment.get("doctor_name", "")), date=date_str, time=str(appointment.get("time", ""))))
+            if is_pending:
+                cancel_rows.append([InlineKeyboardButton(
+                    _t(lang, "apt_cancel_btn"),
+                    callback_data=f"aptcancel_{appointment.get('date', '')}_{appointment.get('time', '')}",
+                )])
         kb = InlineKeyboardMarkup([
+            *cancel_rows,
             [InlineKeyboardButton(_t(lang, "apt_book_new"), callback_data="start_booking")],
             *get_back_keyboard(lang).inline_keyboard,
         ])
-        await _display(update, context, msg, kb)
+        await _display(update, context, "\n".join(lines), kb)
+    except Exception:
+        await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))
+
+
+async def apt_cancel_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """🆕 لغو نوبتِ در انتظار پرداخت توسط خود کاربر (فقط pending؛ سرویس fail-closed است)."""
+    query = update.callback_query
+    if query is None or update.effective_chat is None: return
+    try: await query.answer()
+    except Exception: pass
+    lang = context.user_data.get("lang", "fa")
+    try:
+        raw = (query.data or "")[len("aptcancel_"):]
+        date, _, time_str = raw.rpartition("_")
+        user_id = update.effective_user.id if update.effective_user else 0
+        from app.services.booking import cancel_appointment
+        ok = bool(date and time_str) and cancel_appointment(date=date, time=time_str, user_id=user_id)
+        text = _t(lang, "apt_cancelled_ok") if ok else _t(lang, "apt_cancel_fail")
+        await _display(update, context, text, get_back_keyboard(lang))
     except Exception:
         await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))
 
@@ -936,11 +1046,26 @@ async def show_channel(update: Update, context: ContextTypes.DEFAULT_TYPE, lang:
 
 
 async def show_invite(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    """🆕 ارجاع واقعی (مأموریت آیتم ۱۹): کد + لینک + آمار + پاداش صادقانه.
+
+    لینک همان قالب قدیمی ble.ir?start=<user_id> است تا لینک‌های پخش‌شده
+    قبلی هم کار کنند؛ حالا /start این شناسه را به‌عنوان معرفی ثبت می‌کند.
+    """
     if update.effective_chat is None: return
     try:
         user_id = update.effective_user.id if update.effective_user else 0
-        link = f"https://ble.ir/ShirazMedBot?start={user_id}"
-        await _display(update, context, _t(lang, "invite_text", link=link), get_back_keyboard(lang))
+        from app.services import referral
+        stats = referral.get_referral_stats(user_id) if user_id else {
+            "code": "—", "joined": 0, "paid": 0, "available_rewards": 0, "used_rewards": 0,
+        }
+        link = f"https://ble.ir/ShirazMedBot?start={user_id}" if user_id else "—"
+        text = "\n".join([
+            _t(lang, "ref_intro", link=link, code=stats.get("code", "—")),
+            _t(lang, "ref_stats", joined=stats.get("joined", 0), paid=stats.get("paid", 0),
+               available=stats.get("available_rewards", 0), used=stats.get("used_rewards", 0)),
+            referral.notify_text(lang),
+        ])
+        await _display(update, context, text, get_back_keyboard(lang))
     except Exception:
         await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))
 
@@ -1089,6 +1214,14 @@ async def main_menu_callback(update: Update, context: ContextTypes.DEFAULT_TYPE)
     # هیچ دکمه دیگری تغییر نکرده است.
     if data == "site":
         await _display(update, context, _t(lang, "site_soon"), get_back_keyboard(lang))
+        return
+
+    # 🆕 مأموریت ۲۰ قابلیت: دستیار هوشمند (آیتم ۱) + جزئیات بسته (آیتم ۱۲)
+    if data == "ai_assistant":
+        await show_ai_assistant(update, context, lang)
+        return
+    if data.startswith("pkg_"):
+        await show_package_detail(update, context, lang, pkg_id=data)  # شناسه کامل pkg_*
         return
 
     if data == "non_medical":
@@ -1292,12 +1425,90 @@ async def medical_browse_callback(update: Update, context: ContextTypes.DEFAULT_
 
 
 async def show_package(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    """🆕 بسته‌ها داده‌محور شد (مأموریت آیتم ۱۲): data/packages.json.
+
+    بسته‌ها فقط ترکیب خدماتِ ثبت‌شدهٔ همین مخزن‌اند (بیمارستان/هتل واقعی،
+    ترانسفر، مترجم، گشت) و هیچ مبلغ جعلی درج نشده — پانویس شفافیت هزینه
+    در خود فایل داده است. اگر فایل نبود، متن ثابت قبلی fallback می‌شود.
+    """
     if update.effective_chat is None: return
     try:
+        data = load_json("packages.json")
+        packages = data.get("packages", []) if isinstance(data, dict) else []
+        if not packages:
+            kb = InlineKeyboardMarkup([
+                [InlineKeyboardButton(get_msg_btn(lang, "btn_book"), callback_data="start_booking")],
+                *get_back_keyboard(lang).inline_keyboard,
+            ])
+            await _display(update, context, _t(lang, "package_text"), kb)
+            return
+        rows = []
+        for package in packages:
+            if not isinstance(package, dict) or not package.get("id"):
+                continue
+            title = package.get("title", {})
+            label = f"{package.get('icon', '💎')} {title.get(lang) or title.get('fa', '?')}"
+            rows.append([InlineKeyboardButton(label, callback_data=str(package["id"]))])
+        footer = str(data.get("footer", {}).get(lang) or data.get("footer", {}).get("fa", ""))
+        kb = InlineKeyboardMarkup([*rows, *get_back_keyboard(lang).inline_keyboard])
+        await _display(update, context, _t(lang, "pkg_list_title") + ("\n\n" + footer if footer else ""), kb)
+    except Exception:
+        await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))
+
+
+async def show_package_detail(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str, pkg_id: str) -> None:
+    """نمایش اجزای بسته با نام‌های واقعی (از خود داده) + هدایت به نوبت‌دهی."""
+    if update.effective_chat is None: return
+    try:
+        data = load_json("packages.json")
+        packages = data.get("packages", []) if isinstance(data, dict) else []
+        package = next((p for p in packages if isinstance(p, dict) and str(p.get("id")) == pkg_id), None)
+        if not package:
+            await show_package(update, context, lang)
+            return
+        title = package.get("title", {})
+        summary = package.get("summary", {})
+        duration = package.get("duration", {})
+        lines = [
+            f"{package.get('icon', '💎')} {title.get(lang) or title.get('fa', '')}",
+            "",
+            summary.get(lang) or summary.get("fa", ""),
+            _t(lang, "pkg_duration", dur=duration.get(lang) or duration.get("fa", "—")),
+            _t(lang, "pkg_components_title"),
+        ]
+        for component in package.get("components", []):
+            if not isinstance(component, dict):
+                continue
+            label = component.get("label", {})
+            role = label.get(lang) or label.get("fa", "")
+            place = component.get("place") or {}
+            place_name = place.get(f"name_{lang}") or place.get("name_fa") or ""
+            lines.append(f"• {role}" + (f": {place_name}" if place_name else ""))
+        footer = str(data.get("footer", {}).get(lang) or data.get("footer", {}).get("fa", ""))
+        if footer:
+            lines += ["", footer]
+        lines += ["", _t(lang, "pkg_book_hint")]
         kb = InlineKeyboardMarkup([
             [InlineKeyboardButton(get_msg_btn(lang, "btn_book"), callback_data="start_booking")],
             *get_back_keyboard(lang).inline_keyboard,
         ])
-        await _display(update, context, _t(lang, "package_text"), kb)
+        await _display(update, context, "\n".join(lines), kb)
+    except Exception:
+        await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))
+
+
+async def show_ai_assistant(update: Update, context: ContextTypes.DEFAULT_TYPE, lang: str) -> None:
+    """🆕 دستیار هوشمند (مأموریت آیتم ۱): ورود به پرسش‌وپاسخ — بدون تشخیص پزشکی.
+
+    پرچم ai_chat در user_data تنظیم می‌شود و متن بعدی کاربر در
+    feedback_text_handler به app/services/ai_assistant.py می‌رود (الگوی همان
+    awaiting_feedback؛ بدون ConversationHandler جدید تا ریست گفتگوها نشکند).
+    """
+    if update.effective_chat is None: return
+    try:
+        from app.services import ai_assistant
+        context.user_data["ai_chat"] = True
+        intro_key = "ai_intro_smart" if ai_assistant.is_configured() else "ai_intro_guide"
+        await _display(update, context, _t(lang, "ai_title") + "\n\n" + _t(lang, intro_key), get_back_keyboard(lang))
     except Exception:
         await _display(update, context, _t(lang, "err_generic"), get_back_keyboard(lang))

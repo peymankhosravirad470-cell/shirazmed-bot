@@ -43,6 +43,8 @@ from app.handlers.doctor_reg import (
     admin_registration_action,
     pending_command,
 )
+from app.handlers.callbacks import apt_cancel_callback  # 🆕 آیتم ۵: لغو نوبت توسط کاربر
+from app.handlers import admin_panel  # 🆕 مأموریت آیتم‌های ۱۷/۱۸: پنل ادمین
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -112,6 +114,7 @@ MENU_CALLBACKS: tuple[str, ...] = (
     "support",
     "site",
     "start_survey",
+    "ai_assistant",  # 🆕 مأموریت آیتم ۱: دستیار هوشمند اختصاصی
 )
 
 MENU_PATTERN = rf"^({'|'.join(MENU_CALLBACKS)})$"
@@ -169,6 +172,12 @@ async def reset_conversations_callback(update: Update, context: ContextTypes.DEF
         # بعد از ریست، اولین متن کاربر بی‌اجازه به‌عنوان نظر برای ادمین می‌رفت.
         try:
             context.user_data["awaiting_feedback"] = False
+        except Exception:
+            pass
+        # 🆕 مأموریت آیتم ۱: پرچم گفتگوی دستیار هوشمند هم با هر ناوبری پاک شود
+        # تا متن بعدی کاربر ناخواسته به AI نرود (الگوی awaiting_feedback).
+        try:
+            context.user_data["ai_chat"] = False
         except Exception:
             pass
         # 🧹 تسک ۳: قبل از هر ناوبری، پرامپت‌های ردیابی‌شده‌ی گفتگوها (نام/
@@ -301,6 +310,20 @@ def _register_handlers(application: Application) -> None:
         CallbackQueryHandler(main_menu_callback, pattern=MENU_PATTERN)
     )
 
+    # 🆕 مأموریت آیتم‌های ۵/۱۲/۱۹: لغو نوبتِ pending توسط کاربر + جزئیات بسته
+    # (الگوی main_menu_callback؛ جدا از MENU_PATTERN تا callback_dataهای پارامتری کار کنند)
+    application.add_handler(
+        CallbackQueryHandler(apt_cancel_callback, pattern=r"^aptcancel_.+")
+    )
+    application.add_handler(
+        CallbackQueryHandler(main_menu_callback, pattern=r"^pkg_[a-z0-9_]+$")
+    )
+
+    # 🆕 مأموریت آیتم‌های ۱۷/۱۸: پنل مدیریت (/admin /stats /bookings /referrals)
+    application.add_handler(
+        CommandHandler(("stats", "bookings", "referrals", "admin"), admin_panel.dispatch_admin_command, filters=PRIVATE_CHAT_ONLY)
+    )
+
     application.add_handler(
         CallbackQueryHandler(
             medical_browse_callback,
@@ -349,6 +372,12 @@ def build_application(platform: str = "bale") -> Application:
     async def _post_init(application: Application) -> None:
         runtime.bind_application(application)
         meds.schedule_all(application)
+        # 🆕 مأموریت آیتم ۱۴: بازیابی یادآورهای نوبت پس از ری‌استارت (الگوی meds)
+        try:
+            from app.services import apt_reminders
+            apt_reminders.reschedule_from_disk(application)
+        except Exception as reminder_error:
+            logger.warning("apt reminders restore failed: %s", reminder_error)
         logger.info("Post-init (%s): runtime bridge bound + med reminders scheduled.", platform)
 
     # 🆕 پل persistence جدا برای هر پلتفرم تا داده‌ی کاربران بله و تلگرام قاطی نشود
