@@ -234,6 +234,21 @@ MSG_BTN = {
 
     "btn_back": "🔙 رجوع",
     "btn_feedback": "💬 ملاحظات",
+    # 🆕 إصلاح «خلط اللغات»: مفاتيح القائمة التي لم يكن لها تسمية وكان نص
+    # الـ callback الخام (مثل start_booking) يظهر على الزر:
+    "start_booking": "📅 احجز موعدًا",
+    "start_feedback": "💬 ملاحظات",
+    "start_survey": "📝 استبيان الرضا",
+    "start_companion": "🤝 تسجيل مرافق",
+    "site": "🌐 الموقع الإلكتروني",
+    "non_hospitals": "🏥 المستشفيات",
+    "non_hotels": "🏨 الفنادق",
+    "non_motels": "🛏️ بيت ضيافة",
+    "non_tourist_houses": "🏠 بيت المسافر",
+    "non_transport": "🚗 النقل",
+    "tour_city": "🏛️ المعالم الحضرية",
+    "tour_outside": "🏞️ خارج المدينة",
+    "complaints_menu": "🧾 الشكاوى",
     "btn_change_lang": "🌐 تغيير اللغة",
     "btn_site": "🌐 رابط الموقع",
 

@@ -235,6 +235,21 @@ MSG_BTN = {
 
     "btn_back": "🔙 Back",
     "btn_feedback": "💬 Feedback",
+    # 🆕 fix "mixed language": menu keys that had no label and showed the raw
+    # callback text (e.g. start_booking) on buttons:
+    "start_booking": "📅 Book Appointment",
+    "start_feedback": "💬 Feedback",
+    "start_survey": "📝 Survey & Feedback",
+    "start_companion": "🤝 Register Companion",
+    "site": "🌐 Website",
+    "non_hospitals": "🏥 Hospitals",
+    "non_hotels": "🏨 Hotels",
+    "non_motels": "🛏️ Motels",
+    "non_tourist_houses": "🏠 Guest Houses",
+    "non_transport": "🚗 Transport",
+    "tour_city": "🏛️ City Attractions",
+    "tour_outside": "🏞️ Outside the City",
+    "complaints_menu": "🧾 Complaints",
     "btn_change_lang": "🌐 Change Language",
     "btn_site": "🌐 Website Address",
 

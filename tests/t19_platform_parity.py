@@ -38,7 +38,8 @@ MAIN_EXPECTED = {"search", "advisor", "emergency", "start_booking",
                  "ai_assistant", "btn_change_lang", "btn_site"}
 WIDE = ("emergency", "start_booking", "btn_site")
 CAT_EXPECTED = {
-    "cat_medical": {"medical", "non_hospitals", "paramedical", "insurance", "patient_guide", "emergency"},
+    # 🩹 فیکس «۲ منو اضطراری»: اورژانس فقط در منوی اصلی است؛ از cat_medical حذف شد
+    "cat_medical": {"medical", "non_hospitals", "paramedical", "insurance", "patient_guide"},
     "cat_travel": {"non_hotels", "non_motels", "non_tourist_houses", "non_transport", "hubs", "taxi"},
     "cat_tourism": {"tourism", "package", "tour_city", "tour_outside"},
     "cat_support": {"translator", "elderly", "support", "invite", "rights", "charter", "complaints_menu", "non_medical"},
@@ -152,6 +153,24 @@ async def main() -> int:
     fa_search, en_search = get_main_menu_keyboard("fa"), get_main_menu_keyboard("en")
     r.check("برچسب جست‌وجو در fa و en واقعاً متفاوت است (ترجمهٔ واقعی)",
             kb_rows(fa_search)[0][0][0] != kb_rows(en_search)[0][0][0])
+
+    # ══ بخش D2) فیکس «زبان قاطی‌شده»: هیچ دکمه‌ای متن خام callback ندارد ════
+    # (باگ واقعی 2026-10-31: ۱۳ کلید مثل start_booking/site/non_hotels برچسب
+    # نداشتند و خودِ کلید انگلیسی روی دکمه می‌نشست؛ این چک حالا «همهٔ» دکمه‌های
+    # منوی اصلی + ۶ زیرمنو در هر سه زبان را می‌پوشاند تا دیگر رخ ندهد)
+    raw_leaks = []
+    for _lang in LANGS:
+        _kbs = [("main", get_main_menu_keyboard(_lang))] + [
+            (name, fn(_lang)) for name, fn in CATEGORY_KEYBOARDS.items()
+        ]
+        for _name, _kb in _kbs:
+            for _row in kb_rows(_kb):
+                for _label, _cb in _row:
+                    # invariant درست: برچسبِ «خود دکمه» نباید همان callback خام باشد
+                    # (دکمهٔ بازگشت callback=back_main دارد ولی برچسبش btn_back است)
+                    if _label.strip() == _cb:
+                        raw_leaks.append(f"{_lang}:{_name}:{_cb}")
+    r.check("هیچ دکمه‌ای متن خام callback ندارد (۳ زبان × ۷ منو)", not raw_leaks, "; ".join(raw_leaks[:6]))
 
     # ══ بخش E) پاریتی سرتاسری: /start + انتخاب زبان روی هر دو پلتفرم ═══════
     app = await build_app()  # پلتفرم بله (هارنس استاندارد)

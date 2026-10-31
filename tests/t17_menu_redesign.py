@@ -31,7 +31,8 @@ OLD_SHELLS = {"non_medical"}
 # نقشهٔ دسترس‌پذیری: هر callback قدیمی از کدام سطح در دسترس است
 MAIN_EXPECTED = {"search", "advisor", "emergency", "start_booking", "ai_assistant", "change_language", "site"}
 CAT_EXPECTED = {
-    "cat_medical": {"medical", "non_hospitals", "paramedical", "insurance", "patient_guide", "emergency"},
+    # 🩹 فیکس «۲ منو اضطراری»: اورژانس فقط در منوی اصلی است؛ از cat_medical حذف شد
+    "cat_medical": {"medical", "non_hospitals", "paramedical", "insurance", "patient_guide"},
     "cat_travel": {"non_hotels", "non_motels", "non_tourist_houses", "non_transport", "hubs", "taxi"},
     "cat_tourism": {"tourism", "package", "tour_city", "tour_outside"},
     "cat_support": {"translator", "elderly", "support", "invite", "rights", "charter", "complaints_menu", "non_medical"},

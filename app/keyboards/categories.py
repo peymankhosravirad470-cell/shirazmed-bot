@@ -38,11 +38,16 @@ def _back_row(lang: str) -> list[InlineKeyboardButton]:
 
 
 def get_category_medical_keyboard(lang: str) -> InlineKeyboardMarkup:
-    """🏥 درمان و پزشکان: پزشکان/بیمارستان‌ها/پیراپزشکی/بیمه/راهنما."""
+    """🏥 درمان و پزشکان: پزشکان/بیمارستان‌ها/پیراپزشکی/بیمه/راهنما.
+
+    ⚠️ دکمهٔ «اضطراری» اینجا «تکراری» است (فیدبک مستقیم کاربر: «چرا ۲ تا منو
+    اضطراری هست؟») — اورژانس فقط یک دکمهٔ تمام‌عرض در منوی اصلی دارد؛ از
+    زیرمنوها حذف شد تا بیمار سردرگم نشود.
+    """
     rows = [
         _row(lang, ["medical", "non_hospitals"]),
         _row(lang, ["paramedical", "insurance"]),
-        _row(lang, ["patient_guide", "emergency"]),
+        _row(lang, ["patient_guide"]),
     ]
     rows.append(_back_row(lang))
     return InlineKeyboardMarkup(rows)
