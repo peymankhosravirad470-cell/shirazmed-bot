@@ -31,6 +31,7 @@ SUITES = [
     ("T16 مشاور سلامت + اورژانس", "t16_health_advisor.py"),
     ("T17 بازطراحی منو", "t17_menu_redesign.py"),
     ("T18 ساختار اپ Flutter (mobile)", "t18_mobile_structure.py"),
+    ("T19 پاریتی Bale↔Telegram + الزامات منو", "t19_platform_parity.py"),
 ]
 
 
