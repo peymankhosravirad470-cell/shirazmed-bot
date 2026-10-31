@@ -19,6 +19,7 @@ from telegram.ext import (
 
 from app.locales import get_msg_btn
 from app.services import doctor_loader
+from app.services import referral as referral_service
 from app.services.booking import (
     _now,
     add_appointment,
@@ -391,7 +392,19 @@ def _build_time_keyboard(lang: str, available_times: list[str]) -> InlineKeyboar
     return InlineKeyboardMarkup(rows)
 
 
-def _build_summary(data: BookingData, lang: str) -> str:
+def _effective_amount(user_id: int) -> int:
+    """🆕 مأموریت آیتم ۱۹: مبلغ واقعی قابل‌پرداخت کاربر — با تخفیف پاداش ارجاع.
+
+    تخفیف فقط از پاداشِ «پرداخت‌شده» فعال می‌شود و در نوبت/تراکنش با همان
+    مبلغ ذخیره/درخواست می‌شود تا تطبیق مبلغِ verify زرین‌پال هرگز نشکند.
+    سهم پزشک همیشه بر پایهٔ مبلغ کامل محاسبه می‌شود (تخفیف از بودجهٔ معرفی است).
+    """
+    pct = referral_service.get_available_discount_pct(user_id)
+    return APPOINTMENT_AMOUNT * (100 - pct) // 100
+
+
+def _build_summary(data: BookingData, lang: str, amount: int | None = None) -> str:
+    shown = amount if amount is not None else APPOINTMENT_AMOUNT
     return _t(
         lang,
         "summary",
@@ -400,7 +413,7 @@ def _build_summary(data: BookingData, lang: str) -> str:
         doctor=data.doctor_name,
         date=format_jalali(data.date),
         time=data.time,
-        amount=f"{APPOINTMENT_AMOUNT:,} {_t(lang, 'toman')}",
+        amount=f"{shown:,} {_t(lang, 'toman')}",
     )
 
 
@@ -709,7 +722,9 @@ async def select_time(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int
         return SELECT_TIME
     data.time = slot
     data.save_to(context)
-    await query.edit_message_text(_build_summary(data, lang), reply_markup=_build_confirm_keyboard(lang))
+    # 🆕 مأموریت آیتم ۱۹: خلاصه با مبلغ واقعی (تخفیف پاداش ارجاع) نمایش داده شود
+    summary_amount = _effective_amount(update.effective_user.id) if update.effective_user else APPOINTMENT_AMOUNT
+    await query.edit_message_text(_build_summary(data, lang, amount=summary_amount), reply_markup=_build_confirm_keyboard(lang))
     return CONFIRM_BOOKING
 
 
@@ -732,6 +747,11 @@ async def confirm_booking(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     user = update.effective_user
     user_id = user.id if user else 0
 
+    # 🆕 مأموریت آیتم ۱۹: مبلغ واقعی با تخفیف پاداش ارجاع (۰ یا ۱۰٪) —
+    # نوبت و تراکنش هر دو با همین مبلغ ثبت می‌شوند تا verify زرین‌پال بماند.
+    discount_pct = referral_service.get_available_discount_pct(user_id)
+    payable_amount = APPOINTMENT_AMOUNT * (100 - discount_pct) // 100
+
     appointment = {
         "user_id": user_id,
         "full_name": data.name,
@@ -742,8 +762,11 @@ async def confirm_booking(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         "doctor_name": data.doctor_name,
         "date": data.date,
         "time": data.time,
-        "amount": APPOINTMENT_AMOUNT,
+        "amount": payable_amount,
+        "discount_pct": discount_pct,
+        "lang": lang,
         "commission_rate": 0.0,
+        # سهم پزشک بر پایهٔ مبلغ کامل (تخفیف از بودجهٔ معرفی است، نه جیب پزشک)
         "commission_amount": calculate_commission(APPOINTMENT_AMOUNT, 0.0),
         "doctor_share": APPOINTMENT_AMOUNT - calculate_commission(APPOINTMENT_AMOUNT, 0.0),
         "status": "pending",
@@ -769,10 +792,18 @@ async def confirm_booking(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
     data.confirmed = True
     data.save_to(context)
 
+    # 🆕 مأموریت آیتم ۱۹: مصرف پاداش فقط «بعد از ثبت موفق نوبت» — اگر ثبت
+    # شکست می‌خورد، پاداش دست‌نخورده می‌ماند (بدون از دست رفتن حق کاربر).
+    if discount_pct:
+        try:
+            referral_service.consume_reward(user_id)
+        except Exception as reward_error:
+            logger.warning("reward consume failed for user %s: %s", user_id, reward_error)
+
     try:
         payment_response = await _request_payment_safe(
             user_id=user_id,
-            amount=APPOINTMENT_AMOUNT,
+            amount=payable_amount,  # 🆕 آیتم ۱۹: مبلغ با تخفیف پاداش — همان مبلغِ نوبت
             description=f"نوبت {data.doctor_name} - {data.date} {data.time}",
             callback_url=_build_payment_callback_url(user_id),
             extra={
@@ -801,7 +832,7 @@ async def confirm_booking(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
                 doctor=data.doctor_name,
                 date=format_jalali(data.date),
                 time=data.time,
-                amount=f"{APPOINTMENT_AMOUNT:,} {_t(lang, 'toman')}",
+                amount=f"{payable_amount:,} {_t(lang, 'toman')}",
                 link=payment_link,
             ),
             reply_markup=_end_keyboard(lang),

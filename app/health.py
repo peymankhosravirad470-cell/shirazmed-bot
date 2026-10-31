@@ -194,6 +194,26 @@ def _handle_payment_callback(query: dict) -> tuple[int, str]:
             user_id, ref_id=ref_id, doctor_name=doctor_name, jalali=jalali, time=time,
             amount=tx_amount, authority=authority, lang=lang, full_name=full_name,
         ))
+        # 🆕 مأموریت آیتم ۱۹: اولین پرداخت موفقِ معرفی‌شده → پاداش معرف فعال می‌شود
+        # (ایزوله — هر شکستی جریان پرداخت را نمی‌شکند)
+        try:
+            from app.services import referral as _referral
+            _referral.mark_referral_paid(user_id)
+        except Exception as referral_error:
+            logger.warning("referral mark_paid failed user=%s: %s", user_id, referral_error)
+        # 🆕 مأموریت آیتم ۱۴: زمان‌بندی یادآور نوبت (۲۴ و ۲ ساعت قبل) — ایزوله
+        try:
+            from app.services import apt_reminders as _apt_reminders
+            app_obj = runtime.get_application()
+            if app_obj is not None and date and time:
+                _apt_reminders.schedule_appointment_reminders(
+                    app_obj,
+                    {"status": "paid", "date": date, "time": time,
+                     "doctor_name": doctor_name, "lang": lang, "user_id": user_id},
+                    user_id,
+                )
+        except Exception as reminder_error:
+            logger.warning("apt reminder scheduling failed user=%s: %s", user_id, reminder_error)
     else:
         # 🆕 ممیزی (C.6): پول تایید شده ولی قطعی‌سازی نوبت شکست خورده → هرگز
         # «نوبت قطعی شد» نمی‌گوییم؛ پیام صادقانه + هشدار عملیاتی برای ادمین.
@@ -364,6 +384,42 @@ class _HealthHandler(BaseHTTPRequestHandler):
                 logger.error("خطای هندل callback پرداخت: %s", error)
                 traceback.print_exc()
                 self._respond(500, _page("⚠️", _ht("fa", "page_error_title"), _ht("fa", "page_error_body"), "#dc2626", lang="fa"))
+            return
+        # 🆕 مأموریت آیتم ۲۰: API عمومی فقط‌خواندنی برای وب‌سایت/اپ‌های آینده.
+        # فقط دادهٔ عمومی (بیمارستان‌ها/نام پزشکان) — هیچ دادهٔ بیمار؛ POST ندارد.
+        if parsed.path == "/api/v1/status":
+            self._respond(200, json.dumps(
+                {"status": "ok", "service": "shirazmed-bot",
+                 "time": datetime.now().isoformat(timespec="seconds")},
+                ensure_ascii=False,
+            ), content_type="application/json; charset=utf-8")
+            return
+        if parsed.path in ("/api/v1/hospitals", "/api/v1/doctors"):
+            try:
+                if parsed.path.endswith("hospitals"):
+                    from app.handlers.callbacks import load_json as _load_json
+                    items = _load_json("hospitals.json")
+                    if not isinstance(items, list):
+                        items = []
+                else:
+                    from app.services import doctor_loader as _dl
+                    items = []
+                    for spec in _dl.load_specialties():
+                        key = spec.get("key") if isinstance(spec, dict) else None
+                        if not key:
+                            continue
+                        for doc in _dl.load_doctors(key):
+                            if isinstance(doc, dict):
+                                items.append({
+                                    "name": doc.get("name_fa", ""),
+                                    "specialty": doc.get("specialty_fa", ""),
+                                })
+                self._respond(200, json.dumps(
+                    {"count": len(items), "items": items}, ensure_ascii=False,
+                ), content_type="application/json; charset=utf-8")
+            except Exception as error:  # pragma: no cover
+                logger.error("api endpoint failed: %s", error)
+                self._respond(500, json.dumps({"error": "internal"}), content_type="application/json; charset=utf-8")
             return
         self._respond(404, "Not Found")
 

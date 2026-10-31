@@ -181,4 +181,5 @@ MSG_BTN = {
     'support': '🤝 مراکز پشتیبانی',
     'btn_change_lang': '🌐 تغییر زبان',
     'btn_site': '🌐 آدرس سایت',
+    'ai_assistant': '🤖 دستیار هوشمند',
 }

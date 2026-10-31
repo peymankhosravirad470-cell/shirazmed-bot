@@ -1,0 +1,260 @@
+{
+ "version": 1,
+ "footer": {
+  "fa": "💰 شفافیت هزینه: ویزیت پایه ۱۰۰٬۰۰۰ تومان است و در پرداخت آنلاین نمایش داده می‌شود؛ اقامت و ترانسفر و سایر خدمات بسته به انتخاب شما محاسبه می‌شود و هیچ مبلغ جعلی در این بسته‌ها درج نشده است.",
+  "en": "💰 Cost transparency: the base visit fee is 100,000 Toman (shown at online payment); stay/transfer and other services are calculated per your choices — no invented prices are listed in these packages.",
+  "ar": "💰 شفافية التكلفة: أجرة الكشف الأساسية 100,000 تومان (تظهر عند الدفع)؛ الإقامة والنقل وغيرها حسب اختيارك — لا توجد أسعار مُختلقة في هذه الباقات."
+ },
+ "packages": [
+  {
+   "id": "pkg_general",
+   "icon": "🩺",
+   "title": {
+    "fa": "بستهٔ درمان عمومی شیراز",
+    "en": "Shiraz General Treatment Package",
+    "ar": "باقة العلاج العامة في شيراز"
+   },
+   "summary": {
+    "fa": "ویزیت پزشک + بیمارستان تخصصی + اقامت + ترانسفر فرودگاهی + گشت نیم‌روزه. مبنای انتخاب: بیمارستان‌ها و هتل‌های ثبت‌شده در همین ربات.",
+    "en": "Doctor visit + specialty hospital + stay + airport transfer + half-day tour. Built from hospitals and hotels already listed in this bot.",
+    "ar": "كشف طبيب + مستشفى تخصصي + إقامة + نقل من المطار + جولة نصف يوم. مبنية على المستشفيات والفنادق المسجّلة في هذا البوت."
+   },
+   "duration": {
+    "fa": "۱ تا ۳ روز",
+    "en": "1–3 days",
+    "ar": "1–3 أيام"
+   },
+   "components": [
+    {
+     "role": "visit",
+     "label": {
+      "fa": "نوبت ویزیت پزشک",
+      "en": "Doctor visit appointment",
+      "ar": "موعد كشف الطبيب"
+     }
+    },
+    {
+     "role": "hospital",
+     "label": {
+      "fa": "بیمارستان",
+      "en": "Hospital",
+      "ar": "المستشفى"
+     },
+     "place": {
+      "role": "hospital",
+      "name_fa": "بیمارستان تخصصی و فوق تخصصی اردیبهشت",
+      "name_en": "Ordibehesht Hospital",
+      "name_ar": "مستشفى أرديبهشت التخصصي"
+     }
+    },
+    {
+     "role": "hotel",
+     "label": {
+      "fa": "اقامت پیشنهادی",
+      "en": "Suggested stay",
+      "ar": "الإقامة المقترحة"
+     },
+     "place": {
+      "role": "hotel",
+      "name_fa": "هتل بزرگ شیراز",
+      "name_en": "Grand Shiraz Hotel",
+      "name_ar": "فندق شيراز الكبير"
+     }
+    },
+    {
+     "role": "transfer",
+     "label": {
+      "fa": "ترانسفر فرودگاهی رفت‌وبرگشت",
+      "en": "Round-trip airport transfer",
+      "ar": "النقل من وإلى المطار"
+     }
+    },
+    {
+     "role": "translator",
+     "label": {
+      "fa": "هماهنگی مترجم (درخواستی)",
+      "en": "Translator arrangement (on request)",
+      "ar": "ترتيب مترجم (عند الطلب)"
+     }
+    },
+    {
+     "role": "tour",
+     "label": {
+      "fa": "گشت شهر",
+      "en": "City tour",
+      "ar": "جولة في المدينة"
+     },
+     "place": {
+      "name_fa": "ارگ کریم‌خان",
+      "name_en": "Karim Khan Citadel",
+      "name_ar": "قلعة كريم‌خان"
+     }
+    }
+   ]
+  },
+  {
+   "id": "pkg_eye",
+   "icon": "👁",
+   "title": {
+    "fa": "بستهٔ چشم‌پزشکی شیراز",
+    "en": "Shiraz Ophthalmology Package",
+    "ar": "باقة طب العيون في شيراز"
+   },
+   "summary": {
+    "fa": "ویزیت چشم‌پزشکی در بیمارستان چشم‌پزشکی ثبت‌شدهٔ ربات + اقامت + ترانسفر + گشت. سایر هزینه‌های درمانی طبق تعرفهٔ بیمارستان اعلام می‌شود.",
+    "en": "Eye visit at the bot's registered eye hospital + stay + transfer + tour. Other treatment costs are quoted by the hospital's official tariff.",
+    "ar": "كشف العيون في مستشفى العيون المسجّل في البوت + إقامة + نقل + جولة. أي تكاليف أخرى حسب تعريفة المستشفى."
+   },
+   "duration": {
+    "fa": "۱ تا ۳ روز",
+    "en": "1–3 days",
+    "ar": "1–3 أيام"
+   },
+   "components": [
+    {
+     "role": "visit",
+     "label": {
+      "fa": "نوبت ویزیت پزشک",
+      "en": "Doctor visit appointment",
+      "ar": "موعد كشف الطبيب"
+     }
+    },
+    {
+     "role": "hospital",
+     "label": {
+      "fa": "بیمارستان",
+      "en": "Hospital",
+      "ar": "المستشفى"
+     },
+     "place": {
+      "role": "hospital",
+      "name_fa": "بیمارستان تخصصی چشم‌پزشکی دکتر خدادوست",
+      "name_en": "Khodadoost Eye Hospital",
+      "name_ar": "مستشفى الدكتور خدادوست لطب العيون"
+     }
+    },
+    {
+     "role": "hotel",
+     "label": {
+      "fa": "اقامت پیشنهادی",
+      "en": "Suggested stay",
+      "ar": "الإقامة المقترحة"
+     },
+     "place": {
+      "role": "hotel",
+      "name_fa": "هتل زندیه شیراز",
+      "name_en": "Zandieh Hotel Shiraz",
+      "name_ar": "فندق زنديه شيراز"
+     }
+    },
+    {
+     "role": "transfer",
+     "label": {
+      "fa": "ترانسفر فرودگاهی رفت‌وبرگشت",
+      "en": "Round-trip airport transfer",
+      "ar": "النقل من وإلى المطار"
+     }
+    },
+    {
+     "role": "tour",
+     "label": {
+      "fa": "گشت شهر",
+      "en": "City tour",
+      "ar": "جولة في المدينة"
+     },
+     "place": {
+      "name_fa": "باغ ارم",
+      "name_en": "Eram Garden",
+      "name_ar": "حديقة ارم"
+     }
+    }
+   ]
+  },
+  {
+   "id": "pkg_mother_child",
+   "icon": "👶",
+   "title": {
+    "fa": "بستهٔ مادر و کودک شیراز",
+    "en": "Shiraz Mother & Child Package",
+    "ar": "باقة الأم والطفل في شيراز"
+   },
+   "summary": {
+    "fa": "ویزیت در بیمارستان فوق تخصصی مادر و کودک + اقامت + ترانسفر + مترجم (درخواستی) + گشت. مناسب بیماران خارجی با خانواده.",
+    "en": "Visit at the registered mother-and-child hospital + stay + transfer + translator (on request) + tour. Suitable for foreign patients with family.",
+    "ar": "كشف في مستشفى الأم والطفل المسجّل + إقامة + نقل + مترجم (عند الطلب) + جولة. مناسب للمرضى الأجانب مع العائلة."
+   },
+   "duration": {
+    "fa": "۲ تا ۴ روز",
+    "en": "2–4 days",
+    "ar": "2–4 أيام"
+   },
+   "components": [
+    {
+     "role": "visit",
+     "label": {
+      "fa": "نوبت ویزیت پزشک",
+      "en": "Doctor visit appointment",
+      "ar": "موعد كشف الطبيب"
+     }
+    },
+    {
+     "role": "hospital",
+     "label": {
+      "fa": "بیمارستان",
+      "en": "Hospital",
+      "ar": "المستشفى"
+     },
+     "place": {
+      "role": "hospital",
+      "name_fa": "بیمارستان فوق تخصصی مادر و کودک غدیر",
+      "name_en": "Ghadir Mother and Child Hospital",
+      "name_ar": "مستشفى غدير التخصصي للأم والطفل"
+     }
+    },
+    {
+     "role": "hotel",
+     "label": {
+      "fa": "اقامت پیشنهادی",
+      "en": "Suggested stay",
+      "ar": "الإقامة المقترحة"
+     },
+     "place": {
+      "role": "hotel",
+      "name_fa": "هتل هما شیراز",
+      "name_en": "Homa Hotel Shiraz",
+      "name_ar": "فندق هما شيراز"
+     }
+    },
+    {
+     "role": "transfer",
+     "label": {
+      "fa": "ترانسفر فرودگاهی رفت‌وبرگشت",
+      "en": "Round-trip airport transfer",
+      "ar": "النقل من وإلى المطار"
+     }
+    },
+    {
+     "role": "translator",
+     "label": {
+      "fa": "هماهنگی مترجم (درخواستی)",
+      "en": "Translator arrangement (on request)",
+      "ar": "ترتيب مترجم (عند الطلب)"
+     }
+    },
+    {
+     "role": "tour",
+     "label": {
+      "fa": "گشت شهر",
+      "en": "City tour",
+      "ar": "جولة في المدينة"
+     },
+     "place": {
+      "name_fa": "آرامگاه حافظ (حافظیه)",
+      "name_en": "Tomb of Hafez",
+      "name_ar": "مقبرة حافظ"
+     }
+    }
+   ]
+  }
+ ]
+}
