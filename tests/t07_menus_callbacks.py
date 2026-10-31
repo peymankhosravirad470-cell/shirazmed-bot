@@ -3,6 +3,7 @@
 بخش‌های گردشگری/پیراپزشکی/سالمندان/شکایات/بیمه/راهنما/پزشکان/رزرو/بازگشت، سه‌زبانه."""
 import asyncio
 import os
+import re
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -44,7 +45,10 @@ async def main() -> int:
     await process(make_cb_update(uid, "medical"))
     kb = kb_rows(REC.keyboards()[-1])
     labels = [b[0] for row in kb for b in row]
-    r.check("منوی پزشکی ۳ تخصص فعال دارد", sum(1 for l in labels if "(2" in l or "(1" in l or "(3" in l or "(23" in l or "(41" in l or "(50" in l) >= 3, str(labels))
+    # 🔧 CI-FIX: تعداد پزشکان هر شب با «Collect Doctors» تغییر می‌کند (مثلاً
+    # پوست‌ومو 50→51)؛ پس زیررشتهٔ عددی هاردکد نشود — فقط الگوی «نام (تعداد)»:
+    spec_btns = [l for l in labels if re.search(r"\(\d+\)\s*$", l)]
+    r.check("منوی پزشکی ۳ تخصص فعال دارد", len(spec_btns) >= 3, str(labels))
 
     # ── مرور پزشکان: spec → لیست پزشکان واقعی ──
     REC.reset()

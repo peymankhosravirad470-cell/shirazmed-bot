@@ -64,12 +64,16 @@ def main() -> int:
         if active:
             active_specs += 1
     r.check("شناسه تکراری پزشک = 0", not dup_report, "; ".join(dup_report[:5]))
-    r.check("کل رکوردهای پزشکان = 114", total == 114, str(total))
-    r.check("پزشکان فعال = 114", total_active == 114, str(total_active))
-    r.check("تخصص‌های دارای پزشک فعال (گزارش واقعی)", active_specs == 3, f"{active_specs} specs")
+    # 🔧 CI-FIX (T02): workflow روزانهٔ «Collect Doctors» دادهٔ پزشکان را به‌روز
+    # می‌کند (افزودن/حذف پزشک؛ مثلاً 114→115 در 2026-10-31). تعداد دقیق نباید
+    # هاردکد شود وگرنه هر به‌روزرسانی داده، CI و دیپلوی لیارا را قرمز می‌کند.
+    # فقط ثابت‌های ساختاری چک می‌شوند تا تغییر طبیعیِ داده، خطا تلقی نشود:
+    r.check("کل رکوردهای پزشکان ≥ 100 (دادهٔ واقعی موجود)", total >= 100, str(total))
+    r.check("پزشکان فعال ≥ 100 و ≤ کل رکوردها", 100 <= total_active <= total, f"active={total_active}/total={total}")
+    r.check("تخصص‌های دارای پزشک فعال ≥ 1", active_specs >= 1, f"{active_specs} specs")
     specs = doctor_loader.load_specialties()
     r.check("لودر فقط تخصص‌های دارای پزشک را می‌دهد", all(s["count"] > 0 for s in specs))
-    r.check("تعداد تخصص فعال لودر = 3", len(specs) == 3, str([s['key'] for s in specs]))
+    r.check("تعداد تخصص فعال لودر = تعداد واقعی فایل‌ها", len(specs) == active_specs, f"loader={len(specs)}/files={active_specs}")
 
     # hospitals2 تکرار کامل hospitals — dedupe در show_hospitals
     h1 = json.load(open(os.path.join(ROOT, "data", "hospitals.json"), encoding="utf-8"))
