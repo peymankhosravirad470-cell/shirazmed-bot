@@ -217,6 +217,12 @@
   },
   {
     "id": "doc_037",
+    "name_fa": "دکتر گلناز امامی",
+    "specialty_fa": "دندانپزشکی",
+    "status": "active"
+  },
+  {
+    "id": "doc_038",
     "name_fa": "دکتر یاسمین قهرمانی",
     "specialty_fa": "دندانپزشکی",
     "status": "active"
