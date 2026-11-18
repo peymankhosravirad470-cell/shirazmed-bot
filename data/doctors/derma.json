@@ -169,78 +169,72 @@
   },
   {
     "id": "doc_029",
-    "name_fa": "دکتر مریم صفردوست",
-    "specialty_fa": "پوست و مو",
-    "status": "active"
-  },
-  {
-    "id": "doc_030",
     "name_fa": "دکتر مسعود کرایی",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_031",
+    "id": "doc_030",
     "name_fa": "دکتر ملایی",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_032",
+    "id": "doc_031",
     "name_fa": "دکتر ملک نسب",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_033",
+    "id": "doc_032",
     "name_fa": "دکتر منوچهر سدیفی",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_034",
+    "id": "doc_033",
     "name_fa": "دکتر مهدی آرمانی فر",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_035",
+    "id": "doc_034",
     "name_fa": "دکتر مهدی گودرزی",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_036",
+    "id": "doc_035",
     "name_fa": "دکتر مژده خالدی",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_037",
+    "id": "doc_036",
     "name_fa": "دکتر هدیه تاجدینی",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_038",
+    "id": "doc_037",
     "name_fa": "دکتر پریسا پیروی",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_039",
+    "id": "doc_038",
     "name_fa": "دکتر کریم زاده",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_040",
+    "id": "doc_039",
     "name_fa": "دکتر کسری بهداد",
     "specialty_fa": "پوست و مو",
     "status": "active"
   },
   {
-    "id": "doc_041",
+    "id": "doc_040",
     "name_fa": "دکتر یاسمن خسروی",
     "specialty_fa": "پوست و مو",
     "status": "active"
